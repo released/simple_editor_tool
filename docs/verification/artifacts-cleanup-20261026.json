@@ -1,0 +1,94 @@
+{
+    "Date":  "2026-10-26",
+    "Scope":  "Reviewed local artifact pruning and automatic CLI fixture cleanup; no publication",
+    "BeforeFiles":  476,
+    "BeforeBytes":  233585523,
+    "BeforeMiB":  222.76,
+    "BeforeDirectories":  43,
+    "BeforeGroups":  [
+                         {
+                             "Directory":  "tests",
+                             "Files":  162,
+                             "Bytes":  159009241
+                         },
+                         {
+                             "Directory":  "screenshots",
+                             "Files":  30,
+                             "Bytes":  998743
+                         },
+                         {
+                             "Directory":  "obj",
+                             "Files":  21,
+                             "Bytes":  51215891
+                         },
+                         {
+                             "Directory":  "logs",
+                             "Files":  229,
+                             "Bytes":  634084
+                         },
+                         {
+                             "Directory":  "evidence",
+                             "Files":  30,
+                             "Bytes":  537951
+                         },
+                         {
+                             "Directory":  "dependencies",
+                             "Files":  2,
+                             "Bytes":  3502573
+                         },
+                         {
+                             "Directory":  "debug",
+                             "Files":  1,
+                             "Bytes":  14852096
+                         },
+                         {
+                             "Directory":  "baseline",
+                             "Files":  1,
+                             "Bytes":  2834944
+                         }
+                     ],
+    "RemovedFiles":  476,
+    "AfterArtifactFiles":  0,
+    "AfterArtifactBytes":  0,
+    "ArtifactRootRemovedWhenEmpty":  true,
+    "ProtectedHashesVerified":  509,
+    "Executable":  "build/SimpleEditorTool.exe",
+    "ExeBytes":  3394560,
+    "ExeSHA256":  "63889239C8C511840C4541A91946C7ED3A479C183EEEA671AB1D0A6113BE45A2",
+    "PreservedIniHashes":  {
+                               "simple_editor_tool.ini":  "08E58585810BC144E733F5DBC778CA07030A448C65C8B2695D0EA544828C30C1",
+                               "test.ini":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91",
+                               "ui_smoke.ini":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                           },
+    "GitTrackedArtifacts":  0,
+    "GitIgnoreRule":  "/artifacts/",
+    "CleanupSafetyChecks":  12,
+    "RealCliCases":  7,
+    "SharedCleanStaticScripts":  111,
+    "SharedCleanFixtureProtectedFiles":  17,
+    "SharedCleanActualProtectedFiles":  18,
+    "SharedCleanRemovedIntermediates":  0,
+    "ILKOutputMetadata":  {
+                              "Debug":  "PASS: evaluated under artifacts/obj/ui-tests/Debug",
+                              "Release":  "PASS: evaluated under artifacts/obj/ui-tests/Release"
+                          },
+    "NativeBuild":  "NOT RUN: application source/runtime unchanged; output-only test linker metadata evaluated with MSBuild",
+    "NormalCleanContract":  "Unchanged: conservative intermediate cleanup preserves delivery/settings/data/evidence",
+    "PurgeContract":  "Preview by default; explicit -Apply; allowlisted generated files only; no reparse traversal; preserve unknown files, active executables and current Explorer target",
+    "RawHistoricalEvidence":  "Pruned after compact acceptance summaries retained in docs/verification; old artifact paths in earlier records are historical references",
+    "ChangedFiles":  [
+                         ".gitignore",
+                         "NativeUiTests.vcxproj",
+                         "scripts/verify_cli.ps1",
+                         "scripts/artifact_helpers.ps1",
+                         "scripts/purge_artifacts.ps1",
+                         "tests/verify_artifact_cleanup.ps1",
+                         "README.md",
+                         "SPEC.md",
+                         "AGENTS.md",
+                         "HANDOFF.md",
+                         "SELF_CHECK.md"
+                     ],
+    "ExternalFixtureCleanup":  "Automatic approval review rejected the extra command to remove this run\u0027s project-external clean-preservation temp fixture; no detailed reason supplied. It was retained; no alternate deletion attempted.",
+    "Publication":  "No commit or push performed"
+}

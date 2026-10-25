@@ -1,5 +1,52 @@
 # Handoff
 
+## Artifact retention and cleanup (2026-10-26)
+
+- Complete: reviewed 476 local artifact files (233,585,523 bytes / 222.76 MiB)
+  and removed their identified generated output. artifacts now has zero files;
+  empty directories, including its root, were removed. Compact historical
+  acceptance summaries remain under docs/verification. Old records' raw artifact
+  paths were deliberately pruned after acceptance and are not permanent files.
+- Removed categories: nine retained cli-owned copies/data sets, generated test
+  and Debug EXEs, an out-of-place 51,805,116-byte ILK, old PyInstaller packaging,
+  archived layout baseline, cached upstream ZIPs, old logs/manifests/screenshots.
+  Cached ZIP hashes matched pinned vendor versions; source uses vendor directly.
+- Changes: /artifacts/ is ignored as a whole. scripts/purge_artifacts.ps1 defaults
+  to preview and requires explicit -Apply; classification is an allowlist, with
+  source/build outside its root, full reparse preflight and unknown/runtime target
+  preservation. scripts/artifact_helpers.ps1 shares guarded path/fixture handling.
+  Normal clean remains unchanged and conservative; it never calls purge.
+- scripts/verify_cli.ps1 now cleans owned copies in finally on success/failure,
+  disposes processes and provides explicit -KeepArtifacts for diagnostics.
+  NativeUiTests.vcxproj sends its incremental-link database to IntDir beside PDB.
+  README/SPEC/AGENTS document the current retention and cleanup commands.
+- Actual safety checks: tests/verify_artifact_cleanup.ps1 12 PASS, covering preview,
+  idempotence, preserved source/delivery/unknown files, path escape, full rejection
+  before deleting through a junction, unowned fixture protection, failure cleanup,
+  real CLI success cleanup, KeepArtifacts and retained unknown notes. Real project
+  scripts/verify_cli.ps1 separately passed all seven cases and left zero files.
+- Shared checks PASS: static scan 111 scripts; regular-clean fixture preserves
+  17 files/source, help and idempotence; junction refusal; actual-project clean
+  preserves 18 protected files by SHA-256 (0 native intermediates removed).
+  Explicit purge matched its preview: 476 removed, 0 unknown files found.
+  Repeating purge removed zero files. All 509 protected source/vendor/test/script/
+  project/delivery hashes matched before/after the actual purge.
+- Debug and Release ILK metadata was evaluated with MSBuild and resolves under
+  artifacts/obj/ui-tests/<configuration>. Full native rebuild NOT RUN: application
+  code/runtime was not changed; the artifact-only linker metadata was evaluated.
+  Existing application behavior evidence is reused, not claimed as a fresh run.
+- Production EXE remains 3,394,560 bytes, SHA-256
+  63889239C8C511840C4541A91946C7ED3A479C183EEEA671AB1D0A6113BE45A2.
+  Existing INIs and current Explorer target are retained. build still contains
+  exactly the EXE and the user's three INIs. No artifact is tracked by Git;
+  future artifact categories match the root ignore rule. No commit/push performed.
+- Audit data: docs/verification/artifacts-cleanup-20261026.json. Detailed temporary
+  audit logs are outside the project. Automatic approval review rejected the
+  extra deletion of the shared verifier's project-external temporary fixture,
+  without a detailed reason; it was retained and no alternate deletion attempted.
+- Current application identity remains in the Explorer acceptance record below;
+  no outstanding project-artifact cleanup item remains.
+
 ## Explorer menu and Hex scroll boundaries (2026-10-26)
 
 - Complete: current-user file context menu is enabled as "以 Simple Editor Tool 開啟",

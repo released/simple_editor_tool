@@ -16,12 +16,4 @@ build/*.pdb
 simple_editor_tool.ini
 build/*.ini
 build/*_smoke.png
-artifacts/obj/
-artifacts/tests/
-artifacts/debug/
-artifacts/evidence/
-artifacts/baseline/
-artifacts/logs/
-artifacts/screenshots/
-artifacts/dependencies/
-
+/artifacts/

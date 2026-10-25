@@ -166,4 +166,11 @@ multi-monitor/DPI acceptance is not inferred from synthetic resize/zoom checks.
 - `build` contains only the production EXE and existing INI files; no PDB, screenshots, test outputs, or development subdirectories.
 - Linker PDB/import libraries and compiler intermediates use `artifacts/obj`; Debug and test executables use `artifacts/debug` and `artifacts/tests`.
 - Normal clean removes only allowlisted intermediates under `artifacts/obj`, preserving delivery files, settings, evidence and unknown files.
+- Explicit artifact purge defaults to preview; `-Apply` removes recognized
+  generated output only. Reject reparse points before deletion, retain unknown
+  files and the Explorer menu target, and never touch source or `build` delivery.
+  Completed raw artifacts may be pruned after compact acceptance records exist.
+- CLI fixtures clean their owned temporary files on success and failure by
+  default; `-KeepArtifacts` opts into diagnostics. Incremental-link databases
+  belong under the same intermediate directory as PDB files.
 

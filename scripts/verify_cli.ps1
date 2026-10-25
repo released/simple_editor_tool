@@ -1,9 +1,13 @@
-param([string]$Executable = (Join-Path $PSScriptRoot '..\build\SimpleEditorTool.exe'))
+param([string]$Executable = (Join-Path $PSScriptRoot '..\build\SimpleEditorTool.exe'), [switch]$KeepArtifacts)
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'artifact_helpers.ps1')
 $taskProject = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $taskExe = [IO.Path]::GetFullPath($Executable)
 $taskRoot = Join-Path $taskProject ('artifacts\tests\cli-owned-' + [Guid]::NewGuid().ToString('N'))
+$null = Assert-ArtifactPath $taskRoot (Join-Path $taskProject 'artifacts\tests')
 [void](New-Item -ItemType Directory -Path $taskRoot)
+try {
+[IO.File]::WriteAllText((Join-Path $taskRoot '.simple-editor-cli-fixture'),'SimpleEditorTool CLI fixture v1',[Text.UTF8Encoding]::new($false))
 $taskCopy = Join-Path $taskRoot 'RenamedEditor.exe'
 Copy-Item -LiteralPath $taskExe -Destination $taskCopy
 if ((Get-FileHash -LiteralPath $taskExe).Hash -ne (Get-FileHash -LiteralPath $taskCopy).Hash) { throw 'Formal EXE copy hash mismatch.' }
@@ -32,18 +36,20 @@ function Invoke-OwnedCli([string[]]$Arguments,[int]$Expected) {
     $taskStart.StandardErrorEncoding = New-Object Text.UTF8Encoding($false)
     $taskProcess = New-Object Diagnostics.Process
     $taskProcess.StartInfo = $taskStart
+    try {
     [void]$taskProcess.Start()
     $taskReadOut = $taskProcess.StandardOutput.ReadToEndAsync()
     $taskReadErr = $taskProcess.StandardError.ReadToEndAsync()
     if (-not $taskProcess.WaitForExit(30000)) {
         $taskCurrent = Get-CimInstance Win32_Process -Filter "ProcessId=$($taskProcess.Id)"
-        if ($taskCurrent.ExecutablePath -eq $taskCopy) { Stop-Process -Id $taskProcess.Id }
+        if ($taskCurrent.ExecutablePath -eq $taskCopy) { Stop-Process -Id $taskProcess.Id; [void]$taskProcess.WaitForExit(5000) }
         throw 'Owned CLI fixture timed out; its isolated process was stopped.'
     }
     [IO.File]::WriteAllText($taskOut,$taskReadOut.Result,(New-Object Text.UTF8Encoding($false)))
     [IO.File]::WriteAllText($taskErr,$taskReadErr.Result,(New-Object Text.UTF8Encoding($false)))
     if ($taskProcess.ExitCode -ne $Expected) { throw ("CLI case $taskIndex expected $Expected, got " + $taskProcess.ExitCode + '. ' + [IO.File]::ReadAllText($taskErr)) }
     Write-Output "PASS: formal CLI case $taskIndex exit $Expected"
+    } finally { $taskProcess.Dispose() }
 }
 Invoke-OwnedCli @('--help') 0
 Invoke-OwnedCli @('--compare','--left',$taskLeft,'--right',$taskRight) 0
@@ -56,4 +62,8 @@ Invoke-OwnedCli @('--compare','--left',$taskLeft,'--right',$taskRight,'--report'
 Invoke-OwnedCli @('--compare','--left',$taskLeft) 2
 if ((Get-FileHash -LiteralPath $taskIni).Hash -ne $taskIniHash) { throw 'Headless invocation modified isolated GUI settings.' }
 if ([IO.File]::ReadAllText($taskReport).IndexOf('changed') -lt 0) { throw 'Formal CLI report is incomplete.' }
-Write-Output "PASS: byte-matched formal EXE, spaced arguments, reports and unchanged GUI INI. Evidence: $taskRoot"
+Write-Output "PASS: byte-matched formal EXE, spaced arguments, reports and unchanged GUI INI."
+} finally {
+    if ($KeepArtifacts) { Write-Output "Retained explicit fixture: $taskRoot" }
+    else { Remove-OwnedCliFixture $taskRoot (Join-Path $taskProject 'artifacts\tests') }
+}

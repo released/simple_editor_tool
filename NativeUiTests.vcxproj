@@ -13,7 +13,7 @@
   <PropertyGroup><OutDir>$(ProjectDir)artifacts\tests\$(Configuration)\</OutDir><IntDir>$(ProjectDir)artifacts\obj\ui-tests\$(Configuration)\</IntDir><TargetName>NativeUiTests</TargetName></PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile><WarningLevel>Level4</WarningLevel><SDLCheck>true</SDLCheck><LanguageStandard>stdcpp17</LanguageStandard><AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions><PreprocessorDefinitions>NOMINMAX;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions></ClCompile>
-    <Link><SubSystem>Console</SubSystem><AdditionalDependencies>Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies><ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile><ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary></Link>
+    <Link><SubSystem>Console</SubSystem><AdditionalDependencies>Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies><ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile><IncrementalLinkDatabaseFile>$(IntDir)$(TargetName).ilk</IncrementalLinkDatabaseFile><ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary></Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'"><ClCompile><RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary></ClCompile></ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'"><ClCompile><RuntimeLibrary>MultiThreaded</RuntimeLibrary></ClCompile></ItemDefinitionGroup>

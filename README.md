@@ -309,6 +309,28 @@ from an intact opened file to another path. Failed saves retain edits and report
 any recovery-file locations. These checks do not exclusively lock files against
 other programs.
 
+## Building and local outputs
+
+Build with Visual Studio 2022 C++/MFC tools using `scripts\build_release.bat`.
+The portable Release EXE is in `build`; generated development output is in
+`artifacts`, which is excluded from Git. Source and pinned dependencies remain
+in `src`, `tests` and `vendor`.
+
+`scripts\clean.bat` removes compiler intermediates. To review disposable test
+copies, Debug/test executables, old captures and cached build output, run:
+
+~~~powershell
+powershell -NoProfile -File .\scripts\purge_artifacts.ps1
+powershell -NoProfile -File .\scripts\purge_artifacts.ps1 -Apply
+~~~
+
+The first command previews the recognized files; `-Apply` confirms their removal.
+Delivery files in `build`, source, unknown files and an active Explorer menu's
+executable are preserved. Stop artifact executables before purging. Compact
+verification summaries remain in `docs/verification` after raw captures are removed.
+CLI verification removes its temporary copies by default; use
+`scripts\verify_cli.ps1 -KeepArtifacts` when diagnostic files are needed.
+
 ## Limits
 
 | Area | Limit |
