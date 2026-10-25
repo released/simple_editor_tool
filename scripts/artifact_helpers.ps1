@@ -1,6 +1,14 @@
+$script:artifactProjectRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..')).TrimEnd('\')
+if (-not (Test-Path -LiteralPath (Join-Path $script:artifactProjectRoot 'SimpleEditorTool.vcxproj') -PathType Leaf)) {
+    throw 'Artifact helpers must run from the intended Simple Editor Tool project.'
+}
+
 function Assert-ArtifactPath([string]$Path, [string]$Root) {
     $full = [IO.Path]::GetFullPath($Path).TrimEnd('\')
     $base = [IO.Path]::GetFullPath($Root).TrimEnd('\')
+    if (-not $base.StartsWith($script:artifactProjectRoot + '\', [StringComparison]::OrdinalIgnoreCase)) {
+        throw "Cleanup root must be strictly inside the script's project: $base"
+    }
     if ($full -ne $base -and -not $full.StartsWith($base + '\', [StringComparison]::OrdinalIgnoreCase)) {
         throw "Path leaves the intended artifact directory: $full"
     }

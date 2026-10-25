@@ -1,5 +1,32 @@
 # Self Check
 
+## Project boundary for cleanup (2026-10-26)
+
+- PASS: scripts/artifact_helpers.ps1 anchors cleanup to the script's project,
+  validates its metadata, requires narrower caller roots and retains existing
+  normalized-path/reparse checks. System, profile, global TEMP, volume, parent,
+  sibling and whole-project roots cannot be substituted. The eight probes only
+  validate strings; they never create or delete external files.
+- PASS: tests/verify_artifact_cleanup.ps1 now creates and removes its owned fixture
+  under project artifacts. All 20 assertions pass, including preview/idempotence,
+  source/delivery/unknown preservation, junction preflight and CLI success/failure
+  cleanup. Four affected/calling PowerShell scripts parse without errors.
+- PASS: shared static audit covers 112 scripts. Normal-clean help/idempotence and
+  junction refusal pass; 17 protected fixture files/source and all four actual
+  build files retain their SHA-256 hashes. Shared verifier TEMP/TMP was redirected
+  only for its process to a fresh project-owned directory and restored in finally.
+- RETENTION EXCEPTION: automatic approval review rejected the final project-local
+  audit deletion before execution, without a detailed reason; no alternative
+  deletion attempted. Retained 42 files / 58,173 bytes and one internal junction
+  in artifacts/scope-validation-39ac94dababb4244b98baef625dd40f2. Full artifacts purge
+  refuses that junction; revisit this exact owned audit when safe permitted cleanup
+  is available. No project-external deletion; earlier external data is untouched.
+- Evidence: docs/verification/project-cleanup-boundary-20261026.json. PASS: shared
+  and local rule/document consistency, strict UTF-8 and balanced Markdown in all
+  nine edited documents, git diff --check, ignored audit and no tracked artifacts.
+  Application build/unrelated suites NOT RUN: cleanup PowerShell/docs only.
+  No native source/runtime/settings changes, commit or push.
+
 ## Artifact retention and cleanup (2026-10-26)
 
 - Complete: reviewed 476 local artifact files (233,585,523 bytes / 222.76 MiB)

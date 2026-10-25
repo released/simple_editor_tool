@@ -170,6 +170,10 @@ multi-monitor/DPI acceptance is not inferred from synthetic resize/zoom checks.
   generated output only. Reject reparse points before deletion, retain unknown
   files and the Explorer menu target, and never touch source or `build` delivery.
   Completed raw artifacts may be pruned after compact acceptance records exist.
+- The script's project location is an independent outer cleanup boundary; caller
+  roots cannot retarget deletion outside it. Test fixtures use project-local
+  artifacts. Existing global TEMP/system/user/sibling data is never deleted by
+  project cleanup, regardless of generated ownership or apply flags.
 - CLI fixtures clean their owned temporary files on success and failure by
   default; `-KeepArtifacts` opts into diagnostics. Incremental-link databases
   belong under the same intermediate directory as PDB files.

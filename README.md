@@ -325,6 +325,8 @@ powershell -NoProfile -File .\scripts\purge_artifacts.ps1 -Apply
 ~~~
 
 The first command previews the recognized files; `-Apply` confirms their removal.
+Cleanup is confined to this project and refuses paths that cross a junction or
+other reparse point. Temporary CLI fixtures are created inside project artifacts.
 Delivery files in `build`, source, unknown files and an active Explorer menu's
 executable are preserved. Stop artifact executables before purging. Compact
 verification summaries remain in `docs/verification` after raw captures are removed.

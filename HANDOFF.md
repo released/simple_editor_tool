@@ -1,5 +1,31 @@
 # Handoff
 
+## Project boundary for cleanup (2026-10-26)
+
+- Cleanup is confined to the selected project. Shared AGENTS/WORKSPACE_RULES/
+  SELF_CHECK and local AGENTS/SPEC now require an independently derived outer
+  project boundary, project-local fixtures and rejection of substituted roots,
+  traversal and reparse escapes. Ownership or -Apply never permits external deletion.
+- scripts/artifact_helpers.ps1 derives its project from its script location and
+  requires project metadata; caller roots must be strictly inside that project.
+  tests/verify_artifact_cleanup.ps1 now uses artifacts/cleanup-checks instead of
+  global TEMP and tests eight forbidden root substitutions without writing there.
+  README describes the cleanup boundary; normal clean remains unchanged.
+- Actual checks PASS: 20 artifact-cleanup assertions; four PowerShell scripts parse;
+  shared static scan of 112 clean-related scripts; regular-clean help/idempotence,
+  17 fixture files/source preserved, junction rejection before deletion, and four
+  real delivery files preserved by SHA-256. The legacy shared verifier ran with
+  process-local TEMP/TMP inside the owned project audit and restored them in finally.
+- The self-test fixture was removed. Automatic approval review rejected the final
+  project-local audit deletion command before execution, with no detailed reason.
+  No alternative deletion was attempted. Retained: 42 files / 58,173 bytes and one
+  internal junction under artifacts/scope-validation-39ac94dababb4244b98baef625dd40f2.
+  Revisit only that owned root when safe permitted cleanup is available; artifacts
+  purge will refuse its junction. Prior external TEMP data remains untouched.
+- Evidence: docs/verification/project-cleanup-boundary-20261026.json. Artifacts
+  remain Git-ignored; no application sources/binary/settings changed. Native build
+  and unrelated suites NOT RUN (PowerShell/docs-only scope). No commit or push.
+
 ## Artifact retention and cleanup (2026-10-26)
 
 - Complete: reviewed 476 local artifact files (233,585,523 bytes / 222.76 MiB)

@@ -1,0 +1,94 @@
+﻿{
+    "date":  "2026-10-26",
+    "scope":  "Project-bound cleanup policy and PowerShell helpers; no application code changes",
+    "result":  "Safety and preservation checks PASS; final owned audit cleanup blocked by automatic review",
+    "checks":  {
+                   "artifact_cleanup":  20,
+                   "rejected_root_cases":  [
+                                               "Windows",
+                                               "System32",
+                                               "user profile",
+                                               "global TEMP",
+                                               "volume root",
+                                               "workspace parent",
+                                               "sibling project",
+                                               "whole project"
+                                           ],
+                   "external_root_probes":  "String/path validation only; no external files created or deleted",
+                   "powershell_parse":  4,
+                   "shared_static_script_count":  112,
+                   "clean_fixture_protected_files":  17,
+                   "actual_project_protected_files":  4,
+                   "clean_help":  "PASS",
+                   "clean_idempotence":  "PASS",
+                   "junction_preflight":  "PASS",
+                   "delivery_hashes_unchanged":  true
+               },
+    "retention":  {
+                      "self_test_fixture_roots_removed":  1,
+                      "shared_verifier_temp":  "Invocation-process TEMP/TMP redirected inside owned project audit; restored in finally",
+                      "audit_path":  "artifacts/scope-validation-39ac94dababb4244b98baef625dd40f2",
+                      "retained_audit_files":  42,
+                      "retained_audit_bytes":  58173,
+                      "retained_reparse_entries":  [
+                                                       "artifacts/scope-validation-39ac94dababb4244b98baef625dd40f2/temp/pc-tool-clean-9871ce89d3b241ceb1b9d1dc1f18b75d/artifacts/obj/obj/link"
+                                                   ],
+                      "links_followed_by_this_inventory":  false,
+                      "cleanup":  "Automatic approval review rejected the final project-local audit deletion command before execution; no detailed reason supplied; no alternative deletion attempted",
+                      "cleanup_point":  "Revisit only this exact owned audit after a safe permitted cleanup is available; full artifacts purge will refuse its retained junction",
+                      "external_deletion":  false,
+                      "existing_external_data":  "Untouched; prior project-external verifier fixtures/logs remain outside this cleanup scope",
+                      "kept_evidence":  "docs/verification/project-cleanup-boundary-20261026.json"
+                  },
+    "commands":  [
+                     "tests/verify_artifact_cleanup.ps1",
+                     "shared scripts/verify_clean_scripts.ps1",
+                     "shared scripts/verify_clean_preservation.ps1 -ProjectRoot \u003cproject\u003e -CleanBatch scripts/clean.bat -IntermediateRoot artifacts\\obj -CheckNestedDelivery -CheckReparseRejection -CleanActualProject (process-local project TEMP/TMP)"
+                 ],
+    "source_hashes":  [
+                          {
+                              "path":  "scripts/artifact_helpers.ps1",
+                              "sha256":  "EA87D1803850AD94591A509305FC7160E59289483C702C9A149A1C401F8D4F1F"
+                          },
+                          {
+                              "path":  "tests/verify_artifact_cleanup.ps1",
+                              "sha256":  "0FBCE51CD6563C0222A24C7D7D808E1292581E77F8DD9E61BBF90462196631CC"
+                          },
+                          {
+                              "path":  "scripts/purge_artifacts.ps1",
+                              "sha256":  "63EBDA01F09F28FA2B79F5D1BB50D8F0311893E3E5178CD0FBFF45C9D6784D85"
+                          },
+                          {
+                              "path":  "scripts/verify_cli.ps1",
+                              "sha256":  "0D3CC3DB5C538C088596D41CEF07DF0B96D00E9BC14F4AA5E4A13618283722A7"
+                          },
+                          {
+                              "path":  "scripts/clean_intermediates.ps1",
+                              "sha256":  "4452586C6783C5826F250F5DAE3566B96D2C5B5307A58A620B151E21B2A5FA9C"
+                          }
+                      ],
+    "delivery":  [
+                     {
+                         "path":  "build/SimpleEditorTool.exe",
+                         "bytes":  3394560,
+                         "sha256":  "63889239C8C511840C4541A91946C7ED3A479C183EEEA671AB1D0A6113BE45A2"
+                     },
+                     {
+                         "path":  "build/simple_editor_tool.ini",
+                         "bytes":  901,
+                         "sha256":  "08E58585810BC144E733F5DBC778CA07030A448C65C8B2695D0EA544828C30C1"
+                     },
+                     {
+                         "path":  "build/test.ini",
+                         "bytes":  191,
+                         "sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91"
+                     },
+                     {
+                         "path":  "build/ui_smoke.ini",
+                         "bytes":  262,
+                         "sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                     }
+                 ],
+    "native_build":  "NOT RUN: PowerShell cleanup and documentation changes only",
+    "publication":  "No commit or push"
+}

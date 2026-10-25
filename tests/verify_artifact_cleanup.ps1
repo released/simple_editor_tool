@@ -2,7 +2,12 @@ param([string]$Executable = (Join-Path $PSScriptRoot '..\build\SimpleEditorTool.
 $ErrorActionPreference = 'Stop'
 $project = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 . (Join-Path $project 'scripts\artifact_helpers.ps1')
-$fixture = Join-Path $env:TEMP ('SimpleEditorTool-Prune-' + [Guid]::NewGuid().ToString('N'))
+$artifactRoot = Join-Path $project 'artifacts'
+$artifactCreated = -not (Test-Path -LiteralPath $artifactRoot)
+$fixtureParent = Join-Path $artifactRoot 'cleanup-checks'
+$parentCreated = -not (Test-Path -LiteralPath $fixtureParent)
+$fixture = Join-Path $fixtureParent ('SimpleEditorTool-Prune-' + [Guid]::NewGuid().ToString('N'))
+$null = Assert-ArtifactPath $fixture $fixtureParent
 $null = New-Item -ItemType Directory -Path (Join-Path $fixture 'scripts')
 $passed = 0
 function Check([bool]$Value, [string]$Label) {
@@ -15,6 +20,21 @@ function Put([string]$Relative, [string]$Text) {
     [IO.File]::WriteAllText($path,$Text,[Text.UTF8Encoding]::new($false))
 }
 try {
+    $forbiddenRoots = @(
+        @{ Name = 'Windows'; Path = $env:SystemRoot },
+        @{ Name = 'System32'; Path = (Join-Path $env:SystemRoot 'System32') },
+        @{ Name = 'user profile'; Path = [Environment]::GetFolderPath('UserProfile') },
+        @{ Name = 'external TEMP'; Path = [IO.Path]::GetTempPath() },
+        @{ Name = 'volume root'; Path = [IO.Path]::GetPathRoot($project) },
+        @{ Name = 'workspace parent'; Path = [IO.Path]::GetDirectoryName($project) },
+        @{ Name = 'sibling project'; Path = $project + '-sibling' },
+        @{ Name = 'whole project'; Path = $project }
+    )
+    foreach ($case in $forbiddenRoots) {
+        $rejected = $false
+        try { $null = Assert-ArtifactPath (Join-Path $case.Path '__scope_probe__') $case.Path } catch { $rejected = $true }
+        Check $rejected ('caller cannot retarget cleanup to ' + $case.Name)
+    }
     foreach ($name in @('artifact_helpers.ps1','purge_artifacts.ps1','verify_cli.ps1')) { Copy-Item -LiteralPath (Join-Path $project ('scripts\'+$name)) -Destination (Join-Path $fixture ('scripts\'+$name)) }
     Put 'SimpleEditorTool.vcxproj' '<Project />'
     Put 'src\sentinel.cpp' 'source sentinel'
@@ -69,9 +89,15 @@ try {
     Check ([IO.File]::ReadAllText((Join-Path $kept[0].FullName 'user-notes.txt')) -eq 'keep notes' -and -not (Test-Path -LiteralPath (Join-Path $kept[0].FullName 'RenamedEditor.exe'))) 'per-run cleanup retains unknown notes while removing the owned EXE'
     Write-Output "PASS: $passed artifact cleanup checks"
 } finally {
-    $expected = [IO.Path]::GetFullPath((Join-Path $env:TEMP ([IO.Path]::GetFileName($fixture))))
+    $expected = [IO.Path]::GetFullPath((Join-Path $fixtureParent ([IO.Path]::GetFileName($fixture))))
     if ($fixture -ne $expected -or [IO.Path]::GetFileName($fixture) -notmatch '^SimpleEditorTool-Prune-[a-f0-9]{32}$') { throw 'Invalid fixture cleanup root.' }
     $inventory = Get-ArtifactInventory $fixture
     foreach ($file in $inventory.Files) { $null = Assert-ArtifactPath $file.FullName $fixture; Remove-Item -LiteralPath $file.FullName -Force }
     Remove-EmptyArtifactDirectories $inventory.Directories $fixture
+    foreach ($parent in @(@{ Path = $fixtureParent; Created = $parentCreated }, @{ Path = $artifactRoot; Created = $artifactCreated })) {
+        if ($parent.Created -and (Test-Path -LiteralPath $parent.Path -PathType Container) -and @(Get-ChildItem -LiteralPath $parent.Path -Force).Count -eq 0) {
+            $null = Assert-ArtifactPath $parent.Path $parent.Path
+            Remove-Item -LiteralPath $parent.Path -Force
+        }
+    }
 }
