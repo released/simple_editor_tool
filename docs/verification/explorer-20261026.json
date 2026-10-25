@@ -1,0 +1,119 @@
+{
+    "Date":  "2026-10-26",
+    "Scope":  "Current-user Explorer file context menu and Hex no-op scroll repaint correction",
+    "Executable":  "build/SimpleEditorTool.exe",
+    "ExeBytes":  3394560,
+    "ExeSHA256":  "63889239C8C511840C4541A91946C7ED3A479C183EEEA671AB1D0A6113BE45A2",
+    "DebugExeSHA256":  "BC67660B7E89080CA64563795FD9611C77B14746768A399A0E422E5BB1D65C36",
+    "CanonicalDebugBuild":  "PASS",
+    "CanonicalReleaseBuild":  "PASS",
+    "RegistryEnabled":  true,
+    "RegistryCurrentUserOnly":  true,
+    "RegistryKey":  "HKCU\\Software\\Classes\\*\\shell\\SimpleEditorTool.Open",
+    "RegistryMenuLabel":  "以 Simple Editor Tool 開啟",
+    "RegistryVerb":  "SimpleEditorTool.Open",
+    "RegistryTargetMatchesDelivery":  true,
+    "RegistryMergedShellCommandVerified":  true,
+    "MultiSelectModel":  "Player",
+    "DefaultAssociationsChanged":  false,
+    "AdditionalShellDllOrDriver":  false,
+    "StaticMfcCrtEditor":  true,
+    "ImportedSystemLibraries":  [
+                                    "bcrypt.dll",
+                                    "ole32.dll",
+                                    "KERNEL32.dll",
+                                    "USER32.dll",
+                                    "GDI32.dll",
+                                    "WINSPOOL.DRV",
+                                    "ADVAPI32.dll",
+                                    "SHELL32.dll",
+                                    "UxTheme.dll",
+                                    "OLEAUT32.dll",
+                                    "OLEACC.dll",
+                                    "IMM32.dll",
+                                    "SHLWAPI.dll"
+                                ],
+    "PE":  {
+               "Machine":  "x64",
+               "ASLR":  true,
+               "HighEntropy":  true,
+               "NX":  true
+           },
+    "NativeUiAssertions":  {
+                               "Debug":  {
+                                             "explorer":  13,
+                                             "workspace":  35,
+                                             "zoom":  51,
+                                             "async-save":  32,
+                                             "explorer-process":  12
+                                         },
+                               "Release":  {
+                                               "explorer":  13,
+                                               "workspace":  35,
+                                               "zoom":  51,
+                                               "async-save":  32,
+                                               "explorer-process":  12
+                                           }
+                           },
+    "BoundaryRepeatedWheelEvents":  30,
+    "LatestIniCheckpoint":  {
+                                "simple_editor_tool.ini":  {
+                                                               "SHA256":  "08E58585810BC144E733F5DBC778CA07030A448C65C8B2695D0EA544828C30C1",
+                                                               "Bytes":  901,
+                                                               "LastWrite":  "2026-10-26T00:20:50.7859505+08:00"
+                                                           },
+                                "test.ini":  {
+                                                 "SHA256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91",
+                                                 "Bytes":  191,
+                                                 "LastWrite":  "2026-10-24T16:20:27.6749538+08:00"
+                                             },
+                                "ui_smoke.ini":  {
+                                                     "SHA256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25",
+                                                     "Bytes":  262,
+                                                     "LastWrite":  "2026-10-24T16:24:35.8331437+08:00"
+                                                 }
+                            },
+    "IniPreservationNote":  "The active settings INI changed from 833 to 901 bytes at 00:20 during ongoing work. Its origin was not attributed; no test-temp recent paths were present. Latest settings were retained rather than restored. The other two INIs match the entry snapshot. All three latest hashes match the final verification checkpoint.",
+    "EntryEvidence":  "artifacts/evidence/explorer-before.json",
+    "SourceManifest":  "artifacts/evidence/explorer-final-inputs.json",
+    "FrozenSourceProjectInputs":  228,
+    "ChangedInputs":  [
+                          "NativeUiTests.vcxproj",
+                          "SimpleEditorTool.vcxproj",
+                          "src/hex_view.cpp",
+                          "src/main_frame.cpp",
+                          "src/resource.h",
+                          "src/workspace_frame.cpp",
+                          "src/workspace_frame.h",
+                          "tests/native_ui_tests.cpp",
+                          "tests/native_workspace_process_tests.cpp"
+                      ],
+    "AddedInputs":  [
+                        "src/services/explorer_menu.cpp",
+                        "src/services/explorer_menu.h",
+                        "src/workspace_shell.cpp",
+                        "tests/native_explorer_ui.inc"
+                    ],
+    "RelatedDocs":  [
+                        "README.md",
+                        "SPEC.md",
+                        "AGENTS.md",
+                        "HANDOFF.md",
+                        "SELF_CHECK.md"
+                    ],
+    "InitialFixtureCorrections":  [
+                                      "MFC command-handler info is opaque; the fixture now uses public command-update routing.",
+                                      "Native informational dialogs may use OK or Cancel; the owned-process fixture accepts either.",
+                                      "A hidden Hex fixture need not retain a pending update region; movement remains asserted via real viewport position and notification."
+                                  ],
+    "BuildTargetClosure":  "No matching target instance required closure in final canonical builds",
+    "ReusedEvidence":  "Unchanged core algorithms, headless CLI and clean-script/preservation checks from prior accepted scopes; not rerun for these UI/Shell changes.",
+    "RemainingHighMediumCodeFindings":  0,
+    "Limitations":  [
+                        "Classic native file context menu is tested; Windows 11 can require Show more options.",
+                        "Windows controls static-verb selection limits; actual simultaneous 100-file selection was not tested.",
+                        "Physical Explorer clicks/wheel devices, multi-monitor DPI and clean-PC installation not tested.",
+                        "Registry rollback logic reviewed; injected mid-write registry failure not tested."
+                    ],
+    "Publication":  "No remote, commit or upload created"
+}

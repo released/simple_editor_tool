@@ -1,0 +1,69 @@
+{
+    "Date":  "2026-10-25",
+    "Scope":  "Ordinary wheel scrolls; Ctrl+wheel zooms across file/shared Text, Hex, comparison results/output and read-only text pages",
+    "ChangedSourceFiles":  [
+                               "src/main_frame.cpp",
+                               "src/ui/wheel_zoom_control.h",
+                               "src/ui/text_pager.cpp",
+                               "tests/native_ui_tests.cpp"
+                           ],
+    "UpdatedProductDocs":  [
+                               "README.md",
+                               "SPEC.md",
+                               "AGENTS.md",
+                               "docs/LARGE_FILES.md"
+                           ],
+    "Executable":  "build/SimpleEditorTool.exe",
+    "ExeBytes":  3384320,
+    "ExeSHA256":  "E445063B941EB1987850889525B7C953F618AE294BEC3C0C5D8876E6308BF13F",
+    "DebugExeSHA256":  "9AB68FAE23BFA270FB2C4C29E830CBF35E96DC64E7F1276082616BFCDC23CBDD",
+    "CanonicalDebugBuild":  "PASS",
+    "CanonicalReleaseBuild":  "PASS",
+    "NativeAssertions":  {
+                             "Debug":  {
+                                           "zoom":  47,
+                                           "async-save":  32,
+                                           "formal-gui":  12
+                                       },
+                             "Release":  {
+                                             "zoom":  47,
+                                             "async-save":  32,
+                                             "formal-gui":  12
+                                         }
+                         },
+    "BuildTargetClosure":  "No matching target instance required closure",
+    "DeliveryFiles":  [
+                          "SimpleEditorTool.exe",
+                          "simple_editor_tool.ini",
+                          "test.ini",
+                          "ui_smoke.ini"
+                      ],
+    "CurrentIniFiles":  {
+                            "simple_editor_tool.ini":  {
+                                                           "SHA256":  "FF6F8ABF8C9C4F122B7D43953A0A21708CF304CD6FF357B374261EC5D28A9E1F",
+                                                           "Bytes":  833,
+                                                           "LastWriteTime":  "2026-10-25T23:23:12.5752788+08:00"
+                                                       },
+                            "test.ini":  {
+                                             "SHA256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91",
+                                             "Bytes":  191,
+                                             "LastWriteTime":  "2026-10-24T16:20:27.6749538+08:00"
+                                         },
+                            "ui_smoke.ini":  {
+                                                 "SHA256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25",
+                                                 "Bytes":  262,
+                                                 "LastWriteTime":  "2026-10-24T16:24:35.8331437+08:00"
+                                             }
+                        },
+    "IniBaselineNote":  "The user settings INI was already updated at 23:23:12, before this change and the 23:27 build. Its current hash differs from the historical N01-N09 acceptance. Latest settings are preserved. No initial hash snapshot for this turn was retained; timestamps/build preflight/isolated process tests show no rewrite during this change. No historical INI restoration was performed.",
+    "SourceManifest":  "artifacts/evidence/ctrl-wheel-final-inputs.json",
+    "FrozenInputs":  224,
+    "InitialKeyboardCheck":  "First Debug synthetic Ctrl+0 assertion failed, and PowerShell Stop aborted that attempt on stderr. No Ctrl+0 implementation change was made; two complete Debug reruns and the complete Release run passed all 47 zoom assertions. Local note: artifacts/logs/ctrl-wheel-initial-keyboard-check.txt.",
+    "ReusedEvidence":  "Unchanged core algorithms, CLI, PE/runtime configuration and clean scripts reuse native-workflows-20261025.json evidence; not rerun for this modifier-only fix.",
+    "Limitations":  [
+                        "Native WM_MOUSEWHEEL and keyboard-state fixtures; physical mouse/keyboard input not tested",
+                        "No clean-PC or multi-monitor DPI run in this change"
+                    ],
+    "RemainingHighMediumCodeFindings":  0,
+    "Details":  "SELF_CHECK.md"
+}

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64"><Configuration>Debug</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9637465C-93EF-44BE-A35A-0B702FCE7102}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType><UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset><CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType><UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset><CharacterSet>Unicode</CharacterSet><WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup><OutDir>$(ProjectDir)artifacts\tests\</OutDir><IntDir>$(ProjectDir)artifacts\obj\tests\$(Configuration)\</IntDir><TargetName>NativeCoreTests</TargetName></PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile><AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions><WarningLevel>Level4</WarningLevel><SDLCheck>true</SDLCheck><ConformanceMode>true</ConformanceMode><LanguageStandard>stdcpp17</LanguageStandard><PrecompiledHeader>NotUsing</PrecompiledHeader><PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions></ClCompile>
+    <Link><ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile><ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary></Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"><ClCompile><RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary></ClCompile></ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'"><ClCompile><RuntimeLibrary>MultiThreaded</RuntimeLibrary></ClCompile><Link><OptimizeReferences>true</OptimizeReferences><EnableCOMDATFolding>true</EnableCOMDATFolding></Link></ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="tests\native_core_tests.cpp" />
+    <ClCompile Include="tests\native_features_tests.cpp" />
+    <ClCompile Include="tests\native_file_safety_tests.cpp" />
+    <ClCompile Include="tests\native_async_save_tests.cpp" />
+    <ClCompile Include="tests\native_merge_sync_tests.cpp" /><ClCompile Include="tests\native_folder_tools_tests.cpp" /><ClCompile Include="tests\native_preferences_tests.cpp" /><ClCompile Include="tests\native_recovery_tests.cpp" /><ClCompile Include="tests\native_cli_tests.cpp" /><ClCompile Include="tests\native_structured_tests.cpp" /><ClCompile Include="tests\native_template_tests.cpp" /><ClCompile Include="src\core\binary_template.cpp" /><ClCompile Include="src\core\structured_compare.cpp" /><ClCompile Include="src\core\command_line.cpp" /><ClCompile Include="src\core\recovery_store.cpp" /><ClCompile Include="src\core\portable_preferences.cpp" />
+    <ClCompile Include="tests\native_binary_tools_tests.cpp" />
+    <ClCompile Include="tests\native_analysis_tests.cpp" />
+    <ClCompile Include="tests\native_firmware_tests.cpp" />
+    <ClCompile Include="tests\native_pattern_tests.cpp" />
+    <ClCompile Include="tests\native_merge_tools_tests.cpp" />
+    <ClCompile Include="tests\native_presentation_tests.cpp" />
+    <ClCompile Include="tests\native_region_tests.cpp" />
+    <ClCompile Include="tests\native_text_report_tests.cpp" />
+    <ClCompile Include="src\core\line_merge.cpp" /><ClCompile Include="src\core\file_operations.cpp" /><ClCompile Include="src\core\folder_sync.cpp" /><ClCompile Include="src\core\folder_policy.cpp" /><ClCompile Include="src\core\sync_journal.cpp" />
+    <ClCompile Include="src\core\workspace_session.cpp" />
+    <ClCompile Include="src\core\binary_document.cpp" />
+    <ClCompile Include="src\core\diff_engine.cpp" />
+    <ClCompile Include="src\core\search.cpp" />
+    <ClCompile Include="src\core\text_codec.cpp" />
+  </ItemGroup>
+  <ItemGroup><ClInclude Include="src\core\binary_document.h" /><ClInclude Include="src\core\diff_engine.h" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\stream_output.cpp" /><ClCompile Include="src\core\binary_report.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\binary_analysis.cpp" /><ClCompile Include="src\core\firmware_image.cpp" /><ClCompile Include="src\core\pattern_search.cpp" /><ClCompile Include="src\core\binary_merge.cpp" /><ClCompile Include="src\core\text_output.cpp" /><ClCompile Include="src\core\text_report.cpp" /><ClCompile Include="src\core\diff_presentation.cpp" /><ClCompile Include="src\core\compare_region.cpp" /></ItemGroup><ItemDefinitionGroup><Link><AdditionalDependencies>Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies></Link></ItemDefinitionGroup>
+  <ItemGroup><ClCompile Include="src\core\text_page.cpp" /><ClCompile Include="tests\native_paging_tests.cpp" /></ItemGroup><ItemDefinitionGroup><Link><AdditionalDependencies>Psapi.lib;%(AdditionalDependencies)</AdditionalDependencies></Link></ItemDefinitionGroup>
+  <ItemGroup><ClCompile Include="src\core\hex_bookmarks.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\decimal_compare.cpp" /><ClCompile Include="src\core\table_compare.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\compare_rules.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="tests\native_discovery_tests.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="tests\native_discovery_analysis_tests.cpp" /><ClCompile Include="src\core\manual_alignment.cpp" /><ClCompile Include="src\core\rename_pairs.cpp" /><ClCompile Include="src\core\crc_profiles.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\log_tail.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="tests\native_workflow_tests.cpp" /><ClCompile Include="src\core\binary_workflows.cpp" /><ClCompile Include="src\core\folder_text_rules.cpp" /><ClCompile Include="src\core\workflow_views.cpp" /></ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

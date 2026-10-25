@@ -1,0 +1,90 @@
+﻿{
+    "Date":  "2026-10-25",
+    "Scope":  "30 original alignment rows: implementations and X02-X04 extension assessments; no full competitor parity claim",
+    "Configuration":  "Release|x64",
+    "Toolchain":  "MSVC 14.44.35207",
+    "Executable":  "build/SimpleEditorTool.exe",
+    "ExeBytes":  3035136,
+    "ExeSHA256":  "D216B7CE90D07909DEACE93F049ACF914FCA76FA00E08C11C189CFC82385A179",
+    "CompleteDeliveryBytes":  3035859,
+    "PEMachine":  "AMD64",
+    "ASLR":  true,
+    "HighEntropyASLR":  true,
+    "NX":  true,
+    "StaticMFCAndCRT":  true,
+    "ImportedSystemLibraries":  [
+                                    "bcrypt.dll",
+                                    "ole32.dll",
+                                    "KERNEL32.dll",
+                                    "USER32.dll",
+                                    "GDI32.dll",
+                                    "WINSPOOL.DRV",
+                                    "ADVAPI32.dll",
+                                    "SHELL32.dll",
+                                    "UxTheme.dll",
+                                    "OLEAUT32.dll",
+                                    "OLEACC.dll",
+                                    "IMM32.dll",
+                                    "SHLWAPI.dll"
+                                ],
+    "PreservedIniHashes":  {
+                               "test.ini":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91",
+                               "simple_editor_tool.ini":  "F6AEE50E4B2C01FA1EA5043F9228CB882C3ECCD9AC45A0C43BDB42E8438500B8",
+                               "ui_smoke.ini":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                           },
+    "CanonicalReleaseBuild":  "PASS",
+    "CanonicalDebugBuild":  "PASS",
+    "FormalReleaseGuiChecks":  12,
+    "FormalDebugGuiChecks":  12,
+    "FormalCliCasesPerConfiguration":  7,
+    "CorePagingAssertions":  11,
+    "NativeInspectionDebugAssertions":  11,
+    "NativeInspectionReleaseWithCaptureAssertions":  13,
+    "NativeProgressiveCompareAssertionsPerConfiguration":  4,
+    "NativeStructuredAssertionsPerConfiguration":  6,
+    "OriginalFocusedEvidence":  "docs/ALIGNMENT_IMPLEMENTATION.md",
+    "CleanStaticScriptsChecked":  93,
+    "CleanFixtureProtectedFiles":  17,
+    "CleanActualProtectedFiles":  18,
+    "CleanRemovedAllowlistedIntermediates":  569,
+    "StressSamples":  [
+                          {
+                              "Run":  1,
+                              "sparse_bytes":  1073741824,
+                              "pages_ms":  2,
+                              "compare_ms":  650,
+                              "cancel_ms":  11,
+                              "working_set_before":  4632576,
+                              "working_set_after":  5718016,
+                              "peak_working_set":  7823360
+                          },
+                          {
+                              "Run":  2,
+                              "sparse_bytes":  1073741824,
+                              "pages_ms":  4,
+                              "compare_ms":  638,
+                              "cancel_ms":  9,
+                              "working_set_before":  4624384,
+                              "working_set_after":  5713920,
+                              "peak_working_set":  7819264
+                          },
+                          {
+                              "Run":  3,
+                              "sparse_bytes":  1073741824,
+                              "pages_ms":  2,
+                              "compare_ms":  656,
+                              "cancel_ms":  9,
+                              "working_set_before":  4636672,
+                              "working_set_after":  5718016,
+                              "peak_working_set":  7823360
+                          }
+                      ],
+    "StressLimits":  "1 GiB sparse synthetic sources; first/last text pages only; holes are NUL; core process memory, not whole GUI; no paired performance or general throughput claim",
+    "VerificationGaps":  [
+                             "Physical OS clipboard/drag/wheel/multiple monitors NOT RUN",
+                             "Native per-monitor DPI transitions not implemented; Windows scaling retained",
+                             "No real remote servers/process memory/raw devices tested"
+                         ],
+    "ExtensionDecisions":  "docs/EXTENSION_ASSESSMENT.md",
+    "Publication":  "Deferred by user; no remote or upload"
+}

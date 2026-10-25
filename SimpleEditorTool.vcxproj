@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64"><Configuration>Debug</Configuration><Platform>x64</Platform></ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64"><Configuration>Release</Configuration><Platform>x64</Platform></ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals"><VCProjectVersion>17.0</VCProjectVersion><Keyword>MFCProj</Keyword><ProjectGuid>{7C32CEB5-58EC-47AE-85CF-217CC26A71E8}</ProjectGuid><RootNamespace>SimpleEditorTool</RootNamespace><WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion></PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration"><ConfigurationType>Application</ConfigurationType><UseDebugLibraries>true</UseDebugLibraries><PlatformToolset>v143</PlatformToolset><CharacterSet>Unicode</CharacterSet><UseOfMfc>Static</UseOfMfc></PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration"><ConfigurationType>Application</ConfigurationType><UseDebugLibraries>false</UseDebugLibraries><PlatformToolset>v143</PlatformToolset><WholeProgramOptimization>true</WholeProgramOptimization><CharacterSet>Unicode</CharacterSet><UseOfMfc>Static</UseOfMfc></PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup><OutDir>$(ProjectDir)build\</OutDir><IntDir>$(ProjectDir)artifacts\obj\$(Configuration)\</IntDir><TargetName>SimpleEditorTool</TargetName></PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'"><OutDir>$(ProjectDir)artifacts\debug\</OutDir></PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile><WarningLevel>Level4</WarningLevel><SDLCheck>true</SDLCheck><AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions><PreprocessorDefinitions>NOMINMAX;_WIN32_WINNT=0x0601;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions><LanguageStandard>stdcpp17</LanguageStandard><RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary></ClCompile>
+    <Link><SubSystem>Windows</SubSystem><GenerateDebugInformation>true</GenerateDebugInformation><AdditionalDependencies>Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies></Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile><WarningLevel>Level4</WarningLevel><FunctionLevelLinking>true</FunctionLevelLinking><IntrinsicFunctions>true</IntrinsicFunctions><SDLCheck>true</SDLCheck><AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions><PreprocessorDefinitions>NOMINMAX;_WIN32_WINNT=0x0601;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions><LanguageStandard>stdcpp17</LanguageStandard><RuntimeLibrary>MultiThreaded</RuntimeLibrary></ClCompile>
+    <Link><SubSystem>Windows</SubSystem><EnableCOMDATFolding>true</EnableCOMDATFolding><OptimizeReferences>true</OptimizeReferences><GenerateDebugInformation>true</GenerateDebugInformation><AdditionalDependencies>Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies></Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup><Link><ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile><ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary></Link></ItemDefinitionGroup>
+  <ItemGroup><ClCompile Include="src\app.cpp" /><ClCompile Include="src\services\cli_console.cpp" /><ClCompile Include="src\core\command_line.cpp" /><ClCompile Include="src\main_frame.cpp" /><ClCompile Include="src\hex_view.cpp" /><ClCompile Include="src\core\binary_document.cpp" /><ClCompile Include="src\core\diff_engine.cpp" /></ItemGroup>
+  <ItemGroup><ClInclude Include="src\resource.h" /><ClInclude Include="src\main_frame.h" /><ClInclude Include="src\hex_view.h" /><ClInclude Include="src\core\binary_document.h" /><ClInclude Include="src\core\diff_engine.h" /></ItemGroup>
+  <ItemGroup><ResourceCompile Include="src\simple_editor_tool.rc" /></ItemGroup>
+  <ItemGroup><Image Include="src\res\app.ico" /></ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main_frame_edit.cpp" /><ClCompile Include="src\main_frame_compare.cpp" />
+    <ClCompile Include="src\main_frame_save.cpp" />
+    <ClCompile Include="src\main_frame_zoom.cpp" />
+    <ClCompile Include="src\main_frame_paths.cpp" /><ClCompile Include="src\workspace_frame.cpp" />
+    <ClCompile Include="src\main_frame_advanced.cpp" /><ClCompile Include="src\ui\advanced_compare.cpp" /><ClCompile Include="src\ui\advanced_compare_draw.cpp" /><ClCompile Include="src\ui\advanced_compare_report.cpp" /><ClCompile Include="src\ui\diff_overview.cpp" /><ClCompile Include="src\ui\advanced_compare_actions.cpp" /><ClCompile Include="src\ui\advanced_folder_view.cpp" /><ClCompile Include="src\ui\advanced_structured.cpp" /><ClCompile Include="src\core\structured_compare.cpp" /><ClCompile Include="src\ui\sync_preview.cpp" />
+    <ClCompile Include="src\core\line_merge.cpp" /><ClCompile Include="src\core\file_operations.cpp" /><ClCompile Include="src\core\folder_sync.cpp" /><ClCompile Include="src\core\folder_policy.cpp" /><ClCompile Include="src\core\sync_journal.cpp" />
+    <ClCompile Include="src\workspace_sessions.cpp" /><ClCompile Include="src\workspace_search.cpp" /><ClCompile Include="src\workspace_documents.cpp" /><ClCompile Include="src\workspace_preferences.cpp" /><ClCompile Include="src\workspace_recovery.cpp" /><ClCompile Include="src\core\recovery_store.cpp" /><ClCompile Include="src\ui\preferences_dialog.cpp" /><ClCompile Include="src\core\portable_preferences.cpp" /><ClCompile Include="src\ui\workspace_tabs.cpp" /><ClCompile Include="src\core\temporary_documents.cpp" /><ClCompile Include="src\ui\multi_search_dialog.cpp" /><ClCompile Include="src\services\multi_file_search.cpp" /><ClCompile Include="src\core\workspace_session.cpp" />
+    <ClCompile Include="src\core\search.cpp" /><ClCompile Include="src\core\text_codec.cpp" />
+    <ClCompile Include="src\ui\editor_dialogs.cpp" /><ClCompile Include="src\ui\splitter_bar.cpp" />
+    <ClInclude Include="src\core\search.h" /><ClInclude Include="src\core\text_codec.h" />
+    <ClInclude Include="src\ui\editor_dialogs.h" /><ClInclude Include="src\ui\splitter_bar.h" /><ClInclude Include="src\services\editor_job.h" />
+  </ItemGroup>
+  <!-- Standard/common/custom controls only; x64 size reduction. -->
+  <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
+    <ClCompile><PreprocessorDefinitions>_AFX_NO_MFC_CONTROLS_IN_DIALOGS;%(PreprocessorDefinitions)</PreprocessorDefinitions></ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup><ClCompile Include="src\hex_view_edit.cpp" /><ClCompile Include="src\main_frame_binary.cpp" /><ClCompile Include="src\core\stream_output.cpp" /><ClCompile Include="src\core\binary_report.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\ui\code_editor.cpp" /><ClCompile Include="src\ui\editor_drop_target.cpp" /><ClCompile Include="src\main_frame_editor.cpp" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="NativeEditor.vcxproj"><Project>{7D8A3A4B-B34C-4BBA-BE18-BDB2AAB210E1}</Project></ProjectReference></ItemGroup>
+  <ItemDefinitionGroup><Link><AdditionalDependencies>Imm32.lib;Ole32.lib;Dwrite.lib;D2d1.lib;%(AdditionalDependencies)</AdditionalDependencies></Link></ItemDefinitionGroup>
+  <ItemGroup><ClCompile Include="src\core\binary_analysis.cpp" /><ClCompile Include="src\core\firmware_image.cpp" /><ClCompile Include="src\core\pattern_search.cpp" /><ClCompile Include="src\core\binary_merge.cpp" /><ClCompile Include="src\core\text_output.cpp" /><ClCompile Include="src\core\text_report.cpp" /><ClCompile Include="src\core\diff_presentation.cpp" /><ClCompile Include="src\core\compare_region.cpp" /></ItemGroup><ItemGroup><ClCompile Include="src\main_frame_tools.cpp" /><ClCompile Include="src\main_frame_search.cpp" /><ClCompile Include="src\main_frame_merge.cpp" /><ClCompile Include="src\main_frame_formats.cpp" /><ClCompile Include="src\main_frame_regions.cpp" /><ClCompile Include="src\main_frame_patch.cpp" /><ClCompile Include="src\ui\native_search.cpp" /><ClCompile Include="src\ui\search_results.cpp" /></ItemGroup><ItemDefinitionGroup><Link><AdditionalDependencies>Bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies></Link></ItemDefinitionGroup>
+  <ItemGroup><ClCompile Include="src\core\binary_template.cpp" /><ClCompile Include="src\main_frame_template.cpp" /><ClCompile Include="src\ui\template_dialog.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\text_page.cpp" /><ClCompile Include="src\main_frame_pager.cpp" /><ClCompile Include="src\ui\text_pager.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\hex_bookmarks.cpp" /><ClCompile Include="src\ui\feature_dialogs.cpp" /><ClCompile Include="src\main_frame_features.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\decimal_compare.cpp" /><ClCompile Include="src\core\table_compare.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\compare_rules.cpp" /><ClCompile Include="src\ui\advanced_feature_settings.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\ui\live_inspector.cpp" /><ClCompile Include="src\ui\text_commands.cpp" /><ClCompile Include="src\main_frame_text_commands.cpp" /><ClCompile Include="src\main_frame_clone.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\manual_alignment.cpp" /><ClCompile Include="src\core\rename_pairs.cpp" /><ClCompile Include="src\core\crc_profiles.cpp" /><ClCompile Include="src\main_frame_crc.cpp" /><ClCompile Include="src\ui\advanced_content_pairs.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\log_tail.cpp" /><ClCompile Include="src\ui\log_tail_dialog.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\services\batch_replace.cpp" /><ClCompile Include="src\ui\batch_replace_dialog.cpp" /><ClCompile Include="src\workspace_batch_replace.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\binary_workflows.cpp" /><ClCompile Include="src\core\folder_text_rules.cpp" /><ClCompile Include="src\core\workflow_views.cpp" /><ClCompile Include="src\hex_view_decoding.cpp" /><ClCompile Include="src\main_frame_workflows.cpp" /><ClCompile Include="src\workspace_navigation.cpp" /><ClCompile Include="src\ui\advanced_workflows.cpp" /><ClCompile Include="src\ui\command_palette.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\services\explorer_menu.cpp" /><ClCompile Include="src\workspace_shell.cpp" /></ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

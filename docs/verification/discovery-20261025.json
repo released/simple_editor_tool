@@ -1,0 +1,88 @@
+{
+    "Date":  "2026-10-25",
+    "Scope":  "All twelve approved bounded native first versions R01-R12; publication deferred",
+    "Executable":  "build/SimpleEditorTool.exe",
+    "ExeBytes":  3271680,
+    "ExeSHA256":  "41C83EACD05C2B0FD7097212B14A98A8136D9729447B92D76CCAE0A1EE7AABCA",
+    "DebugExeSHA256":  "6EC095620AADD58200EBE5471264462360D59EB5BAB7081262F997997413A344",
+    "CompleteDeliveryBytes":  3272403,
+    "Configuration":  "Release|x64",
+    "PEMachine":  "AMD64",
+    "ASLR":  true,
+    "HighEntropyASLR":  true,
+    "NX":  true,
+    "StaticMFCAndCRT":  true,
+    "ImportedSystemLibraries":  [
+                                    "bcrypt.dll",
+                                    "ole32.dll",
+                                    "KERNEL32.dll",
+                                    "USER32.dll",
+                                    "GDI32.dll",
+                                    "WINSPOOL.DRV",
+                                    "ADVAPI32.dll",
+                                    "SHELL32.dll",
+                                    "UxTheme.dll",
+                                    "OLEAUT32.dll",
+                                    "OLEACC.dll",
+                                    "IMM32.dll",
+                                    "SHLWAPI.dll"
+                                ],
+    "CanonicalReleaseBuild":  "PASS",
+    "CanonicalDebugBuild":  "PASS",
+    "PreservedIniHashes":  {
+                               "simple_editor_tool.ini":  "F6AEE50E4B2C01FA1EA5043F9228CB882C3ECCD9AC45A0C43BDB42E8438500B8",
+                               "test.ini":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91",
+                               "ui_smoke.ini":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                           },
+    "CoreAssertions":  {
+                           "discovery":  20,
+                           "discovery-analysis":  25,
+                           "text-reports":  22,
+                           "merge-sync":  47
+                       },
+    "NativeUiAssertions":  {
+                               "Debug":  {
+                                             "discovery":  19,
+                                             "discovery-flows":  19,
+                                             "discovery-visual":  17,
+                                             "discovery-completion":  3,
+                                             "advanced":  52,
+                                             "workspace":  35,
+                                             "search-tools":  32,
+                                             "recovery":  13,
+                                             "async-save":  32,
+                                             "zoom":  34,
+                                             "text-reports":  13
+                                         },
+                               "Release":  {
+                                               "discovery":  19,
+                                               "discovery-flows":  19,
+                                               "discovery-visual":  17,
+                                               "discovery-completion":  3,
+                                               "advanced":  52,
+                                               "workspace":  35,
+                                               "search-tools":  32,
+                                               "recovery":  13,
+                                               "async-save":  32,
+                                               "zoom":  34,
+                                               "text-reports":  13
+                                           }
+                           },
+    "FormalGuiAssertionsPerConfiguration":  12,
+    "FormalCliCasesPerConfiguration":  7,
+    "CleanStaticScriptsChecked":  99,
+    "CleanFixtureProtectedFiles":  17,
+    "CleanActualProtectedFiles":  18,
+    "CleanRemovedAllowlistedIntermediates":  663,
+    "CleanJunctionRejection":  "PASS",
+    "ScreenshotsPerConfiguration":  6,
+    "SourceDetails":  "docs/verification/FEATURE_DISCOVERY_ACCEPTANCE.md",
+    "Limitations":  [
+                        "Manual line anchors are read-only two-way; literal advanced rules are two-way",
+                        "Completion uses dedicated Python/JSON and common C-family keyword fallback, no language server",
+                        "Batch replacement is per-file atomic and may retain staging after cancel/error",
+                        "Saved-disk tail is bounded to UTF-8/UTF-16 windows",
+                        "Physical clipboard/drag/wheel/multiple monitors, per-monitor DPI transitions, real network servers and clean-PC installation NOT RUN"
+                    ],
+    "Publication":  "No remote, commit or upload created"
+}

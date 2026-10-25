@@ -1,0 +1,20 @@
+#include "main_frame.h"
+#include "resource.h"
+#include "ui/text_commands.h"
+#include "ui/native_search.h"
+void CMainFrame::StartTextCommand(UINT command) {
+    auto* editor = ActiveEditor(); if (IsBusy() || !editor || editor->Call(SCI_GETREADONLY)) return; const bool complete = command == ID_FEATURE_COMPLETE;
+    const auto input = editor->Utf8(); if (input.size() > 32 * 1024 * 1024) { status_.SetPaneText(0,L"Text commands accept up to 32 MiB."); return; }
+    const auto caret = editor->Call(SCI_GETCURRENTPOS); std::uint64_t begin = 0,end = input.size(); std::string prefix;
+    if (complete) { begin = static_cast<std::uint64_t>(editor->Call(SCI_WORDSTARTPOSITION,caret,1)); end = caret; prefix = input.substr(begin,end - begin); if (prefix.empty()) { status_.SetPaneText(0,L"Type a word prefix before requesting document completion."); return; } }
+    else { const auto selected_begin = editor->Call(SCI_GETSELECTIONSTART),selected_end = editor->Call(SCI_GETSELECTIONEND); if (selected_begin != selected_end) { const auto first = editor->Call(SCI_LINEFROMPOSITION,selected_begin); auto last = editor->Call(SCI_LINEFROMPOSITION,selected_end); if (last > first && selected_end == editor->Call(SCI_POSITIONFROMLINE,last)) --last; begin = editor->Call(SCI_POSITIONFROMLINE,first); const auto next = editor->Call(SCI_POSITIONFROMLINE,last + 1); end = next < 0 ? input.size() : static_cast<std::uint64_t>(next); } }
+    job_editor_ = editor; job_editor_generation_ = editor->Generation(); job_kind_ = EditorJobKind::TextCommand; cancelled_ = false; progress_ = 0; job_revision_ = revision_; if (!complete) { if (IsFileEditor(editor)) SetSaveReadOnly(true); else advanced_.SearchBusy(true); }
+    const auto keywords = IsFileEditor(editor) ? text_.Keywords() : editor->Keywords(); try { job_ = std::async(std::launch::async,[this,input,prefix,keywords,command,begin,end,complete] { EditorJobResult result; result.kind = EditorJobKind::TextCommand; result.search = std::make_shared<NativeSearchPlan>(); result.found = complete ? 1 : 0; result.search->cursor = begin; if (complete) { result.search->output = CompleteDocumentWords(input,prefix,keywords,cancelled_); result.search->length = prefix.size(); } else { std::string transformed; if (TransformEditorLines(input.substr(begin,end - begin),static_cast<int>(command - ID_FEATURE_SORT_ASC),cancelled_,&transformed,&result.error)) { result.search->output = input.substr(0,begin) + transformed + input.substr(end); result.search->length = transformed.size(); result.search->changed = result.search->output != input; } } return result; }); }
+    catch (...) { if (!complete) UnlockEditorSearch(); else job_editor_ = nullptr; status_.SetPaneText(0,L"Could not start text command."); }
+}
+void CMainFrame::FinishTextCommand(EditorJobResult result) {
+    auto* editor = job_editor_; const auto generation = job_editor_generation_; if (result.found == 1) job_editor_ = nullptr; else UnlockEditorSearch();
+    if (!editor || cancelled_ || editor->Generation() != generation || !result.error.empty() || !result.search) { status_.SetPaneText(0,result.error.empty() ? L"Text command cancelled or stale; buffer retained." : result.error.c_str()); return; }
+    const auto& plan = *result.search; if (result.found == 1) { if (editor != ActiveEditor() || editor->Call(SCI_GETCURRENTPOS) != static_cast<LRESULT>(plan.cursor + plan.length)) { status_.SetPaneText(0,L"Caret moved; request completion again."); return; } if (!plan.output.empty()) editor->Call(SCI_AUTOCSHOW,plan.length,reinterpret_cast<LPARAM>(plan.output.c_str())); else status_.SetPaneText(0,L"No matching document or language words."); return; }
+    if (plan.changed && !editor->Call(SCI_GETREADONLY)) { editor->ReplaceGenerated(CCodeEditor::FromUtf8(plan.output),0); editor->GetParent()->SendMessage(WM_COMMAND,MAKEWPARAM(editor->GetDlgCtrlID(),EN_CHANGE),reinterpret_cast<LPARAM>(editor->GetSafeHwnd())); editor->Call(SCI_SETSEL,plan.cursor,plan.cursor + plan.length); editor->Call(SCI_SCROLLCARET); } status_.SetPaneText(0,L"Line operation complete. One Undo restores the operation.");
+}

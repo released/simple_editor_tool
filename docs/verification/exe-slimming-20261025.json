@@ -1,0 +1,219 @@
+{
+  "Date": "2026-10-25",
+  "Target": "Release|x64",
+  "Toolchain": "MSVC 14.44.35207",
+  "OriginalExeBytes": 3151872,
+  "BaselineBytes": 3151872,
+  "FormalBytes": 1083904,
+  "BaselineSHA256": "7CEA6F17E77763B6A01428D5E6AFB6BE48F8A7D782D2925ACB925FC439902996",
+  "FormalSHA256": "13CE079CEFB03C01EDF826B45A74FDCAAE38E9609604885AC44807F5CB67DEA9",
+  "RequiredNativeBinaries": [
+    "SimpleEditorTool.exe"
+  ],
+  "RequiredBinaryBytesBefore": 3151872,
+  "RequiredBinaryBytesAfter": 1083904,
+  "Samples": 5,
+  "Order": "baseline calibration before candidate; alternating AB/BA measured pairs",
+  "Fixture": "None",
+  "Limits": {
+    "StartupMs": {
+      "Median": 158.2948,
+      "MAD": 11.608399999999989,
+      "AllowedDelta": 35
+    },
+    "PeakBytes": {
+      "Median": 17784832,
+      "MAD": 12288,
+      "AllowedDelta": 1048576
+    },
+    "CpuMs": {
+      "Median": 93.75,
+      "MAD": 15.625,
+      "AllowedDelta": 47
+    },
+    "WorkflowMs": {
+      "Median": 2.4358,
+      "MAD": 0.3511000000000002,
+      "AllowedDelta": 2
+    }
+  },
+  "Checks": [
+    {
+      "Metric": "StartupMs",
+      "BaselineMedian": 141.1988,
+      "CandidateMedian": 138.424,
+      "Limit": 176.1988,
+      "Pass": true
+    },
+    {
+      "Metric": "PeakBytes",
+      "BaselineMedian": 17797120,
+      "CandidateMedian": 17281024,
+      "Limit": 18845696,
+      "Pass": true
+    },
+    {
+      "Metric": "CpuMs",
+      "BaselineMedian": 93.75,
+      "CandidateMedian": 109.375,
+      "Limit": 140.75,
+      "Pass": true
+    },
+    {
+      "Metric": "WorkflowMs",
+      "BaselineMedian": 2.6847000000000003,
+      "CandidateMedian": 2.1611000000000002,
+      "Limit": 4.6847,
+      "Pass": true
+    }
+  ],
+  "Calibration": [
+    {
+      "StartupMs": 169.9032,
+      "WorkflowMs": 2.9915000000000003,
+      "CpuMs": 93.75,
+      "PeakBytes": 17784832
+    },
+    {
+      "StartupMs": 154.89440000000002,
+      "WorkflowMs": 2.4358,
+      "CpuMs": 125,
+      "PeakBytes": 17817600
+    },
+    {
+      "StartupMs": 158.2948,
+      "WorkflowMs": 1.7867000000000002,
+      "CpuMs": 78.125,
+      "PeakBytes": 17793024
+    },
+    {
+      "StartupMs": 565.1508,
+      "WorkflowMs": 2.7869,
+      "CpuMs": 93.75,
+      "PeakBytes": 17772544
+    },
+    {
+      "StartupMs": 140.4918,
+      "WorkflowMs": 2.3062,
+      "CpuMs": 125,
+      "PeakBytes": 17752064
+    }
+  ],
+  "Baseline": [
+    {
+      "StartupMs": 141.1988,
+      "WorkflowMs": 2.6847000000000003,
+      "CpuMs": 46.875,
+      "PeakBytes": 17760256
+    },
+    {
+      "StartupMs": 140.4039,
+      "WorkflowMs": 2.8770000000000002,
+      "CpuMs": 78.125,
+      "PeakBytes": 17801216
+    },
+    {
+      "StartupMs": 135.0874,
+      "WorkflowMs": 2.8179000000000003,
+      "CpuMs": 93.75,
+      "PeakBytes": 17776640
+    },
+    {
+      "StartupMs": 197.88510000000002,
+      "WorkflowMs": 2.1743,
+      "CpuMs": 109.375,
+      "PeakBytes": 17801216
+    },
+    {
+      "StartupMs": 504.2234,
+      "WorkflowMs": 2.4715000000000003,
+      "CpuMs": 93.75,
+      "PeakBytes": 17797120
+    }
+  ],
+  "Candidate": [
+    {
+      "StartupMs": 132.4513,
+      "WorkflowMs": 1.7646000000000002,
+      "CpuMs": 109.375,
+      "PeakBytes": 17276928
+    },
+    {
+      "StartupMs": 570.577,
+      "WorkflowMs": 2.5235000000000003,
+      "CpuMs": 62.5,
+      "PeakBytes": 17272832
+    },
+    {
+      "StartupMs": 577.5122,
+      "WorkflowMs": 1.4911,
+      "CpuMs": 109.375,
+      "PeakBytes": 17281024
+    },
+    {
+      "StartupMs": 138.0662,
+      "WorkflowMs": 2.1611000000000002,
+      "CpuMs": 125,
+      "PeakBytes": 17281024
+    },
+    {
+      "StartupMs": 138.424,
+      "WorkflowMs": 3.1413,
+      "CpuMs": 109.375,
+      "PeakBytes": 17289216
+    }
+  ],
+  "InitialTimingGate": null,
+  "SourceChanges": [],
+  "RootIniHashesUnchanged": true,
+  "FixtureSafety": "Fresh isolated app copies with no existing INIs; separate Debug/Release workspace/zoom/process checks on test-owned data.",
+  "SyntheticSourceSHA256": null,
+  "RequiredSidecar": null,
+  "EditorUiChecks": [
+    {
+      "Config": "Debug",
+      "Mode": "workspace",
+      "Assertions": 35
+    },
+    {
+      "Config": "Debug",
+      "Mode": "zoom",
+      "Assertions": 34
+    },
+    {
+      "Config": "Debug",
+      "Mode": "formal-process",
+      "Assertions": 11
+    },
+    {
+      "Config": "Release",
+      "Mode": "workspace",
+      "Assertions": 35
+    },
+    {
+      "Config": "Release",
+      "Mode": "zoom",
+      "Assertions": 34
+    },
+    {
+      "Config": "Release",
+      "Mode": "formal-process",
+      "Assertions": 11
+    }
+  ],
+  "ActualClean": {
+    "Removed": 186,
+    "ProtectedActualFilesUnchanged": 15,
+    "NestedFixtureFiles": 17,
+    "IntermediateRoot": "artifacts/obj"
+  },
+  "CoreEvidence": "Unchanged earlier core/export/merge/security evidence reused; full unrelated core suites not rerun for the x64 MFC-only definition.",
+  "Security": "Static runtime, optimization and /GS retained; PE 0x8160, VisualManager RTTI absent; no new runtime dependency",
+  "NotRun": [
+    "Desktop visual/DPI",
+    "Clean-PC",
+    "Unrelated core suites",
+    "Real private sources/authentication",
+    "Unchanged hardware"
+  ]
+}
