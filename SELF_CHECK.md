@@ -1,5 +1,165 @@
 # Self Check
 
+## Document-focused F01-F09 (2026-10-26)
+
+- PASS: Debug/Release core --document-focus (39 assertions), --localization,
+  --preferences, --merge-sync, --search-codec and --workflow-expansion.
+- PASS: Debug/Release native --document-focus (42 assertions, plus two Release
+  captures), --localization, --preferences, --advanced, --workflows,
+  --workflow-expansion, --editor-review, --text-workflow, --zoom, --folder-tools
+  and --text-reports. Final Report state guard reran the three affected modes in
+  both configurations; other still-applicable caller runs retain their original
+  binary hashes. Details and commands: docs/verification/document-focus-20261026.json.
+- PASS: canonical Release, formal --workspace-process (12), seven CLI exit cases,
+  native x64/high-entropy ASLR/NX and Windows-only imports. The three original
+  runtime INIs retain entry hashes; source/delivery catalogs match (719 pairs).
+- PASS: strict UTF-8, reciprocal/local links and 18 topics per full guide;
+  product-only README semantics; three final native Release images inspected.
+- PASS: four-script static clean scan. Reuse unchanged boundary/fixture checks
+  from project-cleanup-boundary-20261026.json. Actual clean removed 837 compiler
+  files; reviewed purge retired ten test/MSBuild outputs. Both checkpoints matched
+  all 1,266 protected hashes. Retired 149 owned files / 4,400,984 bytes using a
+  fixed expected-hash list and project/run boundaries. TST-01/TST-02 PASS: no
+  artifacts or test-only EXEs remain; complete folder is about 15.31 MB, within
+  20,000,000 bytes. No external deletion or retained scratch exception.
+- NOT RUN: physical clipboard/wheel, mixed DPI, maximum-quota throughput and
+  injected resource/power failure. Product subsets are explicit in the guides.
+
+## English / Traditional Chinese and full user guides (2026-10-26)
+
+- PASS Debug/Release: core --localization (20 checks), --preferences (9); native
+  --localization (17), --preferences, --text-workflow, --workspace, --advanced,
+  --editor-review, --workflow-expansion, --zoom and --async-save. Counts exclude
+  harness footers. Real language switching retains user buffers/selection/Undo,
+  search input, source protection, output and jobs; newest preference wins.
+- PASS: canonical Release; byte-matched formal first-run Traditional Chinese,
+  persisted English, immediate switch/restart, missing and invalid catalog English
+  fallback (24); actual formal single-instance/workspace process (12); CLI seven
+  exit contracts; native x64/high-entropy ASLR/NX and Windows-only imports.
+- PASS: both complete 17-topic UTF-8 guides, reciprocal/README links, product-only
+  entry/usage content, paired catalog stable keys, delivered catalog hashes and
+  original INI preservation. Two Release Chinese screenshots visually inspected.
+- PASS: four-script shared static clean scan. Unchanged safe-clean fixture and
+  boundary-rejection evidence reused from project-cleanup-boundary-20261026.json;
+  final actual clean/purge/hash preservation and size are recorded in
+  docs/verification/localization-20261026.json. No external cleanup.
+- TST-01/TST-02 PASS: 777 compiler files, 10 test/metadata outputs and all 68
+  owned scratch files retired. All 1,238 protected hashes matched after actual
+  clean/purge and before scoped scratch retirement. artifacts is absent, original
+  INIs remain unchanged and complete folder is below 20,000,000 bytes.
+- NOT RUN: physical clipboard/mouse, mixed DPI, exhaustive dialog translation,
+  injected allocation/power failures and maximum-quota throughput. Unlisted
+  diagnostics retain English; native Windows dialogs follow OS language.
+
+## Workflow expansion W01-W10 (2026-10-26)
+
+- PASS Debug/Release: source gaps/original coordinates, inline source indicators,
+  Base visibility/output independence, preset save/apply/delete, encoding/BOM/EOL
+  selection mapping and stale guards, Unicode live/allowlist/detail/Undo,
+  external keep/compare/cancel/reload, entropy mouse selection/version rejection,
+  conversion preview/invalidation/readonly/one Undo and JSON native rules.
+- PASS: four relevant core and nine UI modes per configuration. Dialog geometry
+  follow-up reran expansion mode in both; three final native Release images were
+  inspected. Exact formal Release process and seven CLI cases PASS.
+- PASS: final PE is native x64 with ASLR/high-entropy/NX and system-only imports.
+  test.ini and ui_smoke.ini retain entry hashes. A newer main runtime INI is
+  retained explicitly; its difference from the entry record is not an unchanged-
+  INI PASS. README remains product-facing.
+- NOT RUN: physical clipboard interoperability, maximum-quota throughput,
+  physical wheel gestures, mixed-monitor DPI and injected resource/power failures.
+  Subset/precision limits are explicit in docs/WORKFLOW_EXPANSION.md.
+- TST-01: verified safe compiler clean removed 765 files; reviewed purge removed
+  11 test-only executables/metadata files. All 1,218 protected files matched the
+  cleanup-boundary checkpoint. Unchanged safe-clean fixture evidence was reused.
+  TST-02 PASS: all 120 owned scratch files (1,581,575 bytes) retired, artifacts
+  absent, complete folder below 20,000,000 bytes including hidden/Git/vendor data.
+  Exact bytes: docs/verification/workflow-expansion-20261026.json; no external deletion.
+
+## Editor review V01-V10 (2026-10-26)
+
+- PASS in Debug and Release: all approved review flows, native UI lifecycle,
+  chosen-source Find, readonly source Undo, draft/merge preservation, all-open
+  selected preview/cancel/stale guards, current/all-open multiline replacement,
+  mark coexistence/invalidation, outline tree jump, indentation/manual/clone rules,
+  moved pairs, bitfield menu/edit/readonly/stale guards and IPS preview/import/export.
+- Five core and seven UI modes per configuration PASS; new modes have 38 core
+  and 59 UI checks. Canonical Release, formal process (12 checks), CLI seven-case
+  exit contract, native x64/ASLR/high-entropy/NX and system-only imports PASS.
+- Both retained Release images inspected. Three original INIs retain entry hashes.
+  Product instructions are separate from engineering records. Final source/build,
+  cleanup preservation and complete-folder bytes: docs/verification/editor-review-20261026.json.
+- Limits: explicit EditorConfig indentation subset; equal-length IPS/IPS32 only;
+  exact unique complete unmatched moved blocks. Full quota stress/throughput,
+  physical clipboard/mouse/mixed DPI, injected allocation/power failures and broad
+  third-party patch interoperability NOT RUN. No new runtime, driver, commit/push.
+
+## Text defaults / Markdown / scoped Find/Replace (2026-10-26)
+
+- PASS: new text defaults to Text; binary fallback, existing-session page/draft
+  retention, #3F3F3F content, Markdown style recognition/colors/decorations and
+  language/theme changes that preserve generation, text and Undo.
+- PASS: Ctrl+F replacement controls and scope selector; all-open unsaved/untitled
+  Count/results/navigation, both directions/wrap/F3, single/all replacement,
+  cloned-view locks/updates, per-document Undo, unchanged disk files, read-only,
+  cancellation, version preflight, missing/closing-session guards, escaped Unicode,
+  regex/error handling, unsupported Hex scope and current-only replacement.
+- PASS in Debug and Release: native --text-workflow (48), --workspace (35), --zoom
+  (51); connected --search-tools (32), --preferences (14), --cross-search (18),
+  --code-editor (26). Counts exclude the harness footer. Core --search-codec and
+  --preferences PASS per configuration. Reused connected tests precede only the
+  final missing-session guard and explicit Hex setup in the zoom fixture; affected
+  workflow/workspace/zoom paths were subsequently rebuilt and rerun in both modes.
+- PASS: canonical Release build, formal --workspace-process (12), seven CLI cases
+  with expected exits 0/0/1/1/2/1/2, x64/ASLR/high-entropy/NX and system-only imports.
+- PASS: native Release Markdown and Find/Replace captures visually inspected.
+  Full 128 MiB aggregate stress/performance testing was not run; bounds were
+  reviewed, and normal/Unicode draft, cancel, lock and stale paths were exercised.
+- Final owned cleanup: PASS; owned artifacts removed, project below 20 MB. The temporary 512 MB budget was exceeded
+  during stock Release linking (observed 639,110,240 bytes); notified and immediately
+  removed compiler output. Later bounded UI builds stayed below 200 MB. Final
+  delivery/config/source hashes, artifact removal and full-folder byte measurement
+  are recorded in docs/verification/text-workflow-20261026.json.
+
+
+## Pasted-text comparison and cleanup complete (2026-10-26)
+
+- PASS: native memory-only input panes, separate pasted comparison sessions,
+  background snapshots/locks, Unicode/mixed endings, empty sides, 60,000-line inputs,
+  Undo/Redo, swaps, zoom, stale-result clearing, cancellation, quotas/NUL rejection,
+  output save, close cancellation, workspace omission and obsolete preview release.
+- Final Debug/Release each PASS: --pasted-text 36 and --workspace 35, exit 0.
+  Initial --advanced 52 and --zoom 51 per configuration remain applicable to
+  unchanged paths after the mode-8-only preview follow-up. Native screenshot
+  inspected at 150%: both inputs, inline difference markers and output visible.
+- Canonical final Release build PASS; 3,404,288 bytes, SHA-256
+  30A37C1D37DFFA694A6F6B89E2622BDEF974E2E7AC6B9A355249278B5611E2CF.
+  Formal CLI seven expected exit-code cases PASS; copies/fixtures cleaned.
+  PE x64/high-entropy ASLR/NX and Windows-only imports PASS; no new installation.
+  Existing three INIs retain baseline hashes. build holds only EXE/INI files.
+- Cleanup PASS for compiler intermediates via verified clean and completed target
+  EXEs via their MSBuild Clean targets. Native test processes exited normally;
+  no synthetic set*/cli-owned fixtures remain. No project-external deletion.
+- TST-01/TST-02 PASS: user rejected retention exceptions; project is below
+  20,000,000 bytes. Independent fixed-path/owner/hash-checked file operations
+  completed after earlier bulk review rejections. Removed all 111 current-run
+  files / 39,346,361 bytes, including 44 large spills / 38,764,503 bytes.
+  Removed 42 older audit fixtures / 58,173 bytes and detached only their verified
+  project-local junction entry without recursion. Existing purge preview/Apply
+  removed 11 recognized compiler metadata files. artifacts and empty roots are gone.
+- Preservation PASS: all 544 protected hashes matched after large spill removal;
+  final EXE, three INIs, 15 compiled-source hashes and public screenshot match.
+  Only verification/handoff records were intentionally updated afterward. Concise
+  JSON/PNG evidence retained; no raw archive, test binary or project-external deletion.
+  No application build/test rerun for this data/document-only cleanup follow-up.
+- Temporary 512 MB exception was approved. Initial stock Debug accumulation had
+  a 566,585,019-byte observed sample (actual peak not captured); owned compilation
+  was stopped and verified clean removed 281 intermediates. Later UI builds omit
+  symbols/incremental cache, retaining Debug runtime/assertions, and batches clean
+  separately. Product settings are canonical; final CL=/MP2 scheduling restored.
+- Evidence/commands/source hashes/cleanup scope: docs/verification/pasted-text-20261026.json;
+  native image: docs/verification/pasted-text-20261026.png. Physical clipboard/mouse,
+  mixed-monitor DPI and injected allocation/power-failure cases NOT RUN. No commit/push.
+
 ## Project boundary for cleanup (2026-10-26)
 
 - PASS: scripts/artifact_helpers.ps1 anchors cleanup to the script's project,

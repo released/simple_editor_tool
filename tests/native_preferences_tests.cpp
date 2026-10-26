@@ -5,7 +5,7 @@
 using namespace simple_editor::core;
 int RunPreferenceTests(const std::filesystem::path& root) {
     int failures = 0; const auto check = [&](bool ok,const wchar_t* label) { std::wcout << (ok ? L"PASS: " : L"FAIL: ") << label << L'\n'; if (!ok) ++failures; }; std::wstring error; AppPreferences p,loaded;
-    check(LoadPreferences(root / L"missing.ini",&loaded,&error) && loaded.font == L"Consolas" && !loaded.auto_restore && !loaded.recover_drafts,L"absent portable INI retains opt-out defaults");
+    check(LoadPreferences(root / L"missing.ini",&loaded,&error) && loaded.font == L"Consolas" && loaded.theme == 1 && !loaded.auto_restore && !loaded.recover_drafts,L"absent portable INI uses dark content and retains opt-out recovery defaults");
     const auto path = root / L"preferences.ini"; { std::ofstream out(path,std::ios::binary); out << "; user comment\n[Vendor.Section]\r\nUnknown=keep=value\n[SimpleEditorTool.Preferences]\r\nFont=OldFont\n"; }
     p.font = L"Cascadia Mono"; p.font_tenths = 120; p.theme = 2; p.wrap = p.whitespace = p.auto_restore = true; p.zoom[1] = 140; p.tab_width = 8; p.recent = {L"D:\\資料\\檔案😀.txt"}; ParseShortcut(L"Ctrl+Alt+L",&p.shortcuts[0],&error);
     check(SavePreferences(path,p,&error) && LoadPreferences(path,&loaded,&error) && loaded.font == p.font && loaded.font_tenths == 120 && loaded.theme == 2 && loaded.wrap && loaded.whitespace && loaded.auto_restore && !loaded.recover_drafts && loaded.zoom[1] == 140 && loaded.recent == p.recent && loaded.shortcuts[0].key == 'L' && loaded.shortcuts[0].modifiers == 5,L"portable preferences roundtrip Unicode paths, view settings and custom shortcuts");

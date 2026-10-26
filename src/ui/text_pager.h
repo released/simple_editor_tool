@@ -23,9 +23,11 @@ private:
     void Poll();
     void Zoom(int delta);
     void Layout();
+    void FindDialog();
+    bool FindNext();
     std::unique_ptr<simple_editor::core::BinaryDocument> source_;
     simple_editor::core::TextEncoding encoding_;
-    struct Result { simple_editor::core::TextPage page; std::wstring error; };
+    struct Result { simple_editor::core::TextPage page; std::wstring error; bool searching = false; std::uint64_t found = UINT64_MAX,after = 0; };
     std::future<Result> job_;
     std::atomic_bool cancelled_{false};
     simple_editor::core::TextPage page_;
@@ -34,4 +36,8 @@ private:
     std::uint64_t old_begin_ = 0;
     int direction_ = 0, zoom_ = 100;
     bool closing_ = false;
+    std::wstring query_;
+    std::wstring ui_language_;
+    std::uint64_t next_match_ = 0;
+    bool select_match_ = false;
 };

@@ -1,4 +1,5 @@
 #include "main_frame.h"
+#include "ui/localization.h"
 #include "workspace_frame.h"
 #include "resource.h"
 #include "core/binary_merge.h"
@@ -22,6 +23,6 @@ void CMainFrame::OnBinaryMerge(UINT command) {
     if (!BuildBinaryPatches(pending_differences_,selected,direction,compare_left_document_.Size(),compare_right_document_.Size(),&patches,&error)) { status_.SetPaneText(0,error.c_str()); return; }
     std::wostringstream preview; preview << (direction ? L"Baseline: left. Selected data comes from right.\n" : L"Baseline: right. Selected data comes from left.\n") << selected.size() << L" selected byte differences in " << patches.size() << L" range(s). Only selected displayed differences are included.\n\nBaseline offset: removed bytes -> donor offset: copied bytes\n";
     for (std::size_t i = 0; i < (std::min<std::size_t>)(20,patches.size()); ++i) { const auto& patch = patches[i]; preview << L"0x" << std::hex << patch.offset << L": " << std::dec << patch.remove << L" -> 0x" << std::hex << patch.source << L": " << std::dec << patch.length << L"\n"; }
-    preview << L"\nContinue to choose a separate output file?"; path_dialog_ = true; const auto answer = AfxMessageBox(preview.str().c_str(),MB_OKCANCEL | MB_ICONQUESTION); path_dialog_ = false; if (answer != IDOK) return;
+    preview << L"\nContinue to choose a separate output file?"; path_dialog_ = true; const auto answer = UiMessageBox(preview.str().c_str(),MB_OKCANCEL | MB_ICONQUESTION); path_dialog_ = false; if (answer != IDOK) return;
     CFileDialog output(FALSE,L"bin",L"merged.bin",OFN_OVERWRITEPROMPT,L"All files (*.*)|*.*||",this); path_dialog_ = true; const auto accepted = output.DoModal(); path_dialog_ = false; if (accepted == IDOK) StartBinaryMerge(output.GetPathName().GetString(),direction,selected);
 }

@@ -14,6 +14,10 @@ END_MESSAGE_MAP()
 CMultiSearchDialog::~CMultiSearchDialog() { Stop(); }
 void CMultiSearchDialog::Stop() { cancel_ = true; available_.notify_all(); if (job_.valid()) { try { job_.get(); } catch (...) {} } }
 void CMultiSearchDialog::Show(CWnd* owner) { if (!GetSafeHwnd() && !Create(IDD_MULTI_SEARCH,owner)) return; ShowWindow(SW_SHOW); SetForegroundWindow(); }
+bool CMultiSearchDialog::Present(CWnd* owner,std::vector<MultiSearchMatch> matches,const std::wstring& status) {
+    if (Busy()) return false; Show(owner); if (!GetSafeHwnd()) return false;
+    matches_ = std::move(matches); summary_ = {}; list_.SetItemCountEx(static_cast<int>(matches_.size())); EnableInputs(true); SetDlgItemTextW(1914,status.c_str()); return true;
+}
 BOOL CMultiSearchDialog::OnInitDialog() {
     CDialog::OnInitDialog(); mode_.SubclassDlgItem(1901,this); encoding_.SubclassDlgItem(1902,this); scope_.SubclassDlgItem(1903,this); list_.SubclassDlgItem(1909,this);
     for (auto value : {L"Text literal",L"Text escaped",L"Text regex (POSIX)",L"Hex wildcards",L"Typed numeric"}) mode_.AddString(value); mode_.SetCurSel(0);

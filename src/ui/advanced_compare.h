@@ -19,6 +19,8 @@
 #include "../core/rename_pairs.h"
 #include "../core/workspace_session.h"
 #include "../core/workflow_views.h"
+#include "../core/text_review.h"
+#include "../core/review_notes.h"
 
 class CAdvancedCompareView : public CWnd {
 public:
@@ -32,10 +34,15 @@ public:
     bool Busy() const { return job_.valid() || modal_ || search_busy_; }
     void SearchBusy(bool busy) { search_busy_ = busy; SetBusy(busy); }
     bool PendingClose() const { return close_after_save_; }
-    bool Dirty() const { return dirty_; }
+    bool Dirty() const { return dirty_ || notes_dirty_ || HasPastedInputs(); }
     bool CanClose();
     bool CanReset();
     void Configure(int mode);
+    bool SetPastedInputs(bool enabled);
+    bool HasPastedInputs() const;
+    void StartPastedText();
+    void SetSnapshotInputs(const std::wstring& left,const std::wstring& right,const std::wstring& path,const simple_editor::core::TextCodec& codec,const simple_editor::core::FileStamp& stamp);
+    void SwapPastedInputs();
     void InvalidateInputs();
     void StartText(std::unique_ptr<simple_editor::core::BinaryDocument> base,
                    std::unique_ptr<simple_editor::core::BinaryDocument> left,
@@ -52,6 +59,7 @@ public:
     void SetTextViewPreferences(bool wrap,bool whitespace,unsigned tab_width,bool use_tabs);
     void Find(const std::wstring& text);
     CCodeEditor* OutputEditor() { return model_ && mode_ != 4 && !manual_view_ ? &output_ : nullptr; }
+    CCodeEditor* SearchEditor();
     std::wstring RawOutputText() const;
     simple_editor::core::TextCodec OutputCodec() const { return codec_; }
     void ExportReportDialog();
@@ -61,6 +69,23 @@ public:
     void RestorePreferences(const simple_editor::core::WorkspaceEntry& entry);
     void FeatureSettings(UINT command);
     void WorkflowSettings(UINT command);
+    void ReviewMovedBlocks();
+    void ToggleBaseSource();
+    bool AddSelectedAnchor();
+    void ManageAnchors();
+    bool RefreshSelectedFolders();
+    simple_editor::core::FolderOptions CurrentFolderOptions() const;
+    struct FolderFile { std::wstring relative,left,right; int mode = 0; };
+    std::wstring FolderPairKey(const std::wstring& left,const std::wstring& right) const;
+    bool AdjacentFolderFile(const std::wstring& relative,int direction,FolderFile*) const;
+    std::uint64_t FolderGeneration() const { return folder_generation_; }
+    void ShowAnchorMarkers();
+    bool LoadPastedPair(const std::wstring& left,const std::wstring& right);
+    void NotesCommand(UINT command);
+    bool SetReviewNote(std::size_t block,const std::wstring&,bool reviewed,std::wstring* error);
+    bool StartNotesIo(const std::wstring& path,bool save,bool report = false);
+    bool ConfirmNotesClose();
+    void EditJsonRules();
     void StartContentPairing();
     void FinishContentPairing(const std::vector<simple_editor::core::ContentPair>& pairs);
     friend class NativeUiTest;
@@ -75,6 +100,7 @@ protected:
     afx_msg void OnDoubleClick(NMHDR*, LRESULT* result);
     afx_msg void OnAction(UINT id);
     afx_msg void OnResultChanged();
+    afx_msg void OnPastedInputChanged();
     afx_msg void OnFilterChanged();
     afx_msg void OnRulesChanged();
     afx_msg void OnSimilarChanged();
@@ -83,11 +109,12 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 private:
-    enum class JobKind { Text, Render, Scan, Plan, Sync, Save, Presentation, Report, Structured, Pairing };
+    enum class JobKind { Text, Render, Scan, Refresh, Plan, Sync, Save, Presentation, Report, Structured, Pairing, NotesLoad, NotesSave };
     struct Result {
         JobKind kind = JobKind::Text;
         std::shared_ptr<simple_editor::core::TextMergeModel> model;
         std::shared_ptr<simple_editor::core::FolderScan> scan;
+        simple_editor::core::FolderOptions folder_options;
         simple_editor::core::SyncPlan plan;
         simple_editor::core::SyncBundle bundle;
         std::shared_ptr<simple_editor::core::StructuredComparison> structured;
@@ -96,15 +123,30 @@ private:
         simple_editor::core::SyncResult sync;
         simple_editor::core::TextCodec codec;
         simple_editor::core::FileStamp written;
-        std::wstring text, error, output_path;
+        std::wstring text, error, output_path,codec_details,review_fingerprint;
+        std::shared_ptr<simple_editor::core::ComparisonNotes> review_notes;
         bool saved = false;
         std::size_t extra_conflicts = 0;
         std::shared_ptr<simple_editor::core::DiffPresentation> presentation;
         simple_editor::core::LineOptions options;
         bool similar = false;
+        std::vector<simple_editor::core::MovedBlock> moves;
         std::vector<simple_editor::core::ProtectedInput> inputs;
     };
     void Layout();
+    void FinishNotesIo(Result&);
+    std::wstring NoteCell(std::size_t block) const;
+    void LayoutPastedInputs(int width, int height, int* top);
+    bool CreateSourceEditors();
+    void RefreshSources();
+    void SourceChanged(unsigned side);
+    void SelectSourceRow(std::size_t row);
+    afx_msg void OnSourceRowChanged(NMHDR*, LRESULT* result);
+    CCodeEditor* FocusedInput();
+    void StartTextJob(std::unique_ptr<simple_editor::core::BinaryDocument> base,
+                      std::unique_ptr<simple_editor::core::BinaryDocument> left,
+                      std::unique_ptr<simple_editor::core::BinaryDocument> right,
+                      std::wstring left_text, std::wstring right_text, bool pasted);
     void StartStructured(std::unique_ptr<simple_editor::core::BinaryDocument> left,std::unique_ptr<simple_editor::core::BinaryDocument> right);
     void Columns();
     void SetBusy(bool busy);
@@ -131,9 +173,25 @@ private:
     CWheelZoomControl<CListCtrl> rows_;
     CDiffOverview overview_;
     CWheelZoomControl<CCodeEditor> output_;
+    CWheelZoomControl<CCodeEditor> input_left_, input_right_;
+    CWheelZoomControl<CCodeEditor> source_left_, source_right_, source_base_;
+    CCodeEditor* review_focus_ = nullptr;
+    CStatic source_left_label_, source_right_label_,source_base_label_;
+    std::wstring source_left_path_,source_right_path_,source_base_path_;
+    bool show_base_source_ = true;
+    std::vector<int> left_peer_,right_peer_;
+    std::intptr_t source_top_[3] = {-1,-1,-1};
+    bool source_sync_ = false;
+    bool source_aligned_ = false;
+    CStatic input_left_label_, input_right_label_;
+    bool pasted_inputs_ = false;
+    bool read_only_snapshots_ = false;
+    std::vector<simple_editor::core::ProtectedInput> snapshot_protection_;
+    simple_editor::core::TextCodec snapshot_codec_;
     CEdit status_, include_, exclude_;
     CStatic output_label_, include_label_, exclude_label_, encoding_label_;
-    CComboBox encoding_;
+    CStatic encoding_right_label_,encoding_base_label_,codec_details_;
+    CComboBox encoding_,encoding_right_,encoding_base_;
     CButton ignore_space_, ignore_case_, ignore_eol_, changes_only_, conflicts_only_, syntax_;
     CButton similar_;
     CButton take_left_, take_right_, take_base_, take_both_, undo_, redo_, save_, allow_markers_, manual_resolved_button_;
@@ -147,8 +205,16 @@ private:
     bool folder_sort_descending_ = false;
     CFont content_font_, ui_font_;
     std::shared_ptr<simple_editor::core::TextMergeModel> model_;
+    simple_editor::core::ComparisonNotes notes_;
+    std::wstring review_fingerprint_,notes_path_;
+    bool notes_dirty_ = false;
+    std::vector<simple_editor::core::MovedBlock> moves_;
     std::vector<simple_editor::core::ProtectedInput> report_inputs_;
     std::shared_ptr<simple_editor::core::FolderScan> scan_;
+    simple_editor::core::FolderOptions scan_options_;
+    std::set<std::wstring,simple_editor::core::OrdinalPathLess> refresh_selected_,refresh_expanded_;
+    std::wstring refresh_top_;
+    std::uint64_t folder_generation_ = 0;
     std::shared_ptr<simple_editor::core::StructuredComparison> structured_;
     std::vector<simple_editor::core::TextMergeRow> text_rows_;
     std::shared_ptr<simple_editor::core::DiffPresentation> presentation_;
@@ -178,7 +244,7 @@ private:
     bool manual_resolved_ = false;
     simple_editor::core::WorkspaceEntry pending_preferences_;
     bool has_pending_preferences_ = false;
-    std::wstring table_rules_,text_rules_,manual_anchors_;
+    std::wstring table_rules_,text_rules_,json_rules_,manual_anchors_;
     bool manual_view_ = false;
     std::wstring folder_text_rules_;
     unsigned context_lines_ = 0;

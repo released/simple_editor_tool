@@ -13,11 +13,13 @@ struct FolderRow {
     std::wstring error;
     FolderNewness newness = FolderNewness::SameTime;
     std::wstring text_state,text_error;
+    bool fresh = true;
 };
 struct FolderScan {
     std::filesystem::path left_root, right_root;
     FileStamp left_identity, right_identity;
     std::vector<FolderRow> rows;
+    bool partial_refresh = false;
 };
 struct FolderOptions {
     bool recursive = true; std::wstring include = L"*", exclude;
@@ -39,7 +41,11 @@ struct SyncPlan {
 };
 struct SyncResult { std::size_t completed = 0; bool cancelled = false; std::filesystem::path backup,journal; std::wstring error; };
 bool ScanFolders(const std::filesystem::path& left, const std::filesystem::path& right, const FolderOptions& options,
-                  const std::atomic_bool& cancel, const std::function<void(unsigned)>& progress, FolderScan* scan, std::wstring* error);
+                  const std::atomic_bool& cancel, const std::function<void(unsigned)>& progress, FolderScan* scan, std::wstring* error,
+                  const std::vector<std::filesystem::path>& scopes = {});
+bool FolderScopeContains(const std::filesystem::path& parent,const std::filesystem::path& child);
+bool RefreshFolderSelection(const FolderScan& previous,const FolderOptions&,const std::vector<std::filesystem::path>& scopes,
+                            const std::atomic_bool&,const std::function<void(unsigned)>&,FolderScan*,std::wstring* error);
 bool BuildSyncPlan(const FolderScan& scan, const std::vector<std::size_t>& selected, bool left_to_right, bool mirror,
                     SyncPlan* plan, std::wstring* error);
 SyncResult ApplySyncPlan(const SyncPlan& plan, const std::atomic_bool& cancel, const std::function<void(unsigned)>& progress,

@@ -4,7 +4,7 @@
 #include "core/search.h"
 #include <sstream>
 
-CCodeEditor* CMainFrame::ActiveEditor() { if (AdvancedActive()) return advanced_.OutputEditor(); if (active_tab_ != 1) return nullptr; if (::GetFocus() == text_clone_.GetSafeHwnd() && dual_view_) clone_active_ = true; else if (::GetFocus() == text_.GetSafeHwnd()) clone_active_ = false; return dual_view_ && clone_active_ ? &text_clone_ : &text_; }
+CCodeEditor* CMainFrame::ActiveEditor() { if (AdvancedActive()) return advanced_.SearchEditor(); if (active_tab_ != 1) return nullptr; if (::GetFocus() == text_clone_.GetSafeHwnd() && dual_view_) clone_active_ = true; else if (::GetFocus() == text_.GetSafeHwnd()) clone_active_ = false; return dual_view_ && clone_active_ ? &text_clone_ : &text_; }
 void CMainFrame::OnAboutNative() { if (IsBusy()) return; CNativeNoticesDialog dialog(this); path_dialog_ = true; dialog.DoModal(); path_dialog_ = false; }
 void CMainFrame::OnEditorCommand(UINT command) {
     if (command == ID_HEX_LAYOUT) {
@@ -33,7 +33,7 @@ void CMainFrame::OnEditorCommand(UINT command) {
     case ID_VIEW_MULTI_NEXT: editor->Call(SCI_SETTARGETRANGE,0,editor->Call(SCI_GETLENGTH)); editor->Call(SCI_MULTIPLESELECTADDNEXT); break;
     case ID_VIEW_COMPLETE: editor->Call(SCI_AUTOCSHOW,0,reinterpret_cast<LPARAM>("auto bool break case catch class const continue def double else enum false float for from function if import int let namespace new nullptr private public return static string struct switch true try var void while")); break;
     case ID_VIEW_GOTO_LINE: {
-        if (IsBusy()) return; const auto count = editor->Call(SCI_GETLINECOUNT);
+        if (IsBusy()) return; const auto count = editor->GetLineCount();
         CValueDialog dialog(this,L"Go to line",L"Line number (decimal, starting at 1). Maximum: " + std::to_wstring(count),L"1");
         std::uint64_t line = 1; dialog.validate = [&](const std::wstring& value,std::wstring*) { if (value.empty() || value.find_first_not_of(L"0123456789") != std::wstring::npos) return false; try { line = std::stoull(value); return line && line <= static_cast<std::uint64_t>(count); } catch (...) { return false; } };
         path_dialog_ = true; const auto answer = dialog.DoModal(); path_dialog_ = false; if (answer == IDOK) editor->GoToLine(line); break;
@@ -41,7 +41,7 @@ void CMainFrame::OnEditorCommand(UINT command) {
     case ID_VIEW_TABS: {
         if (IsBusy()) return; CValueDialog dialog(this,L"Tab settings",L"Tab width 1-16. Add the word tabs to insert Tab characters, otherwise spaces are used. Example: 4 spaces",L"4 spaces");
         unsigned width = 4; bool tabs = false; dialog.validate = [&](const std::wstring& value,std::wstring*) { std::wistringstream input(value); std::wstring mode; if (!(input >> width) || width < 1 || width > 16) return false; input >> mode; tabs = mode == L"tabs"; return mode.empty() || mode == L"tabs" || mode == L"spaces"; };
-        path_dialog_ = true; const auto answer = dialog.DoModal(); path_dialog_ = false; if (answer == IDOK) editor->SetTabWidth(width,tabs); break;
+        path_dialog_ = true; const auto answer = dialog.DoModal(); path_dialog_ = false; if (answer == IDOK) { editor->SetTabWidth(width,tabs); if (IsFileEditor(editor)) { indentation_manual_ = true; manual_indentation_ = {width,width,tabs}; } } break;
     }
     case ID_VIEW_FONT: {
         if (IsBusy() || !IsFileEditor(editor)) { status_.SetPaneText(0,L"Use comparison zoom for the merged-output font; text font selection applies to the file editor."); return; }

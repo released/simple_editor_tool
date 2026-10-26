@@ -4,7 +4,7 @@
 
 namespace simple_editor::core {
 struct WorkspaceEntry {
-    std::wstring hex_bookmarks,table_rules,text_rules,manual_anchors,crc_profile;
+    std::wstring hex_bookmarks,table_rules,text_rules,json_rules,manual_anchors,crc_profile;
     bool dual_view = false;
     std::wstring folder_text_rules;
     unsigned hex_decoding[3] = {},context_lines = 0;
@@ -15,6 +15,8 @@ struct WorkspaceEntry {
     unsigned hex_rows[3] = {16,16,16}, hex_groups[3] = {8,8,8};
     std::uint64_t hex_bases[3] = {};
     int mode = 0, page = 0, encoding = 0, advanced_encoding = 0;
+    int advanced_encoding_right = -1, advanced_encoding_base = -1;
+    std::wstring syntax_mode;
     int zoom[3] = {100,100,100};
     unsigned options = 88;
     unsigned folder_criterion = 0, folder_tolerance = 0, folder_filter = 0, folder_sort = 0;

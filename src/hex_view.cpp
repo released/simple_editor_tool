@@ -76,7 +76,7 @@ void CHexView::UpdateScroll() {
     hs.nMax = content_width - 1; hs.nPage = (std::max)(0,r.Width()); hs.nPos = horizontal_offset_; SetScrollInfo(SB_HORZ,&hs,TRUE);
 }
 void CHexView::OnPaint() {
-    CPaintDC dc(this); CRect client; GetClientRect(client); dc.FillSolidRect(client,theme_ == 2 ? GetSysColor(COLOR_WINDOW) : theme_ == 1 ? RGB(30,30,30) : RGB(255,255,255));
+    CPaintDC dc(this); CRect client; GetClientRect(client); dc.FillSolidRect(client,theme_ == 2 ? GetSysColor(COLOR_WINDOW) : theme_ == 1 ? RGB(63,63,63) : RGB(255,255,255));
     auto* old = dc.SelectObject(&font_); dc.SetBkMode(TRANSPARENT); dc.SetTextColor(theme_ == 2 ? GetSysColor(COLOR_WINDOWTEXT) : theme_ == 1 ? RGB(225,225,225) : RGB(30,35,42));
     if (!document_ || !document_->IsOpen()) { dc.TextOutW(12,12,read_only_ ? L"Choose a comparison file" : L"Drop a file here or choose File > Open"); dc.SelectObject(old); return; }
     const int origin = 8 - horizontal_offset_; const unsigned rows = VisibleRows(); std::vector<std::uint8_t> viewport;

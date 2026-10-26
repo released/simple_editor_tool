@@ -1,0 +1,438 @@
+{
+    "date":  "2026-10-26",
+    "feature":  "Text default page, #3F3F3F content, Markdown highlighting and scoped Find/Replace",
+    "functional_result":  "PASS",
+    "retention_result":  "PASS",
+    "behavior":  [
+                     "New decodable text starts on Text; binary/oversized sources retain Hex; existing/restored page choices remain valid",
+                     "Dark default #3F3F3F with Markdown heading/emphasis/link/list/quote/inline/fenced code styles; language/theme changes preserve draft and Undo",
+                     "Ctrl+F/Ctrl+H share modeless Find/Replace; current scope follows active tab; all-open scope includes unsaved and untitled native Text drafts",
+                     "All-open Find Next/Previous, wrap, F3, Count and Find All with guarded file/line navigation",
+                     "Replacement locks normal file participants and clones; validates all session/revision/generation values before applying; one Undo per affected file; no automatic save",
+                     "Cancellation or stale preflight applies no replacements; closing a participant cancels and retains its tab"
+                 ],
+    "limits":  {
+                   "text_file_bytes":  33554432,
+                   "aggregate_input_snapshots_bytes":  134217728,
+                   "replace_all_aggregate_output_bytes":  134217728,
+                   "visible_find_all_rows":  100000,
+                   "skipped":  "binary/oversized editors; comparison output uses current scope",
+                   "all_open_modes":  "literal text, escaped text, Scintilla POSIX regex within a line",
+                   "replacement_preflight":  "read-only or busy participant prevents batch"
+               },
+    "native_ui_results":  [
+                              {
+                                  "configuration":  "Debug",
+                                  "mode":  "--text-workflow",
+                                  "assertions":  48,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "E69FC9B9598EC8C068707E83BF547DFEABC3BE0CF89D37A10A491DCF9AD07CBC"
+                              },
+                              {
+                                  "configuration":  "Debug",
+                                  "mode":  "--workspace",
+                                  "assertions":  35,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "199616E7854165FA509717D67B8A75AB3C9FC1841E00ACD4AB1B91690354C11E"
+                              },
+                              {
+                                  "configuration":  "Debug",
+                                  "mode":  "--zoom",
+                                  "assertions":  51,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "FC852AE1D1494305BF619DEDDCA63A1AE34A7ED86ACC849AD4CC0FA02BA2D179"
+                              },
+                              {
+                                  "configuration":  "Debug",
+                                  "mode":  "--search-tools",
+                                  "assertions":  32,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "805C1772488C2F30465069F0EA27C04700F4170A4C41BCE3BF1AF43A1C658D77"
+                              },
+                              {
+                                  "configuration":  "Debug",
+                                  "mode":  "--preferences",
+                                  "assertions":  14,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "193C1AF7AF2A1CF44389C64A8E601451016AF3F1258C9BA911A82F47A16B497D"
+                              },
+                              {
+                                  "configuration":  "Debug",
+                                  "mode":  "--cross-search",
+                                  "assertions":  18,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "7547657E915AF483D86A95D158DB0E6704F5815C718E6377CCC1881207F3BA4D"
+                              },
+                              {
+                                  "configuration":  "Debug",
+                                  "mode":  "--code-editor",
+                                  "assertions":  26,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "6186C4E0C580EAD39BFCCB4221038CBEF9A238B1C15593B31D2E80587A472BCB"
+                              },
+                              {
+                                  "configuration":  "Release",
+                                  "mode":  "--text-workflow",
+                                  "assertions":  48,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "E69FC9B9598EC8C068707E83BF547DFEABC3BE0CF89D37A10A491DCF9AD07CBC"
+                              },
+                              {
+                                  "configuration":  "Release",
+                                  "mode":  "--workspace",
+                                  "assertions":  35,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "199616E7854165FA509717D67B8A75AB3C9FC1841E00ACD4AB1B91690354C11E"
+                              },
+                              {
+                                  "configuration":  "Release",
+                                  "mode":  "--zoom",
+                                  "assertions":  51,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "FC852AE1D1494305BF619DEDDCA63A1AE34A7ED86ACC849AD4CC0FA02BA2D179"
+                              },
+                              {
+                                  "configuration":  "Release",
+                                  "mode":  "--search-tools",
+                                  "assertions":  32,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "805C1772488C2F30465069F0EA27C04700F4170A4C41BCE3BF1AF43A1C658D77"
+                              },
+                              {
+                                  "configuration":  "Release",
+                                  "mode":  "--preferences",
+                                  "assertions":  14,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "193C1AF7AF2A1CF44389C64A8E601451016AF3F1258C9BA911A82F47A16B497D"
+                              },
+                              {
+                                  "configuration":  "Release",
+                                  "mode":  "--cross-search",
+                                  "assertions":  18,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "7547657E915AF483D86A95D158DB0E6704F5815C718E6377CCC1881207F3BA4D"
+                              },
+                              {
+                                  "configuration":  "Release",
+                                  "mode":  "--code-editor",
+                                  "assertions":  26,
+                                  "exit_code":  0,
+                                  "result":  "PASS",
+                                  "log_sha256":  "6186C4E0C580EAD39BFCCB4221038CBEF9A238B1C15593B31D2E80587A472BCB"
+                              }
+                          ],
+    "core_results":  [
+                         {
+                             "configuration":  "Debug",
+                             "mode":  "--search-codec",
+                             "exit_code":  0,
+                             "result":  "PASS",
+                             "log_sha256":  "9EACB199A5F153159118C7DB52F67624F4A16E82DD520701A0D497FEDDC52CB9"
+                         },
+                         {
+                             "configuration":  "Debug",
+                             "mode":  "--preferences",
+                             "exit_code":  0,
+                             "result":  "PASS",
+                             "log_sha256":  "154B02923A7BB6C2E18EEB702FB4C1D0BBCC2BFEC3AA98349234AB66AAE417FA"
+                         },
+                         {
+                             "configuration":  "Release",
+                             "mode":  "--search-codec",
+                             "exit_code":  0,
+                             "result":  "PASS",
+                             "log_sha256":  "9EACB199A5F153159118C7DB52F67624F4A16E82DD520701A0D497FEDDC52CB9"
+                         },
+                         {
+                             "configuration":  "Release",
+                             "mode":  "--preferences",
+                             "exit_code":  0,
+                             "result":  "PASS",
+                             "log_sha256":  "154B02923A7BB6C2E18EEB702FB4C1D0BBCC2BFEC3AA98349234AB66AAE417FA"
+                         }
+                     ],
+    "formal_process":  {
+                           "configuration":  "Release",
+                           "assertions":  12,
+                           "exit_code":  0,
+                           "result":  "PASS",
+                           "checks":  "byte-matched formal and renamed EXE copies, concurrent startup/forwarding, maximize, per-tab close, relaunch and normal exit"
+                       },
+    "formal_cli":  {
+                       "result":  "PASS",
+                       "cases":  7,
+                       "expected_exit_codes":  [
+                                                   0,
+                                                   0,
+                                                   1,
+                                                   1,
+                                                   2,
+                                                   1,
+                                                   2
+                                               ],
+                       "isolated_settings_preserved":  true
+                   },
+    "delivery":  {
+                     "path":  "build/SimpleEditorTool.exe",
+                     "bytes":  3439616,
+                     "sha256":  "1B8668629F83F79F56309983D8859E4D8C3EFA1A3B46D44BA0583FD13E9A64DD",
+                     "architecture":  "x64",
+                     "aslr":  true,
+                     "high_entropy_va":  true,
+                     "nx":  true,
+                     "imports":  [
+                                     "bcrypt.dll",
+                                     "ole32.dll",
+                                     "KERNEL32.dll",
+                                     "USER32.dll",
+                                     "GDI32.dll",
+                                     "ADVAPI32.dll",
+                                     "SHELL32.dll",
+                                     "UxTheme.dll",
+                                     "OLEAUT32.dll",
+                                     "OLEACC.dll",
+                                     "IMM32.dll",
+                                     "SHLWAPI.dll"
+                                 ],
+                     "ini":  [
+                                 {
+                                     "path":  "build/simple_editor_tool.ini",
+                                     "bytes":  1024,
+                                     "sha256":  "6A6160FE6A84B6A1334A64AAA38D5AFA05221F76B293C410083DBA1D619F1369"
+                                 },
+                                 {
+                                     "path":  "build/test.ini",
+                                     "bytes":  191,
+                                     "sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91"
+                                 },
+                                 {
+                                     "path":  "build/ui_smoke.ini",
+                                     "bytes":  262,
+                                     "sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                                 }
+                             ],
+                     "ini_change":  "Only the matched portable theme field was changed from 0 to 1; current configuration/recent paths retained. Other delivery INIs retain prior hashes."
+                 },
+    "screenshots":  [
+                        {
+                            "path":  "docs/verification/text-markdown-20261026.png",
+                            "bytes":  35612,
+                            "sha256":  "E1789819E853C1B97CE8EE126F2AFCB14E291EA06C06970EC2DE858E2ABD96E9",
+                            "source":  "NativeUiTests Release; synthetic owned fixtures",
+                            "visually_inspected":  true
+                        },
+                        {
+                            "path":  "docs/verification/find-replace-20261026.png",
+                            "bytes":  20354,
+                            "sha256":  "BC7B06BAC036D639341DC6C57417209A9BED21EA33231063886E2150DE577EA0",
+                            "source":  "NativeUiTests Release; synthetic owned fixtures",
+                            "visually_inspected":  true
+                        }
+                    ],
+    "verification_version_notes":  "Connected search/preferences/cross-search/editor UI tests passed before only the final missing-session close guard and explicit Hex-page setup in the zoom test. Affected Text workflow/workspace/zoom were rebuilt and rerun in both configurations afterward. Product application sources did not change after the canonical Release build.",
+    "source_hashes":  [
+                          {
+                              "path":  "src/core/portable_preferences.cpp",
+                              "sha256":  "802B043F2EF972C5A2ED4AB892D07673C8CE44D300B1293B4D55DB9FC381DC63"
+                          },
+                          {
+                              "path":  "src/core/portable_preferences.h",
+                              "sha256":  "3E00A7E577356D6A256EFDE1912006487D2463443328FF2B69DC855FFF65D0DC"
+                          },
+                          {
+                              "path":  "src/hex_view.cpp",
+                              "sha256":  "126E1F7989FF410854270ACDF2EC7DFCD657A8669279E38B5FDEB2ED033220F1"
+                          },
+                          {
+                              "path":  "src/main_frame.cpp",
+                              "sha256":  "C40E15D2B76CBD309A3FD998503C7C41FD547B5609862AF9912CFB68E27EB8FF"
+                          },
+                          {
+                              "path":  "src/main_frame_edit.cpp",
+                              "sha256":  "BA4271D9E0BB527920F6B16383293FE334A5A4593CA8AE852826F27450389B79"
+                          },
+                          {
+                              "path":  "src/workspace_frame.cpp",
+                              "sha256":  "902F1D6D23AEDF9FACE587605EBD9BAEE8C661F1AA9639F4ED8B39F102CCFB88"
+                          },
+                          {
+                              "path":  "src/workspace_frame.h",
+                              "sha256":  "547292E9B7D2438933BEB862A325BEC7576DFB0EB3CE0EAAA581965E5F642C47"
+                          },
+                          {
+                              "path":  "src/workspace_open_search.cpp",
+                              "sha256":  "C003EDC07EF4C137F991643D5EA477A000CE9B91C9EF17808A5D51EAF80F6C84"
+                          },
+                          {
+                              "path":  "src/workspace_preferences.cpp",
+                              "sha256":  "921CE712BB9F7085C85963FA9029A0BEACD8143CBF3C6A704714F462BF017AD0"
+                          },
+                          {
+                              "path":  "src/workspace_sessions.cpp",
+                              "sha256":  "5F1B6FAB90408F43530EB0FF8E40D6CD4025139236EFEA4AB7C55E6ACF12AAE4"
+                          },
+                          {
+                              "path":  "src/ui/code_editor.cpp",
+                              "sha256":  "04BF538CB3BE8E3BD37A85679895B3FD13FA9959FC236C1E3227060EF30C49BB"
+                          },
+                          {
+                              "path":  "src/ui/editor_dialogs.cpp",
+                              "sha256":  "355613BA437661B04492CC6F7E35B003847D519FECDB4D83E04D9BB7F3470FCA"
+                          },
+                          {
+                              "path":  "src/ui/editor_dialogs.h",
+                              "sha256":  "7543BFC0A05B88D1B06C0328065635B2CE4DB7A44B9D39D071104D2457421B6D"
+                          },
+                          {
+                              "path":  "src/ui/multi_search_dialog.cpp",
+                              "sha256":  "C152A73188534EF996D5AB36403C5BDAA511224862AF083A90B1F426A599F64E"
+                          },
+                          {
+                              "path":  "src/ui/multi_search_dialog.h",
+                              "sha256":  "8C8EC8F7379C3FBD3C582A8BDDE82FF8074FBFA032CE8BDE3FC34F8ADB3B4F8C"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare.cpp",
+                              "sha256":  "4F368931CD8F0D14D4110C01B1700384B7F9202EA550842F92D91872095DE0A0"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare_draw.cpp",
+                              "sha256":  "3D29A67BBEECB0860B4BCCE10405DBD04580A30BF2D591EC47306CCEC504FA1F"
+                          },
+                          {
+                              "path":  "src/resource.h",
+                              "sha256":  "CB39F456937B7CB6B0AB5E088DEF51E6130620BFF25E32E0C0A12CAFF255A16D"
+                          },
+                          {
+                              "path":  "src/simple_editor_tool.rc",
+                              "sha256":  "F4B7E58C49CF0934A93B644F30F339D1AA63CE63952C461EDEFCC47FD23A5CFE"
+                          },
+                          {
+                              "path":  "SimpleEditorTool.vcxproj",
+                              "sha256":  "F4EF96E8B731D4A76ACD995B7418FDDB9D8A772397ECC96D00864CAB1518F5DC"
+                          },
+                          {
+                              "path":  "NativeUiTests.vcxproj",
+                              "sha256":  "190945CE8234B90F54DF82966F3980FF1187BE057274B88635C1E39ED6D4D2D8"
+                          },
+                          {
+                              "path":  "tests/native_ui_tests.cpp",
+                              "sha256":  "BDA177C435D8CF878482506EF1DF26D0BFCC3C57F0EA9C326A332BF8DDA35E66"
+                          },
+                          {
+                              "path":  "tests/native_text_workflow_ui.inc",
+                              "sha256":  "F8D8008E8F9984711D8E8D1EE6BF0BD34B828BD0F87E0EB6E0E5C5ACEC1AC8D0"
+                          },
+                          {
+                              "path":  "tests/native_core_tests.cpp",
+                              "sha256":  "2B2DBA8C8E118017F26C8510299D17194D36686608FFA6B0251968BA88E10B65"
+                          },
+                          {
+                              "path":  "tests/native_preferences_tests.cpp",
+                              "sha256":  "F5AB34CA1A0508E7EBD1F833E5F747422590369CCB3FBDDBCE3270C7AA6ED6E2"
+                          },
+                          {
+                              "path":  "tests/native_preferences_ui.inc",
+                              "sha256":  "73F8DBF4F44EA758A5D71A9111E7B03587D39B0F6684F0515E069F5CF2BB6B38"
+                          }
+                      ],
+    "changed_files":  [
+                          "src/core/portable_preferences.cpp",
+                          "src/core/portable_preferences.h",
+                          "src/hex_view.cpp",
+                          "src/main_frame.cpp",
+                          "src/main_frame_edit.cpp",
+                          "src/workspace_frame.cpp",
+                          "src/workspace_frame.h",
+                          "src/workspace_open_search.cpp",
+                          "src/workspace_preferences.cpp",
+                          "src/workspace_sessions.cpp",
+                          "src/ui/code_editor.cpp",
+                          "src/ui/editor_dialogs.cpp",
+                          "src/ui/editor_dialogs.h",
+                          "src/ui/multi_search_dialog.cpp",
+                          "src/ui/multi_search_dialog.h",
+                          "src/ui/advanced_compare.cpp",
+                          "src/ui/advanced_compare_draw.cpp",
+                          "src/resource.h",
+                          "src/simple_editor_tool.rc",
+                          "SimpleEditorTool.vcxproj",
+                          "NativeUiTests.vcxproj",
+                          "tests/native_ui_tests.cpp",
+                          "tests/native_text_workflow_ui.inc",
+                          "tests/native_core_tests.cpp",
+                          "tests/native_preferences_tests.cpp",
+                          "tests/native_preferences_ui.inc",
+                          "README.md",
+                          "SPEC.md",
+                          "AGENTS.md",
+                          "HANDOFF.md",
+                          "SELF_CHECK.md",
+                          "docs/MULTI_FILE_SEARCH.md",
+                          "build/SimpleEditorTool.exe",
+                          "build/simple_editor_tool.ini",
+                          "docs/verification/text-workflow-20261026.json",
+                          "docs/verification/text-markdown-20261026.png",
+                          "docs/verification/find-replace-20261026.png"
+                      ],
+    "verification_recipe":  {
+                                "product":  "scripts/build.ps1 -Configuration Release (canonical product flags retained)",
+                                "tests":  "MSBuild NativeUiTests.vcxproj /p:Configuration=Debug or Release /p:Platform=x64; run listed modes. --text-workflow optionally accepts an owned capture directory. Core executable supports --search-codec and --preferences.",
+                                "test_only_props":  "\u003cProject xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\"\u003e\u003cPropertyGroup\u003e\u003cLinkIncremental\u003efalse\u003c/LinkIncremental\u003e\u003c/PropertyGroup\u003e\u003cItemDefinitionGroup\u003e\u003cClCompile\u003e\u003cDebugInformationFormat\u003eNone\u003c/DebugInformationFormat\u003e\u003c/ClCompile\u003e\u003cLink\u003e\u003cGenerateDebugInformation\u003efalse\u003c/GenerateDebugInformation\u003e\u003c/Link\u003e\u003c/ItemDefinitionGroup\u003e\u003c/Project\u003e",
+                                "isolation":  "ForceImportBeforeCppTargets points at a fresh project-owned test-only props file; process TEMP/TMP stay under its owned run root; Debug assertions/static runtime remain enabled.",
+                                "clean":  "Completed test project/configuration MSBuild Clean, final scripts/clean.ps1 compiler-only clean, then independently reviewed fixed literal path/hash/owner cleanup for known residuals; no recursive or external deletion."
+                            },
+    "budget":  {
+                   "normal_limit_bytes":  20000000,
+                   "temporary_approved_limit_bytes":  512000000,
+                   "temporary_peak_observed_bytes":  639110240,
+                   "temporary_limit_exceeded":  true,
+                   "notice":  "User informed during work; no retained-size exception requested",
+                   "remediation":  "Immediate verified compiler-only clean removed 318 files and reduced project to 19697900 bytes; preserved delivery and sources",
+                   "bounded_ui_release_peak_bytes":  85321052,
+                   "bounded_ui_debug_peak_bytes":  199696697,
+                   "subsequent_abort_threshold_bytes":  450000000
+               },
+    "cleanup":  {
+                    "status":  "PASS",
+                    "scope":  "Only fresh, known generated paths under this project/artifacts",
+                    "manifest_files":  84,
+                    "manifest_bytes":  3744372,
+                    "outside_project_deletions":  0,
+                    "final_project_bytes":  13422117,
+                    "final_file_count":  1162,
+                    "reparse_points":  0,
+                    "empty_directories_removed":  25,
+                    "artifacts_directory_absent":  true,
+                    "build_verify_absent":  true,
+                    "deletion_method":  "Independent fixed literal absolute paths, frozen hashes and exact owner markers; empty-directory-only nonrecursive removals; all under this project."
+                },
+    "verification_gaps":  [
+                              "128 MiB aggregate stress/performance was not run; limits reviewed and normal/Unicode/cancel/lock/stale paths exercised",
+                              "Unchanged merge/folder/firmware algorithms and Explorer registration reuse existing evidence; not rerun for this scope"
+                          ],
+    "publication":  "No commit/push/publication performed",
+    "documentation_checks":  "PASS: product README describes use rather than development history; flat evidence arrays, all source/delivery/INI/capture hashes rechecked; final git diff check performed separately.",
+    "supplemental_keyboard_probe":  {
+                                        "result":  "PASS",
+                                        "method":  "Load formal EXE IDD_SEARCH as resource-only data; create hidden native dialog and call IsDialogMessage for its Find edit control",
+                                        "f3_consumed_by_dialog":  true,
+                                        "ctrl_z_consumed_by_dialog":  true,
+                                        "thread_keyboard_state_restored":  true,
+                                        "global_input_injection":  false,
+                                        "probe_files_removed":  2
+                                    }
+}

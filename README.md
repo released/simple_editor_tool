@@ -15,6 +15,9 @@ binary and source files, merging changes, and synchronizing folders.
   and synchronized scrolling.
 - Line-aligned text/source comparison with basic syntax colors, whitespace rules,
   two-way merging and three-way conflict resolution.
+- Independent input encodings, graphical alignment points, selection/clipboard
+  comparison, function outlines and annotated text-review reports. See
+  [Document editing and comparison](docs/DOCUMENT_EDITING_COMPARISON.md).
 - Folder comparison by content, size, time or SHA-256; directed/newer/baseline
   synchronization with exclusions, operation journals and guarded recovery.
 - Read-only CSV/TSV field and normalized JSON comparison, binary field templates
@@ -22,15 +25,29 @@ binary and source files, merging changes, and synchronizing folders.
 - Headless comparison/report commands with explicit result exit codes.
 - Independent file and comparison tabs, drag-and-drop, content zoom and saved
   workspace settings.
+- Aligned full comparison sources with inline differences and an optional Base
+  pane; external-change decisions, Text/Hex selection mapping, named comparison
+  presets and optional Unicode notices.
+- Interactive byte/entropy plots, Base64/Hex/UTF-8 conversion, JSON pointer/key
+  rules and read-only LEB128 inspection. See [Comparison and inspection tools](docs/WORKFLOW_EXPANSION.md)
+  for commands, supported subsets and limits.
 
 ## Getting started
+
+完整使用指南：[繁體中文（預設）](docs/USER_GUIDE.md) · [English](docs/USER_GUIDE_EN.md).
+
+Keep `lang_en.ini` and `lang_tw.ini` beside the EXE. The first-run interface is
+Traditional Chinese; use **語系 / Language** to switch to English or back. The
+choice is remembered in portable preferences. Missing/invalid catalogs retain an
+English fallback without installing additional components.
 
 The application runs on Windows x64. The executable includes the MFC and C/C++
 runtime; no additional runtime or device-driver installation is required.
 
 1. Run [build/SimpleEditorTool.exe](build/SimpleEditorTool.exe).
 2. Choose **Open files...** or drag files into the window.
-3. Use **Hex** to inspect/edit bytes, **Text** to edit decoded text, or
+3. Text files open on **Text**; binary or oversized inputs use **Hex**. Use
+   **Hex** to inspect/edit bytes, **Text** to edit decoded text, or
    **Compare files...** to select comparison inputs.
 
 Each opened file keeps its own tab, edits and Undo history. Opening or dropping
@@ -78,6 +95,7 @@ Use **Swap sides** to exchange inputs, then compare again.
 | Hex - equal address | Compare bytes at the same offsets in both files. |
 | Hex - insertion aware | Compare bytes and resume alignment after nearby insertions/deletions. |
 | Text/source (2-way) | Align text lines and merge selected changes. |
+| Pasted text (2-way) | Paste or type text directly into left/right inputs, then compare. |
 | Text merge (3-way) | Merge two versions against a common Base file. |
 | Folders / sync | Compare saved folder contents and plan synchronization. |
 | CSV / TSV | Compare quoted fields with optional keys, column mappings and decimal tolerances. |
@@ -96,6 +114,14 @@ For file comparison, an already-open editor contributes its unsaved Text/Hex
 snapshot. Other files are read from disk. Comparison inputs are read-only
 snapshots; opening a comparison preserves the original editor tabs and drafts.
 
+File Text comparisons also provide full read-only source panes with original-line
+navigation and synchronized scrolling. **Review** offers Markdown outline,
+draft-versus-disk review, exact moved-block pairs, colored text marks, named
+bitfields and IPS/IPS32 patches. Find/Replace supports direct multiline literals
+and selected-file previews for all-open replacement. Local EditorConfig rules
+can set document indentation. See [Text review and binary patches](docs/EDITOR_REVIEW.md)
+for commands, formats and limits.
+
 Hex layout commands choose 8/16/32 bytes per row, grouping and a display base.
 Comparison regions can use different start offsets and ignored spans; reports
 use those same rules. Selected difference ranges can be merged to a separate
@@ -105,6 +131,23 @@ output after preview, including insertion/deletion offset changes.
 
 Choose **Compare > Text/source comparison...** or **Three-way text merge...**.
 These commands are also available in **File** when no tabs are open.
+
+To compare text from the clipboard without input files:
+
+1. Choose **Compare > Pasted text comparison...** (or **File** when no tabs are open).
+2. Click the left text pane and paste text A with **Ctrl+V**.
+3. Click the right text pane and paste text B with **Ctrl+V**.
+4. Press **Compare** to display aligned differences below the inputs.
+
+Both panes support typing, selection, Undo/Redo, ordinary wheel scrolling and
+Ctrl+wheel zoom. **Swap sides** exchanges their content and Undo histories.
+Editing an input clears the old difference rows; press **Compare** again.
+An empty side is valid. Each side supports up to 16 MiB of UTF-8 text and
+200,000 lines; over-limit content is retained with an error, not compared partially.
+Pasted inputs stay in memory and are retained when switching tabs or comparison
+modes. They are not stored in workspace INI files or restored at startup.
+Closing a tab containing pasted text asks before discarding it. **Save result**
+writes only the chosen merged-output file, using UTF-8 for pasted inputs.
 
 Text mode aligns source lines and can ignore spaces, case or line-ending
 differences. **Changes only** and **Conflicts only** filter the visible rows.
@@ -205,6 +248,11 @@ Language rules follow the file extension. Third-party notices are available in
 **Help > About / native components**; source notices are in
 [Native source dependencies](docs/THIRD_PARTY.md).
 
+The default dark content background is `#3F3F3F`. Markdown files (`.md`,
+`.markdown`, `.mdown`) distinguish headings, bold/italic emphasis, links, lists,
+quotes and inline/fenced code with syntax colors. Light and system-contrast
+themes remain available in preferences.
+
 The **Tools** menu provides little/big-endian integer/float interpretation,
 CRC32/SHA-256 and byte distribution/entropy for the selected range or whole file.
 It also offers range extraction, C array export, fill/invert/reverse/word swapping,
@@ -237,6 +285,17 @@ selection scopes, Count, Find All and a recent-pattern dropdown. Find All opens 
 result list; double-click a result to navigate. Text-result offsets refer to the
 editor's UTF-8 buffer. Searches and replacement planning run in the background;
 changed buffers reject old results. Replace All is one Undo action.
+
+**Ctrl+F** and **Ctrl+H** open the same Find / Replace window. Choose **Current
+document** or **All open text documents (including unsaved)**. All-open searches
+include untitled documents and current drafts, skip binary/oversized files, and
+support literal text, escapes and regex. Find Next/Previous and F3/Shift+F3 cross
+file tabs; **Wrap** controls whether they continue from the last file to the first.
+**Find All** lists file/line results. **Replace** changes the selected occurrence;
+**Replace All** changes all matches, with one Undo per affected document. These
+operations do not save files. A read-only or busy participant prevents the
+replacement batch; closing the dialog or pressing Esc cancels a pending all-open
+operation. Comparison panes are searched with Current document.
 
 **Ctrl+Shift+F** searches all open file drafts or a selected disk folder, with
 path/line/address results and guarded navigation. Results arrive in bounded

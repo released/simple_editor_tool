@@ -1,4 +1,5 @@
 #include "workspace_frame.h"
+#include "ui/localization.h"
 #include "main_frame.h"
 #include "resource.h"
 #include <algorithm>
@@ -25,18 +26,18 @@ void CWorkspaceFrame::RefreshRecentMenus() {
     refresh(root_menu_.GetSubMenu(0)); UpdateMenuShortcuts(root_menu_); for (auto* frame : sessions_) { refresh(frame->session_menu_.GetSubMenu(0)); UpdateMenuShortcuts(frame->session_menu_); } DrawMenuBar();
 }
 bool CWorkspaceFrame::NewDocument(const std::vector<std::uint8_t>& bytes,TextEncoding encoding,int page) {
-    CancelCloseAll(); std::wstring error; const auto path = temporary_documents_.Create(&error); if (path.empty()) { AfxMessageBox(error.c_str(),MB_ICONERROR); return false; }
-    BinaryDocument document; if (!document.Open(path.wstring(),&error) || (!bytes.empty() && !document.Replace(0,0,bytes))) { AfxMessageBox(error.empty() ? L"Could not initialize the new document." : error.c_str(),MB_ICONERROR); return false; }
+    CancelCloseAll(); std::wstring error; const auto path = temporary_documents_.Create(&error); if (path.empty()) { UiMessageBox(error.c_str(),MB_ICONERROR); return false; }
+    BinaryDocument document; if (!document.Open(path.wstring(),&error) || (!bytes.empty() && !document.Replace(0,0,bytes))) { UiMessageBox(error.empty() ? L"Could not initialize the new document." : error.c_str(),MB_ICONERROR); return false; }
     auto* frame = CreateSession(); if (!frame) return false; frame->document_.Swap(document); frame->untitled_ = true; frame->untitled_name_ = L"Untitled " + std::to_wstring(++untitled_counter_); untitled_aliases_.push_back(frame->untitled_name_); frame->requested_encoding_ = encoding; frame->SetWindowTextW((frame->untitled_name_ + L" - Simple Editor Tool").c_str()); frame->hex_.SetDocument(&frame->document_); frame->text_stale_ = true; frame->ShowPage(page); RefreshLabels(); return true;
 }
 void CWorkspaceFrame::OnNewFile() { NewDocument(); }
 void CWorkspaceFrame::OnNewClipboard() {
     std::wstring text;
-    if (!::OpenClipboard(GetSafeHwnd())) { AfxMessageBox(L"Could not open the clipboard.",MB_ICONWARNING); return; }
+    if (!::OpenClipboard(GetSafeHwnd())) { UiMessageBox(L"Could not open the clipboard.",MB_ICONWARNING); return; }
     const auto memory = GetClipboardData(CF_UNICODETEXT); const auto size = memory ? GlobalSize(memory) : 0; const auto* data = memory && size >= 2 && size <= 64 * 1024 * 1024 ? static_cast<const wchar_t*>(GlobalLock(memory)) : nullptr;
     bool valid = false; if (data) { const auto* end = std::find(data,data + size / 2,L'\0'); if (end != data + size / 2) { text.assign(data,end); valid = true; } GlobalUnlock(memory); } CloseClipboard();
-    std::wstring error; if (!valid || !ValidateText(text,&error)) { AfxMessageBox(error.empty() ? L"The clipboard needs valid Unicode text up to 64 MiB." : error.c_str(),MB_ICONWARNING); return; }
-    const auto utf8 = CCodeEditor::ToUtf8(text); if (utf8.size() > 32 * 1024 * 1024) { AfxMessageBox(L"Clipboard text exceeds the 32-MiB editable text limit.",MB_ICONWARNING); return; } NewDocument({utf8.begin(),utf8.end()});
+    std::wstring error; if (!valid || !ValidateText(text,&error)) { UiMessageBox(error.empty() ? L"The clipboard needs valid Unicode text up to 64 MiB." : error.c_str(),MB_ICONWARNING); return; }
+    const auto utf8 = CCodeEditor::ToUtf8(text); if (utf8.size() > 32 * 1024 * 1024) { UiMessageBox(L"Clipboard text exceeds the 32-MiB editable text limit.",MB_ICONWARNING); return; } NewDocument({utf8.begin(),utf8.end()});
 }
 void CWorkspaceFrame::OnReopenClosed() { if (closed_files_.empty()) return; const auto path = closed_files_.front(); closed_files_.pop_front(); OpenPath(path); }
 void CWorkspaceFrame::OnRecentFile(UINT id) { const auto index = id - ID_WORKSPACE_RECENT_FIRST; if (index < recent_files_.size()) { const auto path = recent_files_[index]; OpenPath(path); } }

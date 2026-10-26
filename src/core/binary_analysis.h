@@ -3,7 +3,7 @@
 #include <array>
 
 namespace simple_editor::core {
-struct InspectorValue { std::wstring type, value; unsigned bytes = 0; bool valid = false; };
+struct InspectorValue { std::wstring type, value; unsigned bytes = 0; bool valid = false; bool editable = true; };
 struct BinaryAnalysis {
     std::uint64_t bytes = 0;
     std::uint32_t crc32 = 0;

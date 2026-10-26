@@ -3,6 +3,7 @@
 #include <functional>
 #include <cstdint>
 #include <string>
+#include <vector>
 
 enum class SearchAction { FindNext, Replace, ReplaceAll, Count, FindAll };
 struct SearchRequest {
@@ -10,14 +11,17 @@ struct SearchRequest {
     CString replacement;
     bool hex = false;
     int mode = 0;
-    bool match_case = true, whole_word = false, previous = false, selection_only = false, wrap = true;
+    bool match_case = true, whole_word = false, previous = false, selection_only = false, wrap = true, all_open = false, preview = false;
     SearchAction action = SearchAction::FindNext;
+    int mark_colour = -1;
 };
 
 class CSearchDialog : public CDialog {
 public:
     CSearchDialog();
     std::function<void(const SearchRequest&)> execute;
+    std::function<void()> cancel;
+    bool allow_all_open = false;
     void Show(bool replace, bool hex, CWnd* owner);
 protected:
     BOOL OnInitDialog() override;
@@ -28,9 +32,17 @@ protected:
     afx_msg void OnCount();
     afx_msg void OnFindAll();
     afx_msg void OnPrevious();
+    afx_msg void OnScopeChanged();
+    afx_msg void OnPreview();
+    afx_msg void OnMultiline();
     DECLARE_MESSAGE_MAP()
 private:
-    void Dispatch(SearchAction action);
+    void Dispatch(SearchAction action, bool previous = false, bool preview = false);
+    void InitializeMultiline();
+    CEdit multiline_find_,multiline_replacement_;
+    std::vector<std::pair<HWND,CRect>> original_bounds_;
+    CRect original_window_;
+    bool multiline_ = false;
 };
 
 class CAddressDialog : public CDialog {

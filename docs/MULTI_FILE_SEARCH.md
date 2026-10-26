@@ -33,3 +33,24 @@ Text 結果列出行號與正規化 UTF-8 編輯 buffer 的位置；Hex 結果�
 
 文字磁碟輸入最多 32 MiB／檔，開啟文件的原生文字快照合計最多 128 MiB；
 資料夾掃描最多 200,000 項。大 binary 可用串流 Hex pattern 搜尋。
+
+## Find / Replace in open text documents
+
+Ctrl+F and Ctrl+H open Find / Replace. The Scope selector chooses Current document
+or All open text documents (including unsaved). The latter reads native Text drafts,
+including untitled documents, without committing them to binary buffers or disk.
+Comparison panes are outside this scope; use Current document for their output.
+Binary/oversized file editors are skipped and counted in the status message.
+
+Literal, escaped and regex text modes support Find Next/Previous, Count, Find All,
+Replace and Replace All. Wrap applies across file tabs. Find All uses the same
+file/line result list and rejects navigation after the corresponding draft changes.
+Replacement planning uses at most 128 MiB of input snapshots; each resulting Text
+buffer remains within 32 MiB. Replacement never writes files. Each changed document
+gets one native Undo action, shared with its cloned view. Read-only/busy participants
+prevent the replacement batch. Esc or Close / Cancel cancels a pending all-open
+operation; a close request for a participating tab also cancels and retains the tab.
+
+Ctrl+Shift+F remains the dedicated open-file/folder search, including binary modes.
+Disk-folder replacements use the separate preview/journal workflow, with explicit
+review of the proposed file writes.

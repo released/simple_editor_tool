@@ -58,7 +58,7 @@ void CMainFrame::OnSaveAs() {
 
 void CMainFrame::OnUpdateSaveCommand(CCmdUI* command) {
     const bool file_save = command->m_nID == ID_FILE_SAVE || command->m_nID == ID_FILE_SAVE_AS;
-    command->Enable(AdvancedActive() ? !IsBusy() && (displayed_mode_ == 2 || displayed_mode_ == 3) : !MutationBlocked() && document_.IsOpen() && (file_save ? !IsBusy() : !IsSaving()));
+    command->Enable(AdvancedActive() ? !IsBusy() && (displayed_mode_ == 2 || displayed_mode_ == 3 || displayed_mode_ == 8) : !MutationBlocked() && document_.IsOpen() && (file_save ? !IsBusy() : !IsSaving()));
 }
 
 void CMainFrame::FinishSave(EditorJobResult result) {
@@ -77,7 +77,7 @@ void CMainFrame::FinishSave(EditorJobResult result) {
         status_.SetPaneText(0, L"The snapshot was saved. Newer edits are retained; use Save As or Reload before another save.");
         return;
     }
-    document_.Swap(*result.document); ++revision_; modified_ranges_.clear(); modified_revision_ = UINT64_MAX; hex_.Invalidate(); text_dirty_ = false; text_.SetModify(FALSE); untitled_ = false; untitled_dirty_ = false; untitled_name_.clear(); text_.ConfigureLanguage(document_.Path());
+    document_.Swap(*result.document); ++revision_; modified_ranges_.clear(); modified_revision_ = UINT64_MAX; hex_.Invalidate(); text_dirty_ = false; text_.SetModify(FALSE); untitled_ = false; untitled_dirty_ = false; untitled_name_.clear(); ConfigureFileSyntax();
     SetWindowTextW((document_.Path() + L" - Simple Editor Tool").c_str()); hex_.Invalidate();
     status_.SetPaneText(0, cancelled_ ? L"Saved. Cancellation arrived after file replacement." : L"Saved.");
     if (workspace_) { workspace_->RememberRecent(document_.Path()); workspace_->RefreshLabels(); }

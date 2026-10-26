@@ -75,21 +75,45 @@ Table ParseTable(const std::wstring& text,wchar_t delimiter,const std::atomic_bo
 }
 void Add(StructuredComparison* result,const std::wstring& path,const std::wstring& left,const std::wstring& right,const wchar_t* state) { ++result->different; if (result->rows.size() < kResults) result->rows.push_back({Short(path,2048),Short(left),Short(right),state}); else result->truncated = true; }
 std::wstring Display(const Json* value) { return !value ? L"<missing>" : value->kind == Json::Kind::Array ? L"[array]" : value->kind == Json::Kind::Object ? L"{object}" : Short(value->scalar); }
-void CompareJson(const Json* left,const Json* right,const std::wstring& path,const std::atomic_bool& cancel,StructuredComparison* result) {
+const Json* ResolveKey(const Json& value,const JsonPointer& pointer) {
+    const Json* node = &value;
+    for (const auto& token : pointer) {
+        if (node->kind == Json::Kind::Object) { const auto found = node->object.find(token); if (found == node->object.end()) return nullptr; node = &found->second; }
+        else if (node->kind == Json::Kind::Array) { if (token.empty() || (token.size() > 1 && token[0] == L'0') || token.find_first_not_of(L"0123456789") != std::wstring::npos) return nullptr; std::size_t index; try { index = std::stoull(token); } catch (...) { return nullptr; } if (index >= node->array.size()) return nullptr; node = &node->array[index]; }
+        else return nullptr;
+    }
+    return node;
+}
+using KeyedJson = std::map<std::pair<Json::Kind,std::wstring>,const Json*>;
+KeyedJson KeyArray(const Json& array,const JsonPointer& key,const std::atomic_bool& cancel) {
+    KeyedJson result;
+    for (const auto& item : array.array) { if (cancel) throw Failure{L"Structured comparison cancelled."}; const auto* value = ResolveKey(item,key); if (!value || (value->kind != Json::Kind::String && value->kind != Json::Kind::Number)) throw Failure{L"Every keyed-array entry must have a string or number at its configured key pointer."}; if (value->scalar.size() > 4096) throw Failure{L"JSON array keys are limited to 4,096 UTF-16 units."}; if (!result.emplace(std::make_pair(value->kind,value->scalar),&item).second) throw Failure{L"Duplicate typed JSON array key; comparison rejected."}; }
+    return result;
+}
+void CompareJson(const Json* left,const Json* right,const std::wstring& path,const std::atomic_bool& cancel,StructuredComparison* result,const JsonCompareOptions& options,JsonPointer& pointer) {
+    if (std::find(options.ignored.begin(),options.ignored.end(),pointer) != options.ignored.end()) { ++result->ignored; return; }
     if (cancel) throw Failure{L"Structured comparison cancelled."}; ++result->compared;
     if (!left || !right || left->kind != right->kind) { Add(result,path,Display(left),Display(right),!left ? L"Added" : !right ? L"Removed" : L"Type changed"); return; }
-    if (left->kind == Json::Kind::Object) { std::set<std::wstring> keys; for (const auto& pair : left->object) keys.insert(pair.first); for (const auto& pair : right->object) keys.insert(pair.first); for (const auto& key : keys) { const auto a = left->object.find(key),b = right->object.find(key); CompareJson(a == left->object.end() ? nullptr : &a->second,b == right->object.end() ? nullptr : &b->second,Short(path + L"[" + Quote(key) + L"]",2048),cancel,result); } }
-    else if (left->kind == Json::Kind::Array) for (std::size_t i = 0; i < (std::max)(left->array.size(),right->array.size()); ++i) CompareJson(i < left->array.size() ? &left->array[i] : nullptr,i < right->array.size() ? &right->array[i] : nullptr,path + L"[" + std::to_wstring(i) + L"]",cancel,result);
+    if (left->kind == Json::Kind::Object) { std::set<std::wstring> keys; for (const auto& pair : left->object) keys.insert(pair.first); for (const auto& pair : right->object) keys.insert(pair.first); for (const auto& key : keys) { const auto a = left->object.find(key),b = right->object.find(key); pointer.push_back(key); CompareJson(a == left->object.end() ? nullptr : &a->second,b == right->object.end() ? nullptr : &b->second,Short(path + L"[" + Quote(key) + L"]",2048),cancel,result,options,pointer); pointer.pop_back(); } }
+    else if (left->kind == Json::Kind::Array) {
+        const auto rule = std::find_if(options.arrays.begin(),options.arrays.end(),[&](const auto& item) { return item.path == pointer; });
+        if (rule != options.arrays.end()) {
+            const auto a = KeyArray(*left,rule->key,cancel),b = KeyArray(*right,rule->key,cancel); std::set<std::pair<Json::Kind,std::wstring>> keys; for (const auto& item : a) keys.insert(item.first); for (const auto& item : b) keys.insert(item.first);
+            for (const auto& key : keys) { const auto x = a.find(key),y = b.find(key); const auto label = L"[key=" + Short(key.second,160) + L"]"; pointer.push_back(label); CompareJson(x == a.end() ? nullptr : x->second,y == b.end() ? nullptr : y->second,Short(path + label,2048),cancel,result,options,pointer); pointer.pop_back(); }
+        } else for (std::size_t i = 0; i < (std::max)(left->array.size(),right->array.size()); ++i) { pointer.push_back(std::to_wstring(i)); CompareJson(i < left->array.size() ? &left->array[i] : nullptr,i < right->array.size() ? &right->array[i] : nullptr,path + L"[" + std::to_wstring(i) + L"]",cancel,result,options,pointer); pointer.pop_back(); }
+    }
     else if (left->scalar != right->scalar) Add(result,path,Display(left),Display(right),L"Changed");
 }
 }
 bool ReadDelimitedTable(const std::wstring& text,wchar_t delimiter,const std::atomic_bool& cancel,std::vector<std::vector<std::wstring>>* rows,std::wstring* error) { try { *rows = ParseTable(text,delimiter,cancel); return true; } catch (const Failure& failure) { if (error) *error = failure.text; return false; } }
-bool CompareStructured(const std::wstring& left,const std::wstring& right,StructuredFormat format,const std::atomic_bool& cancel,StructuredComparison* output,std::wstring* error,const TableCompareOptions& options) {
+bool CompareStructured(const std::wstring& left,const std::wstring& right,StructuredFormat format,const std::atomic_bool& cancel,StructuredComparison* output,std::wstring* error,const TableCompareOptions& options,const JsonCompareOptions& json_options) {
     if (error) error->clear();
     if (left.size() > 16 * 1024 * 1024 || right.size() > 16 * 1024 * 1024 || static_cast<unsigned>(format) > 2 || !ValidateText(left,error) || !ValidateText(right,error)) { if (error && error->empty()) *error = L"Invalid or oversized structured input."; return false; }
     try { StructuredComparison result;
         if (format != StructuredFormat::Json && (!options.columns.empty() || options.header)) return CompareMappedTable(left,right,format,options,cancel,output,error);
-        if (format == StructuredFormat::Json) { const auto a = JsonParser(left,cancel).Parse(),b = JsonParser(right,cancel).Parse(); CompareJson(&a,&b,L"$",cancel,&result); }
+        if (format == StructuredFormat::Json) { const auto a = JsonParser(left,cancel).Parse(),b = JsonParser(right,cancel).Parse();
+            for (const auto& rule : json_options.arrays) for (const auto* root : {&a,&b}) { if (const auto* node = ResolveKey(*root,rule.path)) { if (node->kind != Json::Kind::Array) throw Failure{L"A configured JSON array pointer resolves to a non-array value."}; KeyArray(*node,rule.key,cancel); } }
+            JsonPointer pointer; CompareJson(&a,&b,L"$",cancel,&result,json_options,pointer); }
         else { const auto a = ParseTable(left,format == StructuredFormat::Csv ? L',' : L'\t',cancel),b = ParseTable(right,format == StructuredFormat::Csv ? L',' : L'\t',cancel); for (std::size_t row = 0; row < (std::max)(a.size(),b.size()); ++row) { if (cancel) throw Failure{L"Structured comparison cancelled."}; const auto* x = row < a.size() ? &a[row] : nullptr; const auto* y = row < b.size() ? &b[row] : nullptr; const auto columns = (std::max)(x ? x->size() : 0,y ? y->size() : 0); for (std::size_t col = 0; col < columns; ++col) { ++result.compared; const auto* first = x && col < x->size() ? &(*x)[col] : nullptr; const auto* second = y && col < y->size() ? &(*y)[col] : nullptr; if (!first || !second || *first != *second) Add(&result,L"Row " + std::to_wstring(row + 1) + L", column " + std::to_wstring(col + 1),first ? Quote(*first) : L"<missing>",second ? Quote(*second) : L"<missing>",!first ? L"Added" : !second ? L"Removed" : L"Changed"); } } }
         if (cancel) throw Failure{L"Structured comparison cancelled."}; *output = std::move(result); return true;
     } catch (const Failure& failure) { if (error) *error = failure.text; return false; } catch (const std::exception&) { if (error) *error = L"Structured comparison exceeded available memory."; return false; }

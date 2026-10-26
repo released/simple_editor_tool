@@ -1,4 +1,5 @@
 #include "preferences_dialog.h"
+#include "localization.h"
 #include "../resource.h"
 using namespace simple_editor::core;
 CPreferencesDialog::CPreferencesDialog(CWnd* owner,const AppPreferences& initial) : CDialog(IDD_PREFERENCES,owner),value(initial) {}
@@ -21,6 +22,6 @@ void CPreferencesDialog::OnOK() {
     value.theme = static_cast<unsigned>(theme_.GetCurSel()); value.wrap = IsDlgButtonChecked(2003) != 0; value.whitespace = IsDlgButtonChecked(2004) != 0; value.use_tabs = IsDlgButtonChecked(2005) != 0; value.tab_width = GetDlgItemInt(2006,nullptr,FALSE);
     value.auto_restore = IsDlgButtonChecked(2007) != 0; value.recover_drafts = IsDlgButtonChecked(2008) != 0; value.snapshot_seconds = GetDlgItemInt(2009,nullptr,FALSE);
     for (int i = 0; i < 3; ++i) value.zoom[i] = static_cast<int>(GetDlgItemInt(2010 + i,nullptr,FALSE));
-    std::wstring error; for (std::size_t i = 0; i < value.shortcuts.size(); ++i) { CString text; GetDlgItemTextW(2020 + static_cast<int>(i),text); if (!ParseShortcut(text.GetString(),&value.shortcuts[i],&error)) { AfxMessageBox(error.c_str(),MB_ICONWARNING); return; } }
-    if (!ValidatePreferences(value,&error)) { AfxMessageBox(error.c_str(),MB_ICONWARNING); return; } CDialog::OnOK();
+    std::wstring error; for (std::size_t i = 0; i < value.shortcuts.size(); ++i) { CString text; GetDlgItemTextW(2020 + static_cast<int>(i),text); if (!ParseShortcut(text.GetString(),&value.shortcuts[i],&error)) { UiMessageBox(error.c_str(),MB_ICONWARNING); return; } }
+    if (!ValidatePreferences(value,&error)) { UiMessageBox(error.c_str(),MB_ICONWARNING); return; } CDialog::OnOK();
 }

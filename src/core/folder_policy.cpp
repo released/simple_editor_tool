@@ -39,6 +39,7 @@ bool Outside(const std::filesystem::path& path,const std::filesystem::path& root
 }
 }
 bool CaptureFolderBaseline(const FolderScan& scan,const std::atomic_bool& cancel,const std::function<void(unsigned)>& progress,FolderBaseline* output,std::wstring* error) {
+    if (scan.partial_refresh) { if (error) *error = L"Run full Compare before establishing a folder baseline after a selected refresh."; return false; }
     FolderBaseline result; result.left_root = scan.left_root; result.right_root = scan.right_root; result.left_identity = scan.left_identity; result.right_identity = scan.right_identity;
     FileStamp a,b; if (!InspectFile(scan.left_root,&a,error) || !InspectFile(scan.right_root,&b,error) || !SameFileState(a,scan.left_identity) || !SameFileState(b,scan.right_identity)) { if (error && error->empty()) *error = L"Folder roots changed since comparison."; return false; }
     for (const auto& row : scan.rows) {
@@ -69,6 +70,7 @@ bool LoadFolderBaseline(const std::filesystem::path& path,FolderBaseline* baseli
     *baseline = std::move(result); return true;
 }
 bool BuildPolicySyncPlan(const FolderScan& scan,const std::vector<std::size_t>& selected,bool left_to_right,SyncPolicy policy,unsigned time_tolerance,bool propagate_deletions,const FolderBaseline* baseline,const std::atomic_bool& cancel,const std::function<void(unsigned)>& progress,SyncBundle* output,std::wstring* error) {
+    if (scan.partial_refresh && policy != SyncPolicy::Update) { if (error) *error = L"Run full Compare before policy synchronization after a selected refresh."; return false; }
     SyncBundle result;
     if (static_cast<unsigned>(policy) > 4 || time_tolerance > 86400) { if (error) *error = L"Invalid synchronization policy or timestamp tolerance."; return false; }
     if (policy == SyncPolicy::Update || policy == SyncPolicy::Mirror) { SyncPlan plan; if (!BuildSyncPlan(scan,selected,left_to_right,policy == SyncPolicy::Mirror,&plan,error)) return false; result.plans.push_back(std::move(plan)); *output = std::move(result); return true; }

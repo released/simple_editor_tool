@@ -1,5 +1,233 @@
 # Handoff
 
+## Document editing/comparison F01-F09 (2026-10-26)
+
+- Implemented all nine approved document-focused features. User instructions and
+  exact subsets are in docs/DOCUMENT_EDITING_COMPARISON.md and both full guides;
+  scope ledger: docs/DOCUMENT_FOCUS_IMPLEMENTATION.md. Dynamic plugins, remote
+  access, process-memory editing and raw-pixel visualization are excluded.
+- PASS: six core and eleven native UI modes in Debug/Release, plus formal Release
+  workspace process (12 assertions) and seven CLI exit cases. New modes exercise
+  independent codecs, graphical anchors, retained drafts/Undo, syntax Save As,
+  selected refresh, stale-parent rejection, >32-MiB Unicode Find and version-bound
+  notes. Report export initially overwrote the baseline setting; reproduced,
+  fixed with a folder-mode adoption guard and reran three affected modes/config.
+- Release EXE: 3,882,496 bytes; SHA-256
+  97E9E3DA7A3A5AF164CBA10281ECF8F56FA6E6336DC706D2FC24D7BF3FF17B84.
+  Native x64, ASLR/high-entropy/NX, static MFC/CRT and Windows-only DLL imports.
+  Delivery catalogs contain 719 paired entries. Original three runtime INIs retain
+  entry hashes. No compiler/security flag or dependency changes; no GitHub write.
+- Both guides have 18 matching topics with valid local links and strict UTF-8.
+  Three native Release screenshots were visually inspected. Evidence:
+  docs/verification/document-focus-20261026.json.
+- NOT RUN: physical clipboard/wheel, mixed-monitor DPI, maximum-quota throughput
+  and injected resource/power failure. Clipboard tests inject synthetic text.
+  Outline is heuristic; pager search is literal UTF-8/UTF-16. Syntax associations
+  target normal file editors; unsaved annotations need explicit metadata Save and
+  are not part of workspace/crash recovery. Source/output guards remain intact.
+- TST-01/TST-02 PASS: verified clean removed 837 compiler files; reviewed purge
+  retired ten canonical test/MSBuild outputs. All 1,266 protected files matched
+  both preservation checkpoints. Retired 149 fixed-list, expected-hash run files
+  (4,400,984 bytes), including the obsolete EXE/INI copies. artifacts is absent;
+  all disposable test EXEs are gone. Complete project is about 15.31 MB, below
+  20,000,000 bytes. No retention exception or project-external deletion.
+
+## English / Traditional Chinese and full user guides (2026-10-26)
+
+- Added 624 unique paired UTF-8 UI entries in src/res/lang_en.ini and lang_tw.ini,
+  with delivery copies beside the EXE. First run uses Traditional Chinese; the
+  Language menu updates existing UI and remembers en/tw in portable preferences.
+  Missing/invalid catalogs use English. Unlisted diagnostics and native Windows
+  dialog language remain explicit limits in the guides.
+- docs/USER_GUIDE.md is the Traditional Chinese default; USER_GUIDE_EN.md is the
+  complete English counterpart. Both cover 17 matching topics and cross-link;
+  README links both. No existing guide was found at entry. No third guide alias.
+- PASS Debug/Release: core localization/preferences and nine native UI modes per
+  configuration, including language changes with drafts/clone/caret/Undo, Find
+  input, readonly sources, merge output, rapid preference writes and active Save.
+  Fixed a real Debug lifecycle assertion by guarding an uncreated advanced view.
+- PASS formal Release: 24 localization/startup/fallback checks, 12 process checks
+  and seven CLI exit cases. Two final Release captures inspected. PE is native
+  x64 with ASLR/high-entropy/NX and Windows-only imports, static MFC/CRT.
+- Release: 3,756,032 bytes; SHA-256
+  0ACAAED5C6ADC31EC34D540D6C5017C22BC77F7C3DE81574A6A2700594BB716F.
+  No compiler/security flag changes or new runtime/driver. Original runtime INIs
+  are preserved; final hashes and cleanup bytes: docs/verification/localization-20261026.json.
+- Retained original unrelated edits. No GitHub write. Physical clipboard/mouse,
+  mixed-monitor DPI, exhaustive dialog/diagnostic translation and injected
+  resource/power failures were not tested. Earlier unchanged algorithm and safe
+  cleanup-fixture evidence remains applicable; actual final clean is recorded.
+- TST-01/TST-02 PASS: removed 777 compiler files, 10 canonical test/metadata
+  outputs and 68 owned scratch files (15,983,230 bytes). All 1,238 protected
+  files matched the cleanup checkpoint. The initial generic batch was rejected;
+  fixed-path, provenance- and expected-hash-checked cleanup succeeded. No artifacts
+  or disposable test EXEs remain; complete folder is below 20,000,000 bytes.
+
+## Workflow expansion W01-W10 (2026-10-26)
+
+- All ten approved first-version behaviors are implemented. Product instructions
+  and bounds: docs/WORKFLOW_EXPANSION.md; scope ledger:
+  docs/WORKFLOW_EXPANSION_IMPLEMENTATION.md.
+- Includes aligned source character details/full Base, external-change decisions,
+  guarded Text/Hex ranges, path-free named presets, optional Unicode notices,
+  interactive binary plots, previewed conversion, JSON pointer/key rules and
+  read-only ULEB128/SLEB128. Explicit saves and native Undo remain intact.
+- PASS Debug/Release: four relevant core modes and nine native UI modes. The
+  layout follow-up reran the affected expansion UI mode in both configurations;
+  other affected-flow evidence remains applicable. Final formal process and
+  seven CLI cases PASS. Three Release screenshots visually inspected.
+- Release EXE: 3,707,392 bytes; SHA-256
+  7094D2A1C02D5D06DC6EDF8AC698EAA7C0E780349ABBA413BAAC77CB2823241E.
+  Native x64, ASLR/high-entropy/NX, static MFC/CRT, Windows system DLL imports.
+  test.ini and ui_smoke.ini retain entry hashes. The main runtime INI has a newer
+  hash than the entry record (modified 10:27:36 UTC); preserve that current file,
+  do not reconstruct/overwrite settings from an old hash. Change origin is not
+  established by the available record. No GitHub write.
+- Reproduced and fixed a GDI zero-width squiggle assertion with a plain Unicode
+  indicator; vendor code/assertions remain unchanged. Older Hex-only test fixtures
+  now explicitly select Hex after the approved default Text startup.
+- Safe compiler cleanup removed 765 intermediates; reviewed purge retired 11
+  test executables/metadata files. All 1,218 files outside artifacts matched the
+  preservation checkpoint at the cleanup boundary. Retired all 120 owned scratch
+  files (1,581,575 bytes); artifacts is absent and the complete folder is below
+  20,000,000 bytes. Final measured bytes: docs/verification/workflow-expansion-20261026.json.
+  No project-external deletion. Preserve all pre-existing unrelated changes.
+
+## Approved editor review V01-V10 (2026-10-26)
+
+- All ten approved first-version features are implemented and pass native checks.
+  The active scope ledger is docs/EDITOR_REVIEW_IMPLEMENTATION.md; operational
+  instructions and subset/size bounds are in docs/EDITOR_REVIEW.md.
+- Includes full read-only sources, selected-file replacement preview, draft/disk
+  review, Markdown outline, direct multiline Find/Replace, exact moved-block pairs,
+  three Text mark colors, named bitfield/flags editing, EditorConfig indentation,
+  and equal-length hash-verified IPS/IPS32 import/export. Drafts and native Undo
+  are retained; reviewed imports/replacements require explicit Save for disk writes.
+- Debug/Release each PASS: seven affected native UI modes and five core modes.
+  New review modes record 59 UI checks and 38 core checks. Final formal process
+  and seven CLI cases PASS; two native Release images were visually inspected.
+- Canonical EXE: 3,573,248 bytes, SHA-256
+  0F8D74D3511EBA7DE36092F90FA39F1C1E65885EFDCE91E0C16A25B07AFD1BCF.
+  Native x64, ASLR/high-entropy/NX, static MFC/CRT and system-only DLL imports.
+  Existing three delivery INIs match this run's entry hashes. No GitHub write.
+- Final cleanup and complete-folder bytes are recorded in
+  docs/verification/editor-review-20261026.json. This run follows the current
+  workspace policy allowing bounded active build/test growth without an exception;
+  historical 512 MB exceptions below describe earlier runs, not this run's limit.
+- Quota-scale stress/throughput, physical input/mixed DPI, allocation/power failure
+  and broad third-party patch corpus interoperability NOT RUN. Do not claim full
+  EditorConfig conformance or parity with another editor's scripting/plugin system.
+
+## Text defaults, Markdown and scoped Find/Replace (2026-10-26)
+
+- New text files open on Text, with Hex fallback for binary/oversized inputs.
+  Existing tabs and explicit workspace page restoration keep their selected page.
+  Dark content is #3F3F3F, with dedicated Markdown colors and decorations for
+  .md/.markdown/.mdown. The current delivery INI's theme field is 1; other settings
+  were preserved. Light/system-contrast choices remain supported.
+- Ctrl+F and Ctrl+H share a workspace-owned Find/Replace dialog. Current scope
+  follows the active session. All-open scope includes native unsaved/untitled text,
+  supports both directions, wrap, Count/Find All and single/all replacement.
+  Participants are version-checked; replacements lock drafts and cloned views,
+  retain one Undo per file, and never save. Cancel/stale preflight changes nothing.
+- Debug/Release native UI checks PASS: --text-workflow 48 assertions, --workspace
+  35, --zoom 51; connected --search-tools 32, --preferences 14, --cross-search 18,
+  --code-editor 26 also PASS per configuration. Formal Release --workspace-process
+  12 assertions and seven formal CLI cases PASS. Focused core --search-codec and
+  --preferences PASS in both configurations. Release native screenshots inspected.
+- Formal Release EXE: 3,439,616 bytes, SHA256
+  1B8668629F83F79F56309983D8859E4D8C3EFA1A3B46D44BA0583FD13E9A64DD.
+  x64, ASLR/high-entropy/NX and 12 Windows-only DLL imports verified.
+- Budget incident: stock Release symbols/LTCG plus retained test build products
+  reached an observed 639,110,240 bytes, exceeding the 512 MB temporary bound.
+  The user was notified; immediate verified compiler-only clean removed 318 files
+  and reduced the folder to 19,697,900 bytes. Subsequent test-only builds used no
+  symbol/incremental output and a 450 MB abort threshold; observed peaks were
+  85,321,052 (Release) and 199,696,697 (Debug). Do not assume a stock full Release
+  build fits 512 MB: clear completed test caches first, monitor the actual budget,
+  and resolve a larger required bound before continuing a future oversized build.
+  Preserve product optimization, security and static runtime settings.
+- Final owned cleanup: PASS; owned artifacts removed, project below 20 MB. Concise evidence and limits are in
+  docs/verification/text-workflow-20261026.json; no GitHub publication was requested.
+
+
+## Pasted-text comparison and cleanup complete (2026-10-26)
+
+- User workflow: paste large text A into a left pane and text B into a right pane,
+  then compare without loading or first saving files. Added menu entry and mode 8
+  mapped to existing two-way comparison; native input controls are session-owned,
+  lazily created, memory-only and preserve Unicode/EOL/Undo across tabs and modes.
+  Edits invalidate old rows; jobs lock inputs; swapping moves document/Undo state.
+  Empty inputs are valid. UTF-8 byte/line quotas reject comparison without trimming.
+  Closing nonempty inputs warns; workspace persistence excludes pasted sessions.
+- New source: src/ui/advanced_text_inputs.cpp, registered in product/UI projects.
+  Existing advanced worker also accepts in-memory snapshots. Frame paths/layout,
+  menu routing, workspace capture/labels and Save/Undo enablement are connected.
+  README/SPEC/AGENTS describe the operation. Focused --pasted-text UI coverage is
+  added in tests/native_pasted_text_ui.inc with quota/cancel/newline/large-text,
+  input retention/swap/Undo/output-save/close behavior and optional native capture.
+- Final Debug/Release UI checks PASS per configuration: --pasted-text 36 and
+  --workspace 35 assertions, normal process exit 0. Initial --advanced 52 and
+  --zoom 51 per configuration remain applicable to their unchanged behavior.
+  Native screenshot inspected: input labels/panes, inline differences, output and
+  zoom display are visible without overlap. Canonical Debug/Release product builds
+  PASS; formal Release seven CLI cases and x64/ASLR/DEP/Windows-only imports PASS.
+  Final Release EXE 3,404,288 bytes (+9,728), SHA-256
+  30A37C1D37DFFA694A6F6B89E2622BDEF974E2E7AC6B9A355249278B5611E2CF.
+- Final review added source-preview release when a file comparison switches to
+  pasted mode, preserving the original editor and avoiding obsolete file polling.
+  Two regressions added and passed in both configurations. Canonical final Release
+  rebuild/CLI smoke and compiler cleanup completed. Final scheduling used process
+  CL=/MP2 (restored afterward); product code-generation/runtime/security settings
+  remain unchanged. Evidence: docs/verification/pasted-text-20261026.json and
+  pasted-text-20261026.png. No further application implementation/build is pending.
+- Developer APPROVED this task's project-local compiler/test footprint up to
+  512,000,000 bytes temporarily, build/verify in batches, then remove reconstructible
+  products and remeasure below 20,000,000 bytes. This is the bounded exception under
+  shared WORKSPACE_RULES Project Development Folder Size Budget; do not ask again.
+  Completed owned run: artifacts/pasted-text-fe104f1662f04fccb10f373c890e9c68;
+  it and its marker/raw outputs are now removed. Only process TEMP/TMP was used.
+  Entry delivery baseline was 3,394,560 bytes, SHA-256
+  63889239C8C511840C4541A91946C7ED3A479C183EEEA671AB1D0A6113BE45A2.
+  Pre-build snapshot was 13,200,582 bytes before subsequent documentation edits.
+  Existing three INIs retain their prior hashes. No publication/commit/push.
+- The initial stock Debug product plus UI compilation exceeded the temporary
+  cap (observed sample 566,585,019 bytes; actual transient peak not captured).
+  Inline partial cleanup was automatically rejected without details. Stopped only
+  validated owned UI MSBuild PID 8468/its children; verified clean removed 281
+  intermediates. Subsequent UI builds use owned ui-test-build.props to omit debug
+  symbols/incremental cache while preserving Debug runtime/assertions. Production
+  build flags remain canonical. Each tested configuration is cleaned via its own
+  MSBuild target plus the verified compiler-only project clean before the next.
+- User rejected both retained-data proposals and required below 20,000,000 bytes.
+  Earlier bulk deletion was rejected without details. Follow-up reduced each
+  operation to one fixed absolute path, with independent review, exact owner/hash
+  checks and no recursive deletion. Each individual operation was approved.
+  Removed all 44 large compiler spills (38,764,503 bytes), then their companion
+  files, raw diagnostics and duplicate captures: 111 run files / 39,346,361 bytes.
+  Compact evidence retains original hashes, test results and reproduction settings.
+  No exception remains; final project size is below 20 MB and recorded in the JSON.
+  UI runner now uses .NET Process handles/exit codes; initial Start-Process code
+  returned null. The CLI wrapper also initially misread unset LASTEXITCODE; CLI
+  script itself reached all seven PASS cases and cleaned its copied fixtures.
+- MSBuild target Clean removed the Debug product and both configurations' test
+  EXEs after acceptance. Verified normal clean removed compiler objects/PDBs/libs
+  after each batch and final delivery. No CLI-owned or synthetic native-test fixture
+  remains. build contains exactly the final EXE and three unchanged user INIs.
+  No artifact was added to Git. Current concise JSON/native PNG remain in
+  docs/verification; no raw-run archive or test EXE copy remains.
+- Also resolved the older 42-file/58,173-byte audit after matching its original
+  inventory, copied-script hashes and explicit fake preservation-test contents.
+  Its exact project-local junction was detached nonrecursively, preserving the
+  target sentinel at that step; fixture files were then individually removed.
+  Existing purge preview/Apply removed its 11 recognized compiler metadata files.
+  artifacts has zero files and its empty root was removed. No project-external
+  deletion; historical external TEMP data remains untouched.
+- Preservation: 544 protected hashes matched after large-payload cleanup; final
+  EXE/three INIs, all 15 compiled-source hashes and retained screenshot still match.
+  This cleanup follow-up changed only verification/handoff records; no rebuild
+  or unrelated test rerun. New builds/tests must still clean owned project-local data.
+
 ## Project boundary for cleanup (2026-10-26)
 
 - Cleanup is confined to the selected project. Shared AGENTS/WORKSPACE_RULES/

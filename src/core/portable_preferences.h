@@ -5,8 +5,9 @@ namespace simple_editor::core {
 enum class ShortcutAction : unsigned { NewFile,OpenFiles,Save,Find,Replace,FindFiles,ReopenClosed,Count };
 struct Shortcut { unsigned key = 0,modifiers = 0; };
 struct AppPreferences {
-    std::wstring font = L"Consolas";
-    unsigned font_tenths = 100,theme = 0,tab_width = 4;
+    std::wstring font = L"Consolas",language = L"tw";
+    std::wstring syntax_associations;
+    unsigned font_tenths = 100,theme = 1,tab_width = 4;
     bool wrap = false,whitespace = false,use_tabs = false,auto_restore = false,recover_drafts = false;
     unsigned snapshot_seconds = 30;
     int zoom[3] = {100,100,100};

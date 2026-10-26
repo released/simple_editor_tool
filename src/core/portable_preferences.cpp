@@ -1,6 +1,8 @@
 #include "portable_preferences.h"
 #include "text_codec.h"
 #include "line_merge.h"
+#include "syntax_profiles.h"
+#include "hex_bookmarks.h"
 #include <algorithm>
 #include <cwctype>
 #include <map>
@@ -32,6 +34,8 @@ bool ParseShortcut(const std::wstring& value,Shortcut* shortcut,std::wstring* er
 }
 std::wstring FormatShortcut(const Shortcut& shortcut) { if (!shortcut.key) return L"None"; std::wstring text; if (shortcut.modifiers & 1) text += L"Ctrl+"; if (shortcut.modifiers & 2) text += L"Shift+"; if (shortcut.modifiers & 4) text += L"Alt+"; text += shortcut.key >= VK_F1 && shortcut.key <= VK_F24 ? L"F" + std::to_wstring(shortcut.key - VK_F1 + 1) : std::wstring(1,static_cast<wchar_t>(shortcut.key)); return text; }
 bool ValidatePreferences(const AppPreferences& p,std::wstring* error) {
+    std::map<std::wstring,std::wstring> syntax; if (!ParseSyntaxAssociations(p.syntax_associations,&syntax,error)) return false;
+    if (p.language != L"en" && p.language != L"tw") { if (error) *error = L"Language must be en or tw."; return false; }
     if (p.font.empty() || p.font.size() > 31 || p.font.find_first_of(L"\r\n") != std::wstring::npos || p.font.find(L'\0') != std::wstring::npos || p.font_tenths < 60 || p.font_tenths > 320 || p.theme > 2 || !p.tab_width || p.tab_width > 16 || p.snapshot_seconds < 10 || p.snapshot_seconds > 600 || p.recent.size() > 20) { if (error) *error = L"Invalid font, theme, Tab, recovery interval or recent-file settings."; return false; }
     for (auto zoom : p.zoom) if (zoom < 50 || zoom > 300) { if (error) *error = L"Zoom must be between 50% and 300%."; return false; }
     for (const auto& path : p.recent) if (path.empty() || path.size() > 32767 || path.find_first_of(L"\r\n") != std::wstring::npos || path.find(L'\0') != std::wstring::npos) { if (error) *error = L"Recent-file paths must be valid single-line values."; return false; }
@@ -43,8 +47,9 @@ bool LoadPreferences(const std::filesystem::path& path,AppPreferences* preferenc
     std::vector<TextLine> lines; TextCodec codec; FileStamp stamp; if (!Read(path,&lines,&codec,&stamp,error)) return false; const auto fields = Extract(lines); AppPreferences result;
     const auto string = [&](const std::wstring& section,const std::wstring& key,std::wstring* value) { const auto found = fields.find(section + L"/" + Lower(key)); if (found != fields.end()) *value = found->second; };
     const auto number = [&](const std::wstring& key,unsigned fallback,unsigned maximum,unsigned* value) { const auto found = fields.find(kPreferences + L"/" + Lower(key)); *value = fallback; return found == fields.end() || Number(found->second,maximum,value); };
-    bool valid = true; unsigned value = 0; string(kPreferences,L"Font",&result.font);
-    valid = number(L"FontTenths",100,320,&result.font_tenths) && number(L"Theme",0,2,&result.theme) && number(L"TabWidth",4,16,&result.tab_width) && number(L"SnapshotSeconds",30,600,&result.snapshot_seconds);
+    bool valid = true; unsigned value = 0; string(kPreferences,L"Font",&result.font); string(kPreferences,L"Language",&result.language);
+    std::wstring encoded_syntax; string(kPreferences,L"SyntaxAssociations",&encoded_syntax); if (!DecodeSetting(encoded_syntax,&result.syntax_associations,16384)) return false;
+    valid = number(L"FontTenths",100,320,&result.font_tenths) && number(L"Theme",1,2,&result.theme) && number(L"TabWidth",4,16,&result.tab_width) && number(L"SnapshotSeconds",30,600,&result.snapshot_seconds);
     for (auto item : {std::make_pair(L"Wrap",&result.wrap),std::make_pair(L"Whitespace",&result.whitespace),std::make_pair(L"UseTabs",&result.use_tabs),std::make_pair(L"AutoRestore",&result.auto_restore),std::make_pair(L"RecoverDrafts",&result.recover_drafts)}) { valid = number(item.first,0,1,&value) && valid; *item.second = value != 0; }
     for (int i = 0; i < 3; ++i) { valid = number(L"Zoom" + std::to_wstring(i),100,300,&value) && valid; result.zoom[i] = static_cast<int>(value); }
     const auto count = fields.find(kRecent + L"/count"); unsigned recent = 0; if (count != fields.end() && !Number(count->second,20,&recent)) valid = false;
@@ -56,7 +61,8 @@ bool LoadPreferences(const std::filesystem::path& path,AppPreferences* preferenc
 bool SavePreferences(const std::filesystem::path& path,const AppPreferences& p,std::wstring* error) {
     if (!ValidatePreferences(p,error)) return false; std::vector<TextLine> lines; TextCodec codec; FileStamp stamp; if (!Read(path,&lines,&codec,&stamp,error)) return false;
     Fields updates; const auto field = [&](const std::wstring& section,const std::wstring& key,const std::wstring& value) { updates[section + L"/" + Lower(key)] = value; };
-    field(kPreferences,L"Font",p.font); field(kPreferences,L"FontTenths",std::to_wstring(p.font_tenths)); field(kPreferences,L"Theme",std::to_wstring(p.theme)); field(kPreferences,L"TabWidth",std::to_wstring(p.tab_width)); field(kPreferences,L"SnapshotSeconds",std::to_wstring(p.snapshot_seconds));
+    field(kPreferences,L"Language",p.language); field(kPreferences,L"Font",p.font); field(kPreferences,L"FontTenths",std::to_wstring(p.font_tenths)); field(kPreferences,L"Theme",std::to_wstring(p.theme)); field(kPreferences,L"TabWidth",std::to_wstring(p.tab_width)); field(kPreferences,L"SnapshotSeconds",std::to_wstring(p.snapshot_seconds));
+    field(kPreferences,L"SyntaxAssociations",EncodeSetting(p.syntax_associations));
     for (auto item : {std::make_pair(L"Wrap",p.wrap),std::make_pair(L"Whitespace",p.whitespace),std::make_pair(L"UseTabs",p.use_tabs),std::make_pair(L"AutoRestore",p.auto_restore),std::make_pair(L"RecoverDrafts",p.recover_drafts)}) field(kPreferences,item.first,std::to_wstring(item.second));
     for (int i = 0; i < 3; ++i) field(kPreferences,L"Zoom" + std::to_wstring(i),std::to_wstring(p.zoom[i]));
     field(kRecent,L"Count",std::to_wstring(p.recent.size())); for (unsigned i = 0; i < 20; ++i) field(kRecent,std::to_wstring(i),i < p.recent.size() ? p.recent[i] : L"");

@@ -1,0 +1,550 @@
+﻿{
+    "date":  "2026-10-26",
+    "scope":  "Approved V01-V10 editor review first versions",
+    "functional_result":  "PASS",
+    "delivery_result":  "PASS",
+    "cleanup_result":  "PASS",
+    "project_bytes":  13810043,
+    "features":  [
+                     "V01 full read-only comparison sources, chosen-pane search and line navigation",
+                     "V02 selected-file all-open replacement preview with before/after and version preflight",
+                     "V03 separate current-draft versus disk snapshot review and source-write protection",
+                     "V04 bounded Markdown outline tree and guarded jump",
+                     "V05 direct multiline literal Find/Replace in current/all-open scopes",
+                     "V06 exact unique two-way moved-block pairs with paired navigation",
+                     "V07 three persistent Text mark colors with clear/edit invalidation",
+                     "V08 endian-aware named bitfields/flags and guarded one-Undo edit",
+                     "V09 bounded EditorConfig indentation subset and manual precedence",
+                     "V10 equal-length IPS/IPS32, required base SHA-256, private preview and one Undo"
+                 ],
+    "tests":  [
+                  {
+                      "kind":  "core",
+                      "configuration":  "Debug",
+                      "mode":  "--editor-review",
+                      "exit_code":  0,
+                      "pass_log_lines":  39,
+                      "log_sha256":  "5159DBCD61D512C8029770CC03212B81590194FCEFD08C341997E7CE06F2D9C1",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "core",
+                      "configuration":  "Debug",
+                      "mode":  "--search-codec",
+                      "exit_code":  0,
+                      "pass_log_lines":  2,
+                      "log_sha256":  "B0F1B98058CE162980EB99C487508FB1D98EB35F868E9E69802717BBAD5D16A5",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "core",
+                      "configuration":  "Debug",
+                      "mode":  "--preferences",
+                      "exit_code":  0,
+                      "pass_log_lines":  10,
+                      "log_sha256":  "B1995D4A8700D6148DB14ED15C0767DEDB049B79D154DCC63423646F08FA12F0",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "core",
+                      "configuration":  "Debug",
+                      "mode":  "--presentation",
+                      "exit_code":  0,
+                      "pass_log_lines":  13,
+                      "log_sha256":  "9BC5609A62212C01CDAD926B8F8F28B57563D462E0A483C72B718E196650C121",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "core",
+                      "configuration":  "Debug",
+                      "mode":  "--text-reports",
+                      "exit_code":  0,
+                      "pass_log_lines":  23,
+                      "log_sha256":  "4190EA9C6AA0890BE10444E160F3DD7666E1794DAAB3E3DC667BEF993E34C6A9",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "core",
+                      "configuration":  "Release",
+                      "mode":  "--editor-review",
+                      "exit_code":  0,
+                      "pass_log_lines":  39,
+                      "log_sha256":  "5159DBCD61D512C8029770CC03212B81590194FCEFD08C341997E7CE06F2D9C1",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "core",
+                      "configuration":  "Release",
+                      "mode":  "--search-codec",
+                      "exit_code":  0,
+                      "pass_log_lines":  2,
+                      "log_sha256":  "B0F1B98058CE162980EB99C487508FB1D98EB35F868E9E69802717BBAD5D16A5",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "core",
+                      "configuration":  "Release",
+                      "mode":  "--preferences",
+                      "exit_code":  0,
+                      "pass_log_lines":  10,
+                      "log_sha256":  "B1995D4A8700D6148DB14ED15C0767DEDB049B79D154DCC63423646F08FA12F0",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "core",
+                      "configuration":  "Release",
+                      "mode":  "--presentation",
+                      "exit_code":  0,
+                      "pass_log_lines":  13,
+                      "log_sha256":  "9BC5609A62212C01CDAD926B8F8F28B57563D462E0A483C72B718E196650C121",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "core",
+                      "configuration":  "Release",
+                      "mode":  "--text-reports",
+                      "exit_code":  0,
+                      "pass_log_lines":  23,
+                      "log_sha256":  "4190EA9C6AA0890BE10444E160F3DD7666E1794DAAB3E3DC667BEF993E34C6A9",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Debug",
+                      "mode":  "--text-workflow",
+                      "exit_code":  0,
+                      "pass_log_lines":  47,
+                      "log_sha256":  "F38340927E5C2AADB7D68E6D0F78D1C89D210E8BB2419E6C32D9A36B611D3121",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Debug",
+                      "mode":  "--pasted-text",
+                      "exit_code":  0,
+                      "pass_log_lines":  35,
+                      "log_sha256":  "DC96995B01DB6CD1E370DDEA233CD65C03FE8C22D3619DAF5ED2871042F6607B",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Debug",
+                      "mode":  "--advanced",
+                      "exit_code":  0,
+                      "pass_log_lines":  53,
+                      "log_sha256":  "BC72D8AEB81D9C5FF0DE044F7709DCA66E232D111D141368DDE5F01A59DF0823",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Debug",
+                      "mode":  "--workspace",
+                      "exit_code":  0,
+                      "pass_log_lines":  36,
+                      "log_sha256":  "199616E7854165FA509717D67B8A75AB3C9FC1841E00ACD4AB1B91690354C11E",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Debug",
+                      "mode":  "--zoom",
+                      "exit_code":  0,
+                      "pass_log_lines":  52,
+                      "log_sha256":  "FC852AE1D1494305BF619DEDDCA63A1AE34A7ED86ACC849AD4CC0FA02BA2D179",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Release",
+                      "mode":  "--text-workflow",
+                      "exit_code":  0,
+                      "pass_log_lines":  47,
+                      "log_sha256":  "F38340927E5C2AADB7D68E6D0F78D1C89D210E8BB2419E6C32D9A36B611D3121",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Release",
+                      "mode":  "--pasted-text",
+                      "exit_code":  0,
+                      "pass_log_lines":  35,
+                      "log_sha256":  "DC96995B01DB6CD1E370DDEA233CD65C03FE8C22D3619DAF5ED2871042F6607B",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Release",
+                      "mode":  "--advanced",
+                      "exit_code":  0,
+                      "pass_log_lines":  53,
+                      "log_sha256":  "BC72D8AEB81D9C5FF0DE044F7709DCA66E232D111D141368DDE5F01A59DF0823",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Release",
+                      "mode":  "--workspace",
+                      "exit_code":  0,
+                      "pass_log_lines":  36,
+                      "log_sha256":  "199616E7854165FA509717D67B8A75AB3C9FC1841E00ACD4AB1B91690354C11E",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Release",
+                      "mode":  "--zoom",
+                      "exit_code":  0,
+                      "pass_log_lines":  52,
+                      "log_sha256":  "FC852AE1D1494305BF619DEDDCA63A1AE34A7ED86ACC849AD4CC0FA02BA2D179",
+                      "evidence_reused":  true
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Debug",
+                      "mode":  "--editor-review",
+                      "exit_code":  0,
+                      "pass_log_lines":  60,
+                      "log_sha256":  "D5B8F4E5781510416A03C8CC55B805FB49542908132BD3B3D43B682662058160",
+                      "evidence_reused":  false
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Debug",
+                      "mode":  "--code-editor",
+                      "exit_code":  0,
+                      "pass_log_lines":  27,
+                      "log_sha256":  "6186C4E0C580EAD39BFCCB4221038CBEF9A238B1C15593B31D2E80587A472BCB",
+                      "evidence_reused":  false
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Debug",
+                      "mode":  "--preferences",
+                      "exit_code":  0,
+                      "pass_log_lines":  15,
+                      "log_sha256":  "193C1AF7AF2A1CF44389C64A8E601451016AF3F1258C9BA911A82F47A16B497D",
+                      "evidence_reused":  false
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Release",
+                      "mode":  "--editor-review",
+                      "exit_code":  0,
+                      "pass_log_lines":  60,
+                      "log_sha256":  "D5B8F4E5781510416A03C8CC55B805FB49542908132BD3B3D43B682662058160",
+                      "evidence_reused":  false
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Release",
+                      "mode":  "--code-editor",
+                      "exit_code":  0,
+                      "pass_log_lines":  27,
+                      "log_sha256":  "6186C4E0C580EAD39BFCCB4221038CBEF9A238B1C15593B31D2E80587A472BCB",
+                      "evidence_reused":  false
+                  },
+                  {
+                      "kind":  "ui",
+                      "configuration":  "Release",
+                      "mode":  "--preferences",
+                      "exit_code":  0,
+                      "pass_log_lines":  15,
+                      "log_sha256":  "193C1AF7AF2A1CF44389C64A8E601451016AF3F1258C9BA911A82F47A16B497D",
+                      "evidence_reused":  false
+                  }
+              ],
+    "formal_process":  {
+                           "log_sha256":  "FC9A91CE308421A1D4A01E2CABD0F5A166EB523273FDB067243251281F3516F9",
+                           "pass_log_lines":  13,
+                           "mode":  "--workspace-process",
+                           "exit_code":  0
+                       },
+    "formal_cli":  {
+                       "log_sha256":  "3C059A27B60B526391977E21C8B3CD1BA0B3F4CBFB4DBBC4A8E865F4085F5896",
+                       "result":  "PASS",
+                       "expected_exit_codes":  [
+                                                   0,
+                                                   0,
+                                                   1,
+                                                   1,
+                                                   2,
+                                                   1,
+                                                   2
+                                               ]
+                   },
+    "delivery":  {
+                     "bytes":  3573248,
+                     "sha256":  "0F8D74D3511EBA7DE36092F90FA39F1C1E65885EFDCE91E0C16A25B07AFD1BCF",
+                     "native_x64":  true,
+                     "ASLR":  true,
+                     "high_entropy_ASLR":  true,
+                     "NX":  true,
+                     "imports":  [
+                                     "ADVAPI32.DLL",
+                                     "BCRYPT.DLL",
+                                     "GDI32.DLL",
+                                     "IMM32.DLL",
+                                     "KERNEL32.DLL",
+                                     "OLE32.DLL",
+                                     "OLEACC.DLL",
+                                     "OLEAUT32.DLL",
+                                     "SHELL32.DLL",
+                                     "SHLWAPI.DLL",
+                                     "USER32.DLL",
+                                     "UXTHEME.DLL"
+                                 ]
+                 },
+    "ini":  [
+                {
+                    "name":  "simple_editor_tool.ini",
+                    "hash":  "6A6160FE6A84B6A1334A64AAA38D5AFA05221F76B293C410083DBA1D619F1369"
+                },
+                {
+                    "name":  "test.ini",
+                    "hash":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91"
+                },
+                {
+                    "name":  "ui_smoke.ini",
+                    "hash":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                }
+            ],
+    "source_hashes":  [
+                          {
+                              "path":  "src/main_frame.cpp",
+                              "sha256":  "A27015B6262BC87621DE5EE60400F5A6ECBF1ECFA8C0D5199B48F02B7C408789"
+                          },
+                          {
+                              "path":  "src/main_frame.h",
+                              "sha256":  "843032BE546143E354F11B8501A64B32ACBCC2C200FDCE7A75AEE6D1659C2F04"
+                          },
+                          {
+                              "path":  "src/main_frame_review.cpp",
+                              "sha256":  "E9475DC9A60C93CF522754CD4B21525F123BCA7B61B49B3AE776728DABCAD676"
+                          },
+                          {
+                              "path":  "src/main_frame_text_review.cpp",
+                              "sha256":  "9E4651A8CAC461B8B23D123E1E9D96F8EDEF5516136A0B78ABE8EA7EEA3B31F0"
+                          },
+                          {
+                              "path":  "src/main_frame_binary_review.cpp",
+                              "sha256":  "8CE96413DAD5DDD654DC8DB4341725E2B50F403BDF2E73413342C8CE84DD93F7"
+                          },
+                          {
+                              "path":  "src/main_frame_ips.cpp",
+                              "sha256":  "954EDD15C7853617AE4FB955C40FE14C6222CE1DB83135BFA7B9A1360C6258B0"
+                          },
+                          {
+                              "path":  "src/main_frame_clone.cpp",
+                              "sha256":  "6BFCE39D0B2384E020D77FB4B24925F931CF45424650945D5060DC02CF677E89"
+                          },
+                          {
+                              "path":  "src/main_frame_compare.cpp",
+                              "sha256":  "B440A2C40DEC822AA69AB2FAFA3AFAC20093B02109711B92D3C986DEA4697DD4"
+                          },
+                          {
+                              "path":  "src/main_frame_edit.cpp",
+                              "sha256":  "06D4FB82054C3C3D1A1C75CCA9B35C18325E4423118E1EBA5B90148D6CD3A656"
+                          },
+                          {
+                              "path":  "src/main_frame_editor.cpp",
+                              "sha256":  "97CC4F20778D51043B5CBA40A91C6FDB441691577E14A1A00E9D821B4C830EC4"
+                          },
+                          {
+                              "path":  "src/main_frame_search.cpp",
+                              "sha256":  "925C5748F693ACAF0A29FDB5E42A29B234F65013BB37FC46A6150C6B37A0341B"
+                          },
+                          {
+                              "path":  "src/main_frame_paths.cpp",
+                              "sha256":  "6121CF2DA3AEDF6A96BA0DB6E675A0638E6DBC01A88C4E5BBC7146853480D71D"
+                          },
+                          {
+                              "path":  "src/services/editor_job.h",
+                              "sha256":  "006F31D76D09C186EFA170BF4FD48CEB86B32D2F463BC543E7774CA87C55E4D9"
+                          },
+                          {
+                              "path":  "src/workspace_frame.cpp",
+                              "sha256":  "789E29D2C6AB356758D13A910D896A657958B914C581041BA218388368072F42"
+                          },
+                          {
+                              "path":  "src/workspace_open_search.cpp",
+                              "sha256":  "C954461528856B3EBB2E30F72E24F370B91EEDD2856B38E6FEE10A9ADC3B5A3D"
+                          },
+                          {
+                              "path":  "src/workspace_preferences.cpp",
+                              "sha256":  "35E0F0C52C603D3B1261D0B5DE5091A37EB0BBD6D56D0CCFBBE8DDFF89045307"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare.cpp",
+                              "sha256":  "D71D95B18A235DC0515F401790D08CC1905AA0A2F3DE7A1268668A68B56E7D99"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare.h",
+                              "sha256":  "A5887B08897DE0210C918F8797C662C9629BCEAA76B932E14F931A00E8085555"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare_actions.cpp",
+                              "sha256":  "A1E8007B670FF78A1965FE43EDB0DC8E501F6CDC47C5445BFBC714780EC7555B"
+                          },
+                          {
+                              "path":  "src/ui/advanced_sources.cpp",
+                              "sha256":  "D29D7D230A822FB8D9FF05547681C8E4984A57A900A8FE0A8DEEF96B76AA1C93"
+                          },
+                          {
+                              "path":  "src/ui/advanced_text_inputs.cpp",
+                              "sha256":  "274C8BB8AAD39B445C6440E701773C2E8628631CB0DAA1590434C98E3561C0D9"
+                          },
+                          {
+                              "path":  "src/ui/code_editor.cpp",
+                              "sha256":  "18DEE9CFC48E875300D7F82E8AA5291754F5269878D7635F7BD231EB374F27D9"
+                          },
+                          {
+                              "path":  "src/ui/code_editor.h",
+                              "sha256":  "ECE3AE2718EC4E366A9F33A5BDC410243AC6824945F61898F55A672669A52FEC"
+                          },
+                          {
+                              "path":  "src/ui/editor_dialogs.cpp",
+                              "sha256":  "16758F80892D4014D2458B35BFB7E1F9BBA3FB01A341AB6979750967458C3EAF"
+                          },
+                          {
+                              "path":  "src/ui/editor_dialogs.h",
+                              "sha256":  "D754D87DFA90D58DB9959D5831B31BAD1902EE501775034A4AA81F0AAB054DEA"
+                          },
+                          {
+                              "path":  "src/ui/search_multiline.cpp",
+                              "sha256":  "E3A15A226D94175F26A75C9A224E12B5DDB4075D5C4B7BB7524401C4AE4B0868"
+                          },
+                          {
+                              "path":  "src/ui/feature_dialogs.cpp",
+                              "sha256":  "E392E4C3F273E1035F729D9E391BC4B4E644EC8B32981346AD8A0A6F4269F2BB"
+                          },
+                          {
+                              "path":  "src/ui/feature_dialogs.h",
+                              "sha256":  "15C7DBC6AE3E36DE4681CE59DD0EA48B1A59016583D61B56459C299884DF46A0"
+                          },
+                          {
+                              "path":  "src/ui/review_dialogs.cpp",
+                              "sha256":  "B549E5D0D749D284ADD5B04F07B42C6537491CEC883227BAB0751FF0448F9247"
+                          },
+                          {
+                              "path":  "src/ui/review_dialogs.h",
+                              "sha256":  "AF9F69F62FA66412B724E606C495EED414F7E3EF1C4EAD468E7AF77B86B3504A"
+                          },
+                          {
+                              "path":  "src/core/text_review.cpp",
+                              "sha256":  "FB2CEC181FFAF314EB9B4296DC2004B07DC3D9AC56E0AADBE01E5ED1040C9B2D"
+                          },
+                          {
+                              "path":  "src/core/text_review.h",
+                              "sha256":  "EDBE3F8F9D099E8D37EE52C3F9223B281247B591ECA4AA32B1881F81A782C709"
+                          },
+                          {
+                              "path":  "src/core/editor_config.cpp",
+                              "sha256":  "0210DE6F06B931CC3331251C04F24244027755F100961D01F007F6331A41524B"
+                          },
+                          {
+                              "path":  "src/core/editor_config.h",
+                              "sha256":  "1EB907D88AFB1BCAD57920F1E91D7557E696E43C96FC941FF91EC615DDEB1C98"
+                          },
+                          {
+                              "path":  "src/core/bit_fields.cpp",
+                              "sha256":  "228E949D2F8CD2E836C45B5BB307B0712E112377E69234DBD9BD1A91EB433F72"
+                          },
+                          {
+                              "path":  "src/core/bit_fields.h",
+                              "sha256":  "11C3ABE2CD16CC321FEAB889431E14060E36DFA38BD874E2721BB9C219FA881F"
+                          },
+                          {
+                              "path":  "src/core/ips_patch.cpp",
+                              "sha256":  "86A625DE8958EB238A10B8AF4F0AF0E3D32433153F7D87E719DF60CBBFC1C9CD"
+                          },
+                          {
+                              "path":  "src/core/ips_patch.h",
+                              "sha256":  "645D63268AACD4A6759C1466D72D4507B68F420788C28B641F8F043013DB3FDB"
+                          },
+                          {
+                              "path":  "src/resource.h",
+                              "sha256":  "A6590A5CBA60CD1DC9EAFD6391A644A915279E3171DFAC45236D6F8DC9427F20"
+                          },
+                          {
+                              "path":  "src/simple_editor_tool.rc",
+                              "sha256":  "4AF5BA70CE89D3C39B2999A9FC03E89BDB39A17B68D0D8147EF2A56F822CFE43"
+                          },
+                          {
+                              "path":  "tests/native_editor_review_tests.cpp",
+                              "sha256":  "34C26ED30E74B0880112D3DE906C5B4BBABA7556DA2E9DB15E97728441AB17F9"
+                          },
+                          {
+                              "path":  "tests/native_editor_review_ui.inc",
+                              "sha256":  "F713C283974684DB26AAF6E3D3E1E2554833FBB3C8A9E3B042D7E051A894DBDB"
+                          },
+                          {
+                              "path":  "tests/native_ui_tests.cpp",
+                              "sha256":  "9DDDC22328CD9B24A00D57A53CE969D5E4BF34DFEC056099E2F262A379F2D5CE"
+                          },
+                          {
+                              "path":  "tests/native_core_tests.cpp",
+                              "sha256":  "8698306D269D31036B223FD498554D2B15166DA5341EF4508EB9BDB493139BF4"
+                          },
+                          {
+                              "path":  "NativeCoreTests.vcxproj",
+                              "sha256":  "4A7D7A06BCA76D3537C469BD25AFA3F2F4CAD4B56AEECA6B64C93F45B3FFA239"
+                          },
+                          {
+                              "path":  "NativeUiTests.vcxproj",
+                              "sha256":  "72DC06E8FCA1193D98B153280BAC3304FA9A5FAA42F957A9D63F61DAD0B5E1CC"
+                          },
+                          {
+                              "path":  "SimpleEditorTool.vcxproj",
+                              "sha256":  "53CC55C8A82236090EF5CC212392E891184900AA8312247C4511168C35F368FE"
+                          }
+                      ],
+    "test_overrides":  {
+                           "debug_information":  "None in Debug test builds; canonical compiler defaults in Release",
+                           "static_runtime_and_Debug_assertions_preserved":  true,
+                           "canonical_product_build_overridden":  false,
+                           "scheduling":  "/MP2",
+                           "link_incremental":  false
+                       },
+    "visual_evidence":  [
+                            "editor-review-sources-20261026.png",
+                            "editor-review-find-20261026.png"
+                        ],
+    "visual_inspection":  "PASS: both actual native Release captures inspected",
+    "limits_document":  "docs/EDITOR_REVIEW.md",
+    "not_run":  [
+                    "Full 128 MiB all-open / 64 MiB patch stress and throughput benchmarking",
+                    "Physical mouse/clipboard interaction and mixed-monitor DPI",
+                    "Allocation-failure and power-loss injection",
+                    "Full EditorConfig conformance and broad third-party patch corpus interoperability"
+                ],
+    "observed_development_bytes":  750082835,
+    "cleanup":  {
+                    "result":  "PASS",
+                    "project_only":  true,
+                    "protected_files":  1184,
+                    "protected_digest":  "5335CBB9CA713FB35022D4D61310FF6A3066166A44A50AF3EE09FEF793A63D90",
+                    "static_audit":  "PASS: 4 cleanup scripts",
+                    "preservation_audit":  "PASS: help/idempotence, 17 fixture protected files, junction refusal, actual compiler clean",
+                    "actual_clean_removed_compiler_files":  135,
+                    "recognized_metadata_removed":  13,
+                    "audit_junction":  "Detached only the exact owned entry after checking target identity and unchanged sentinel; both paths strictly inside project",
+                    "external_deletions":  0,
+                    "preservation_log_sha256":  "F186A67121B93DE14437123A8C0F77F86FF05B8829E261146746D817F498A609",
+                    "purge_log_sha256":  "F4D4E01504582519DF711F9DFB336B9EFBFF2D852108B3739FF778E93CFCC32B",
+                    "initial_owned_scratch_removed_files":  101,
+                    "initial_owned_scratch_removed_bytes":  697447,
+                    "deletion_method":  "Fixed literal file paths, owner marker, SHA-256, readonly/reparse rejection, nonrecursive File.Delete; no force. Initial Remove-Item review rejection made no deletion and safer fixed-file calls succeeded.",
+                    "final_compiler_files_removed":  135,
+                    "final_metadata_files_removed":  9,
+                    "final_safe_clean_log_sha256":  "42B91263952141B12F1F3CD37D69D0433DDB501C57470CF3B0D8C3002BE2A664",
+                    "final_purge_log_sha256":  "0B046B28395FB9AA56D093F5CD872913088CAEF4AA5EA167835B4080256B6AC1",
+                    "clean_audit_reuse":  "Cleanup scripts unchanged: preceding help/idempotence/17-file/junction/actual-project preservation audit reused; final clean and all protected-file hashes checked again after indentation follow-up.",
+                    "final_owned_scratch_removed_files":  29,
+                    "final_owned_scratch_removed_bytes":  546709,
+                    "artifacts_remaining_files":  0,
+                    "final_preservation_digest_matches":  true
+                },
+    "publication":  "No commit, push or GitHub upload",
+    "followup_scope":  "EditorConfig Enter uses indent_size independently from tab_width; remembering configured/manual document indentation retains global defaults. Six final UI follow-up runs pass; unchanged core and other GUI paths reuse the preceding 24-run acceptance.",
+    "project_files":  1185
+}

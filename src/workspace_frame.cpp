@@ -1,6 +1,7 @@
 #include "workspace_frame.h"
 #include "main_frame.h"
 #include "resource.h"
+#include "ui/localization.h"
 #include <algorithm>
 #include <filesystem>
 #include <cwctype>
@@ -37,6 +38,7 @@ BEGIN_MESSAGE_MAP(CWorkspaceFrame, CFrameWnd)
     ON_COMMAND(ID_WORKSPACE_COMPARE, OnNewCompare)
     ON_COMMAND(ID_WORKSPACE_CLOSE, OnCloseTab)
     ON_COMMAND_RANGE(ID_WORKSPACE_TEXT_COMPARE, ID_WORKSPACE_FOLDERS, OnAdvancedComparison)
+    ON_COMMAND_RANGE(ID_WORKSPACE_PASTED_TEXT, ID_WORKSPACE_PASTED_TEXT, OnAdvancedComparison)
     ON_COMMAND(ID_WORKSPACE_SAVE_SESSION, OnSaveWorkspace)
     ON_COMMAND(ID_WORKSPACE_LOAD_SESSION, OnLoadWorkspace)
     ON_COMMAND(ID_APP_ABOUT,OnAboutNative)
@@ -50,6 +52,7 @@ BEGIN_MESSAGE_MAP(CWorkspaceFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_WORKSPACE_RECENT_FIRST,ID_WORKSPACE_RECENT_LAST,OnRecentFile)
     ON_COMMAND_RANGE(ID_WORKSPACE_CLOSE_OTHERS,ID_WORKSPACE_MOVE_RIGHT,OnTabAction)
     ON_COMMAND(ID_WORKSPACE_PREFERENCES,OnPreferences)
+    ON_COMMAND_RANGE(ID_LANGUAGE_ENGLISH,ID_LANGUAGE_TRADITIONAL,OnLanguage)
     ON_COMMAND_RANGE(ID_EXPLORER_ADD,ID_EXPLORER_REMOVE,OnExplorerMenu)
     ON_UPDATE_COMMAND_UI_RANGE(ID_EXPLORER_ADD,ID_EXPLORER_REMOVE,OnUpdateExplorerMenu)
     ON_COMMAND_RANGE(ID_WORKSPACE_RECOVER_DRAFTS,ID_WORKSPACE_BROWSE_RECOVERY,OnRecoveryCommand)
@@ -66,8 +69,9 @@ CWorkspaceFrame::CWorkspaceFrame(bool publish_instance) {
     published_instance_ = publish_instance;
     std::wstring preference_error;
     if (publish_instance) { std::vector<wchar_t> name(32768); const auto count = GetModuleFileNameW(nullptr,name.data(),static_cast<DWORD>(name.size())); if (count && count < name.size()) LoadConfiguration(std::filesystem::path(name.data()).parent_path() / L"simple_editor_tool.ini",&preference_error); }
+    if (publish_instance) { wchar_t executable[32768]{}; GetModuleFileNameW(nullptr,executable,32768); std::wstring language_error; if (!simple_editor::ui::InitializeLocalization(std::filesystem::path(executable).parent_path(),preferences_.language,&language_error)) { if (!preference_error.empty()) preference_error += L"\r\n"; preference_error += L"Language files could not be loaded; English interface is active. " + language_error; } }
     Create(nullptr, L"Simple Editor Tool", WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, rectDefault);
-    SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), TRUE);
+    SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), TRUE); simple_editor::ui::RegisterLocalizationRoot(this); simple_editor::ui::RegisterLocalizationMenu(root_menu_.GetSafeHmenu(),GetSafeHwnd());
     if (publish_instance) {
         ::SetPropW(m_hWnd, L"SimpleEditorTool.Native.WorkspaceVersion", reinterpret_cast<HANDLE>(2));
         ::SetPropW(m_hWnd, L"SimpleEditorTool.Native.MainWindow", reinterpret_cast<HANDLE>(1));
@@ -80,6 +84,7 @@ int CWorkspaceFrame::OnCreate(LPCREATESTRUCT create) {
     root_menu_.CreateMenu(); CMenu file; file.CreatePopupMenu();
     file.AppendMenu(MF_STRING, ID_FILE_OPEN, L"&Open files...\tCtrl+O");
     file.AppendMenu(MF_STRING, ID_FILE_COMPARE, L"&New comparison...");
+    file.AppendMenu(MF_STRING, ID_WORKSPACE_PASTED_TEXT, L"Pasted text comparison...");
     file.AppendMenu(MF_STRING, ID_WORKSPACE_TEXT_COMPARE, L"Text/source comparison..."); file.AppendMenu(MF_STRING, ID_WORKSPACE_THREE_MERGE, L"Three-way text merge..."); file.AppendMenu(MF_STRING, ID_WORKSPACE_FOLDERS, L"Folder comparison / sync...");
     file.AppendMenu(MF_STRING, ID_FILE_CLOSE, L"&Close tab\tCtrl+W");
     file.AppendMenu(MF_STRING,ID_WORKFLOW_PALETTE,L"Search commands...\tCtrl+Shift+P"); file.AppendMenu(MF_STRING,ID_WORKSPACE_BATCH_REPLACE,L"Preview replacements in folder..."); file.AppendMenu(MF_STRING,ID_WORKSPACE_SEARCH_FILES,L"Find in open files / folder...\tCtrl+Shift+F");
@@ -88,7 +93,7 @@ int CWorkspaceFrame::OnCreate(LPCREATESTRUCT create) {
     file.AppendMenu(MF_SEPARATOR); file.AppendMenu(MF_STRING, ID_APP_EXIT, L"E&xit");
     root_menu_.AppendMenu(MF_POPUP, reinterpret_cast<UINT_PTR>(file.Detach()), L"&File");
     CMenu tools; tools.CreatePopupMenu(); AppendExplorerMenu(tools); root_menu_.AppendMenu(MF_POPUP,reinterpret_cast<UINT_PTR>(tools.Detach()),L"&Tools");
-    CMenu help; help.CreatePopupMenu(); help.AppendMenu(MF_STRING,ID_APP_ABOUT,L"About / native component notices..."); root_menu_.AppendMenu(MF_POPUP,reinterpret_cast<UINT_PTR>(help.Detach()),L"&Help"); SetMenu(&root_menu_);
+    simple_editor::ui::AppendLanguageMenu(root_menu_); CMenu help; help.CreatePopupMenu(); help.AppendMenu(MF_STRING,ID_APP_ABOUT,L"About / native component notices..."); root_menu_.AppendMenu(MF_POPUP,reinterpret_cast<UINT_PTR>(help.Detach()),L"&Help"); SetMenu(&root_menu_);
     open_button_.Create(L"Open files...", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_WORKSPACE_OPEN);
     compare_button_.Create(L"Compare files...", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_WORKSPACE_COMPARE);
     close_button_.Create(L"Close tab", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_WORKSPACE_CLOSE);
@@ -115,7 +120,8 @@ void CWorkspaceFrame::OnSize(UINT type, int cx, int cy) { CFrameWnd::OnSize(type
 void CWorkspaceFrame::FocusActive() {
     if (active_session_ < 0 || !IsWindowVisible()) return;
     auto* session = sessions_[active_session_];
-    CWnd* target = session->active_tab_ == 0 ? static_cast<CWnd*>(&session->hex_) : session->active_tab_ == 1 ? static_cast<CWnd*>(&session->text_) : static_cast<CWnd*>(&session->compare_left_);
+    CWnd* target = session->ActiveEditor();
+    if (!target) target = session->active_tab_ == 0 ? static_cast<CWnd*>(&session->hex_) : static_cast<CWnd*>(&session->compare_left_);
     if (target->GetSafeHwnd()) target->SetFocus();
 }
 void CWorkspaceFrame::OnSetFocus(CWnd* previous) { CFrameWnd::OnSetFocus(previous); FocusActive(); }
@@ -152,6 +158,7 @@ void CWorkspaceFrame::RefreshLabels() {
             label = left.IsEmpty() || right.IsEmpty() ? L"New comparison" : std::filesystem::path(left.GetString()).filename().wstring() + L" vs " + std::filesystem::path(right.GetString()).filename().wstring();
         }
         if (label.empty()) label = L"New comparison";
+        if (session->comparison_session_ && session->displayed_mode_ == 8) label = L"Pasted text comparison";
         if (!session->comparison_session_ && (session->document_.IsModified() || session->text_dirty_ || session->text_.GetModify() || session->untitled_dirty_)) label += L" *";
         if (session->comparison_session_ && session->advanced_.Dirty()) label += L" *";
         TCITEM item{}; item.mask = TCIF_TEXT; item.pszText = label.data(); sessions_tab_.SetItem(static_cast<int>(i), &item);
@@ -171,11 +178,12 @@ bool CWorkspaceFrame::OpenPath(const std::wstring& path, bool silent) {
     }
     // Validate before creating a tab; failed input never changes an existing session.
     simple_editor::core::BinaryDocument opened; std::wstring error;
-    if (!opened.Open(NormalPath(path), &error)) { if (!silent) AfxMessageBox((L"Cannot open file:\n" + error).c_str(), MB_ICONERROR); return false; }
+    if (!opened.Open(NormalPath(path), &error)) { if (!silent) UiMessageBox((L"Cannot open file:\n" + error).c_str(), MB_ICONERROR); return false; }
     auto* session = CreateSession(); if (!session) return false;
     session->document_.Swap(opened); session->hex_.SetDocument(&session->document_);
     session->text_stale_ = true; session->SetWindowTextW((session->document_.Path() + L" - Simple Editor Tool").c_str());
-    session->SetSaveReadOnly(DocumentLocked(session->document_));
+    if (session->document_.Size() <= 32 * 1024 * 1024) { session->RefreshText(); if (session->text_editable_) session->ShowPage(1); }
+    session->RequestIndentation(true); session->SetSaveReadOnly(DocumentLocked(session->document_));
     session->status_.SetPaneText(0, session->document_.Path().c_str()); RememberRecent(session->document_.Path()); RefreshLabels(); return true;
 }
 void CWorkspaceFrame::ChooseFiles() {
@@ -220,7 +228,7 @@ bool CWorkspaceFrame::LockPaths(const std::vector<std::wstring>& paths, bool acq
         for (const auto& key : group.paths) if (locked_paths_.count(key)) return false;
         for (const auto& identity : group.identities) if (locked_identities_.count(identity)) return false;
         for (auto* session : sessions_) if (!session->comparison_session_ && session->document_.IsOpen() && (group.paths.count(LockKey(session->document_.Path())) || group.identities.count(session->document_.SourceIdentity())) &&
-            owner != &session->job_ && (session->document_.IsModified() || session->text_dirty_ || session->text_.GetModify() || session->untitled_dirty_ || session->IsBusy())) return false;
+            owner != &session->job_ && (session->IsBusy() || (owner != &open_search_io_ && (session->document_.IsModified() || session->text_dirty_ || session->text_.GetModify() || session->untitled_dirty_)))) return false;
         locked_paths_.insert(group.paths.begin(),group.paths.end()); locked_identities_.insert(group.identities.begin(),group.identities.end()); lock_groups_.emplace(owner,std::move(group));
     } else {
         const auto group = lock_groups_.find(owner); if (group == lock_groups_.end()) return true;
@@ -259,6 +267,7 @@ std::unique_ptr<simple_editor::core::BinaryDocument> CWorkspaceFrame::SnapshotFo
 bool CWorkspaceFrame::CloseSession(CMainFrame* session) {
     if (close_prompt_active_) return false;
     const auto found = std::find(sessions_.begin(), sessions_.end(), session); if (found == sessions_.end()) return false;
+    if (open_search_sessions_.count(session->workspace_session_id_)) { open_search_cancel_ = true; CancelCloseAll(); SearchStatus(L"Cancelling open-document search. Retry closing after it finishes."); return false; }
     if (session->path_dialog_) { closing_all_ = false; return false; }
     close_prompt_active_ = true; const bool advanced_close = session->advanced_.CanClose(); close_prompt_active_ = false;
     if (!advanced_close) { if (!session->advanced_.PendingClose()) CancelCloseAll(); return false; }
@@ -299,17 +308,19 @@ void CWorkspaceFrame::OnClose() {
     if (sessions_.empty()) { if (!recovery_root_.empty() && (preferences_.auto_restore || preferences_.recover_drafts) && StartRecoverySnapshot(true)) { recovery_close_pending_ = true; return; } CFrameWnd::OnClose(); return; }
     CloseSession(sessions_[active_session_ >= 0 ? active_session_ : 0]);
 }
-void CWorkspaceFrame::OnDestroy() { destroying_ = true; StopRecovery(); if (multi_search_.GetSafeHwnd()) multi_search_.DestroyWindow(); SetMenu(nullptr); CFrameWnd::OnDestroy(); }
+void CWorkspaceFrame::OnDestroy() { destroying_ = true; StopOpenSearch(); if (scoped_search_.GetSafeHwnd()) scoped_search_.DestroyWindow(); StopRecovery(); if (multi_search_.GetSafeHwnd()) multi_search_.DestroyWindow(); SetMenu(nullptr); CFrameWnd::OnDestroy(); }
 void CWorkspaceFrame::OnOpen() { ChooseFiles(); }
 void CWorkspaceFrame::OnNewCompare() { NewComparison(active_session_ >= 0 ? sessions_[active_session_]->untitled_ ? sessions_[active_session_]->untitled_name_ : sessions_[active_session_]->document_.Path() : L""); }
 void CWorkspaceFrame::OnNewCompareEqual() { NewComparison(active_session_ >= 0 ? sessions_[active_session_]->untitled_ ? sessions_[active_session_]->untitled_name_ : sessions_[active_session_]->document_.Path() : L"", false); }
-void CWorkspaceFrame::OnAdvancedComparison(UINT id) { NewComparisonInputs(active_session_ >= 0 ? sessions_[active_session_]->untitled_ ? sessions_[active_session_]->untitled_name_ : sessions_[active_session_]->document_.Path() : L"",L"",L"",id == ID_WORKSPACE_TEXT_COMPARE ? 2 : id == ID_WORKSPACE_THREE_MERGE ? 3 : 4); }
+void CWorkspaceFrame::OnAdvancedComparison(UINT id) { if (id == ID_WORKSPACE_PASTED_TEXT) { NewComparisonInputs(L"",L"",L"",8,false); return; } NewComparisonInputs(active_session_ >= 0 ? sessions_[active_session_]->untitled_ ? sessions_[active_session_]->untitled_name_ : sessions_[active_session_]->document_.Path() : L"",L"",L"",id == ID_WORKSPACE_TEXT_COMPARE ? 2 : id == ID_WORKSPACE_THREE_MERGE ? 3 : 4); }
 void CWorkspaceFrame::OnCloseTab() { CancelCloseAll(); if (active_session_ >= 0) CloseSession(sessions_[active_session_]); }
 void CWorkspaceFrame::OnUpdateClose(CCmdUI* command) { command->Enable(active_session_ >= 0); }
 void CWorkspaceFrame::OnUpdateCompare(CCmdUI* command) { command->Enable(TRUE); }
 void CWorkspaceFrame::OnTabChanged(NMHDR*, LRESULT* result) { ActivateSession(sessions_tab_.GetCurSel()); *result = 0; }
 void CWorkspaceFrame::OnDropFiles(HDROP drop) { OpenDroppedFiles(drop); }
 BOOL CWorkspaceFrame::PreTranslateMessage(MSG* message) {
+    if (scoped_search_.GetSafeHwnd() && scoped_search_.IsWindowVisible() && scoped_search_.IsDialogMessage(message)) return TRUE;
+    if (message->message == WM_KEYDOWN && message->wParam == VK_ESCAPE && open_search_io_.valid()) { open_search_cancel_ = true; return TRUE; }
     if ((message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN) && (GetKeyState(VK_MENU) & 0x8000) && (message->wParam == VK_LEFT || message->wParam == VK_RIGHT)) { NavigateHistory(message->wParam == VK_LEFT); return TRUE; }
     if (message->message == WM_KEYDOWN && message->wParam == 'P' && (GetKeyState(VK_CONTROL) & 0x8000) && (GetKeyState(VK_SHIFT) & 0x8000)) { SendMessage(WM_COMMAND,ID_WORKFLOW_PALETTE); return TRUE; }
     if (message->message == WM_KEYDOWN && message->wParam == VK_ESCAPE && recovery_io_.valid() && (message->hwnd == GetSafeHwnd() || ::IsChild(GetSafeHwnd(),message->hwnd))) { recovery_cancel_ = true; recovery_close_pending_ = false; return TRUE; }

@@ -1,4 +1,5 @@
 #include "main_frame.h"
+#include "ui/localization.h"
 #include "resource.h"
 #include "core/search.h"
 #include "workspace_frame.h"
@@ -18,7 +19,7 @@ void CMainFrame::RefreshText() {
     else { text_editable_ = true; text_.SetReadOnly(MutationBlocked()); }
     text_original_ = text_editable_ ? value : L"";
     text_.SetWindowTextW(TextForEditControl(value).c_str()); text_.SetModify(FALSE);
-    text_.ConfigureLanguage(document_.Path());
+    ConfigureFileSyntax();
     text_stale_ = false; suppress_text_change_ = false;
 }
 
@@ -33,9 +34,9 @@ bool CMainFrame::ApplyTextEdits() {
     CString value; text_.GetWindowTextW(value); std::vector<std::uint8_t> bytes; std::wstring error;
     const auto restored = TextFromEditControl(text_original_,std::wstring(value.GetString(), value.GetLength()));
     if (!EncodeText(restored, text_codec_, true, &bytes, &error)) {
-        AfxMessageBox(error.c_str(), MB_ICONERROR); return false;
+        UiMessageBox(error.c_str(), MB_ICONERROR); return false;
     }
-    if (!document_.Replace(0, document_.Size(), bytes)) { AfxMessageBox(L"Could not apply text changes.", MB_ICONERROR); return false; }
+    if (!document_.Replace(0, document_.Size(), bytes)) { UiMessageBox(L"Could not apply text changes.", MB_ICONERROR); return false; }
     text_original_ = restored;
     text_dirty_ = false; text_.SetModify(FALSE); DocumentChanged(); text_stale_ = false;
     hex_.GoTo((std::min)(hex_.CursorOffset(), document_.Size())); return true;
@@ -83,8 +84,8 @@ void CMainFrame::OnEncoding(UINT id) {
     text_stale_ = true; ShowPage(1);
 }
 
-void CMainFrame::OnFind() { ActiveHex(); if (document_.IsOpen() || AdvancedActive()) search_dialog_.Show(false, !AdvancedActive() && active_tab_ != 1, this); }
-void CMainFrame::OnReplace() { ActiveHex(); if (document_.IsOpen() || AdvancedActive()) search_dialog_.Show(true, !AdvancedActive() && active_tab_ != 1, this); }
+void CMainFrame::OnFind() { ActiveHex(); ActiveEditor(); if (workspace_) { workspace_->ShowFindReplace(false); return; } if (document_.IsOpen() || AdvancedActive()) search_dialog_.Show(false, !AdvancedActive() && active_tab_ != 1, this); }
+void CMainFrame::OnReplace() { ActiveHex(); ActiveEditor(); if (workspace_) { workspace_->ShowFindReplace(true); return; } if (document_.IsOpen() || AdvancedActive()) search_dialog_.Show(true, !AdvancedActive() && active_tab_ != 1, this); }
 void CMainFrame::OnFindNext() {
     if (last_search_.find.IsEmpty()) { OnFind(); return; }
     auto request = last_search_; request.action = SearchAction::FindNext; request.previous = (GetKeyState(VK_SHIFT) & 0x8000) != 0; ExecuteSearch(request);
@@ -104,6 +105,7 @@ void CMainFrame::OnGoTo() {
 }
 
 void CMainFrame::ExecuteSearch(const SearchRequest& request) {
+    if (request.all_open && workspace_) { workspace_->ExecuteOpenSearch(request); return; }
     if (!request.hex && !ActiveEditor() && !AdvancedActive() && (request.mode >= 2 || !request.match_case || request.whole_word || request.previous || request.selection_only || !request.wrap || request.action == SearchAction::Count || request.action == SearchAction::FindAll)) { ShowPage(1); if (!text_editable_) { status_.SetPaneText(0,L"Choose a valid text encoding or use Hex search."); return; } }
     if (!request.hex && ActiveEditor()) { ExecuteEditorSearch(request,ActiveEditor()); return; }
     if (request.hex && (request.mode >= 4 || request.previous || request.selection_only || !request.wrap || request.action == SearchAction::Count || request.action == SearchAction::FindAll)) { ExecuteByteSearch(request); return; }
@@ -122,7 +124,7 @@ void CMainFrame::ExecuteSearch(const SearchRequest& request) {
         EncodeText(request.find.GetString(), text_codec_, false, &pattern, &error);
         if (error.empty() && request.action != SearchAction::FindNext) EncodeText(request.replacement.GetString(), text_codec_, false, &replacement, &error);
     }
-    if (!error.empty() || pattern.empty()) { AfxMessageBox(error.empty() ? L"Enter a non-empty search pattern." : error.c_str(), MB_ICONWARNING); return; }
+    if (!error.empty() || pattern.empty()) { UiMessageBox(error.empty() ? L"Enter a non-empty search pattern." : error.c_str(), MB_ICONWARNING); return; }
     last_search_ = request;
     if (request.action == SearchAction::Replace && match_offset_ != UINT64_MAX && match_pattern_ == pattern && hex_.CursorOffset() == match_offset_) {
         std::vector<std::uint8_t> current; const auto at = match_offset_;
@@ -132,7 +134,7 @@ void CMainFrame::ExecuteSearch(const SearchRequest& request) {
     }
     const bool all = request.action == SearchAction::ReplaceAll;
     auto snapshot = document_.Snapshot(&error, all);
-    if (!snapshot) { AfxMessageBox(error.c_str(), MB_ICONERROR); return; }
+    if (!snapshot) { UiMessageBox(error.c_str(), MB_ICONERROR); return; }
     std::uint64_t start = hex_.CursorOffset();
     if (match_offset_ != UINT64_MAX && match_pattern_ == pattern && start == match_offset_) start = (std::min<std::uint64_t>)(document_.Size(), start + pattern.size());
     const bool aligned = !request.hex && (text_codec_.encoding == TextEncoding::Utf16Le || text_codec_.encoding == TextEncoding::Utf16Be);

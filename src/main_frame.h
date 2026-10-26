@@ -26,6 +26,8 @@
 #include "ui/search_results.h"
 #include "services/editor_job.h"
 #include "services/difference_mailbox.h"
+#include "core/editor_config.h"
+#include "core/bit_fields.h"
 
 class CWorkspaceFrame;
 
@@ -70,6 +72,54 @@ protected:
     afx_msg void OnTemplate();
     afx_msg void OnTextPager();
     afx_msg void OnFeature(UINT command);
+    afx_msg void OnReview(UINT command);
+    afx_msg void OnDocumentFocus(UINT command);
+    void AppendDocumentCommands(CMenu& menu);
+    void ConfigureFileSyntax();
+    void ChooseSyntax();
+    void ChooseSyntaxAssociations();
+    void AppendReviewMenu(CMenu& menu);
+    void AppendExpansionCommands(CMenu& review);
+    afx_msg void OnExpansion(UINT command);
+    void CreateSourceNotice();
+    void LayoutSourceNotice(CRect& page);
+    void CheckSourceNotice(const std::wstring& error);
+    bool StartSelectionMap(bool to_hex);
+    bool StartUnicodeScan(bool explicit_scan);
+    void TickUnicode();
+    void FinishExpansion(EditorJobResult result);
+    void PresetCommand(UINT command);
+    bool StartStatistics();
+    void FinishStatistics(EditorJobResult result);
+    void ConversionDialog();
+    bool ApplyConvertedBytes(const std::vector<std::uint8_t>&,std::uint64_t revision,std::uint64_t offset,std::uint64_t length);
+    CStatic source_notice_;
+    CButton source_keep_,source_compare_,source_reload_;
+    std::wstring source_notice_key_,source_dismissed_key_,preset_path_,unicode_allowlist_;
+    bool source_notice_visible_ = false,unicode_live_ = false;
+    std::set<std::uint32_t> unicode_allowed_;
+    std::uint64_t unicode_generation_ = UINT64_MAX;
+    ULONGLONG unicode_tick_ = 0;
+    CHexView* statistics_view_ = nullptr;
+    bool StartDiskReview();
+    void FinishDiskReview(EditorJobResult result);
+    bool StartOutline();
+    bool StartFunctionOutline();
+    bool function_outline_ = false;
+    void FinishOutline(EditorJobResult result);
+    void ReviewBitFields();
+    bool ApplyBitField(const simple_editor::core::BitField&,std::uint64_t,std::uint64_t);
+    void ReviewIps(UINT command);
+    bool StartIps(const std::wstring& path,bool importing,bool ips32,const std::wstring& expected = L"");
+    void FinishIps(EditorJobResult result);
+    std::wstring bitfield_definition_;
+    void RequestIndentation(bool reset);
+    void TickIndentation();
+    bool indentation_manual_ = false;
+    simple_editor::core::IndentationSettings manual_indentation_;
+    std::future<simple_editor::core::EditorConfigResult> indentation_io_;
+    simple_editor::core::EditorConfigResult indentation_result_;
+    std::wstring indentation_requested_,indentation_running_;
     afx_msg void OnWorkflow(UINT command);
     bool StartWorkflowJob(UINT command,const simple_editor::core::IntegerTransform& transform = {},unsigned minimum = 4,unsigned kinds = 7);
     void FinishWorkflowJob(EditorJobResult result);
@@ -165,7 +215,10 @@ private:
     bool EnsureAdvanced();
     CWorkspaceFrame* workspace_ = nullptr;
     std::uint64_t workspace_session_id_ = 0;
+    std::uint64_t folder_parent_id_ = 0,folder_parent_generation_ = 0;
+    std::wstring folder_relative_;
     bool untitled_ = false;
+    std::wstring syntax_mode_;
     bool untitled_dirty_ = false;
     std::wstring untitled_name_;
     CMenu session_menu_;

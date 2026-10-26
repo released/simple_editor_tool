@@ -11,6 +11,7 @@ struct TextCodec {
     UINT code_page = CP_UTF8;
     bool bom = false;
 };
+std::wstring DescribeTextCodec(const TextCodec&,const std::wstring& text);
 bool ValidateText(const std::wstring& text,std::wstring* error = nullptr);
 bool DecodeText(const std::vector<std::uint8_t>& bytes, TextEncoding requested,
                 std::wstring* text, TextCodec* codec, std::wstring* error);

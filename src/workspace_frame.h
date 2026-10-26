@@ -11,10 +11,12 @@
 #include "core/workspace_session.h"
 #include <future>
 #include "ui/multi_search_dialog.h"
+#include "ui/editor_dialogs.h"
 #include "ui/workspace_tabs.h"
 #include "core/temporary_documents.h"
 #include "core/portable_preferences.h"
 #include "core/recovery_store.h"
+#include "core/editor_config.h"
 
 class CMainFrame;
 
@@ -26,6 +28,12 @@ public:
     void OpenDroppedFiles(HDROP drop);
     void NewComparison(const std::wstring& left = L"", bool insertion_aware = true);
     void NewComparisonInputs(const std::wstring& left, const std::wstring& right, const std::wstring& base, int mode, bool run = false);
+    bool NewPastedPair(const std::wstring& left,const std::wstring& right,std::wstring* error);
+    std::wstring SyntaxForPath(const std::wstring& path) const;
+    std::wstring SyntaxAssociations() const;
+    bool SetSyntaxAssociations(const std::wstring&,std::wstring* error);
+    void OpenFolderPair(CMainFrame* parent,const std::wstring& left,const std::wstring& right,int mode);
+    bool NavigateFolderPair(CMainFrame* child,int direction);
     bool PathLocked(const std::wstring& path) const;
     bool DocumentLocked(const simple_editor::core::BinaryDocument& document) const;
     bool LockPaths(const std::vector<std::wstring>& paths, bool acquire, const void* owner = nullptr,
@@ -44,6 +52,10 @@ public:
     void RefreshLabels();
     void TrackNavigation(CMainFrame* frame);
     void NavigateHistory(bool previous);
+    void ShowFindReplace(bool replace);
+    void ExecuteOpenSearch(const SearchRequest& request);
+    void ShowDiskComparison(const std::wstring& draft,const std::wstring& disk,const std::wstring& path,const simple_editor::core::TextCodec& codec,const simple_editor::core::FileStamp& stamp);
+    simple_editor::core::IndentationSettings IndentationDefaults() const { return {preferences_.tab_width,preferences_.tab_width,preferences_.use_tabs}; }
     std::vector<std::wstring> OpenPaths() const;
     std::vector<std::wstring> FolderPaths() const;
     std::unique_ptr<simple_editor::core::BinaryDocument> SnapshotForPath(const std::wstring& path, std::wstring* error);
@@ -75,6 +87,7 @@ protected:
     afx_msg void OnRecentFile(UINT id);
     afx_msg void OnTabAction(UINT id);
     afx_msg void OnPreferences();
+    afx_msg void OnLanguage(UINT command);
     afx_msg void OnExplorerMenu(UINT command);
     afx_msg void OnUpdateExplorerMenu(CCmdUI* command);
     afx_msg void OnRecoveryCommand(UINT id);
@@ -96,6 +109,9 @@ private:
     void FocusActive();
     bool CaptureSearchSources(int mode,std::vector<simple_editor::services::MultiSearchSource>* sources,std::wstring* error);
     void NavigateSearchResult(const simple_editor::services::MultiSearchMatch& match);
+    void TickOpenSearch();
+    void StopOpenSearch();
+    void SearchStatus(const std::wstring& text);
     bool NewDocument(const std::vector<std::uint8_t>& bytes = {},simple_editor::core::TextEncoding encoding = simple_editor::core::TextEncoding::Utf8,int page = 1);
     void ReorderSessions(int from,int to);
     void TabContext(int index,CPoint point);
@@ -135,6 +151,25 @@ private:
     std::map<std::uint64_t,simple_editor::core::WorkspaceEntry> exit_workspace_;
     std::vector<std::uint64_t> exit_order_;
     CMultiSearchDialog multi_search_;
+    CSearchDialog scoped_search_;
+    struct OpenSearchItem {
+        std::uint64_t session = 0,revision = 0,generation = 0,start = 0,end = 0;
+        std::wstring path;
+        std::string input;
+        NativeSearchPlan plan;
+    };
+    struct OpenSearchJob {
+        SearchRequest request;
+        std::vector<OpenSearchItem> items;
+        std::wstring error;
+        std::uint64_t count = 0;
+        std::size_t chosen = SIZE_MAX,skipped = 0;
+        bool wrapped = false;
+    };
+    std::future<OpenSearchJob> open_search_io_;
+    std::atomic_bool open_search_cancel_{false};
+    bool open_search_preview_ = false;
+    std::set<std::uint64_t> open_search_sessions_;
     std::uint64_t next_session_id_ = 0;
     CWorkspaceTabs sessions_tab_;
     CButton open_button_, compare_button_, close_button_;

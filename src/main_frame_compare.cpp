@@ -1,4 +1,5 @@
 #include "main_frame.h"
+#include "ui/localization.h"
 #include "resource.h"
 #include "workspace_frame.h"
 #include <algorithm>
@@ -19,11 +20,11 @@ void CMainFrame::ClearComparison() {
 }
 bool CMainFrame::PrepareComparison(bool insertion_aware) {
     if (IsBusy()) { status_.SetPaneText(0, L"An operation is running. Cancel it or wait for completion."); return false; }
-    if (!document_.IsOpen()) { AfxMessageBox(L"Open the left file first."); return false; }
+    if (!document_.IsOpen()) { UiMessageBox(L"Open the left file first."); return false; }
     std::wstring source_error;
     if (!document_.ValidateSource(true, &source_error)) { status_.SetPaneText(0, source_error.c_str()); return false; }
     if (!document_.IsModified() && !text_dirty_ && !text_.GetModify()) return true;
-    if (AfxMessageBox(L"The left file has unsaved changes. Save it before comparing?", MB_YESNO | MB_ICONQUESTION) != IDYES) return false;
+    if (UiMessageBox(L"The left file has unsaved changes. Save it before comparing?", MB_YESNO | MB_ICONQUESTION) != IDYES) return false;
     StartSave(document_.Path(), insertion_aware ? AfterSave::CompareInsertion : AfterSave::CompareEqual); return false;
 }
 void CMainFrame::OnCompare() {
@@ -55,7 +56,7 @@ void CMainFrame::StartCompare(const std::wstring& right, bool insertion_aware) {
     auto opened_left = document_.Snapshot(&error);
     auto opened_right = workspace_ ? workspace_->SnapshotForPath(right, &error) : std::make_unique<simple_editor::core::BinaryDocument>();
     if (!opened_left || !opened_right || (!workspace_ && !opened_right->Open(right, &error))) {
-        ClearComparison(); AfxMessageBox(error.c_str(), MB_ICONERROR); return;
+        ClearComparison(); UiMessageBox(error.c_str(), MB_ICONERROR); return;
     }
     compare_left_document_.Swap(*opened_left);
     compare_right_document_.Swap(*opened_right);
@@ -93,14 +94,15 @@ void CMainFrame::DrainDifferences(unsigned batches) {
 }
 void CMainFrame::OnTimer(UINT_PTR id) {
     if (id != 1) { CFrameWnd::OnTimer(id); return; }
-    advanced_.Tick();
+    TickIndentation(); advanced_.Tick(); TickUnicode();
     const auto tick = GetTickCount64();
     if (!IsSaving() && document_.IsOpen() && tick - source_check_tick_ >= 1000) {
-        source_check_tick_ = tick; std::wstring error;
-        if (!document_.ValidateSource(true, &error) ||
-            (compare_right_document_.IsOpen() && !compare_right_document_.ValidateSource(true, &error))) {
-            ClearComparison(); hex_.Invalidate(); status_.SetPaneText(0, error.c_str());
+        source_check_tick_ = tick; std::wstring error,own_error;
+        const bool own_valid = document_.ValidateSource(true,&own_error); error = own_error;
+        if (!own_valid || (compare_right_document_.IsOpen() && !compare_right_document_.ValidateSource(true, &error))) {
+            if (source_notice_key_.empty()) { ClearComparison(); hex_.Invalidate(); status_.SetPaneText(0, error.c_str()); }
         }
+        CheckSourceNotice(own_error);
     }
     if (!job_.valid()) return;
     if (job_kind_ == EditorJobKind::Compare) DrainDifferences();
@@ -114,13 +116,17 @@ void CMainFrame::FinishJob() {
     EditorJobResult result;
     try { result = job_.get(); }
     catch (const std::exception&) {
-        ReleaseJobLocks();
+        ReleaseJobLocks(); if (job_kind_ == EditorJobKind::DiskReview) SetSaveReadOnly(workspace_ && workspace_->DocumentLocked(document_));
         if (job_kind_ == EditorJobKind::Compare) ClearComparison();
         if (job_kind_ == EditorJobKind::TextSearch || job_kind_ == EditorJobKind::Patch || job_kind_ == EditorJobKind::TextCommand) UnlockEditorSearch();
         if (job_kind_ == EditorJobKind::Save) { result.kind = EditorJobKind::Save; result.error = L"Save failed: insufficient memory or an I/O error. Edits are retained."; FinishSave(std::move(result)); }
         else status_.SetPaneText(0, L"Operation failed: insufficient memory or an I/O error.");
         return;
     }
+    if (result.kind == EditorJobKind::Outline) { FinishOutline(std::move(result)); return; }
+    if (result.kind == EditorJobKind::SelectionMap || result.kind == EditorJobKind::UnicodeScan || result.kind == EditorJobKind::Statistics) { FinishExpansion(std::move(result)); return; }
+    if (result.kind == EditorJobKind::IpsImport || result.kind == EditorJobKind::IpsExport) { FinishIps(std::move(result)); return; }
+    if (result.kind == EditorJobKind::DiskReview) { FinishDiskReview(std::move(result)); return; }
     if (result.kind == EditorJobKind::Save) { FinishSave(std::move(result)); return; }
     if (result.kind == EditorJobKind::TextSearch) { FinishEditorSearch(std::move(result)); return; }
     if (result.kind == EditorJobKind::ByteSearch) { FinishByteSearch(std::move(result)); return; }

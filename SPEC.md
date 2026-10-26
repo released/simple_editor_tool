@@ -2,6 +2,59 @@
 
 ## Current Scope
 
+- Document editing/comparison: independent Left/Right/Base decoding, original-line
+  graphical anchors, selected folder/subtree refresh with explicit older-row
+  state, selection/Unicode-clipboard comparison in a new memory tab, supported
+  syntax overrides/extension mappings, bounded C/C++ definition outline,
+  streaming literal UTF-8/UTF-16 pager search, guarded folder-parent navigation,
+  and fingerprint-bound block notes with explicit metadata/annotated HTML I/O.
+  Exact quotas and unsupported subsets: docs/DOCUMENT_EDITING_COMPARISON.md.
+  Review state is independent of conflict resolution; stale notes are retained
+  for explicit save/clear, never reattached to changed inputs. No dynamic plugins,
+  remote access, process-memory editing or raw-pixel visualization is included.
+
+- English/Traditional Chinese UI is loaded from `lang_en.ini` / `lang_tw.ini`
+  beside the EXE. First run defaults to Traditional Chinese; saved language wins.
+  Language menu changes existing captions/options/status text immediately and
+  persists through the guarded background preferences writer. Documents, paths,
+  searches, raw source/result values, encoding, jobs and Undo remain independent.
+  Catalogs are bounded to 1 MiB / 4,096 entries each; malformed/missing packs use
+  built-in English. Unlisted diagnostics remain English; native Windows dialogs
+  follow OS language. Complete default/English guides are docs/USER_GUIDE.md and
+  docs/USER_GUIDE_EN.md.
+
+- Workflow expansion W01-W10: display-only aligned full-source character details,
+  optional full Base, persistent external-change decisions, explicit guarded
+  Text/Hex range mapping, named portable comparison settings, optional bounded
+  Unicode notices, native binary plots, previewed Base64/Hex/UTF-8 conversion,
+  RFC6901 ignore/typed array-key JSON rules and read-only 64-bit LEB128 inspection.
+  Commands, exclusions and quota/precision bounds: docs/WORKFLOW_EXPANSION.md.
+  These operations preserve source text, independent output, native Undo and
+  explicit saves. A changed input/version invalidates dependent results.
+
+- Text review extensions V01-V10 provide full read-only comparison sources,
+  selected-file all-open replacement preview, draft/disk comparison, Markdown
+  outline, direct multiline literal search, exact unique moved blocks, three
+  Text mark colors, named bitfield editing, EditorConfig indentation and
+  equal-length IPS/IPS32 import/export. Operational bounds and unsupported
+  format/subset behavior are defined in docs/EDITOR_REVIEW.md. They retain
+  source protection, background planning, native Undo and explicit saving.
+
+- New text-file sessions start on Text; undecodable binary and inputs over the
+  32 MiB text-editing bound retain Hex. Reopening an existing session preserves
+  its page; explicit workspace restoration preserves the recorded page.
+- Dark content uses #3F3F3F. Markdown extensions .md/.markdown/.mdown use native
+  heading/emphasis/link/list/quote/code colors without modifying buffer content,
+  generation, encoding or Undo. Light and system-contrast preferences remain valid.
+- Ctrl+F/Ctrl+H share Find/Replace with current-document and all-open-text scopes.
+  All-open operations snapshot native unsaved/untitled file buffers (128 MiB total),
+  exclude comparison panes, and report skipped binary/oversized documents.
+  Background planning rechecks session/revision/generation before application;
+  mutations lock participants and reject read-only/busy files. Replace All creates
+  one native Undo action per affected file and never saves to disk. Cancel/stale
+  preflight applies no replacements; participant close requests cancel the job.
+  Find All retains at most 100,000 navigable rows with the complete match count.
+
 - Native workflow extensions N01-N09: independent folder text-rule evaluation,
   bounded read-only Hex decoding, Text change history/Hex modification review,
   command palette, streaming unknown-string extraction and preview CSV export,
@@ -31,6 +84,14 @@
 - Retain each session's native Text buffer/Undo, document edits, caret, encoding, view state, zoom and background job when another session is selected or opened.
 - Provide independent comparison tabs with editable left/right path dropdowns, native Explorer Browse buttons, Swap sides, mode selection and Compare/Recompare. Selecting paths must not replace an editor session.
 - Compare current unsaved Text/Hex snapshots from open editor tabs; comparison snapshots are read-only. Path changes invalidate old results and source views until Compare is run again.
+- Pasted-text comparisons provide independent native left/right editable buffers
+  without input files or temporary backing files. Compare immutable in-memory
+  snapshots off the UI thread with existing text rules/navigation/merge/reporting.
+  Preserve Unicode, original EOLs, per-buffer Undo, zoom and drafts across tabs/modes;
+  lock inputs during jobs and clear stale rows after edits or swapping buffers.
+  Empty sides are valid; reject invalid/NUL text, more than 16 MiB UTF-8 per side
+  or 200,000 lines without truncating inputs. Warn before closing nonempty inputs;
+  omit pasted sessions from workspace persistence. Output saves default to UTF-8.
 - Display address, hexadecimal bytes, and ASCII in a virtualized view.
 - Overwrite individual bytes and insert or delete bytes in the Hex view.
 - Undo and redo byte edits.

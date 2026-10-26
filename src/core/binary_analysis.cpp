@@ -1,4 +1,5 @@
 #include "binary_analysis.h"
+#include "leb128.h"
 #include <bcrypt.h>
 #include <algorithm>
 #include <cmath>
@@ -33,6 +34,8 @@ bool InspectNumbers(const BinaryDocument& document, std::uint64_t offset, bool l
         result.push_back({L"int" + std::to_wstring(bits),valid ? std::to_wstring(signed_word) : L"Not enough bytes",width,valid});
         if (width == 4 || width == 8) { std::wostringstream text; text << std::setprecision(width == 4 ? 9 : 17); if (width == 4) { const auto raw = static_cast<std::uint32_t>(word); float number; memcpy(&number,&raw,4); text << number; } else { double number; memcpy(&number,&word,8); text << number; } result.push_back({width == 4 ? L"float32" : L"float64",valid ? text.str() : L"Not enough bytes",width,valid}); }
     }
+    if (!document.Read(offset,static_cast<std::size_t>((std::min<std::uint64_t>)(10,document.Size() - offset)),&data)) return false;
+    for (bool signed_value : {false,true}) { Leb128Value value; const bool valid = DecodeLeb128(data.data(),data.size(),signed_value,&value); result.push_back({signed_value ? L"SLEB128" : L"ULEB128",valid ? (signed_value ? std::to_wstring(value.signed_value) : std::to_wstring(value.unsigned_value)) + L" (" + std::to_wstring(value.length) + L" bytes; endian independent; read-only)" : L"Truncated, unterminated or overflowing 64-bit LEB128",valid ? value.length : 0,valid,false}); }
     if (!document.ValidateSource(true,error)) return false; *values = std::move(result); return true;
 }
 bool AnalyzeBinary(const BinaryDocument& document, std::uint64_t offset, std::uint64_t length, const SaveControl& control, BinaryAnalysis* analysis, std::wstring* error) {

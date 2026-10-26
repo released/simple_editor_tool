@@ -15,5 +15,7 @@ build/**/*.pdb
 build/*.pdb
 simple_editor_tool.ini
 build/*.ini
+!build/lang_en.ini
+!build/lang_tw.ini
 build/*_smoke.png
 /artifacts/

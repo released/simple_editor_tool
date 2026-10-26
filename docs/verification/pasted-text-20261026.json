@@ -1,0 +1,514 @@
+﻿{
+    "date":  "2026-10-26",
+    "feature":  "Direct pasted-text comparison",
+    "functional_result":  "PASS",
+    "retention_result":  "PASS: user-required \u003c=20,000,000-byte project budget achieved; all identified project artifacts removed",
+    "workflow":  "Compare \u003e Pasted text comparison; paste A left and B right; Compare. File menu entry is available without open tabs.",
+    "behavior":  [
+                     "Memory-only native Unicode inputs; no input files or temporary backing files",
+                     "Immutable background comparison; editable sources lock during jobs",
+                     "Empty sides, native Undo/Redo, buffer swaps, source retention across tabs/modes",
+                     "Source edits clear stale result rows; quota failures retain full inputs",
+                     "Closing nonempty inputs prompts; workspace INI excludes pasted sessions",
+                     "File-to-pasted transition releases obsolete read-only file previews and preserves source editor",
+                     "Existing merge, output save, difference navigation and text rules reused"
+                 ],
+    "quotas":  {
+                   "utf8_bytes_per_side":  16777216,
+                   "lines_per_side":  200000,
+                   "large_fixture_lines_per_side":  60000
+               },
+    "native_ui_results":  [
+                              {
+                                  "configuration":  "Debug",
+                                  "mode":  "pasted-text",
+                                  "exit_code":  0,
+                                  "passed_assertions":  36,
+                                  "executable_sha256":  "819AB57A61DD17AAC760AFF91A229D053CD739243038DD6E003F1B95F5386609"
+                              },
+                              {
+                                  "configuration":  "Debug",
+                                  "mode":  "advanced",
+                                  "exit_code":  0,
+                                  "passed_assertions":  52,
+                                  "executable_sha256":  "CBC78BE3EA6A4D9B6168228C99666EA47223AB3CD2CED687A2F949A45E3A4E06"
+                              },
+                              {
+                                  "configuration":  "Debug",
+                                  "mode":  "zoom",
+                                  "exit_code":  0,
+                                  "passed_assertions":  51,
+                                  "executable_sha256":  "CBC78BE3EA6A4D9B6168228C99666EA47223AB3CD2CED687A2F949A45E3A4E06"
+                              },
+                              {
+                                  "configuration":  "Debug",
+                                  "mode":  "workspace",
+                                  "exit_code":  0,
+                                  "passed_assertions":  35,
+                                  "executable_sha256":  "819AB57A61DD17AAC760AFF91A229D053CD739243038DD6E003F1B95F5386609"
+                              },
+                              {
+                                  "configuration":  "Release",
+                                  "mode":  "pasted-text",
+                                  "exit_code":  0,
+                                  "passed_assertions":  36,
+                                  "executable_sha256":  "5BD12ABEBAB074065E3C6132977BD3386699D184545012129E5B80FCD5F896FD"
+                              },
+                              {
+                                  "configuration":  "Release",
+                                  "mode":  "advanced",
+                                  "exit_code":  0,
+                                  "passed_assertions":  52,
+                                  "executable_sha256":  "2CE90515A4C6F6B7F7DF5D94DFBEC02940F36241767B480147D25664DD5BA0C9"
+                              },
+                              {
+                                  "configuration":  "Release",
+                                  "mode":  "zoom",
+                                  "exit_code":  0,
+                                  "passed_assertions":  51,
+                                  "executable_sha256":  "2CE90515A4C6F6B7F7DF5D94DFBEC02940F36241767B480147D25664DD5BA0C9"
+                              },
+                              {
+                                  "configuration":  "Release",
+                                  "mode":  "workspace",
+                                  "exit_code":  0,
+                                  "passed_assertions":  35,
+                                  "executable_sha256":  "5BD12ABEBAB074065E3C6132977BD3386699D184545012129E5B80FCD5F896FD"
+                              }
+                          ],
+    "result_version_notes":  "Final source: Debug/Release pasted-text 36 and workspace 35 freshly passed. Initial advanced 52 and zoom 51 per configuration remain applicable to unchanged behavior after the mode-8-only source-preview follow-up.",
+    "product_builds":  {
+                           "initial_debug":  "PASS (before final mode-8 preview follow-up)",
+                           "final_release":  "PASS, canonical scripts/build.ps1 -Configuration Release",
+                           "ui_debug_and_release":  "PASS; Debug assertions/runtime retained, verification builds omit symbols and incremental caches",
+                           "final_product_scheduling":  "Process-local CL=/MP2 only; restored. Product optimization/security/runtime flags unchanged",
+                           "compiler_linker_reported_warnings_or_errors":  0
+                       },
+    "formal_cli":  {
+                       "cases":  7,
+                       "expected_exit_codes":  [
+                                                   0,
+                                                   0,
+                                                   1,
+                                                   1,
+                                                   2,
+                                                   1,
+                                                   2
+                                               ],
+                       "byte_matched_delivery":  true,
+                       "fixture_cleanup":  "PASS; no cli-owned fixture retained"
+                   },
+    "delivery":  {
+                     "path":  "build/SimpleEditorTool.exe",
+                     "bytes":  3404288,
+                     "sha256":  "30A37C1D37DFFA694A6F6B89E2622BDEF974E2E7AC6B9A355249278B5611E2CF",
+                     "delta_bytes":  9728,
+                     "build_root_contents":  "EXE plus the three existing INIs",
+                     "ini_hashes_unchanged":  [
+                                                  {
+                                                      "path":  "simple_editor_tool.ini",
+                                                      "sha256":  "08E58585810BC144E733F5DBC778CA07030A448C65C8B2695D0EA544828C30C1"
+                                                  },
+                                                  {
+                                                      "path":  "test.ini",
+                                                      "sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91"
+                                                  },
+                                                  {
+                                                      "path":  "ui_smoke.ini",
+                                                      "sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                                                  }
+                                              ],
+                     "machine":  "x64",
+                     "aslr":  true,
+                     "high_entropy_va":  true,
+                     "nx":  true,
+                     "imports":  [
+                                     "bcrypt.dll",
+                                     "ole32.dll",
+                                     "KERNEL32.dll",
+                                     "USER32.dll",
+                                     "GDI32.dll",
+                                     "ADVAPI32.dll",
+                                     "SHELL32.dll",
+                                     "UxTheme.dll",
+                                     "OLEAUT32.dll",
+                                     "OLEACC.dll",
+                                     "IMM32.dll",
+                                     "SHLWAPI.dll"
+                                 ],
+                     "new_driver_or_runtime_installation":  false
+                 },
+    "screenshot":  {
+                       "path":  "docs/verification/pasted-text-20261026.png",
+                       "bytes":  61828,
+                       "sha256":  "16AEB6CF2B0F3D7AF126AD465FC57E7A1321463037819A829A914C7E4A29C3B9",
+                       "review":  "Native captured window inspected: both source panes/labels, changed row/character highlights, merge output and 150% scale visible without overlap"
+                   },
+    "cleanup":  {
+                    "project_external_deletion":  false,
+                    "compiler_only_clean":  "PASS after each completed batch and final product build",
+                    "debug_product_and_both_test_exes":  "Removed through their MSBuild target Clean after tests",
+                    "native_test_fixture_cleanup":  "Test processes exit normally; no synthetic set* fixture directories remain",
+                    "retained_run_files":  0,
+                    "retained_run_bytes":  0,
+                    "compiler_spill_files":  44,
+                    "compiler_spill_bytes":  38764503,
+                    "compiler_spill_manifest":  [
+                                                    {
+                                                        "path":  "temp/_CL_da5c4b36d19d79acb5f92153a51d34fasy",
+                                                        "bytes":  128756,
+                                                        "sha256":  "B0CA50456EEC2F0CCC0B0A384ACE15DC34B90641543F3EDF40CD54CDAF7C5C7C"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_da5c4b36d19d79acb5f92153a51d34fain",
+                                                        "bytes":  36837,
+                                                        "sha256":  "BDC712EF1C6A5C37D338F0A493A336BF34F1DE0A0110F05AADE9952848B371C8"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_da5c4b36d19d79acb5f92153a51d34fagl",
+                                                        "bytes":  391718,
+                                                        "sha256":  "40BA0046247D4E4731D589CF23326B469A0160664A4B56E83FE880EB1EF9AE0F"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_da5c4b36d19d79acb5f92153a51d34faex",
+                                                        "bytes":  462634,
+                                                        "sha256":  "5915BDCA486C037AC108B89C38585E3C2227C1C2D550B2C44C12311460450DEC"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_b101d1be5d763e70e54a50991c7085e8sy",
+                                                        "bytes":  212522,
+                                                        "sha256":  "C3A23E6A1814DFEC68E0B7C630809AD5580953D44AB420D1640D3AD559F54CC1"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_b101d1be5d763e70e54a50991c7085e8in",
+                                                        "bytes":  59703,
+                                                        "sha256":  "BB62657D46CB8BEF14075C46F084AEA46C0B8D4BD0D611B57F859256F74778B4"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_b101d1be5d763e70e54a50991c7085e8gl",
+                                                        "bytes":  507646,
+                                                        "sha256":  "DF05CC15EA7EB5BB7338A0F20D7467F3E4C1A4B449368FD1EC6263291A2060F3"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_b101d1be5d763e70e54a50991c7085e8ex",
+                                                        "bytes":  764958,
+                                                        "sha256":  "691425958FC56F3FDE8C9D6217F39669E6A1A29F35743F768599556BBC9D5F2F"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_a6b8d4285604d87cfd7f58da6afebca8sy",
+                                                        "bytes":  560638,
+                                                        "sha256":  "C2FE1C7B26B0B776D5C3141A3CBD437030D1BB7FF10A1B03E349A14B66EA6359"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_a6b8d4285604d87cfd7f58da6afebca8in",
+                                                        "bytes":  168388,
+                                                        "sha256":  "D5147E53BBA632B356185BBBB34CC8FBD41616DDA7C2A74A8CB5FF593879A4CD"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_a6b8d4285604d87cfd7f58da6afebca8gl",
+                                                        "bytes":  1352999,
+                                                        "sha256":  "CB8052AD4D45CCC8259365FED6F362620878A6D10B98F804D667B626C94D5613"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_a6b8d4285604d87cfd7f58da6afebca8ex",
+                                                        "bytes":  2115354,
+                                                        "sha256":  "7E0AB5DF0D2BE078C3942170778BC3DC48D423C51F327D995C301231F4B98E7C"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_a21b216a0b3395d43f2b52a32dcd9a9fsy",
+                                                        "bytes":  262144,
+                                                        "sha256":  "F7B3151F1B902554FD166D08C421A6E9167515B66CB69E937C55F43E44F515B9"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_a21b216a0b3395d43f2b52a32dcd9a9fin",
+                                                        "bytes":  0,
+                                                        "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_a21b216a0b3395d43f2b52a32dcd9a9fgl",
+                                                        "bytes":  0,
+                                                        "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_a21b216a0b3395d43f2b52a32dcd9a9fex",
+                                                        "bytes":  1118295,
+                                                        "sha256":  "5AAD53B612D231F55B9BEC370825B19D22CBBCD097CCBCF948BAE0F574A9301D"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_996be2da957558bfedbc54cfef08a9bdsy",
+                                                        "bytes":  472025,
+                                                        "sha256":  "DBA2D31B143B1F51917B4ABC4C94246C900294201B1EC1E91410239BFF4AB6D0"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_996be2da957558bfedbc54cfef08a9bdin",
+                                                        "bytes":  146747,
+                                                        "sha256":  "3D912CD6522A81206609412716790E1CB711099E5458824EDCC00B274F754FA5"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_996be2da957558bfedbc54cfef08a9bdgl",
+                                                        "bytes":  1203024,
+                                                        "sha256":  "B14F4F5E009D54ACFD1B07BFE3BB9BF52B06FB558557FB84DE846C4A953DBB02"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_996be2da957558bfedbc54cfef08a9bdex",
+                                                        "bytes":  1760149,
+                                                        "sha256":  "97783A83C201E00CFD375783DD148832D2BB5CB4BC41C07CF0B2D8189C79AFE9"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_487ef2316db4681b551c5121e17ecef9sy",
+                                                        "bytes":  695829,
+                                                        "sha256":  "F182134E71154B5E233B9090A949C45A25944F242F68D4F9C0E392829593F63E"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_487ef2316db4681b551c5121e17ecef9in",
+                                                        "bytes":  217478,
+                                                        "sha256":  "E82059405F9AF66D965333C49B2CA52268F6FA7AF078EE14FA0498E362605DD5"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_487ef2316db4681b551c5121e17ecef9gl",
+                                                        "bytes":  1968855,
+                                                        "sha256":  "8556F8E61FB13D570BD1CFF731129D891607E27C94A689C5A8BFF1FB840AD938"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_487ef2316db4681b551c5121e17ecef9ex",
+                                                        "bytes":  2744299,
+                                                        "sha256":  "E13CAB3C3EF2E5FA488D6F975B0EAD2AA4918C773D9C87E5E21890556E98E28A"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_46c425b5f39465074d1aa22bb2c0f506sy",
+                                                        "bytes":  695214,
+                                                        "sha256":  "7F5D5652192BBEDAF915CC3D82BACC97ED1439169F2F2794408FE7E6FF258320"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_46c425b5f39465074d1aa22bb2c0f506in",
+                                                        "bytes":  218963,
+                                                        "sha256":  "CD227574062F700F6C3842A3EED493A5F7610B829ACFFF0A2AF05FD62DBCD1FC"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_46c425b5f39465074d1aa22bb2c0f506gl",
+                                                        "bytes":  1943201,
+                                                        "sha256":  "187444C5B5A990105F97ECA7D746825824F6A24701D954AD535D874FD35B763D"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_46c425b5f39465074d1aa22bb2c0f506ex",
+                                                        "bytes":  2732825,
+                                                        "sha256":  "9102FDBB70A0A137573ABBED698916025C4C967516831644A75C677AB8101805"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_46b6741d576354100c2975173bb92440sy",
+                                                        "bytes":  315869,
+                                                        "sha256":  "0B46B5A4E713DA2B5DC2D74B6E366AB286BC6A9D03D97E2427284370292749CC"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_46b6741d576354100c2975173bb92440in",
+                                                        "bytes":  83406,
+                                                        "sha256":  "CC96116B9294C9E05550A8F4208FEEB38BBAF52708E45A9F68C7021221242384"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_46b6741d576354100c2975173bb92440gl",
+                                                        "bytes":  1028886,
+                                                        "sha256":  "971DF218FDD9C19C1D67D6C42526C843C99911EA73B411A1D1439AC89653522C"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_46b6741d576354100c2975173bb92440ex",
+                                                        "bytes":  1182577,
+                                                        "sha256":  "25A6C23F094CA9BE3075108AB5ACD271CB1417CC7672B28E8CF8980E6F1A5784"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_3441bce80c35c6881467d67d4a0269bcsy",
+                                                        "bytes":  682293,
+                                                        "sha256":  "2DA9EEB01939D4EDC1BE9E6B0FD5E44114F3EA2E2EBED0A2886F21C3013FE3CD"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_3441bce80c35c6881467d67d4a0269bcin",
+                                                        "bytes":  215750,
+                                                        "sha256":  "C686A1D939F60E039B76053F59A1DF40868CEA0ED93C53729014C3F90971B4F4"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_3441bce80c35c6881467d67d4a0269bcgl",
+                                                        "bytes":  1911427,
+                                                        "sha256":  "9DC43AAA13D1F2AD8CF40BB902D4450DC69CA15E8AA2EC42CC7AB168734F1A42"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_3441bce80c35c6881467d67d4a0269bcex",
+                                                        "bytes":  2663484,
+                                                        "sha256":  "EA66479E32D10FC220D80361760B06FCBDBD85516396305D750E04CBC329BD7E"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_1842e24ed15358e08230990631053334sy",
+                                                        "bytes":  285926,
+                                                        "sha256":  "E95AC4AAE422471E4FD687BABABED20DB3D0E373080458A68C2037AD4CDBED62"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_1842e24ed15358e08230990631053334in",
+                                                        "bytes":  76726,
+                                                        "sha256":  "C57434EEE71768682A4F75C1395EE49091D661B67AC7CF12A2F350957BC43B57"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_1842e24ed15358e08230990631053334gl",
+                                                        "bytes":  697714,
+                                                        "sha256":  "DA82046C993853CEB2C01194F553F6263096364A9CC2845C169111F1291F10D4"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_1842e24ed15358e08230990631053334ex",
+                                                        "bytes":  1056186,
+                                                        "sha256":  "B6281C59DEF621B546C851946E73A4A2C6D0EA38C21F7565CE00EB107B60C827"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_04ddbc3b71832e0ac2333d1dc9c614f1sy",
+                                                        "bytes":  697610,
+                                                        "sha256":  "C8344F87D778518976B3468070E743939EA5D41F76961E298AD3593DF8AC567C"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_04ddbc3b71832e0ac2333d1dc9c614f1in",
+                                                        "bytes":  220748,
+                                                        "sha256":  "3C43A7D3EA96E74E946021F049DDB085AC268E7E8A63487376C5714D50A5C443"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_04ddbc3b71832e0ac2333d1dc9c614f1gl",
+                                                        "bytes":  1963129,
+                                                        "sha256":  "F8BEAC48F45AB05C77AF91183EF9EB17B4113B5D0EAD7F003D4CADBEC1ECF534"
+                                                    },
+                                                    {
+                                                        "path":  "temp/_CL_04ddbc3b71832e0ac2333d1dc9c614f1ex",
+                                                        "bytes":  2741571,
+                                                        "sha256":  "C456863F9ED26A1A3D29065E9F662192F680C72EC0249DB189D0CF6670C3963C"
+                                                    }
+                                                ],
+                    "automatic_review":  "Earlier bulk deletions were rejected without details. Follow-up used individually reviewed fixed absolute paths, exact ownership/content checks and no recursive deletion; every individual operation was approved. The existing purge entry removed only its 11 previewed compiler metadata files afterward.",
+                    "earlier_retained_audit":  "Removed: 42 files/58,173 bytes. Its single fixed-path junction entry was detached nonrecursively only after checking the project-local target; target sentinel remained unchanged at detachment, then fixture files were individually removed.",
+                    "review_trigger":  "Completed. No project-local audit/build/test payload remains for later cleanup. Project-external historical data was not touched.",
+                    "required_original_budget_bytes":  20000000,
+                    "temporary_approved_budget_bytes":  512000000,
+                    "observed_over_budget_sample_bytes":  566585019,
+                    "actual_peak":  "NOT CAPTURED; initial stock Debug batch exceeded limit and validated owned MSBuild/children were stopped; later batches were separated with cleanup and verification-only symbol suppression",
+                    "retention_decision":  "User rejected both retained-data proposals and required \u003c=20,000,000 bytes. No retained exception used; the project now meets the original limit.",
+                    "final_project_inventory":  {
+                                                    "bytes":  13264048,
+                                                    "decimal_MB":  13.264048,
+                                                    "files":  1157,
+                                                    "reparse_entries_not_followed":  0,
+                                                    "includes_hidden_ignored_git_vendor":  true,
+                                                    "status":  "PASS: \u003c=20,000,000 bytes; zero artifacts; no retained exception"
+                                                },
+                    "removed_compiler_spill_files":  44,
+                    "removed_compiler_spill_bytes":  38764503,
+                    "protected_files_before_evidence_update":  {
+                                                                   "files":  544,
+                                                                   "aggregate_sha256":  "D3CCE6FD3D0DBC4046F83C1D3613127B83E866414E6C07D7E2092F7FE4C43BC7",
+                                                                   "unchanged_after_bulk_cleanup":  true
+                                                               },
+                    "removed_run_path":  "artifacts/pasted-text-fe104f1662f04fccb10f373c890e9c68",
+                    "removed_run_files":  111,
+                    "removed_run_bytes":  39346361,
+                    "removed_legacy_audit_files":  42,
+                    "removed_legacy_audit_bytes":  58173,
+                    "removed_recognized_compiler_metadata_files":  11,
+                    "remaining_artifact_files":  0,
+                    "remaining_compiler_spill_files":  0,
+                    "finalization_verification":  "No application source/build changed in cleanup follow-up. Existing native/CLI results reused. 544 protected-file aggregate matched after large spill removal; final EXE, three INIs, 15 compiled source hashes and retained screenshot still match. Only verification/handoff records intentionally updated.",
+                    "total_removed_project_artifact_files":  164,
+                    "finalization_method":  "Independently reviewed single-file literal absolute paths with owner/hash/ancestor checks; owner markers removed last; only empty verified directories removed. Legacy junction detached nonrecursively with unchanged target sentinel. Existing purge used only after its preview identified 11 compiler metadata files."
+                },
+    "verification_gaps":  [
+                              "Physical Ctrl+V/mouse/touchpad/mixed-monitor DPI gestures NOT RUN; automated tests use native editing operations without changing user clipboard",
+                              "Injected allocation failure and power loss NOT RUN; existing unrelated core/startup evidence reused"
+                          ],
+    "source_hashes":  [
+                          {
+                              "path":  "src/ui/advanced_text_inputs.cpp",
+                              "sha256":  "BC15F80E8CFB97F728DBDABAFA5370B63A9745E5489F5F81B1A83A4EB0F2A769"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare.cpp",
+                              "sha256":  "F4D81269405CB02DD264834A725BBCAD9ECD03A7660CE46BDFF95D82DA8C2B47"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare.h",
+                              "sha256":  "DF82F240428B22E20844827DA735BE913F998DDE14E87CDE1954703397273D00"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare_actions.cpp",
+                              "sha256":  "486605F0F28A20117B73D81FE5B6F2442C1E9A665D8116B0BD2408737460BE1D"
+                          },
+                          {
+                              "path":  "src/main_frame.cpp",
+                              "sha256":  "FDD11BC932D3DD3BF91906EFC4E42FB586BC4E193F4379EF57FCE6F90F70CBD5"
+                          },
+                          {
+                              "path":  "src/main_frame_advanced.cpp",
+                              "sha256":  "A4DAD7184DFBD192CF7711F3A497216440E366061BD47605422D01F6F1F4C7DC"
+                          },
+                          {
+                              "path":  "src/main_frame_paths.cpp",
+                              "sha256":  "6121CF2DA3AEDF6A96BA0DB6E675A0638E6DBC01A88C4E5BBC7146853480D71D"
+                          },
+                          {
+                              "path":  "src/main_frame_save.cpp",
+                              "sha256":  "253743E930A28B5DDB7E59E57CE2CAB51F633DFEF263CC8B855E52FBE80F51E3"
+                          },
+                          {
+                              "path":  "src/resource.h",
+                              "sha256":  "A908AE5C37D7007391FA83F7F8D9568471AC55B0106C82D5418465D9796B4B8B"
+                          },
+                          {
+                              "path":  "src/workspace_frame.cpp",
+                              "sha256":  "906812658FDBC79C8C0F7FDE0D84D4505781632A4F6A5AEFEEB31447DEAFBD9E"
+                          },
+                          {
+                              "path":  "src/workspace_sessions.cpp",
+                              "sha256":  "A4655D2782ACCB0CF605356D7901F08D1A932D94F9B53B732F4537F7DCAE98F9"
+                          },
+                          {
+                              "path":  "tests/native_ui_tests.cpp",
+                              "sha256":  "CD654FE8A200F5508BF9062AA4F0B9D1720E953F294607ACEE456BD6615ADBDB"
+                          },
+                          {
+                              "path":  "tests/native_pasted_text_ui.inc",
+                              "sha256":  "856BF473A3B883CE32918916F46D7A20D90A88BB80E891A87804EDA5C3145A49"
+                          },
+                          {
+                              "path":  "SimpleEditorTool.vcxproj",
+                              "sha256":  "5418ED58E44B8D6ACF6353C403342D268F404EC6DBCE0435958C3FB6F0053B1D"
+                          },
+                          {
+                              "path":  "NativeUiTests.vcxproj",
+                              "sha256":  "777C30F217C24DEFCA2DB96595C9036F41498BDFAC0CB33C4EE8F0DA01EA1DB9"
+                          }
+                      ],
+    "changed_files":  [
+                          "AGENTS.md",
+                          "build/SimpleEditorTool.exe",
+                          "docs/verification/pasted-text-20261026.json",
+                          "docs/verification/pasted-text-20261026.png",
+                          "HANDOFF.md",
+                          "NativeUiTests.vcxproj",
+                          "README.md",
+                          "SELF_CHECK.md",
+                          "SimpleEditorTool.vcxproj",
+                          "SPEC.md",
+                          "src/main_frame.cpp",
+                          "src/main_frame_advanced.cpp",
+                          "src/main_frame_paths.cpp",
+                          "src/main_frame_save.cpp",
+                          "src/resource.h",
+                          "src/ui/advanced_compare.cpp",
+                          "src/ui/advanced_compare.h",
+                          "src/ui/advanced_compare_actions.cpp",
+                          "src/ui/advanced_text_inputs.cpp",
+                          "src/workspace_frame.cpp",
+                          "src/workspace_sessions.cpp",
+                          "tests/native_pasted_text_ui.inc",
+                          "tests/native_ui_tests.cpp"
+                      ],
+    "publication":  "No commit or push; artifacts ignored and not added to Git",
+    "documentation_checks":  "PASS: strict UTF-8/balanced Markdown in five edited documents, project XML/source registration, JSON schema/hash readback, git diff --check; core/vendor unchanged; no tracked artifacts",
+    "verification_override_recipe":  "\u003cProject xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\"\u003e\n  \u003cPropertyGroup\u003e\u003cLinkIncremental\u003efalse\u003c/LinkIncremental\u003e\u003c/PropertyGroup\u003e\n  \u003cItemDefinitionGroup\u003e\n    \u003cClCompile\u003e\u003cDebugInformationFormat\u003eNone\u003c/DebugInformationFormat\u003e\u003c/ClCompile\u003e\n    \u003cLink\u003e\u003cGenerateDebugInformation\u003efalse\u003c/GenerateDebugInformation\u003e\u003c/Link\u003e\n  \u003c/ItemDefinitionGroup\u003e\n\u003c/Project\u003e\n",
+    "reproduction_commands":  [
+                                  "Set invocation-only TEMP/TMP to a fresh owned project-local verification directory; restore in finally",
+                                  "MSBuild NativeUiTests.vcxproj /p:Configuration=\u003cDebug|Release\u003e /p:Platform=x64 /p:ForceImportBeforeCppTargets=\u003ctemporary props containing verification_override_recipe\u003e",
+                                  "NativeUiTests.exe --pasted-text; --workspace; initial unchanged --advanced and --zoom coverage as version notes describe",
+                                  "scripts/build.ps1 -Configuration Release; scripts/verify_cli.ps1 -Executable build/SimpleEditorTool.exe",
+                                  "Completed test/Debug targets use MSBuild Clean; final product uses compiler-only scripts/clean.ps1, preserving EXE/INI"
+                              ]
+}

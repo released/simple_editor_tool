@@ -1,0 +1,1821 @@
+﻿{
+    "date":  "2026-10-26",
+    "scope":  "F01-F09 document editing and comparison",
+    "functional_result":  "PASS",
+    "delivery_result":  "PASS",
+    "cleanup_result":  "PASS",
+    "baseline":  {
+                     "project_bytes_before_run":  14775028,
+                     "exe_bytes":  3756032,
+                     "exe_sha256":  "0ACAAED5C6ADC31EC34D540D6C5017C22BC77F7C3DE81574A6A2700594BB716F",
+                     "ini":  [
+                                 {
+                                     "sha256":  "8C1666BEEEC045A2F54009AC973A4C17417DB42D843183B74F56437050FAA9CA",
+                                     "name":  "simple_editor_tool.ini"
+                                 },
+                                 {
+                                     "sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91",
+                                     "name":  "test.ini"
+                                 },
+                                 {
+                                     "sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25",
+                                     "name":  "ui_smoke.ini"
+                                 }
+                             ]
+                 },
+    "features":  [
+                     "Independent Left/Right/Base input codecs and actual BOM/EOL summary",
+                     "Graphical source-line alignment and marker management",
+                     "Atomic selected folder/subtree refresh with freshness/sync guards",
+                     "Selected text versus Unicode clipboard in a fresh memory-only tab",
+                     "Manual syntax overrides and portable extension mappings",
+                     "Bounded C/C++ definition outline",
+                     "Streaming literal UTF-8/UTF-16 pager Find/Find Next",
+                     "Folder-parent and previous/next differing-file navigation",
+                     "Fingerprint-bound block notes, metadata I/O and annotated three-way HTML"
+                 ],
+    "excluded":  [
+                     "dynamic plugins",
+                     "remote access",
+                     "process memory",
+                     "raw pixel visualization"
+                 ],
+    "tests":  {
+                  "value":  [
+                                {
+                                    "label":  "core-document-focus-debug",
+                                    "executable":  "artifacts/tests/NativeCoreTests.exe",
+                                    "sha256":  "3E862CC3DB3CAC4C225E27207FC1EE897935628FBA8D7CF01660A1A0CC3A8688",
+                                    "arguments":  [
+                                                      "--document-focus"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  40,
+                                    "log_sha256":  "A42EC0BC327C3BCCC8E9C3E90243D272FE2BD1D62CF161FCE5195F41B132C641"
+                                },
+                                {
+                                    "label":  "core-document-focus-release",
+                                    "executable":  "artifacts/tests/NativeCoreTests.exe",
+                                    "sha256":  "07E23CF25405CA5A16E74CF1B80FDBA490A668105C7E3B2726E93390957111EA",
+                                    "arguments":  [
+                                                      "--document-focus"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  40,
+                                    "log_sha256":  "A42EC0BC327C3BCCC8E9C3E90243D272FE2BD1D62CF161FCE5195F41B132C641"
+                                },
+                                {
+                                    "label":  "core-localization-debug",
+                                    "executable":  "artifacts/tests/NativeCoreTests.exe",
+                                    "sha256":  "D59A5A0F4F807824313EF7523F7EF50907E5D63C4C58E33B42B835A8AD77374B",
+                                    "arguments":  [
+                                                      "--localization"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  21,
+                                    "log_sha256":  "FBBB2B7C71124E5745477166569F2B2333011FDA692E5A44617F7A2CAA6682D0"
+                                },
+                                {
+                                    "label":  "core-localization-release",
+                                    "executable":  "artifacts/tests/NativeCoreTests.exe",
+                                    "sha256":  "1305E2E0686A956A9F71D0E91EF4ADAE9619BF5B127516C3FE195EBCC727E715",
+                                    "arguments":  [
+                                                      "--localization"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  21,
+                                    "log_sha256":  "FBBB2B7C71124E5745477166569F2B2333011FDA692E5A44617F7A2CAA6682D0"
+                                },
+                                {
+                                    "label":  "core-merge-sync-debug",
+                                    "executable":  "artifacts/tests/NativeCoreTests.exe",
+                                    "sha256":  "D59A5A0F4F807824313EF7523F7EF50907E5D63C4C58E33B42B835A8AD77374B",
+                                    "arguments":  [
+                                                      "--merge-sync"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  48,
+                                    "log_sha256":  "27CEF72EF0760D7AC671C207BA57B9A808D137666D8E391A91916E617566C289"
+                                },
+                                {
+                                    "label":  "core-merge-sync-release",
+                                    "executable":  "artifacts/tests/NativeCoreTests.exe",
+                                    "sha256":  "1305E2E0686A956A9F71D0E91EF4ADAE9619BF5B127516C3FE195EBCC727E715",
+                                    "arguments":  [
+                                                      "--merge-sync"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  48,
+                                    "log_sha256":  "27CEF72EF0760D7AC671C207BA57B9A808D137666D8E391A91916E617566C289"
+                                },
+                                {
+                                    "label":  "core-preferences-debug",
+                                    "executable":  "artifacts/tests/NativeCoreTests.exe",
+                                    "sha256":  "D59A5A0F4F807824313EF7523F7EF50907E5D63C4C58E33B42B835A8AD77374B",
+                                    "arguments":  [
+                                                      "--preferences"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  10,
+                                    "log_sha256":  "154B02923A7BB6C2E18EEB702FB4C1D0BBCC2BFEC3AA98349234AB66AAE417FA"
+                                },
+                                {
+                                    "label":  "core-preferences-release",
+                                    "executable":  "artifacts/tests/NativeCoreTests.exe",
+                                    "sha256":  "1305E2E0686A956A9F71D0E91EF4ADAE9619BF5B127516C3FE195EBCC727E715",
+                                    "arguments":  [
+                                                      "--preferences"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  10,
+                                    "log_sha256":  "154B02923A7BB6C2E18EEB702FB4C1D0BBCC2BFEC3AA98349234AB66AAE417FA"
+                                },
+                                {
+                                    "label":  "core-search-codec-debug",
+                                    "executable":  "artifacts/tests/NativeCoreTests.exe",
+                                    "sha256":  "D59A5A0F4F807824313EF7523F7EF50907E5D63C4C58E33B42B835A8AD77374B",
+                                    "arguments":  [
+                                                      "--search-codec"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  2,
+                                    "log_sha256":  "9EACB199A5F153159118C7DB52F67624F4A16E82DD520701A0D497FEDDC52CB9"
+                                },
+                                {
+                                    "label":  "core-search-codec-release",
+                                    "executable":  "artifacts/tests/NativeCoreTests.exe",
+                                    "sha256":  "1305E2E0686A956A9F71D0E91EF4ADAE9619BF5B127516C3FE195EBCC727E715",
+                                    "arguments":  [
+                                                      "--search-codec"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  2,
+                                    "log_sha256":  "9EACB199A5F153159118C7DB52F67624F4A16E82DD520701A0D497FEDDC52CB9"
+                                },
+                                {
+                                    "label":  "core-workflow-expansion-debug",
+                                    "executable":  "artifacts/tests/NativeCoreTests.exe",
+                                    "sha256":  "D59A5A0F4F807824313EF7523F7EF50907E5D63C4C58E33B42B835A8AD77374B",
+                                    "arguments":  [
+                                                      "--workflow-expansion"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  35,
+                                    "log_sha256":  "699024B74540A3623148C775ACB03F1C8001B2E6850C8CFAD57321E89FFDA787"
+                                },
+                                {
+                                    "label":  "core-workflow-expansion-release",
+                                    "executable":  "artifacts/tests/NativeCoreTests.exe",
+                                    "sha256":  "1305E2E0686A956A9F71D0E91EF4ADAE9619BF5B127516C3FE195EBCC727E715",
+                                    "arguments":  [
+                                                      "--workflow-expansion"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  35,
+                                    "log_sha256":  "699024B74540A3623148C775ACB03F1C8001B2E6850C8CFAD57321E89FFDA787"
+                                },
+                                {
+                                    "label":  "formal-workspace-process",
+                                    "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                                    "sha256":  "B2641B9A2F841F450A793B179790CF7D06D987457EF774C740DD36DEF3C5897E",
+                                    "arguments":  [
+                                                      "--workspace-process",
+                                                      "build/SimpleEditorTool.exe"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  13,
+                                    "log_sha256":  "FC9A91CE308421A1D4A01E2CABD0F5A166EB523273FDB067243251281F3516F9"
+                                },
+                                {
+                                    "label":  "ui-advanced-debug",
+                                    "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                                    "sha256":  "F31A693C040F5956F6E8613E298496F713BC3DBD2D30663FE3CC7CAC695BCEC3",
+                                    "arguments":  [
+                                                      "--advanced"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  53,
+                                    "log_sha256":  "BC72D8AEB81D9C5FF0DE044F7709DCA66E232D111D141368DDE5F01A59DF0823"
+                                },
+                                {
+                                    "label":  "ui-advanced-release",
+                                    "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                                    "sha256":  "0C93A591BCA315AA3A0DF2EEE7D94AE093445F4EDC51751AE9B642EE7D9DCC10",
+                                    "arguments":  [
+                                                      "--advanced"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  53,
+                                    "log_sha256":  "BC72D8AEB81D9C5FF0DE044F7709DCA66E232D111D141368DDE5F01A59DF0823"
+                                },
+                                {
+                                    "label":  "ui-document-focus-debug",
+                                    "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                                    "sha256":  "6AE02F7DFFE81EC8F1DA12597E0278D96324DE3EB5EC91F2F78C48D743B7E9D1",
+                                    "arguments":  [
+                                                      "--document-focus"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  43,
+                                    "log_sha256":  "FBE593244576D9CD379D98518FA338C0D4C733CF79BAC9407F0A609133098C0C"
+                                },
+                                {
+                                    "label":  "ui-document-focus-release",
+                                    "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                                    "sha256":  "B2641B9A2F841F450A793B179790CF7D06D987457EF774C740DD36DEF3C5897E",
+                                    "arguments":  [
+                                                      "--document-focus",
+                                                      "artifacts/document-focus-20261026/screenshots"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  45,
+                                    "log_sha256":  "1EA4F9A667A3DED9F023D986D334A3349455463617ECB1F54A75A4A3878A1B13"
+                                },
+                                {
+                                    "label":  "ui-editor-review-debug",
+                                    "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                                    "sha256":  "F31A693C040F5956F6E8613E298496F713BC3DBD2D30663FE3CC7CAC695BCEC3",
+                                    "arguments":  [
+                                                      "--editor-review"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  58,
+                                    "log_sha256":  "0ABE5A6787C4EC670DA9F6C709AB48122E5E381420579FA666EEF4474D23129B"
+                                },
+                                {
+                                    "label":  "ui-editor-review-release",
+                                    "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                                    "sha256":  "0C93A591BCA315AA3A0DF2EEE7D94AE093445F4EDC51751AE9B642EE7D9DCC10",
+                                    "arguments":  [
+                                                      "--editor-review"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  58,
+                                    "log_sha256":  "0ABE5A6787C4EC670DA9F6C709AB48122E5E381420579FA666EEF4474D23129B"
+                                },
+                                {
+                                    "label":  "ui-folder-tools-debug",
+                                    "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                                    "sha256":  "6AE02F7DFFE81EC8F1DA12597E0278D96324DE3EB5EC91F2F78C48D743B7E9D1",
+                                    "arguments":  [
+                                                      "--folder-tools"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  13,
+                                    "log_sha256":  "5B3B7E6E4309FEC3223E9E54D103D49560EAECA49292C7604BB6003945953514"
+                                },
+                                {
+                                    "label":  "ui-folder-tools-release",
+                                    "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                                    "sha256":  "B2641B9A2F841F450A793B179790CF7D06D987457EF774C740DD36DEF3C5897E",
+                                    "arguments":  [
+                                                      "--folder-tools"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  13,
+                                    "log_sha256":  "5B3B7E6E4309FEC3223E9E54D103D49560EAECA49292C7604BB6003945953514"
+                                },
+                                {
+                                    "label":  "ui-localization-debug",
+                                    "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                                    "sha256":  "F31A693C040F5956F6E8613E298496F713BC3DBD2D30663FE3CC7CAC695BCEC3",
+                                    "arguments":  [
+                                                      "--localization"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  18,
+                                    "log_sha256":  "E9067FA42F515ABF9CAE3B56F850B0256E708DAA9D00F29047F81891CA634471"
+                                },
+                                {
+                                    "label":  "ui-localization-release",
+                                    "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                                    "sha256":  "0C93A591BCA315AA3A0DF2EEE7D94AE093445F4EDC51751AE9B642EE7D9DCC10",
+                                    "arguments":  [
+                                                      "--localization"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  18,
+                                    "log_sha256":  "E9067FA42F515ABF9CAE3B56F850B0256E708DAA9D00F29047F81891CA634471"
+                                },
+                                {
+                                    "label":  "ui-preferences-debug",
+                                    "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                                    "sha256":  "F31A693C040F5956F6E8613E298496F713BC3DBD2D30663FE3CC7CAC695BCEC3",
+                                    "arguments":  [
+                                                      "--preferences"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  15,
+                                    "log_sha256":  "193C1AF7AF2A1CF44389C64A8E601451016AF3F1258C9BA911A82F47A16B497D"
+                                },
+                                {
+                                    "label":  "ui-preferences-release",
+                                    "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                                    "sha256":  "0C93A591BCA315AA3A0DF2EEE7D94AE093445F4EDC51751AE9B642EE7D9DCC10",
+                                    "arguments":  [
+                                                      "--preferences"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  15,
+                                    "log_sha256":  "193C1AF7AF2A1CF44389C64A8E601451016AF3F1258C9BA911A82F47A16B497D"
+                                },
+                                {
+                                    "label":  "ui-text-reports-debug",
+                                    "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                                    "sha256":  "6AE02F7DFFE81EC8F1DA12597E0278D96324DE3EB5EC91F2F78C48D743B7E9D1",
+                                    "arguments":  [
+                                                      "--text-reports"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  14,
+                                    "log_sha256":  "A21EF338AB56B38A7C9C76B757E1557902A34EAF1AE881CC26B5D3E819E16CBC"
+                                },
+                                {
+                                    "label":  "ui-text-reports-release",
+                                    "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                                    "sha256":  "B2641B9A2F841F450A793B179790CF7D06D987457EF774C740DD36DEF3C5897E",
+                                    "arguments":  [
+                                                      "--text-reports"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  14,
+                                    "log_sha256":  "A21EF338AB56B38A7C9C76B757E1557902A34EAF1AE881CC26B5D3E819E16CBC"
+                                },
+                                {
+                                    "label":  "ui-text-workflow-debug",
+                                    "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                                    "sha256":  "F31A693C040F5956F6E8613E298496F713BC3DBD2D30663FE3CC7CAC695BCEC3",
+                                    "arguments":  [
+                                                      "--text-workflow"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  47,
+                                    "log_sha256":  "F38340927E5C2AADB7D68E6D0F78D1C89D210E8BB2419E6C32D9A36B611D3121"
+                                },
+                                {
+                                    "label":  "ui-text-workflow-release",
+                                    "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                                    "sha256":  "0C93A591BCA315AA3A0DF2EEE7D94AE093445F4EDC51751AE9B642EE7D9DCC10",
+                                    "arguments":  [
+                                                      "--text-workflow"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  47,
+                                    "log_sha256":  "F38340927E5C2AADB7D68E6D0F78D1C89D210E8BB2419E6C32D9A36B611D3121"
+                                },
+                                {
+                                    "label":  "ui-workflow-expansion-debug",
+                                    "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                                    "sha256":  "F31A693C040F5956F6E8613E298496F713BC3DBD2D30663FE3CC7CAC695BCEC3",
+                                    "arguments":  [
+                                                      "--workflow-expansion"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  46,
+                                    "log_sha256":  "4C1DD50C07AB2906B7E0EAD2ABC296F6F579D7810EDF67E515F6AA2FF4DF6C8C"
+                                },
+                                {
+                                    "label":  "ui-workflow-expansion-release",
+                                    "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                                    "sha256":  "0C93A591BCA315AA3A0DF2EEE7D94AE093445F4EDC51751AE9B642EE7D9DCC10",
+                                    "arguments":  [
+                                                      "--workflow-expansion"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  46,
+                                    "log_sha256":  "4C1DD50C07AB2906B7E0EAD2ABC296F6F579D7810EDF67E515F6AA2FF4DF6C8C"
+                                },
+                                {
+                                    "label":  "ui-workflows-debug",
+                                    "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                                    "sha256":  "F31A693C040F5956F6E8613E298496F713BC3DBD2D30663FE3CC7CAC695BCEC3",
+                                    "arguments":  [
+                                                      "--workflows"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  38,
+                                    "log_sha256":  "AB0CB513AE420AA786B52D5D82F9F46E622794ACB90535CA3B986C9288E8D338"
+                                },
+                                {
+                                    "label":  "ui-workflows-release",
+                                    "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                                    "sha256":  "0C93A591BCA315AA3A0DF2EEE7D94AE093445F4EDC51751AE9B642EE7D9DCC10",
+                                    "arguments":  [
+                                                      "--workflows"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  38,
+                                    "log_sha256":  "AB0CB513AE420AA786B52D5D82F9F46E622794ACB90535CA3B986C9288E8D338"
+                                },
+                                {
+                                    "label":  "ui-zoom-debug",
+                                    "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                                    "sha256":  "F31A693C040F5956F6E8613E298496F713BC3DBD2D30663FE3CC7CAC695BCEC3",
+                                    "arguments":  [
+                                                      "--zoom"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  52,
+                                    "log_sha256":  "FC852AE1D1494305BF619DEDDCA63A1AE34A7ED86ACC849AD4CC0FA02BA2D179"
+                                },
+                                {
+                                    "label":  "ui-zoom-release",
+                                    "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                                    "sha256":  "0C93A591BCA315AA3A0DF2EEE7D94AE093445F4EDC51751AE9B642EE7D9DCC10",
+                                    "arguments":  [
+                                                      "--zoom"
+                                                  ],
+                                    "exit_code":  0,
+                                    "pass_lines":  52,
+                                    "log_sha256":  "FC852AE1D1494305BF619DEDDCA63A1AE34A7ED86ACC849AD4CC0FA02BA2D179"
+                                }
+                            ],
+                  "Count":  35
+              },
+    "formal_cli":  {
+                       "log_sha256":  "3C059A27B60B526391977E21C8B3CD1BA0B3F4CBFB4DBBC4A8E865F4085F5896",
+                       "result":  "PASS",
+                       "exit_cases":  7
+                   },
+    "report_state_regression":  {
+                                    "reproduction_binary_sha256":  "591C6F4A5B6D2DA8BE1EA1F94E1936E1EBAF0A511A7FB70E3D7E1CD0B368EBD0",
+                                    "log_sha256":  "EFEB6D879AB6151500220592B83B42E8E0196EF67C93E05A668B3608274655F0",
+                                    "observed_failure":  "Annotated HTML export replaced synchronization baseline setting",
+                                    "final_result":  "PASS Debug/Release document-focus + folder-tools + text-reports",
+                                    "fix":  "Only folder-mode Report jobs can adopt a baseline path",
+                                    "reproduction_exit":  1
+                                },
+    "verification_selection":  "Six core modes and eleven UI modes per configuration; formal Release workspace process (12 assertions) and seven CLI exit cases. Final report-state guard reran the three affected UI modes in both configurations. Earlier passing unchanged caller coverage is retained with its original binary hashes.",
+    "reproduction":  "Build NativeCoreTests.vcxproj and NativeUiTests.vcxproj x64 Debug/Release. Run --document-focus plus recorded affected modes. Canonical product: scripts/build_release.bat. Formal CLI: scripts/verify_cli.ps1. Test scratch TEMP/TMP was inside the owned project run and restored in finally.",
+    "pe":  {
+               "machine":  "0x8664",
+               "native":  true,
+               "aslr":  true,
+               "high_entropy_va":  true,
+               "nx":  true,
+               "imports":  [
+                               "CRYPT32.dll",
+                               "bcrypt.dll",
+                               "ole32.dll",
+                               "KERNEL32.dll",
+                               "USER32.dll",
+                               "GDI32.dll",
+                               "ADVAPI32.dll",
+                               "SHELL32.dll",
+                               "COMCTL32.dll",
+                               "UxTheme.dll",
+                               "OLEAUT32.dll",
+                               "OLEACC.dll",
+                               "IMM32.dll",
+                               "SHLWAPI.dll"
+                           ],
+               "bytes":  3882496,
+               "sha256":  "97E9E3DA7A3A5AF164CBA10281ECF8F56FA6E6336DC706D2FC24D7BF3FF17B84"
+           },
+    "delivery":  [
+                     {
+                         "path":  "build/lang_en.ini",
+                         "bytes":  59421,
+                         "sha256":  "3C4BF8CEFF59BEFDAE97215B5F96A700F7951EBCA4297B2D89A95D44243C1944"
+                     },
+                     {
+                         "path":  "build/lang_tw.ini",
+                         "bytes":  61050,
+                         "sha256":  "B018C05BB39F09EBCA44F2562C1BCE98CF9BCFF3C853C671E8684107CC4A4C57"
+                     },
+                     {
+                         "path":  "build/SimpleEditorTool.exe",
+                         "bytes":  3882496,
+                         "sha256":  "97E9E3DA7A3A5AF164CBA10281ECF8F56FA6E6336DC706D2FC24D7BF3FF17B84"
+                     },
+                     {
+                         "path":  "build/simple_editor_tool.ini",
+                         "bytes":  1074,
+                         "sha256":  "8C1666BEEEC045A2F54009AC973A4C17417DB42D843183B74F56437050FAA9CA"
+                     },
+                     {
+                         "path":  "build/test.ini",
+                         "bytes":  191,
+                         "sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91"
+                     },
+                     {
+                         "path":  "build/ui_smoke.ini",
+                         "bytes":  262,
+                         "sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                     }
+                 ],
+    "catalog_entries":  719,
+    "documents":  {
+                      "value":  [
+                                    {
+                                        "path":  "README.md",
+                                        "utf8":  "PASS",
+                                        "local_links":  "PASS",
+                                        "topic_headings":  11,
+                                        "sha256":  "3AA5949A4F5D0825AFEB081FEB8017BBF5EA2728A467008A2449BCF731CBDE7C"
+                                    },
+                                    {
+                                        "path":  "docs/USER_GUIDE.md",
+                                        "utf8":  "PASS",
+                                        "local_links":  "PASS",
+                                        "topic_headings":  18,
+                                        "sha256":  "BBB5AEAE8081552A85BB311A9676F74C6083CC0CCEC521F785E4424A74C73CC5"
+                                    },
+                                    {
+                                        "path":  "docs/USER_GUIDE_EN.md",
+                                        "utf8":  "PASS",
+                                        "local_links":  "PASS",
+                                        "topic_headings":  18,
+                                        "sha256":  "81B303D58BFF4512333DA80DDB9D40E3C96E0B70E0ABCF139EE28C24AD087C25"
+                                    },
+                                    {
+                                        "path":  "docs/DOCUMENT_EDITING_COMPARISON.md",
+                                        "utf8":  "PASS",
+                                        "local_links":  "PASS",
+                                        "topic_headings":  1,
+                                        "sha256":  "62BF0A7AAEA47B8D22F3FC48A1DF6D9E8B185C6A4D64F335527DAB50EDBF79F7"
+                                    }
+                                ],
+                      "Count":  4
+                  },
+    "screenshots":  [
+                        {
+                            "path":  "docs/verification/document-focus-20261026/document-comparison.png",
+                            "bytes":  90114,
+                            "sha256":  "0D6E177EC025DB65D924714E6DAE945499D82BFA38CAEB7373310AAA95FD0492",
+                            "visual_qa":  "PASS"
+                        },
+                        {
+                            "path":  "docs/verification/document-focus-20261026/review-note.png",
+                            "bytes":  14986,
+                            "sha256":  "807C53CA2E49EFC27F89A8C5F92A4948276942443099BDE9E68ED5D96144F1AB",
+                            "visual_qa":  "PASS"
+                        },
+                        {
+                            "path":  "docs/verification/document-focus-20261026/large-text-find.png",
+                            "bytes":  17028,
+                            "sha256":  "6EBB2EF7EC3A4B5C251D30258291941979E45F7BEA3C82956DBA0D68CABC733D",
+                            "visual_qa":  "PASS"
+                        }
+                    ],
+    "source_hashes":  [
+                          {
+                              "path":  "src/app.cpp",
+                              "sha256":  "316A0DF19E35D3AEF4F3C5416E2F73C0A74B0D4A9FA7DF2D10869009731E7627"
+                          },
+                          {
+                              "path":  "src/hex_view.cpp",
+                              "sha256":  "126E1F7989FF410854270ACDF2EC7DFCD657A8669279E38B5FDEB2ED033220F1"
+                          },
+                          {
+                              "path":  "src/hex_view.h",
+                              "sha256":  "B16BC09867A744244DD8AE4C1332444E2E034F2231DEA9B7595453AE31D27963"
+                          },
+                          {
+                              "path":  "src/hex_view_decoding.cpp",
+                              "sha256":  "C6A14FC8E8EC84A2FC3FA691928E87513A96F5512AB98EBFCE1D0FE7F4D60402"
+                          },
+                          {
+                              "path":  "src/hex_view_edit.cpp",
+                              "sha256":  "C529BEC7B5C9F6A7D6B177FAB17C9785F402E6FB4216A93E1F2AFE2487CECD4C"
+                          },
+                          {
+                              "path":  "src/main_frame.cpp",
+                              "sha256":  "8AE80FC80D812CB7B66A44B83D3623DB4A774F496E282BFF3BF3A43C46E326B9"
+                          },
+                          {
+                              "path":  "src/main_frame.h",
+                              "sha256":  "4C82C05A2AF60A06995537F60A9CBA381573C143745DDBEF98280F7EBF8B7583"
+                          },
+                          {
+                              "path":  "src/main_frame_advanced.cpp",
+                              "sha256":  "BBAC2D2450E24E90A864307C6DFA01C3ACF6D562322C4170E47DF795C09AD875"
+                          },
+                          {
+                              "path":  "src/main_frame_binary.cpp",
+                              "sha256":  "E310452BD774744118EA74D1A7CD2CB24EF94BB9D1904B6904D66E1356337E02"
+                          },
+                          {
+                              "path":  "src/main_frame_binary_review.cpp",
+                              "sha256":  "8CE96413DAD5DDD654DC8DB4341725E2B50F403BDF2E73413342C8CE84DD93F7"
+                          },
+                          {
+                              "path":  "src/main_frame_clone.cpp",
+                              "sha256":  "D32DA8023F83AB8856825527BAC97EE2863FC065BBC7B36AC5F59FD9D72367E0"
+                          },
+                          {
+                              "path":  "src/main_frame_compare.cpp",
+                              "sha256":  "FFDF9CCB972B91CF3868403236F5DF81A77A52BFA25749A4AF7D7FD8E8FB6EC3"
+                          },
+                          {
+                              "path":  "src/main_frame_conversion.cpp",
+                              "sha256":  "812B62218C58CAF5C6803F439626CCA609ED7466F35F1A5732783A51C8F98648"
+                          },
+                          {
+                              "path":  "src/main_frame_crc.cpp",
+                              "sha256":  "05B8FEE4EF8147023E7190B13D90C3DD4DC0D948BBAF801D5E337A77082D95E2"
+                          },
+                          {
+                              "path":  "src/main_frame_document_focus.cpp",
+                              "sha256":  "3D2963A1B309359710665CA0A167DE9C8E5E79C828E0EA194D5C26DFE8E30F1A"
+                          },
+                          {
+                              "path":  "src/main_frame_edit.cpp",
+                              "sha256":  "4DE27F1FC983461DF1EC888CF19FCF26F5D034995707FE02E05D6B39806F0D60"
+                          },
+                          {
+                              "path":  "src/main_frame_editor.cpp",
+                              "sha256":  "61B59B962D74E641C1DFC98E7F0CCC20658E40CBF488AB1CB0E34384F9048D3F"
+                          },
+                          {
+                              "path":  "src/main_frame_expansion.cpp",
+                              "sha256":  "86486030C03295652288C509F394A3886BFFA6DCED442EF48A9B64104E0FF99F"
+                          },
+                          {
+                              "path":  "src/main_frame_features.cpp",
+                              "sha256":  "10C74C5A8D14DDA03776D1180447A01C330E306CE64C151CCBFF5EE68C43615A"
+                          },
+                          {
+                              "path":  "src/main_frame_formats.cpp",
+                              "sha256":  "E4894D503A9B8ECADCBEDC98F0E320184E911085874D1E882FBAE0E36E28B2DA"
+                          },
+                          {
+                              "path":  "src/main_frame_ips.cpp",
+                              "sha256":  "954EDD15C7853617AE4FB955C40FE14C6222CE1DB83135BFA7B9A1360C6258B0"
+                          },
+                          {
+                              "path":  "src/main_frame_merge.cpp",
+                              "sha256":  "CFF1860CA62EE8216C1DB7399077555B3357032C53E5EF87FEFBDF5422F1A7C8"
+                          },
+                          {
+                              "path":  "src/main_frame_pager.cpp",
+                              "sha256":  "F9278FAEFD5D62CD9D36CEB1E6C40A29D65598690F8E1067BF1CF7565FB4485B"
+                          },
+                          {
+                              "path":  "src/main_frame_patch.cpp",
+                              "sha256":  "4E4332B0CE201FD3A012A97E2B94079DAEE4AA63DD5C6988AF603C5FF4D916AB"
+                          },
+                          {
+                              "path":  "src/main_frame_paths.cpp",
+                              "sha256":  "31B1E76148EBEFDBBCE869310BFCA40D2DF6ACE64ED4AD607FE214FDDD766D49"
+                          },
+                          {
+                              "path":  "src/main_frame_presets.cpp",
+                              "sha256":  "D9DD23FE443A21DB3BDEE2A9DA22EF814DFAD2CF6DBDA8CD887FAC8F15813BF6"
+                          },
+                          {
+                              "path":  "src/main_frame_regions.cpp",
+                              "sha256":  "090F6228944E91A9462193ECABD3E290E65E7F3CC64BD78E8A2CD06A20692527"
+                          },
+                          {
+                              "path":  "src/main_frame_review.cpp",
+                              "sha256":  "CD26B4A808D3CAF9E816A376FDF2E78E5920D7A0F131D5DE4358B2168AFCF19F"
+                          },
+                          {
+                              "path":  "src/main_frame_save.cpp",
+                              "sha256":  "8B1AE34B6D349A1B3BE3FA315BB3358B0B40E0F3773B5C857CB44366F6CD42EF"
+                          },
+                          {
+                              "path":  "src/main_frame_search.cpp",
+                              "sha256":  "014DC9E9689C7AD95D3C0F1AB2043E2FCBDB8EF0E132FAB1DF022F28015412AD"
+                          },
+                          {
+                              "path":  "src/main_frame_statistics.cpp",
+                              "sha256":  "5A44B9C67C8D1253DEC1A74F7177BEBCCAD9372EDF748CA8EF6F684EECE20B1F"
+                          },
+                          {
+                              "path":  "src/main_frame_syntax.cpp",
+                              "sha256":  "B1375FAC685A65FB74E8C6F16E2689BDD2D5BB7271ECAC1CB9D3DC20B6C968EF"
+                          },
+                          {
+                              "path":  "src/main_frame_template.cpp",
+                              "sha256":  "953111C4C8C4ABC3AA71983370B950DE4B39F6603FC6E4F1AB148DEF95CBB079"
+                          },
+                          {
+                              "path":  "src/main_frame_text_commands.cpp",
+                              "sha256":  "7A5B72BB139C69FEC6F08E1788CA543863C1E5E73A0D3C8046C602C240C2CA36"
+                          },
+                          {
+                              "path":  "src/main_frame_text_expansion.cpp",
+                              "sha256":  "F45430EDB3CDB7DC99496262EDEFDAA70A1DB2B598A4EDD6423D3548A7762490"
+                          },
+                          {
+                              "path":  "src/main_frame_text_review.cpp",
+                              "sha256":  "D0E4F0BC46BB3D0A9D1320E386A3AA5C2F9F1E0ED61E18C67BEAB449D5ABB159"
+                          },
+                          {
+                              "path":  "src/main_frame_tools.cpp",
+                              "sha256":  "38B3A61E99CCA0652490C076C9F5308904AFDC3CCD96CED2FB680CE4043E0A7C"
+                          },
+                          {
+                              "path":  "src/main_frame_workflows.cpp",
+                              "sha256":  "C34932CF21FFE7F33B9A5B2BBDBD969813A737BA3D5FECF59FB7E3FC3B61EE3E"
+                          },
+                          {
+                              "path":  "src/main_frame_zoom.cpp",
+                              "sha256":  "E2AF5C807C141D859D3772A405C54D7DC1D5416857C8F32C400EF267B9BD3EC1"
+                          },
+                          {
+                              "path":  "src/resource.h",
+                              "sha256":  "1275EBDB84F6B841E7D475F33FC643347455F328B7F62BF9F5EDC85A7EC38FBC"
+                          },
+                          {
+                              "path":  "src/simple_editor_tool.rc",
+                              "sha256":  "10A5ED0B1A1D73DA659388DD7266E21E9E682CA463EF21E4F68A949DFCFD3AAF"
+                          },
+                          {
+                              "path":  "src/workspace_batch_replace.cpp",
+                              "sha256":  "ED5821D0715730D2D5F6C11E2474325B6481911438AD6F9BFFA3CF0AC7361D70"
+                          },
+                          {
+                              "path":  "src/workspace_documents.cpp",
+                              "sha256":  "13017C86EA27C786D564E043875C1703C6D42B641E223C0C9FCE86C26F2B0490"
+                          },
+                          {
+                              "path":  "src/workspace_document_focus.cpp",
+                              "sha256":  "2724B90D69E1037A4CA7686219D69F919EDD69CDB151BC93798E3E1CF0451F77"
+                          },
+                          {
+                              "path":  "src/workspace_folder_navigation.cpp",
+                              "sha256":  "1181F96CC69844B5678289F4830821F3B8B98CC6B10459C5B385A0851921FF3A"
+                          },
+                          {
+                              "path":  "src/workspace_frame.cpp",
+                              "sha256":  "6C505EF913CE33D12524CA2CD2241F54233CF301A5D9884D68384FEBE13EDE5C"
+                          },
+                          {
+                              "path":  "src/workspace_frame.h",
+                              "sha256":  "A2AFF75F76811F2494BCD0FF561D28A66E1ED36CF43DE53DD429EE7F80E8C6C9"
+                          },
+                          {
+                              "path":  "src/workspace_navigation.cpp",
+                              "sha256":  "90C9055D8FE90F04BBA870FE42865F0513A97726F7E63E9D643130E2A3615DA3"
+                          },
+                          {
+                              "path":  "src/workspace_open_search.cpp",
+                              "sha256":  "C954461528856B3EBB2E30F72E24F370B91EEDD2856B38E6FEE10A9ADC3B5A3D"
+                          },
+                          {
+                              "path":  "src/workspace_preferences.cpp",
+                              "sha256":  "85CAD851D4F1CD23106FB6D0F449ED6BE8CFF4E90C970BE8F87EDE536020080F"
+                          },
+                          {
+                              "path":  "src/workspace_recovery.cpp",
+                              "sha256":  "F527604AAA5F67CF8C983E978573127565B3322587DAA5365AC49E5A25E768B2"
+                          },
+                          {
+                              "path":  "src/workspace_search.cpp",
+                              "sha256":  "FC77F4C6187BFF09C90716C797F2388341AA16B8ECF5A20CAA3C14D3347A92AB"
+                          },
+                          {
+                              "path":  "src/workspace_sessions.cpp",
+                              "sha256":  "7F7C19D0DB9992188181D642FB11FA4C36FEDFD3FB3079C6F5F9851F4F02D72B"
+                          },
+                          {
+                              "path":  "src/workspace_shell.cpp",
+                              "sha256":  "B0CCFAE599318A6D27BDCAB2704852C5D986C1E5F9264AFC72A53008F2288C1D"
+                          },
+                          {
+                              "path":  "src/core/binary_analysis.cpp",
+                              "sha256":  "930236865297275DA2AE0ACCD3D239AE529ED8AFB0EFEE5A14114206A5921950"
+                          },
+                          {
+                              "path":  "src/core/binary_analysis.h",
+                              "sha256":  "077728F46624FC6CF6176F3614776115353E6D64F2B262C1870B198AAD7A95A9"
+                          },
+                          {
+                              "path":  "src/core/binary_document.cpp",
+                              "sha256":  "D73DDA6B9DBD870772BDAA8352613DB9A9FD66CE8DA789C4C3CECE1DCD866842"
+                          },
+                          {
+                              "path":  "src/core/binary_document.h",
+                              "sha256":  "EAE44EFA2D43F653D79951315CD3D910360F9537C052E8A80A341F7FAF4C8465"
+                          },
+                          {
+                              "path":  "src/core/binary_merge.cpp",
+                              "sha256":  "6FFA6CF1241015C99389546DCE683EFBB3BBDB4CDE1B8F649E2453FCCFC93FAF"
+                          },
+                          {
+                              "path":  "src/core/binary_merge.h",
+                              "sha256":  "21349FF2D1F4E8429F9CBF60CF9D2EB69ECF9809A86B7FB5250979275C5C555B"
+                          },
+                          {
+                              "path":  "src/core/binary_report.cpp",
+                              "sha256":  "5AC20FAB86B56AE666F5E9B403CEB851C4FC9583F27CCAC2DBBA0A5D82DD76FC"
+                          },
+                          {
+                              "path":  "src/core/binary_report.h",
+                              "sha256":  "B72A4083DDFC2F0D518689DA83FF3FE9C10085C358E8B823BDDEE17C1C97C641"
+                          },
+                          {
+                              "path":  "src/core/binary_template.cpp",
+                              "sha256":  "E37A579C33D91176660D238B1706407B57B590017CC51EBEA91A9971A2F3453C"
+                          },
+                          {
+                              "path":  "src/core/binary_template.h",
+                              "sha256":  "EF9C57ECA1A9AC6FA347BEF06AA8D92EB15162467B2A072A3A7BBCC42EA98E36"
+                          },
+                          {
+                              "path":  "src/core/binary_workflows.cpp",
+                              "sha256":  "5E6C4E14D49A9BCF5D411CB226DB23D48F9E96ED425746C77011D087B3D48245"
+                          },
+                          {
+                              "path":  "src/core/binary_workflows.h",
+                              "sha256":  "CF350ECD3FD6EFDC8DAA38386DE1068F23D9E34F4639398FCC91047E9AD3F74F"
+                          },
+                          {
+                              "path":  "src/core/bit_fields.cpp",
+                              "sha256":  "228E949D2F8CD2E836C45B5BB307B0712E112377E69234DBD9BD1A91EB433F72"
+                          },
+                          {
+                              "path":  "src/core/bit_fields.h",
+                              "sha256":  "11C3ABE2CD16CC321FEAB889431E14060E36DFA38BD874E2721BB9C219FA881F"
+                          },
+                          {
+                              "path":  "src/core/command_line.cpp",
+                              "sha256":  "1B3489E18F9A1A9E96444269FC8AC671B9B3EB994462A813DE4B5444577F12B5"
+                          },
+                          {
+                              "path":  "src/core/command_line.h",
+                              "sha256":  "485C766C1062B9EEBCB58C688F69DE43DBC984624E7009DE0F04FE458677DD76"
+                          },
+                          {
+                              "path":  "src/core/compare_presets.cpp",
+                              "sha256":  "DEF9A0D03EF42B486ABA4C8967B7AAC0663BE2D40034ABE51492EA7DF6B97872"
+                          },
+                          {
+                              "path":  "src/core/compare_presets.h",
+                              "sha256":  "929A180D1CB9CC7CA1A53F3D2667F8E27F8CE6D1A42D2BBB45F73A213A2A2F93"
+                          },
+                          {
+                              "path":  "src/core/compare_region.cpp",
+                              "sha256":  "3B1C7DFFFF525A6AECC74912D9742E68ECF8C5DBDC5FCBBC2DD4CB28E606E2F4"
+                          },
+                          {
+                              "path":  "src/core/compare_region.h",
+                              "sha256":  "8C193584A2FE570DFB982C152C233074D911D4D2109371A5FDD20176F720DB65"
+                          },
+                          {
+                              "path":  "src/core/compare_rules.cpp",
+                              "sha256":  "E1E4E9E4CD5DF81658CDB6E9B76E03781C62FEEC5224D77376DA9442F5F0EC3E"
+                          },
+                          {
+                              "path":  "src/core/compare_rules.h",
+                              "sha256":  "2433639FC4FD563F88CCBE60A34A32E8B174CBFB7FA3C2B4E23291189CD4EF78"
+                          },
+                          {
+                              "path":  "src/core/crc_profiles.cpp",
+                              "sha256":  "E42F6BF0B0A59BEA40CE7E23E4727E9C2A87244D956CCB729AD07CFD633D2362"
+                          },
+                          {
+                              "path":  "src/core/crc_profiles.h",
+                              "sha256":  "FB81F6321F8C4598C4115EAFF4B6B5EE13D9B7EB88889C6E6E90D634F5716B97"
+                          },
+                          {
+                              "path":  "src/core/data_conversion.cpp",
+                              "sha256":  "5046BCC4779004515749283610D02189F84929CB8B364289E9AB20D113EEF7DE"
+                          },
+                          {
+                              "path":  "src/core/data_conversion.h",
+                              "sha256":  "BBF4E7C0C09365FD44BD43E94DA96B8BE94351B5E34BB07D021DF3F960D178DE"
+                          },
+                          {
+                              "path":  "src/core/decimal_compare.cpp",
+                              "sha256":  "5F2C1210261892902BDC5C7B3E457836F5F2C5242277DBF89292982834E60857"
+                          },
+                          {
+                              "path":  "src/core/decimal_compare.h",
+                              "sha256":  "0158BE90EDF78556E77A447D896B4C1BF49EE89FB1DE508DF9AD5208FE70067E"
+                          },
+                          {
+                              "path":  "src/core/diff_engine.cpp",
+                              "sha256":  "F9EB789543433F41AA102F7C1705D887B974B9FD466B3685F55F6D2945826772"
+                          },
+                          {
+                              "path":  "src/core/diff_engine.h",
+                              "sha256":  "D949AC3A0676A38546B1F983D4851B873E079770E5F09D6487D5C9A27A07BF0E"
+                          },
+                          {
+                              "path":  "src/core/diff_presentation.cpp",
+                              "sha256":  "0471133678421629E147021A259DED48B886C7826482F224B286AA6B4BE1E960"
+                          },
+                          {
+                              "path":  "src/core/diff_presentation.h",
+                              "sha256":  "15E4CD10450819ACC146ED5D3B7DED68CEA9E9B3D9C8FB8D9F8F2974CAD9613D"
+                          },
+                          {
+                              "path":  "src/core/editor_config.cpp",
+                              "sha256":  "0210DE6F06B931CC3331251C04F24244027755F100961D01F007F6331A41524B"
+                          },
+                          {
+                              "path":  "src/core/editor_config.h",
+                              "sha256":  "1EB907D88AFB1BCAD57920F1E91D7557E696E43C96FC941FF91EC615DDEB1C98"
+                          },
+                          {
+                              "path":  "src/core/file_operations.cpp",
+                              "sha256":  "F044D9DEF9C489BB299EB59818423EF9343CC872DC0A4C7A1AABF7F2203FBA21"
+                          },
+                          {
+                              "path":  "src/core/file_operations.h",
+                              "sha256":  "29D6CABD4766BE5114D76C2088E2558788B549CE87FF959856C9099F66C67BC7"
+                          },
+                          {
+                              "path":  "src/core/firmware_image.cpp",
+                              "sha256":  "6C9B05C48438EBF30106EED8625EC667CE59F90FC98CC3814B01E79FA33122BD"
+                          },
+                          {
+                              "path":  "src/core/firmware_image.h",
+                              "sha256":  "F80D674408E9456768A3E108EDBE3C33802091E6B84E06A8B75A28F404716ED0"
+                          },
+                          {
+                              "path":  "src/core/folder_policy.cpp",
+                              "sha256":  "3D3FE02D49652B781205616FC03D95F658B189E30992B7674BC790AA9669B573"
+                          },
+                          {
+                              "path":  "src/core/folder_policy.h",
+                              "sha256":  "B373AE39CAB9EFE1EFD8E733DF682F991C1D64927E400DBB4A7E121DEA1A1F54"
+                          },
+                          {
+                              "path":  "src/core/folder_sync.cpp",
+                              "sha256":  "CEFA5B62A0DA7879A7786B6591C9DC9FB506C4F8C0E2202F40B8A3C7EA5BD8C3"
+                          },
+                          {
+                              "path":  "src/core/folder_sync.h",
+                              "sha256":  "C3E30598E1C03C599A81819FE9C0B81C9DD5FE4C7DCE01C7F49AE86AE207AC1D"
+                          },
+                          {
+                              "path":  "src/core/folder_text_rules.cpp",
+                              "sha256":  "03E05FC2B41890A4F0F74A1E871EC129E5B697D07E265A463A37FCA355D6552A"
+                          },
+                          {
+                              "path":  "src/core/folder_text_rules.h",
+                              "sha256":  "9C3124B6C2C8C5999891E6B2EA8E48CD6F2D7CC7CA04DB8291DB846AF747D15F"
+                          },
+                          {
+                              "path":  "src/core/function_outline.cpp",
+                              "sha256":  "4A53520B759EE3BA6B7A21831F835FB2B90C6F8E66CA3AC542489D885980CCBF"
+                          },
+                          {
+                              "path":  "src/core/function_outline.h",
+                              "sha256":  "89EE93269DCFF38225940B2E1CCD37A5CCC9769041580CC94D30F810A4688677"
+                          },
+                          {
+                              "path":  "src/core/hex_bookmarks.cpp",
+                              "sha256":  "050E3D11D100F93EFB5EA42636DF12078C06FB6D8348BE1745B10FD82B0866C2"
+                          },
+                          {
+                              "path":  "src/core/hex_bookmarks.h",
+                              "sha256":  "3F75ACB033A3515898A4E1C69D4B328C52C919861A76A3CCC872D718D2F1DA74"
+                          },
+                          {
+                              "path":  "src/core/ips_patch.cpp",
+                              "sha256":  "86A625DE8958EB238A10B8AF4F0AF0E3D32433153F7D87E719DF60CBBFC1C9CD"
+                          },
+                          {
+                              "path":  "src/core/ips_patch.h",
+                              "sha256":  "645D63268AACD4A6759C1466D72D4507B68F420788C28B641F8F043013DB3FDB"
+                          },
+                          {
+                              "path":  "src/core/json_rules.cpp",
+                              "sha256":  "4FF392B68A87824E7D153CB9F97781FED18D0E7AF863C805C58147742FFAEF82"
+                          },
+                          {
+                              "path":  "src/core/json_rules.h",
+                              "sha256":  "368F556869DF056DF4C3A2A69B9639ABA227462452BD63A3A78F35BF017FFF56"
+                          },
+                          {
+                              "path":  "src/core/language_catalog.cpp",
+                              "sha256":  "E9ADD0FE1BCA70B4EFCB5AFD30ADE739FCFDBF216D1AC60FDA930F00D64FBC4B"
+                          },
+                          {
+                              "path":  "src/core/language_catalog.h",
+                              "sha256":  "2BB1BB1D55CCED7D00600C9FCA94F502117985BE8B471900E9422A4BC05DC86B"
+                          },
+                          {
+                              "path":  "src/core/leb128.cpp",
+                              "sha256":  "8C8EA4980FF7BE14B0392B5F5DF2948892C57D23FA3AB85C7605CF0EBBBD56B8"
+                          },
+                          {
+                              "path":  "src/core/leb128.h",
+                              "sha256":  "5057D6E4CA0761426E22FCFE92209ADC1B892B448E6DAE18F008B8060EE584A8"
+                          },
+                          {
+                              "path":  "src/core/line_merge.cpp",
+                              "sha256":  "CF2C31ACCEB550B7E9D6CA0DF8F6F13969B07DF043C44BAE8DB20FBAD0BB8CAF"
+                          },
+                          {
+                              "path":  "src/core/line_merge.h",
+                              "sha256":  "B1F2D32BC2FE046340D1A9734B08EF739D5E9F72F219F6F404668B86B0B0E6A8"
+                          },
+                          {
+                              "path":  "src/core/log_tail.cpp",
+                              "sha256":  "195C158183C4863560A4221DCAAF57376B3CC9656B3254F6545A4BDC5AE6F79C"
+                          },
+                          {
+                              "path":  "src/core/log_tail.h",
+                              "sha256":  "3C43482DC32AAFF8B63F9ACE3186A9B75FC3AA1119E5490419713E9F84955D4B"
+                          },
+                          {
+                              "path":  "src/core/manual_alignment.cpp",
+                              "sha256":  "6B01324D3516FD64797663F1BA8F0C97C469DED480B6EE4B980D67414F264C06"
+                          },
+                          {
+                              "path":  "src/core/manual_alignment.h",
+                              "sha256":  "5C4DA6C46888926C702922D18859C3C75EEAB7A8322B570C8F5C557A2B426AED"
+                          },
+                          {
+                              "path":  "src/core/paged_search.cpp",
+                              "sha256":  "740BD78CB5F4C9981989A53A3EEAA8C1513151C2503C5E68F4A0D93C9048A2AD"
+                          },
+                          {
+                              "path":  "src/core/pattern_search.cpp",
+                              "sha256":  "7F391A2D20D10638E09C7F1A88B2EBC65219E39726E9736532A1F9FEE2F5EBCB"
+                          },
+                          {
+                              "path":  "src/core/pattern_search.h",
+                              "sha256":  "9AD2E6C3A0FDE2C47E4206C57FE84F5B5957690ABA476DA59AC9105CA98891F8"
+                          },
+                          {
+                              "path":  "src/core/portable_preferences.cpp",
+                              "sha256":  "69515326528861BD1B95A448EDE73D86F7E9AD013F548FFB3AEA74D9986AB868"
+                          },
+                          {
+                              "path":  "src/core/portable_preferences.h",
+                              "sha256":  "76BDAAC96A349176E79D5B403917FBEE67F277D33262544E62A9BA60BEA2FF2E"
+                          },
+                          {
+                              "path":  "src/core/recovery_store.cpp",
+                              "sha256":  "FA502E2F22F829D3567CD6C6169BB4CEFC694761697BF22C2BDA38D4176D1053"
+                          },
+                          {
+                              "path":  "src/core/recovery_store.h",
+                              "sha256":  "2232C1DD01C2B4A0006154F7B8D830546277D9BBA7EA2E4080732E7C46F94869"
+                          },
+                          {
+                              "path":  "src/core/rename_pairs.cpp",
+                              "sha256":  "213E308FC2D2D176B3698FE2F18701ED10C8F7C20CDBAEEAD639472FDB2D38B6"
+                          },
+                          {
+                              "path":  "src/core/rename_pairs.h",
+                              "sha256":  "243CDB5C0450B1A8D395B91EFC85389023A9B63FC8CBD8BA73BB11DB7E7A5E16"
+                          },
+                          {
+                              "path":  "src/core/review_notes.cpp",
+                              "sha256":  "BDE77FB19DFB4A4072B927DD809B7284EEFA17E19A7840232AA0B61584641CA5"
+                          },
+                          {
+                              "path":  "src/core/review_notes.h",
+                              "sha256":  "8C7F2AA058792F95F34185D61BE3E420B9CCCB20DCEAFC86B329DD99ABB23407"
+                          },
+                          {
+                              "path":  "src/core/review_notes_report.cpp",
+                              "sha256":  "7443F1CFEB300DCB4C8B98370980DA169CCD0BA8A9A4143F7772AB4D6570C069"
+                          },
+                          {
+                              "path":  "src/core/search.cpp",
+                              "sha256":  "B4F9ABDF7B0269641F262E32890BF8F693492BA38C3FDFA909F4F5E2E38F3A7A"
+                          },
+                          {
+                              "path":  "src/core/search.h",
+                              "sha256":  "9ED78FA0F111152828BB274D1C88CA3831B1EC0C1C916ED3AF054C7BC06389DE"
+                          },
+                          {
+                              "path":  "src/core/source_alignment.cpp",
+                              "sha256":  "AB2E31EAC5F3CA2E2AAC32EB81D219F6884C4D01113EAE1C4329696B8F55B490"
+                          },
+                          {
+                              "path":  "src/core/source_alignment.h",
+                              "sha256":  "2B954C409CC66E135CD46CE482A81FEB2893823E288C3C4B19F865A0A2214187"
+                          },
+                          {
+                              "path":  "src/core/stream_output.cpp",
+                              "sha256":  "D750F2A7340917589FC9303AD0E38D844584A925B629641B1E8A67E812551B74"
+                          },
+                          {
+                              "path":  "src/core/stream_output.h",
+                              "sha256":  "F4CD39F0E675E96269A6C8EC2FF0AB632B77FD0167FB1B387AB98EBDBA1718F5"
+                          },
+                          {
+                              "path":  "src/core/structured_compare.cpp",
+                              "sha256":  "C83FE05734EC847DB8644D1EAFC6F7C7FA472A51DA185E31B90A112BE8D19939"
+                          },
+                          {
+                              "path":  "src/core/structured_compare.h",
+                              "sha256":  "10D985C28851BC452813536D3319A07C85E58BB1E59A282ADDA9DD1D536D5CCB"
+                          },
+                          {
+                              "path":  "src/core/sync_journal.cpp",
+                              "sha256":  "ED8EE62711C5647B0297C00E5BBFF11AE057D42517F462E2B17DD450609B64B2"
+                          },
+                          {
+                              "path":  "src/core/sync_journal.h",
+                              "sha256":  "DA42DAC0490AE963817BF92843B9FCBB3C76FCA3D434A7479A7B1070E36E304B"
+                          },
+                          {
+                              "path":  "src/core/syntax_profiles.cpp",
+                              "sha256":  "DCF696B3A1CC119F44986B45FF91103407BCA21EDC049C0D19ED8F67FB0E0079"
+                          },
+                          {
+                              "path":  "src/core/syntax_profiles.h",
+                              "sha256":  "D2ACCD6EADA962D81FB0981D5EF2A0A82300BBA750C3F1CA9978036A8ACF9F40"
+                          },
+                          {
+                              "path":  "src/core/table_compare.cpp",
+                              "sha256":  "44DF6CCB6987EF6DB9E20CBDD7F471A23334DA65B7DE34D51EE72296687A180B"
+                          },
+                          {
+                              "path":  "src/core/table_compare.h",
+                              "sha256":  "0795BF4C405856390664CBB5F3DEFA22F608D5692DFEDE33FCA26D3E45121FB9"
+                          },
+                          {
+                              "path":  "src/core/temporary_documents.cpp",
+                              "sha256":  "BAB39A2724652BBA33FF88501FC0375A5828BAB43672C1DFB28F8BA71B8CE3D3"
+                          },
+                          {
+                              "path":  "src/core/temporary_documents.h",
+                              "sha256":  "716D58F1E16F089ABB6F2B7A15D1CE1F836B90AC2D6B2078D74EEDCC5CFD5434"
+                          },
+                          {
+                              "path":  "src/core/text_byte_map.cpp",
+                              "sha256":  "1084E7D5628E2F4A8F6C7A7921095F1D31CFB5FD2B85CFD393549535800DA13A"
+                          },
+                          {
+                              "path":  "src/core/text_byte_map.h",
+                              "sha256":  "7D44CA49A87F82F967B4B8DDB9C9FB6805D97A0BDFE8E8231CE4D1A07D5CF673"
+                          },
+                          {
+                              "path":  "src/core/text_codec.cpp",
+                              "sha256":  "7D890E249DBFE1479068B8A039C244E4349622CD7173205538AF6DDFD1128D0E"
+                          },
+                          {
+                              "path":  "src/core/text_codec.h",
+                              "sha256":  "1DD85A8063340B98856223FFE51686A731F095AF1D6AE20D1EA6CCBC346A52BC"
+                          },
+                          {
+                              "path":  "src/core/text_output.cpp",
+                              "sha256":  "4C257A34187BE88BE36F346FBE1FB2D340277D459C07C16CE3B22CD8A4B3608C"
+                          },
+                          {
+                              "path":  "src/core/text_output.h",
+                              "sha256":  "67FB3D5FB90D85AA57B44237840690250A56BF73D78684E89FF019617D345A0F"
+                          },
+                          {
+                              "path":  "src/core/text_page.cpp",
+                              "sha256":  "EE6FAA44B22FB28A608A8094C913B13EB860F8DD0587213772AEF1BCA91C0B4F"
+                          },
+                          {
+                              "path":  "src/core/text_page.h",
+                              "sha256":  "E58F9A29041E8E3FB1805D6EB24EF0D3FC9E15990073C456E21CBEC459BA3073"
+                          },
+                          {
+                              "path":  "src/core/text_report.cpp",
+                              "sha256":  "8792063E828F89F2D3A349C3291AE0553C0C1D465D540A7B55AC79C733D47E88"
+                          },
+                          {
+                              "path":  "src/core/text_report.h",
+                              "sha256":  "F75A225FE3D44805D26A278AA7738055DFD528F472ED8F2A891AC8610744F4E7"
+                          },
+                          {
+                              "path":  "src/core/text_review.cpp",
+                              "sha256":  "FB2CEC181FFAF314EB9B4296DC2004B07DC3D9AC56E0AADBE01E5ED1040C9B2D"
+                          },
+                          {
+                              "path":  "src/core/text_review.h",
+                              "sha256":  "EDBE3F8F9D099E8D37EE52C3F9223B281247B591ECA4AA32B1881F81A782C709"
+                          },
+                          {
+                              "path":  "src/core/unicode_notices.cpp",
+                              "sha256":  "92D462DE741FE097708D4B204BA29F4E8F3033546DF796FB429EA3A7069C95D3"
+                          },
+                          {
+                              "path":  "src/core/unicode_notices.h",
+                              "sha256":  "A2146DC4DDF523273AFD047AC15C3BA3656B788632A4F99227E00B16053AEFE1"
+                          },
+                          {
+                              "path":  "src/core/workflow_views.cpp",
+                              "sha256":  "C66AC666884B61F11975BDCC830FEFCB954EA7935718FFB0073EAA156FB5FDE4"
+                          },
+                          {
+                              "path":  "src/core/workflow_views.h",
+                              "sha256":  "B28456B25906493B1E1E62EC212B7EB7FD8E8D81CA7C9EF2DA63AD6B09863F64"
+                          },
+                          {
+                              "path":  "src/core/workspace_session.cpp",
+                              "sha256":  "78DDD2F3BD420C6BFC7603223F59234ED9702A6A3F6F7FEE7CF9E3EF451C06B8"
+                          },
+                          {
+                              "path":  "src/core/workspace_session.h",
+                              "sha256":  "7AC114B794FC2123F9D5A9E1CB418D58CC99F2552965EA04A7967FF532C15DDB"
+                          },
+                          {
+                              "path":  "src/services/batch_replace.cpp",
+                              "sha256":  "6AC4A2D4DFEEFE4B27259AA78611F66B523F335608CA7EA8DBB3C92AD580C3C6"
+                          },
+                          {
+                              "path":  "src/services/batch_replace.h",
+                              "sha256":  "8DFB03D5F3EDD910007A6CB9EB1608124080B3AA322C7EB1FDADCC4B1FC23F0B"
+                          },
+                          {
+                              "path":  "src/services/cli_console.cpp",
+                              "sha256":  "A35DB9852AF8EEC822A7A1A704266D1EE4D3C375B65198F67D4ECF22ED7C803D"
+                          },
+                          {
+                              "path":  "src/services/cli_console.h",
+                              "sha256":  "03EAFA10C96084534C01A9CC9619F03F96CB631816302C4E6F3C26B5157BF724"
+                          },
+                          {
+                              "path":  "src/services/difference_mailbox.h",
+                              "sha256":  "EE035D12F308BD3C6A3F252A5CD8BE5BB947EADEBF8BE25155AF2FD969E7BD76"
+                          },
+                          {
+                              "path":  "src/services/editor_job.h",
+                              "sha256":  "0BA61177025A3DC5E866232D24304E847324340F93BF990AD0F6614FD98EC7B7"
+                          },
+                          {
+                              "path":  "src/services/explorer_menu.cpp",
+                              "sha256":  "F2C99F1DFE0499490B96B76876EFB398AEDE7CEAF7CEC43453125862CE685937"
+                          },
+                          {
+                              "path":  "src/services/explorer_menu.h",
+                              "sha256":  "2074E2C5B7103FC0D304AA97D5C0EEDF9B31FC33BDE0E2CC6347B926E8E05F4E"
+                          },
+                          {
+                              "path":  "src/services/multi_file_search.cpp",
+                              "sha256":  "93F7888A82A873099132041351534A46539514E6410D8918CBF42CBEC27A4FD2"
+                          },
+                          {
+                              "path":  "src/services/multi_file_search.h",
+                              "sha256":  "9283FFB3940B068FBDB1F6DAB42F2AD68374379F62789CAC288B3D604F52DB46"
+                          },
+                          {
+                              "path":  "src/ui/advanced_anchors.cpp",
+                              "sha256":  "22A78E77D90E0BCF5008566F0EF4F072C63FA189B11ED128A848D6024C45F86D"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare.cpp",
+                              "sha256":  "8A1707E5E0AB18478131ED09F1234F1B4AC1B48A11104407F2B93B79D9519F4C"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare.h",
+                              "sha256":  "F1511B5E1B24E6C4875734738528221F2CF8675572041A8AA90ACD4FCEA9F190"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare_actions.cpp",
+                              "sha256":  "420007397D7D35E3C3C610A3D4E2E47731D6459B9EBA5760D469DF19C394EC5C"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare_draw.cpp",
+                              "sha256":  "3D29A67BBEECB0860B4BCCE10405DBD04580A30BF2D591EC47306CCEC504FA1F"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare_report.cpp",
+                              "sha256":  "34871C90409DF2BA42BFEBD1BDC9015B5CD939BDE2C7177A91F3F20C50F230BC"
+                          },
+                          {
+                              "path":  "src/ui/advanced_content_pairs.cpp",
+                              "sha256":  "97A738E6E8568795FA363DDD2E168F49B68DEDF494DAC0E4708903D231AD58ED"
+                          },
+                          {
+                              "path":  "src/ui/advanced_feature_settings.cpp",
+                              "sha256":  "53238CFB5E8A32B6F7EECEACBD28547490BD18C09934F3E3D95437D9AAC639B3"
+                          },
+                          {
+                              "path":  "src/ui/advanced_folder_navigation.cpp",
+                              "sha256":  "3B1AD078D6CB8E76ABCF1911AC880138E15D27311DB6C2EDC7821848E492D1CB"
+                          },
+                          {
+                              "path":  "src/ui/advanced_folder_refresh.cpp",
+                              "sha256":  "A149FEB15E9028145739B6DB3CB9846E67E60C271B4D6EE120809BF464BDA116"
+                          },
+                          {
+                              "path":  "src/ui/advanced_folder_view.cpp",
+                              "sha256":  "14DC6448339EF8F2362D17E50EFA23EB889CDEFD46A7F326910FBB523A70B5E6"
+                          },
+                          {
+                              "path":  "src/ui/advanced_notes.cpp",
+                              "sha256":  "0AB60A4B4935B5D0887776330F1A79251CA4B8D2BA994C65030F34B03E10A9AA"
+                          },
+                          {
+                              "path":  "src/ui/advanced_notes_io.cpp",
+                              "sha256":  "D3DABF1BCBC9A752FB9E66B7A108EBFF3F62862AD303EC5187BC4597D3D5648C"
+                          },
+                          {
+                              "path":  "src/ui/advanced_sources.cpp",
+                              "sha256":  "3C6D90B0F632B649FF4D7E361BEB564E44D67E1EDF3EC32589F2E18D491B08DF"
+                          },
+                          {
+                              "path":  "src/ui/advanced_structured.cpp",
+                              "sha256":  "BAF270FA525DB1CC605FC70406436246472955FCE3C37397081889172604DD9E"
+                          },
+                          {
+                              "path":  "src/ui/advanced_text_inputs.cpp",
+                              "sha256":  "6B9B2D817B8BDE57DCA111F35C1B73D36D842F65948A9E49A2057137E7D65EF6"
+                          },
+                          {
+                              "path":  "src/ui/advanced_workflows.cpp",
+                              "sha256":  "C1DA908A21EC0721D6358708FD7D3BA901DD8851143C00D50856A9D56BA3337C"
+                          },
+                          {
+                              "path":  "src/ui/batch_replace_dialog.cpp",
+                              "sha256":  "C5DE6F6807FCA6320F5E398E3D9C566CE1880670EF56DD4ACC32ED0034571D66"
+                          },
+                          {
+                              "path":  "src/ui/batch_replace_dialog.h",
+                              "sha256":  "C6ED46E36FD3E68C3F66495DB5E7F6B2BB620AD91ACEBBB8D1756A174C67216E"
+                          },
+                          {
+                              "path":  "src/ui/code_editor.cpp",
+                              "sha256":  "50D9BA4E6C1A9FAAB1382EB9AE22C50F2056D8FB6EA8BA4C38BDA2F624B18705"
+                          },
+                          {
+                              "path":  "src/ui/code_editor.h",
+                              "sha256":  "36F32F37B0221E351FCD321D2E86D77A27ED5ADCB28ECE8FE1B58B79E68ECB1D"
+                          },
+                          {
+                              "path":  "src/ui/command_palette.cpp",
+                              "sha256":  "7038C9368D25D56D90EA70EEF01F50D609E4A5209058D50B8F95EF1E4EABC325"
+                          },
+                          {
+                              "path":  "src/ui/command_palette.h",
+                              "sha256":  "485CF88E435F8A13AE4E8BD042D637A268383AFBB50D6648C6194DFC0E38D048"
+                          },
+                          {
+                              "path":  "src/ui/conversion_dialog.cpp",
+                              "sha256":  "E37DBA17880028CC86250C68E4B507D8247A444ECE3C3F9B69FAE9DD5CEF53EC"
+                          },
+                          {
+                              "path":  "src/ui/conversion_dialog.h",
+                              "sha256":  "D8E06BA2658385060212D182EF0137F25FE9A1969895B3687116E75270B7ECCC"
+                          },
+                          {
+                              "path":  "src/ui/diff_overview.cpp",
+                              "sha256":  "36CE1665CB9F74625F2B2AD4E3C2BA451DF14021AA9035B745869BE9E7CB129D"
+                          },
+                          {
+                              "path":  "src/ui/diff_overview.h",
+                              "sha256":  "EA9222BED36588F0D426BB12C9E34F9D4BA33327FB0D95610E98FE6F4103651B"
+                          },
+                          {
+                              "path":  "src/ui/editor_dialogs.cpp",
+                              "sha256":  "DCE07CEACB86EB045C1CD5CAE5C6DB2AA06FED6675D71A2A1CEECC0EFDFDC174"
+                          },
+                          {
+                              "path":  "src/ui/editor_dialogs.h",
+                              "sha256":  "D754D87DFA90D58DB9959D5831B31BAD1902EE501775034A4AA81F0AAB054DEA"
+                          },
+                          {
+                              "path":  "src/ui/editor_drop_target.cpp",
+                              "sha256":  "3D7AC0DEA671A7679831C56525B57DDE334BD530154F657A4A6BED82A88EAF9E"
+                          },
+                          {
+                              "path":  "src/ui/feature_dialogs.cpp",
+                              "sha256":  "6A5A407AEAE0C2186A79FA0950A338E8E71187071A8C8B398E63B819AC3FBE41"
+                          },
+                          {
+                              "path":  "src/ui/feature_dialogs.h",
+                              "sha256":  "CEF520CE904F64C5DFF7E5181ED3EA3C98E04ABFFA2749283BF3EA13A6FA6F81"
+                          },
+                          {
+                              "path":  "src/ui/inspection_layout.h",
+                              "sha256":  "0646AE5AE46F719B28C05E07A79C0C8F3B0668CF7DDA7C75F14385831071E758"
+                          },
+                          {
+                              "path":  "src/ui/lexer_catalogue.cpp",
+                              "sha256":  "F191A2F56FD014E20DC3EC19E485FBB9711A2F8BBB7AB9E838DC7EFBAFBB30D4"
+                          },
+                          {
+                              "path":  "src/ui/live_inspector.cpp",
+                              "sha256":  "15A5B73599760386F21D0A8AEBB87D2EC082AFFB2FE1AFD735A74281EFB6989F"
+                          },
+                          {
+                              "path":  "src/ui/live_inspector.h",
+                              "sha256":  "6D2ADFD89FC87AFDB68503C0C512FF4ED2E63F39B8845BE19B12CC48B4B80FDE"
+                          },
+                          {
+                              "path":  "src/ui/localization.cpp",
+                              "sha256":  "F6F17137D446FC2D927FCF6B1989DDB743741A5A043B9A678891D6414C335DB6"
+                          },
+                          {
+                              "path":  "src/ui/localization.h",
+                              "sha256":  "C8F961E0588C7CDB136D3738D22F7F681C333C733D37C5D25297C99E2CEAF631"
+                          },
+                          {
+                              "path":  "src/ui/localization_controls.cpp",
+                              "sha256":  "A2D4E2926820227F0CB3AA3D7CD3EA3AD5785EF22570DBB2D5E606DE525F441C"
+                          },
+                          {
+                              "path":  "src/ui/localization_internal.h",
+                              "sha256":  "76525A5BA9371F4B75A6F46C3339B570A3A7680AB7CB112C6628292EAB8C9A44"
+                          },
+                          {
+                              "path":  "src/ui/localization_menus.cpp",
+                              "sha256":  "AADD29BC25B7BAC57F76A19D54C8C1461227C5521A9E8C17DB1AD3A7E68498F7"
+                          },
+                          {
+                              "path":  "src/ui/log_tail_dialog.cpp",
+                              "sha256":  "84D168B8E6E8E654F0ADA5BE3BB3995ABB94DFCE4387D26722BD4A8497C055CE"
+                          },
+                          {
+                              "path":  "src/ui/log_tail_dialog.h",
+                              "sha256":  "283B6B9A9EF654ECE99EBA1C403D84AA3D101C05704090A004914101B6D49BA5"
+                          },
+                          {
+                              "path":  "src/ui/multi_search_dialog.cpp",
+                              "sha256":  "C152A73188534EF996D5AB36403C5BDAA511224862AF083A90B1F426A599F64E"
+                          },
+                          {
+                              "path":  "src/ui/multi_search_dialog.h",
+                              "sha256":  "8C8EC8F7379C3FBD3C582A8BDDE82FF8074FBFA032CE8BDE3FC34F8ADB3B4F8C"
+                          },
+                          {
+                              "path":  "src/ui/native_search.cpp",
+                              "sha256":  "F5670154021F39B813719591059179F0576A00CF0A41FEE9A64EFDC668651C70"
+                          },
+                          {
+                              "path":  "src/ui/native_search.h",
+                              "sha256":  "C7C29491F05DCF2D298CE3E801F944356CC799FB41FA79C71EC9B224319B74E4"
+                          },
+                          {
+                              "path":  "src/ui/path_combo.h",
+                              "sha256":  "49275874A6257C0609E5B377A89404DA89D44823545534E94481903EC02B9614"
+                          },
+                          {
+                              "path":  "src/ui/preferences_dialog.cpp",
+                              "sha256":  "E2F38335774231604931268F53AB158FCC210CEC383D9B42C82CF8EC092422DC"
+                          },
+                          {
+                              "path":  "src/ui/preferences_dialog.h",
+                              "sha256":  "5506AA9C338272FB4762E64D87FD65F5B12DBD1C1C7959236142A47601FDBE0A"
+                          },
+                          {
+                              "path":  "src/ui/review_dialogs.cpp",
+                              "sha256":  "03071F6CF8EA466C9750C6E8A4B0AB99F00A68B15674E67E8FC096693241382F"
+                          },
+                          {
+                              "path":  "src/ui/review_dialogs.h",
+                              "sha256":  "5FD02F196E762451EBDA1A84606EFD3512D7BD5410E67B1FC207E219731DE4D7"
+                          },
+                          {
+                              "path":  "src/ui/review_note_dialog.cpp",
+                              "sha256":  "FDE55403A5FE2874BF84A25DB47D3C580D328D0FAD1799E3D802F7AECF13D522"
+                          },
+                          {
+                              "path":  "src/ui/review_note_dialog.h",
+                              "sha256":  "CF67897F17C7B4370028A3029DFBE629F4945236769C8139920ECD642A6CF60C"
+                          },
+                          {
+                              "path":  "src/ui/search_multiline.cpp",
+                              "sha256":  "E3A15A226D94175F26A75C9A224E12B5DDB4075D5C4B7BB7524401C4AE4B0868"
+                          },
+                          {
+                              "path":  "src/ui/search_results.cpp",
+                              "sha256":  "20A1ABB7749A3DFDE98B959F44406F354F6C8671715024359A8281109BFE3DED"
+                          },
+                          {
+                              "path":  "src/ui/search_results.h",
+                              "sha256":  "DB7F5C393648A0C3E65C7F98DB8149E0C782B23023533F0A3A6B0359F6EC8404"
+                          },
+                          {
+                              "path":  "src/ui/source_presentation.cpp",
+                              "sha256":  "EB0A97EB8C741C8DEDD24DC90A6D4062641638958BFD508CEB216CBC71269026"
+                          },
+                          {
+                              "path":  "src/ui/splitter_bar.cpp",
+                              "sha256":  "BDD3E8BFA561BEDC0ED6EE2C09F27EE38364167073F4D765575D6062048E6F82"
+                          },
+                          {
+                              "path":  "src/ui/splitter_bar.h",
+                              "sha256":  "32473556C9FB94C02A63E3BD41E6617F135815CC56E24843C34174EF48FA474B"
+                          },
+                          {
+                              "path":  "src/ui/statistics_dialog.cpp",
+                              "sha256":  "6B9F2E4988FC6592425CC9936A758514CA2DDBCB37D0520D978F7440C89C79B9"
+                          },
+                          {
+                              "path":  "src/ui/statistics_dialog.h",
+                              "sha256":  "21392C46103683CECB60AEF7817CEFD2247C2763F6280D67009E2653F6585EF5"
+                          },
+                          {
+                              "path":  "src/ui/sync_preview.cpp",
+                              "sha256":  "5AFB1F472396D1AB4478E4BD2BB5B7D43B0CD8DE697871894275BD366A25F10B"
+                          },
+                          {
+                              "path":  "src/ui/sync_preview.h",
+                              "sha256":  "42E2596AD81B9C60B8D562CC5FBCF94278E5A7088086CCBDD97072A2213ACCAB"
+                          },
+                          {
+                              "path":  "src/ui/template_dialog.cpp",
+                              "sha256":  "8036C381C14F31988C8E79D58A2A3541F0BFDB3D6E5A69A00E356189BF6714B4"
+                          },
+                          {
+                              "path":  "src/ui/template_dialog.h",
+                              "sha256":  "F1A6539CF656F3AA078550AF79DB2FD7D1D108F5CE5DEB30924D04EB91E92CEA"
+                          },
+                          {
+                              "path":  "src/ui/text_commands.cpp",
+                              "sha256":  "D54763529B773E0549772A3B6AFB0DEB984BB0DA3C6A647ACAF8C31375EACEA3"
+                          },
+                          {
+                              "path":  "src/ui/text_commands.h",
+                              "sha256":  "A212296004023FA4EC8671BFDCBDE5B9B2A020D2240EE6939FA934AFD1C88276"
+                          },
+                          {
+                              "path":  "src/ui/text_pager.cpp",
+                              "sha256":  "67CDDD6CD2AC9F8949E611B57D9258DA0B6658974D9F7085BC065D1E22A470FA"
+                          },
+                          {
+                              "path":  "src/ui/text_pager.h",
+                              "sha256":  "58EC550C0388825100DBD7C0F741701494021F15893B4947ED54ED9A79264110"
+                          },
+                          {
+                              "path":  "src/ui/text_pager_search.cpp",
+                              "sha256":  "C0E7F980C49657D5F3D2D6856B4C104FFEB33E6DB71926E609037BB1064A3AD5"
+                          },
+                          {
+                              "path":  "src/ui/unicode_presentation.cpp",
+                              "sha256":  "6369418E3C290657492563BC2DCE665617CFA86E966016575D0A663E20201859"
+                          },
+                          {
+                              "path":  "src/ui/wheel_zoom_control.h",
+                              "sha256":  "B2C42F69AABBEAD030F2E864804AD323ADA6C03454914D52272D81A385045755"
+                          },
+                          {
+                              "path":  "src/ui/workspace_tabs.cpp",
+                              "sha256":  "94EB9CE25C53A6101CB2DE72AA256D8F5A9785980358B465F97621D2BA4BDE0B"
+                          },
+                          {
+                              "path":  "src/ui/workspace_tabs.h",
+                              "sha256":  "D160FC5697A1DD8B0CF75099A7213E0212F8439C8B845CD1F3A448282ADA0170"
+                          },
+                          {
+                              "path":  "tests/drop_data_object.h",
+                              "sha256":  "AB763D8B3DDC1F7B19162FA9931D0DCAA3153C86BEEBC2DD4EB3EAAF6AF19B2C"
+                          },
+                          {
+                              "path":  "tests/native_analysis_tests.cpp",
+                              "sha256":  "4C714F6103B8746CB479F8A3FC8745C4E3252E070A483181434EDD30056DD30F"
+                          },
+                          {
+                              "path":  "tests/native_async_save_tests.cpp",
+                              "sha256":  "F465829236669FDD203D1F80233483626D787FE6B28BB6B62A04AA5FD80F5A15"
+                          },
+                          {
+                              "path":  "tests/native_binary_tools_tests.cpp",
+                              "sha256":  "D61209666582B0DC4961425ACE6242B8DDF5D23AB6E9832CC88C4BFF13244ACF"
+                          },
+                          {
+                              "path":  "tests/native_cli_tests.cpp",
+                              "sha256":  "BCF515A03BCE3E6CB998A12397FB06E680A68540AA911FE5CA5BC23358AB64FB"
+                          },
+                          {
+                              "path":  "tests/native_core_tests.cpp",
+                              "sha256":  "53E8059296D8DF53BBD375CF28402950D5B3B9EA06D1BF720450D25A2F9A1B87"
+                          },
+                          {
+                              "path":  "tests/native_cross_search_ui.inc",
+                              "sha256":  "6036D29FB334D51623C249D4B1EBE495016283C15FF6907E02FBC1DB3E2CA84D"
+                          },
+                          {
+                              "path":  "tests/native_discovery_analysis_tests.cpp",
+                              "sha256":  "79581404B109AD4D3107F0BC0558845CFA6EE22CA992042C014E0F6503F36E2E"
+                          },
+                          {
+                              "path":  "tests/native_discovery_flows_ui.inc",
+                              "sha256":  "F9405EC287068A2B659B68FE51EDF0804382EE0ECECA25F425BF18F152D47D1F"
+                          },
+                          {
+                              "path":  "tests/native_discovery_tests.cpp",
+                              "sha256":  "9E98134C86CE74A73BDB7F5E1A56DAF4D528F62872E8D661CEF6CF6FC0F6FCED"
+                          },
+                          {
+                              "path":  "tests/native_discovery_ui.inc",
+                              "sha256":  "E9E18370C5B52205FEC098485228B33B59A324094F278361B45B3A5C6DA67ABB"
+                          },
+                          {
+                              "path":  "tests/native_discovery_visual_ui.inc",
+                              "sha256":  "2EAAC34FFC5D76148DEAB6DBD40D66304BC9008D33990B986FCA1BEA6DDAFF45"
+                          },
+                          {
+                              "path":  "tests/native_documents_ui.inc",
+                              "sha256":  "3C8067C4B2532DD030B12EB767ED6D6B792C7F73BDC049F420F4826DB93D4779"
+                          },
+                          {
+                              "path":  "tests/native_document_focus_tests.cpp",
+                              "sha256":  "6166B18D5D716322AE071F3A4E1B839CFFB4DA250953CF633A2E578A2BCE09C6"
+                          },
+                          {
+                              "path":  "tests/native_document_focus_ui.inc",
+                              "sha256":  "16279E723B08AE477A0332F2A76CD67152775ABBF3250CF2E55833ECCB6FF922"
+                          },
+                          {
+                              "path":  "tests/native_drop_ui.inc",
+                              "sha256":  "75E38DEC199BCD3BBD32FC800474D0613932F2E4D30FA616D4A52570051F83C9"
+                          },
+                          {
+                              "path":  "tests/native_editor_review_tests.cpp",
+                              "sha256":  "34C26ED30E74B0880112D3DE906C5B4BBABA7556DA2E9DB15E97728441AB17F9"
+                          },
+                          {
+                              "path":  "tests/native_editor_review_ui.inc",
+                              "sha256":  "00C200C258D2447E5096AA8D9DEC6C480826C7CEE0B4F60BA3CBCC9CC80D4D6E"
+                          },
+                          {
+                              "path":  "tests/native_exception_trace.h",
+                              "sha256":  "BC2068E1005F618089B14B871231541880DDD3CE5F9FF77FC6BE5614B456B673"
+                          },
+                          {
+                              "path":  "tests/native_explorer_ui.inc",
+                              "sha256":  "A99C9C0F0E16D766186C3886B09BD7109366EC9E4B238667D811224648CA4147"
+                          },
+                          {
+                              "path":  "tests/native_features_tests.cpp",
+                              "sha256":  "31DAE0FF876076CA3681A840EE85CE6BD38B2C5BC1575C4A5571FDE5EFE22CD6"
+                          },
+                          {
+                              "path":  "tests/native_file_safety_tests.cpp",
+                              "sha256":  "C60AD5C296E5D1CB34812B7A60E115D137E9B8C531F37425570631E3B90FBB57"
+                          },
+                          {
+                              "path":  "tests/native_firmware_tests.cpp",
+                              "sha256":  "BA5746C30C9A62E3A02FEECC9F7FA2727BF19093950DB11D70AC02AE704960B2"
+                          },
+                          {
+                              "path":  "tests/native_folder_tools_tests.cpp",
+                              "sha256":  "2B928AE0EAD29F4D54299C0A837D21DB00D30D187F97B8A56B336ABF07ECE7DF"
+                          },
+                          {
+                              "path":  "tests/native_folder_ui.inc",
+                              "sha256":  "DAF501AA50DD9E2109967B8CB95352F8F6D99110D5C803CAC4D07677A8F661BF"
+                          },
+                          {
+                              "path":  "tests/native_format_ui.inc",
+                              "sha256":  "85013B6B5081592EADFC0F14107AD56B75D00F559D21BC087BD9DF0A216DE703"
+                          },
+                          {
+                              "path":  "tests/native_inspection_ui.inc",
+                              "sha256":  "DAE85132452FE9E8D268DE19951CA8B1A78E052A0CFE95FB81151F1FB62FD8C5"
+                          },
+                          {
+                              "path":  "tests/native_localization_tests.cpp",
+                              "sha256":  "656C37390451111B67738B0A2B891F0C6FC194BAF7F561AFB0EAF459C6A3F9CB"
+                          },
+                          {
+                              "path":  "tests/native_localization_ui.inc",
+                              "sha256":  "F8AC53827AA484DF80CCCCD8CA7F6CAE4B78E6BB3C8DDAFA5D31F041C0FFFDC4"
+                          },
+                          {
+                              "path":  "tests/native_merge_sync_tests.cpp",
+                              "sha256":  "B07DC48EDE9C4030164E3F9FF52DD0B1B3182118D5D779098E679A5F71C583A1"
+                          },
+                          {
+                              "path":  "tests/native_merge_tools_tests.cpp",
+                              "sha256":  "832F0303C6917E58BB7077F81B2401E28F04FCAC68A2911B18B963ACD7B8EA4D"
+                          },
+                          {
+                              "path":  "tests/native_paging_tests.cpp",
+                              "sha256":  "F515815A2831F1F5A9E1D3C95CE934A112FF3A15CCFFCAC412A6BE663C38A493"
+                          },
+                          {
+                              "path":  "tests/native_pasted_text_ui.inc",
+                              "sha256":  "856BF473A3B883CE32918916F46D7A20D90A88BB80E891A87804EDA5C3145A49"
+                          },
+                          {
+                              "path":  "tests/native_patch_ui.inc",
+                              "sha256":  "418EEF23EF5D31CCF4BE3C8C988BBAE578602DE72D9B776DA899545D0B03B968"
+                          },
+                          {
+                              "path":  "tests/native_pattern_tests.cpp",
+                              "sha256":  "51F2B632489217C259B7133D42B6B8FAB722D0D6ED95C384E9DD0AF0E4F6E39B"
+                          },
+                          {
+                              "path":  "tests/native_preferences_tests.cpp",
+                              "sha256":  "F5AB34CA1A0508E7EBD1F833E5F747422590369CCB3FBDDBCE3270C7AA6ED6E2"
+                          },
+                          {
+                              "path":  "tests/native_preferences_ui.inc",
+                              "sha256":  "73F8DBF4F44EA758A5D71A9111E7B03587D39B0F6684F0515E069F5CF2BB6B38"
+                          },
+                          {
+                              "path":  "tests/native_presentation_tests.cpp",
+                              "sha256":  "8A2B89650642D3BD41CA1F342AE337FA9D79E381E220CA3A7523B366D0ADB1C4"
+                          },
+                          {
+                              "path":  "tests/native_presentation_ui.inc",
+                              "sha256":  "EC5AC48BCD67EF79C45C35AA7FBBCB849032101692948407F17ADF6BC1572C2E"
+                          },
+                          {
+                              "path":  "tests/native_recovery_tests.cpp",
+                              "sha256":  "C1BBC871E42259553EC143B1F87692ED34FB3450A7AB9336F3C07DA38ADE20DE"
+                          },
+                          {
+                              "path":  "tests/native_recovery_ui.inc",
+                              "sha256":  "389E39AC3BCC21CAD174693628C81A9C85BAB23939EF6FF1A8C3B9BFB1CDF523"
+                          },
+                          {
+                              "path":  "tests/native_region_tests.cpp",
+                              "sha256":  "607998A482D7B40F8FD50D3EE92F0CAA4926492BF158F804E337580A7CF1BA03"
+                          },
+                          {
+                              "path":  "tests/native_region_ui.inc",
+                              "sha256":  "B5AAC0CD2D30BEB804D119C7ECCF26030D63D5457B2629D0E91718582DAC11E0"
+                          },
+                          {
+                              "path":  "tests/native_search_ui.inc",
+                              "sha256":  "8B2A7683F439256D591341815F47253B0E75B60D7EDD9A7CD9C5F8423E58E911"
+                          },
+                          {
+                              "path":  "tests/native_structured_tests.cpp",
+                              "sha256":  "B5AA7B69CF9B4167C5506445D3370F485283AE27640EE723F49FEADAF8FEC81B"
+                          },
+                          {
+                              "path":  "tests/native_structured_ui.inc",
+                              "sha256":  "ED415FB1033D2DBDD7B6AD5A05CF400710719CD8E66C8C020B32B59766C268A0"
+                          },
+                          {
+                              "path":  "tests/native_template_tests.cpp",
+                              "sha256":  "F087946A2FFDE8D06F08706B2C5D1C1E1721490E9EA09A7798CCB0DB0B05EFFC"
+                          },
+                          {
+                              "path":  "tests/native_text_report_tests.cpp",
+                              "sha256":  "D36988AD2E5A1AEAB0702578E56BF6433276963DD946643E0A6E1944629E0831"
+                          },
+                          {
+                              "path":  "tests/native_text_workflow_ui.inc",
+                              "sha256":  "F8D8008E8F9984711D8E8D1EE6BF0BD34B828BD0F87E0EB6E0E5C5ACEC1AC8D0"
+                          },
+                          {
+                              "path":  "tests/native_ui_tests.cpp",
+                              "sha256":  "BAA79B430F317D4293D8BED13A51384957DB88BABC232B5675598FD30592790B"
+                          },
+                          {
+                              "path":  "tests/native_workflow_expansion_tests.cpp",
+                              "sha256":  "0B555D23EE8013DEF56A6D276E9882AFDEE2B9194B0ECFC726B462B09BDF4DA5"
+                          },
+                          {
+                              "path":  "tests/native_workflow_expansion_ui.inc",
+                              "sha256":  "8857862CCFEAB4D367417898F2E3B16599EA1C2F186ABF2E21E01293E504B7FE"
+                          },
+                          {
+                              "path":  "tests/native_workflow_tests.cpp",
+                              "sha256":  "03B8B4CFE8DEE200FD396AB4EA12CAFA92BC66131E3359B4EFA26337564B786B"
+                          },
+                          {
+                              "path":  "tests/native_workflow_ui.inc",
+                              "sha256":  "387B2D32242A3A114E3D319138940827817AAE79A4C206B47788FCCE403AAE0C"
+                          },
+                          {
+                              "path":  "tests/native_workspace_process_tests.cpp",
+                              "sha256":  "E1B5DB97A96B623B66B3407D891E604B5BAE2ACD20291A2AFBAA77FF1A2B6D40"
+                          }
+                      ],
+    "cleanup":  {
+                    "static_scan":  "PASS: four scripts",
+                    "boundary_fixture":  "Reused unchanged project-cleanup-boundary-20261026.json",
+                    "safe_clean":  "scripts/clean.ps1; 837 allowlisted compiler files removed",
+                    "recognized_purge":  "scripts/purge_artifacts.ps1 preview then -Apply; 10 recognized test/MSBuild outputs retired",
+                    "protected_files_verified_twice":  1266,
+                    "preservation":  "PASS before and after fixed-list owned retirement",
+                    "clean_log_sha256":  "1FEC356CB9072692B1258144260BDAA625CCC2D40A673DD74E517EEE10EBF0FF",
+                    "purge_log_sha256":  "9CD9ED69503B0B5F22C144B0F7A9756505F822936CFCC37E7633274577DC4E4C",
+                    "owned_retirement_files":  149,
+                    "owned_retirement_bytes":  4400984,
+                    "owned_manifest_sha256":  "AFD49D290EEBDD5A769673ADB70264F264925438D9970C6C8EF07B27BDE00ED6",
+                    "project_bytes_before_run":  14775028,
+                    "project_bytes_before_clean":  1594924567,
+                    "artifact_bytes_at_cleanup_start":  1579615877,
+                    "all_initial_artifact_bytes_retired":  true,
+                    "retained_artifact_bytes":  0,
+                    "artifact_directory_absent":  true,
+                    "test_only_executables_absent":  true,
+                    "external_deletions":  0,
+                    "retention_exception":  "none",
+                    "status":  "PASS"
+                },
+    "limitations":  [
+                        "Physical clipboard interoperability was not exercised; selection/clipboard tests inject synthetic Unicode without altering the real clipboard.",
+                        "Physical wheel gestures, mixed-monitor DPI, maximum-quota throughput and injected allocation/power failures were not tested.",
+                        "C/C++ outline is heuristic; complex constructs may be omitted. Pager Find is literal UTF-8/UTF-16 only.",
+                        "Syntax associations apply to normal file Text editors and shared clones.",
+                        "Unsaved review notes are not stored in workspace/crash recovery; explicit metadata Save and normal-close prompts are implemented."
+                    ],
+    "publication":  "No commit, push or GitHub write",
+    "project_bytes":  15311679,
+    "build_inputs":  [
+                         {
+                             "path":  "SimpleEditorTool.vcxproj",
+                             "sha256":  "59938F75B438AB26893B49D7DD1C8E9356A764B33D163ACDB71F1DA3DCF071C6"
+                         },
+                         {
+                             "path":  "NativeCoreTests.vcxproj",
+                             "sha256":  "DF4B07A79F0B1F437B452C997ED956B8798F242A35D2D849A0BA9E53700EF0B2"
+                         },
+                         {
+                             "path":  "NativeUiTests.vcxproj",
+                             "sha256":  "AA06305C99A9DDE7EA6BBF0CDF1524CC7DAA058615F3CDA69A505DDEFCF84484"
+                         },
+                         {
+                             "path":  "NativeEditor.vcxproj",
+                             "sha256":  "FEE6685E8FBBAF1DB137460E77C47D699F38E3ECCFCA9B5CF54291966EB53854"
+                         }
+                     ]
+}

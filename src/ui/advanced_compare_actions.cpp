@@ -1,4 +1,5 @@
 #include "advanced_compare.h"
+#include "localization.h"
 #include "sync_preview.h"
 #include "../resource.h"
 #include <algorithm>
@@ -14,7 +15,7 @@ std::vector<MergeChoice> Choices(const TextMergeModel& model) {
 bool CAdvancedCompareView::CanReset() {
     if (Busy()) { Status(L"Wait for the current operation or cancel it first."); return false; }
     if (!dirty_) return true;
-    int answer; { ModalFlag guard(modal_); answer = AfxMessageBox(L"The merge result has unsaved changes. Save the result before continuing?",MB_YESNOCANCEL | MB_ICONWARNING); }
+    int answer; { ModalFlag guard(modal_); answer = UiMessageBox(L"The merge result has unsaved changes. Save the result before continuing?",MB_YESNOCANCEL | MB_ICONWARNING); }
     if (answer == IDYES) { SaveResult(); return false; }
     if (answer == IDCANCEL) return false;
     dirty_ = false; return true;
@@ -22,12 +23,17 @@ bool CAdvancedCompareView::CanReset() {
 bool CAdvancedCompareView::CanClose() {
     if (modal_) { Status(L"Complete or cancel the active dialog before closing this tab."); return false; }
     if (Busy()) {
-        if (job_kind_ == JobKind::Save) { close_after_save_ = true; Status(L"The tab will close after the merge result is saved."); }
+        if (job_kind_ == JobKind::Save || job_kind_ == JobKind::NotesSave) { close_after_save_ = true; Status(L"The tab will close after the merge result is saved."); }
         else Status(L"Wait or cancel the current comparison/synchronization before closing this tab.");
         return false;
     }
+    if (!ConfirmNotesClose()) return false;
+    if (HasPastedInputs()) {
+        ModalFlag guard(modal_);
+        if (UiMessageBox(L"Close this tab and discard its pasted input text? Pasted inputs are not saved in workspace files. Save result only saves the merged output.",MB_OKCANCEL | MB_ICONWARNING) != IDOK) return false;
+    }
     if (!dirty_) return true;
-    int answer; { ModalFlag guard(modal_); answer = AfxMessageBox(L"The merge result has unsaved changes. Save it before closing this tab?",MB_YESNOCANCEL | MB_ICONWARNING); }
+    int answer; { ModalFlag guard(modal_); answer = UiMessageBox(L"The merge result has unsaved changes. Save it before closing this tab?",MB_YESNOCANCEL | MB_ICONWARNING); }
     if (answer == IDYES) { SaveResult(); close_after_save_ = Busy() && job_kind_ == JobKind::Save; return false; }
     return answer == IDNO;
 }
@@ -56,6 +62,8 @@ void CAdvancedCompareView::Take(MergeChoice choice) {
     RenderAsync();
 }
 void CAdvancedCompareView::Undo(bool redo) {
+    if (::GetFocus() == source_left_.GetSafeHwnd() || ::GetFocus() == source_right_.GetSafeHwnd() || ::GetFocus() == source_base_.GetSafeHwnd()) return;
+    if (!Busy()) if (auto* input = FocusedInput()) { if (redo) input->Redo(); else input->Undo(); return; }
     if (manual_view_) return;
     if (Busy() || !model_) return;
     suppress_result_ = true; if (redo) output_.Redo(); else output_.Undo(); suppress_result_ = false; RefreshOutputState(); RebuildRows();
@@ -80,6 +88,10 @@ void CAdvancedCompareView::SaveResult() {
 }
 bool CAdvancedCompareView::SaveTo(const std::wstring& path) {
     if (Busy() || !model_ || mode_ == 4 || (unresolved_ && !allow_markers_.GetCheck())) return false;
+    if (read_only_snapshots_) {
+        FileStamp destination; std::wstring error; if (!InspectFile(path,&destination,&error)) { Status(error); return false; }
+        for (const auto& input : snapshot_protection_) if (_wcsicmp(std::filesystem::absolute(path).lexically_normal().c_str(),std::filesystem::absolute(input.path).lexically_normal().c_str()) == 0 || (destination.exists && input.identity == std::make_pair(destination.volume,destination.identity))) { Status(L"Save the reviewed result to a separate output file; the original disk input is protected."); return false; }
+    }
     CString text; output_.GetWindowTextW(text);
     const auto value = TextFromEditControl(generated_,std::wstring(text.GetString(),text.GetLength())); std::vector<std::uint8_t> bytes; std::wstring error;
     if (!EncodeText(value,codec_,true,&bytes,&error)) { Status(error); return false; }
@@ -96,10 +108,12 @@ bool CAdvancedCompareView::SaveTo(const std::wstring& path) {
 }
 void CAdvancedCompareView::PlanSync(bool left_to_right, bool all) {
     if (Busy() || !scan_ || stale_) return;
+    if (all && scan_->partial_refresh) { Status(L"Run full Compare before Sync all after a selected refresh."); return; }
     std::vector<std::size_t> selected;
     if (all) selected = folder_tree_ ? eligible_folder_rows_ : visible_;
     else for (int row = rows_.GetNextItem(-1,LVNI_SELECTED); row >= 0; row = rows_.GetNextItem(row,LVNI_SELECTED)) if (static_cast<std::size_t>(row) < visible_.size()) selected.push_back(visible_[row]);
     if (selected.empty()) { Status(L"Select file/folder rows first."); return; }
+    for (auto index : selected) if (scan_->partial_refresh && !scan_->rows[index].fresh) { Status(L"Refresh selected rows before synchronization."); return; }
     auto scan = scan_; const bool mirror = mirror_.GetCheck() == BST_CHECKED;
     const auto selection = sync_policy_.GetCurSel(); const auto policy = mirror ? SyncPolicy::Mirror : selection == 1 ? SyncPolicy::Newer : selection == 2 ? SyncPolicy::NewerBoth : selection == 3 ? SyncPolicy::BaselineBoth : SyncPolicy::Update;
     if (mirror && selection != 0) { Status(L"Mirror is a separate directed policy. Select directed update before enabling Mirror."); return; }

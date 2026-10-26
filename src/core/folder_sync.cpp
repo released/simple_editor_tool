@@ -21,7 +21,7 @@ bool Wildcard(const std::wstring& text, const std::wstring& pattern) {
     while (j < pattern.size() && pattern[j] == L'*') ++j; return j == pattern.size();
 }
 bool SafeRelative(const std::filesystem::path& path) {
-    if (path.empty() || path.is_absolute() || path.has_root_name()) return false;
+    if (path.empty() || path.is_absolute() || path.has_root_name() || path.has_root_directory()) return false;
     for (const auto& component : path) if (component == L".." || component == L"." || component.empty() || component.wstring().find(L':') != std::wstring::npos) return false;
     return Fold(path.begin()->wstring()) != L".simpleeditortool.backups";
 }
@@ -80,7 +80,9 @@ FolderNewness CompareFileTimes(const FileStamp& left,const FileStamp& right,unsi
     return left.modified > right.modified ? FolderNewness::LeftNewer : FolderNewness::RightNewer;
 }
 bool ScanFolders(const std::filesystem::path& left, const std::filesystem::path& right, const FolderOptions& options,
-                  const std::atomic_bool& cancel, const std::function<void(unsigned)>& progress, FolderScan* scan, std::wstring* error) {
+                  const std::atomic_bool& cancel, const std::function<void(unsigned)>& progress, FolderScan* scan, std::wstring* error,const std::vector<std::filesystem::path>& scopes) {
+    if (scopes.size() > 128 || !scan) { if (error) *error = L"Refresh accepts up to 128 selected paths; use full Compare for larger selections."; return false; }
+    for (const auto& scope : scopes) if (!SafeRelative(scope) || scope.wstring().find_first_of(L"*?\0",0,3) != std::wstring::npos) { if (error) *error = L"Invalid selected relative path."; return false; }
     FolderScan result; std::error_code code; FolderTextSettings text_settings; if (!ParseFolderTextSettings(options.text_rules,&text_settings,error)) return false;
     if (static_cast<unsigned>(options.criterion) > 3 || options.time_tolerance_seconds > 86400) { if (error) *error = L"Invalid folder comparison criterion or timestamp tolerance."; return false; }
     result.left_root = std::filesystem::absolute(left, code).lexically_normal(); if (code) return false;
@@ -98,11 +100,14 @@ bool ScanFolders(const std::filesystem::path& left, const std::filesystem::path&
             while (iterator != end) {
                 if (cancel) return false;
                 const auto path = iterator->path(), relative = path.lexically_relative(root);
+                const auto in_scope = [&](bool ancestors) { if (scopes.empty()) return true; for (const auto& scope : scopes) if (FolderScopeContains(scope,relative) || (ancestors && FolderScopeContains(relative,scope))) return true; return false; };
+                if (!in_scope(true)) { iterator.increment(failure); if (failure) { if (error) *error = L"Folder enumeration failed."; return false; } continue; }
                 const auto name = path.filename().wstring();
                 if (Fold(name) != L".simpleeditortool.backups") {
                     FileStamp stamp; std::wstring detail; const bool inspected = InspectFile(path, &stamp, &detail);
                     const bool excluded = !options.exclude.empty() && (MatchFileFilter(name, options.exclude) || MatchFileFilter(relative.wstring(), options.exclude));
                     if (!excluded && (stamp.directory || MatchFileFilter(name, options.include) || !inspected)) {
+                        if (!in_scope(false)) { if (inspected && stamp.directory && options.recursive) pending.push_back(path); iterator.increment(failure); if (failure) return false; continue; }
                         auto& row = rows[Fold(relative.wstring())];
                         if (!row.relative.empty() && (is_left ? row.left.exists : row.right.exists)) { if (error) *error = L"Case-colliding paths cannot be synchronized safely."; return false; }
                         row.relative = relative; (is_left ? row.left : row.right) = stamp;
@@ -149,6 +154,21 @@ bool ScanFolders(const std::filesystem::path& left, const std::filesystem::path&
     if (!CheckRoot(result.left_root, result.left_identity, error) || !CheckRoot(result.right_root, result.right_identity, error)) return false;
     *scan = std::move(result); return true;
 }
+bool FolderScopeContains(const std::filesystem::path& parent,const std::filesystem::path& child) {
+    auto a = parent.begin(),b = child.begin(); for (; a != parent.end(); ++a,++b) if (b == child.end() || CompareStringOrdinal(a->c_str(),-1,b->c_str(),-1,TRUE) != CSTR_EQUAL) return false; return true;
+}
+bool RefreshFolderSelection(const FolderScan& previous,const FolderOptions& options,const std::vector<std::filesystem::path>& scopes,const std::atomic_bool& cancel,const std::function<void(unsigned)>& progress,FolderScan* output,std::wstring* error) {
+    if (scopes.empty() || !output) { if (error) *error = L"Select file or folder rows to refresh."; return false; }
+    FolderScan selected; if (!ScanFolders(previous.left_root,previous.right_root,options,cancel,progress,&selected,error,scopes)) return false;
+    const auto same = [](const FileStamp& a,const FileStamp& b) { return a.exists && b.exists && a.directory && b.directory && a.volume == b.volume && a.identity == b.identity; };
+    if (!same(previous.left_identity,selected.left_identity) || !same(previous.right_identity,selected.right_identity)) { if (error) *error = L"A comparison root changed identity; run full Compare."; return false; }
+    const auto covered = [&](const std::filesystem::path& path) { for (const auto& scope : scopes) if (FolderScopeContains(scope,path)) return true; return false; };
+    std::map<std::wstring,FolderRow,OrdinalPathLess> rows;
+    for (const auto& row : previous.rows) { if (cancel || !SafeRelative(row.relative)) return false; if (!covered(row.relative)) { auto retained = row; retained.fresh = false; rows.emplace(row.relative.wstring(),std::move(retained)); } }
+    for (auto& row : selected.rows) rows[row.relative.wstring()] = std::move(row);
+    if (rows.size() > 200000 || cancel) { if (error) *error = L"Refresh cancelled or result exceeds 200,000 entries."; return false; }
+    FolderScan result = selected; result.rows.clear(); result.partial_refresh = true; for (auto& row : rows) result.rows.push_back(std::move(row.second)); *output = std::move(result); return true;
+}
 bool BuildSyncPlan(const FolderScan& scan, const std::vector<std::size_t>& selected, bool left_to_right, bool mirror,
                     SyncPlan* plan, std::wstring* error) {
     SyncPlan result; result.source_root = left_to_right ? scan.left_root : scan.right_root; result.target_root = left_to_right ? scan.right_root : scan.left_root;
@@ -162,6 +182,7 @@ bool BuildSyncPlan(const FolderScan& scan, const std::vector<std::size_t>& selec
         while (!parent.empty()) { if (selected_directories.count(Fold(parent.wstring()))) { unique.insert(index); break; } parent = parent.parent_path(); }
     }
     for (auto index : unique) {
+        if (index < scan.rows.size() && scan.partial_refresh && !scan.rows[index].fresh) { if (error) *error = L"Rescan selected rows before synchronization."; return false; }
         if (index >= scan.rows.size()) { if (error) *error = L"Invalid selected entry."; return false; }
         const auto& row = scan.rows[index];
         if (!SafeRelative(row.relative) || row.state == FolderState::Error || row.state == FolderState::TypeConflict) { if (error) *error = L"Unsafe path, unreadable entry or file/folder type conflict: " + row.relative.wstring(); return false; }

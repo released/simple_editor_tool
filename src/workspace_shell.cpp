@@ -1,4 +1,5 @@
 #include "workspace_frame.h"
+#include "ui/localization.h"
 #include "resource.h"
 #include "services/explorer_menu.h"
 
@@ -13,7 +14,7 @@ void CWorkspaceFrame::OnExplorerMenu(UINT command) {
     workspace_dialog_ = true; std::wstring error;
     const bool add = command == ID_EXPLORER_ADD;
     const bool ok = simple_editor::shell::SetUserExplorerMenu(simple_editor::shell::CurrentExecutable(),add,&error);
-    AfxMessageBox(ok ? add ? L"Explorer file menu added for the current user.\nRight-click a file and choose \x4EE5 Simple Editor Tool \x958B\x555F.\nOn Windows 11, use Show more options if needed.\nIf you move the EXE, add the menu again from the new location." : L"The Simple Editor Tool file context menu was removed for the current user." : error.c_str(),ok ? MB_OK | MB_ICONINFORMATION : MB_OK | MB_ICONERROR);
+    UiMessageBox(ok ? add ? L"Explorer file menu added for the current user.\nRight-click a file and choose \x4EE5 Simple Editor Tool \x958B\x555F.\nOn Windows 11, use Show more options if needed.\nIf you move the EXE, add the menu again from the new location." : L"The Simple Editor Tool file context menu was removed for the current user." : error.c_str(),ok ? MB_OK | MB_ICONINFORMATION : MB_OK | MB_ICONERROR);
     workspace_dialog_ = false;
 }
 void CWorkspaceFrame::OnUpdateExplorerMenu(CCmdUI* command) {

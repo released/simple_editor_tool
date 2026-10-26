@@ -58,5 +58,11 @@
   <ItemGroup><ClCompile Include="tests\native_discovery_analysis_tests.cpp" /><ClCompile Include="src\core\manual_alignment.cpp" /><ClCompile Include="src\core\rename_pairs.cpp" /><ClCompile Include="src\core\crc_profiles.cpp" /></ItemGroup>
   <ItemGroup><ClCompile Include="src\core\log_tail.cpp" /></ItemGroup>
   <ItemGroup><ClCompile Include="tests\native_workflow_tests.cpp" /><ClCompile Include="src\core\binary_workflows.cpp" /><ClCompile Include="src\core\folder_text_rules.cpp" /><ClCompile Include="src\core\workflow_views.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\bit_fields.cpp" /><ClCompile Include="src\core\ips_patch.cpp" /><ClCompile Include="tests\native_editor_review_tests.cpp" /><ClCompile Include="src\core\text_review.cpp" /><ClCompile Include="src\core\editor_config.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\source_alignment.cpp" /><ClCompile Include="src\core\text_byte_map.cpp" /><ClCompile Include="src\core\unicode_notices.cpp" /><ClCompile Include="src\core\leb128.cpp" /><ClCompile Include="src\core\data_conversion.cpp" /><ClCompile Include="src\core\json_rules.cpp" /><ClCompile Include="src\core\compare_presets.cpp" /><ClCompile Include="tests\native_workflow_expansion_tests.cpp" /></ItemGroup>
+  <ItemDefinitionGroup><Link><AdditionalDependencies>Crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies></Link></ItemDefinitionGroup>
+  <ItemGroup><ClCompile Include="src\core\language_catalog.cpp" /><ClCompile Include="tests\native_localization_tests.cpp" /></ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ItemGroup><ClCompile Include="src\core\syntax_profiles.cpp" /><ClCompile Include="src\core\function_outline.cpp" /><ClCompile Include="src\core\paged_search.cpp" /><ClCompile Include="src\core\review_notes.cpp" /><ClCompile Include="src\core\review_notes_report.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="tests\native_document_focus_tests.cpp" /></ItemGroup>
 </Project>

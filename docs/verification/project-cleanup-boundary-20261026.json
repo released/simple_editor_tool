@@ -1,7 +1,7 @@
 ﻿{
     "date":  "2026-10-26",
     "scope":  "Project-bound cleanup policy and PowerShell helpers; no application code changes",
-    "result":  "Safety and preservation checks PASS; final owned audit cleanup blocked by automatic review",
+    "result":  "PASS: safety/preservation checks passed; owned audit cleanup subsequently completed",
     "checks":  {
                    "artifact_cleanup":  20,
                    "rejected_root_cases":  [
@@ -28,17 +28,18 @@
                       "self_test_fixture_roots_removed":  1,
                       "shared_verifier_temp":  "Invocation-process TEMP/TMP redirected inside owned project audit; restored in finally",
                       "audit_path":  "artifacts/scope-validation-39ac94dababb4244b98baef625dd40f2",
-                      "retained_audit_files":  42,
-                      "retained_audit_bytes":  58173,
+                      "retained_audit_files":  0,
+                      "retained_audit_bytes":  0,
                       "retained_reparse_entries":  [
-                                                       "artifacts/scope-validation-39ac94dababb4244b98baef625dd40f2/temp/pc-tool-clean-9871ce89d3b241ceb1b9d1dc1f18b75d/artifacts/obj/obj/link"
+
                                                    ],
                       "links_followed_by_this_inventory":  false,
-                      "cleanup":  "Automatic approval review rejected the final project-local audit deletion command before execution; no detailed reason supplied; no alternative deletion attempted",
-                      "cleanup_point":  "Revisit only this exact owned audit after a safe permitted cleanup is available; full artifacts purge will refuse its retained junction",
+                      "cleanup":  "Resolved in follow-up: fixed-path junction entry detached without recursion and target data preserved at that step; 42 owned fixture files/58,173 bytes removed with individual ownership/hash verification; empty audit directories removed.",
+                      "cleanup_point":  "Completed; project audit path no longer exists",
                       "external_deletion":  false,
                       "existing_external_data":  "Untouched; prior project-external verifier fixtures/logs remain outside this cleanup scope",
-                      "kept_evidence":  "docs/verification/project-cleanup-boundary-20261026.json"
+                      "kept_evidence":  "docs/verification/project-cleanup-boundary-20261026.json",
+                      "cleanup_resolution_evidence":  "docs/verification/pasted-text-20261026.json"
                   },
     "commands":  [
                      "tests/verify_artifact_cleanup.ps1",

@@ -58,6 +58,7 @@ void CAdvancedCompareView::ChooseBaseline(bool save) {
 }
 bool CAdvancedCompareView::StartBaselineSave(const std::wstring& path) {
     if (Busy() || !scan_ || stale_) return false;
+    if (scan_->partial_refresh) { Status(L"Run full Compare before saving a baseline."); return false; }
     locked_paths_ = {path}; locked_stamps_.clear(); if (lock_paths && !lock_paths(locked_paths_,true,locked_stamps_)) { locked_paths_.clear(); Status(L"The baseline output has unsaved edits or is busy."); return false; } locks_held_ = static_cast<bool>(lock_paths);
     const auto scan = scan_; cancelled_ = false; job_kind_ = JobKind::Report; SetBusy(true);
     job_ = std::async(std::launch::async,[this,scan,path]() { Result result; result.kind = JobKind::Report; FolderBaseline baseline; if (CaptureFolderBaseline(*scan,cancelled_,[this](unsigned p) { progress_ = p; },&baseline,&result.error) && !cancelled_) { result.saved = SaveFolderBaseline(path,baseline,&result.error); if (result.saved) { result.output_path = path; result.text = L"Folder baseline saved: " + path; } } return result; }); return true;

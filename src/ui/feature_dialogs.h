@@ -17,6 +17,9 @@ class CReviewList : public CDialog {
 public:
     CReviewList(CWnd* owner,std::wstring title,std::vector<std::wstring> columns,std::vector<std::vector<std::wstring>> rows);
     std::vector<std::size_t> selected;
+    std::wstring accept_label;
+    bool allow_empty = false;
+    bool single_select = false;
     std::function<void(std::size_t)> details;
     std::function<bool(std::size_t)> remove;
     friend class NativeUiTest;

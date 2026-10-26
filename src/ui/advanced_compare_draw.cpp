@@ -9,7 +9,7 @@ void CAdvancedCompareView::OnDraw(NMHDR* header,LRESULT* result) {
         const auto row = static_cast<std::size_t>(draw->nmcd.dwItemSpec); if (row >= visible_.size()) return;
         if (mode_ == 4 && scan_) { const auto index = visible_[row]; auto state = scan_->rows[index].state; if (folder_tree_ && tree_rows_.errors[index]) state = FolderState::Error; else if (folder_tree_ && tree_rows_.differences[index] && state == FolderState::Equal) state = FolderState::Different; draw->clrTextBk = state == FolderState::Equal ? RGB(255,255,255) : state == FolderState::Error || state == FolderState::TypeConflict ? RGB(255,215,215) : RGB(255,248,205); }
         else if (model_) { const auto& block = model_->blocks[text_rows_[visible_[row]].block]; draw->clrTextBk = !block.changed ? RGB(255,255,255) : block.conflict && block.choice == MergeChoice::Unresolved && !manual_resolved_ ? RGB(255,210,210) : !block.important ? RGB(225,240,255) : RGB(255,248,205); }
-        if (theme_ == 1) { const bool equal = draw->clrTextBk == RGB(255,255,255),conflict = draw->clrTextBk == RGB(255,210,210) || draw->clrTextBk == RGB(255,215,215); draw->clrTextBk = equal ? RGB(31,34,42) : conflict ? RGB(90,40,45) : RGB(70,60,25); draw->clrText = RGB(225,228,235); }
+        if (theme_ == 1) { const bool equal = draw->clrTextBk == RGB(255,255,255),conflict = draw->clrTextBk == RGB(255,210,210) || draw->clrTextBk == RGB(255,215,215); draw->clrTextBk = equal ? RGB(63,63,63) : conflict ? RGB(90,40,45) : RGB(70,60,25); draw->clrText = RGB(225,228,235); }
         else if (theme_ == 2) { draw->clrTextBk = GetSysColor(COLOR_WINDOW); draw->clrText = GetSysColor(COLOR_WINDOWTEXT); }
         *result = CDRF_NOTIFYSUBITEMDRAW; return;
     }

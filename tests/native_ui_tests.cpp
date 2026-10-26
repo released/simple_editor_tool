@@ -21,6 +21,11 @@
 #include "../src/ui/feature_dialogs.h"
 #include "../src/ui/command_palette.h"
 #include "../src/services/explorer_menu.h"
+#include "../src/core/ips_patch.h"
+#include "../src/core/compare_presets.h"
+#include "../src/ui/statistics_dialog.h"
+#include "../src/ui/conversion_dialog.h"
+#include "../src/ui/localization.h"
 
 int RunWorkspaceProcessTests(const std::filesystem::path& root, const std::filesystem::path& executable);
 int RunExplorerProcessTests(const std::filesystem::path& root, const std::filesystem::path& executable);
@@ -45,6 +50,12 @@ public:
 #include "native_discovery_visual_ui.inc"
 #include "native_workflow_ui.inc"
 #include "native_explorer_ui.inc"
+#include "native_pasted_text_ui.inc"
+#include "native_text_workflow_ui.inc"
+#include "native_editor_review_ui.inc"
+#include "native_workflow_expansion_ui.inc"
+#include "native_localization_ui.inc"
+#include "native_document_focus_ui.inc"
     static int RunCodeEditor(const std::filesystem::path& root) {
         int failures = 0; const auto check = [&](bool ok,const wchar_t* label) { std::wcout << (ok ? L"PASS: " : L"FAIL: ") << label << L'\n'; if (!ok) ++failures; };
         auto* frame = new CMainFrame(false); AfxGetApp()->m_pMainWnd = frame;
@@ -63,7 +74,7 @@ public:
         frame->OnEditorCommand(ID_VIEW_COLUMN); check(edit.Call(SCI_GETSELECTIONMODE) == SC_SEL_RECTANGLE,L"column selection mode is accessible"); frame->OnEditorCommand(ID_VIEW_COLUMN);
         edit.SetSel(0,4); frame->OnEditorCommand(ID_VIEW_MULTI_NEXT); check(edit.Call(SCI_GETSELECTIONS) == 2,L"add next occurrence creates a second editable selection");
         edit.SetWindowTextW(L"int main() {\r\n  return 1;\r\n}\r\n"); edit.ConfigureLanguage(L"test.cpp"); edit.Call(SCI_COLOURISE,0,-1); check((edit.Call(SCI_GETFOLDLEVEL,0) & SC_FOLDLEVELHEADERFLAG) != 0,L"C++ lexer supplies fold headers"); frame->OnEditorCommand(ID_VIEW_FOLD); check(!edit.Call(SCI_GETLINEVISIBLE,1),L"Fold All hides nested lines"); frame->OnEditorCommand(ID_VIEW_UNFOLD); check(edit.Call(SCI_GETLINEVISIBLE,1),L"Expand All restores nested lines");
-        frame->OnEditorCommand(ID_VIEW_DARK); check(edit.Call(SCI_STYLEGETBACK,STYLE_DEFAULT) == RGB(31,34,42),L"dark theme updates editor styles");
+        frame->OnEditorCommand(ID_VIEW_DARK); check(edit.Call(SCI_STYLEGETBACK,STYLE_DEFAULT) == RGB(63,63,63),L"dark theme updates editor styles");
         edit.SetReadOnly(TRUE); const auto before = edit.Utf8(); edit.ReplaceSel(L"blocked",TRUE); check(edit.Utf8() == before,L"native bridge respects read-only edits"); edit.SetReadOnly(FALSE);
         edit.SetWindowTextW(L"12345"); edit.SetLimitText(5); edit.SetSel(0,5); edit.ReplaceSel(L"abcde",TRUE); check(edit.Utf8() == "abcde",L"replacement limit subtracts replaced selection");
         edit.SetSel(99999,99999); edit.GetSel(start,end); check(start == 5 && end == 5,L"out-of-range UTF-16 selections clamp to EOF");
@@ -216,6 +227,7 @@ public:
         const auto source = root / L"ui-async.bin", target = root / L"ui-async-as.bin", other = root / L"ui-other.txt", locked = root / L"ui-locked.bin";
         Write(source, std::vector<std::uint8_t>(4 * 1024 * 1024, 'A')); Write(other, {'N','E','W'});
         check(frame->OpenPath(source.wstring()), L"open async UI save fixture");
+        frame->ShowPage(0);
         frame->document_.SetByte(0, 'Z'); frame->DocumentChanged(); frame->hex_.GoTo(123);
         check(frame->StartSave(source.wstring()) && frame->IsSaving(), L"Save starts a background job and returns to UI");
         const auto revision = frame->revision_;
@@ -302,7 +314,7 @@ public:
         const std::string line = "0123456789 ABCDEF abcdef\r\n";
         for (int i = 0; i < 500; ++i) bytes.insert(bytes.end(), line.begin(), line.end());
         const auto file = root / L"zoom.txt", right = root / L"zoom-right.txt";
-        Write(file, bytes); check(frame->OpenPath(file.wstring()), L"open zoom fixture");
+        Write(file, bytes); check(frame->OpenPath(file.wstring()), L"open zoom fixture"); frame->ShowPage(0);
         check(status() == L"Zoom: 100%", L"initial zoom percentage is visible");
         frame->status_.OnUpdateCmdUI(frame, TRUE);
         check(!(frame->status_.GetPaneStyle(1) & SBPS_DISABLED), L"idle command updates keep the zoom indicator enabled");
@@ -801,12 +813,15 @@ int wmain(int argc, wchar_t** argv) {
     const std::wstring mode = argc > 1 ? argv[1] : L"";
     if (!AfxWinInit(GetModuleHandle(nullptr), nullptr, GetCommandLineW(), SW_HIDE)) return 2;
     INITCOMMONCONTROLSEX controls{sizeof(controls), ICC_WIN95_CLASSES}; InitCommonControlsEx(&controls);
-    wchar_t temp[MAX_PATH]{}, name[MAX_PATH]{}; GetTempPathW(MAX_PATH, temp); GetTempFileNameW(temp, L"set", 0, name); DeleteFileW(name); CreateDirectoryW(name, nullptr);
+    wchar_t temp[MAX_PATH]{}, name[MAX_PATH]{}; GetTempPathW(MAX_PATH, temp); GetTempFileNameW(temp, L"set", 0, name); DeleteFileW(name); CreateDirectoryW(name, nullptr); { std::ofstream isolated(std::filesystem::path(name) / L".editorconfig",std::ios::binary); isolated << "root = true\n"; }
     int failures = 0;
     if (mode == L"--workspace-process") {
         if (argc != 3) { std::wcerr << L"Usage: NativeUiTests.exe --workspace-process <formal-exe>\n"; failures = 1; }
         else failures += RunWorkspaceProcessTests(name, std::filesystem::absolute(argv[2]));
     }
+    else if (mode == L"--document-focus") failures += NativeUiTest::RunDocumentFocus(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
+    else if (mode == L"--localization") failures += NativeUiTest::RunLocalization(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
+    else if (mode == L"--workflow-expansion") failures += NativeUiTest::RunWorkflowExpansion(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--workflows") failures += NativeUiTest::RunWorkflows(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--discovery-completion") failures += NativeUiTest::RunDiscoveryCompletion(name);
     else if (mode == L"--discovery-visual") failures += NativeUiTest::RunDiscoveryVisual(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
@@ -828,6 +843,9 @@ int wmain(int argc, wchar_t** argv) {
     else if (mode == L"--search-tools") failures += NativeUiTest::RunSearchTools(name);
     else if (mode == L"--code-editor") failures += NativeUiTest::RunCodeEditor(name);
     else if (mode == L"--hex-tools") failures += NativeUiTest::RunHexTools(name);
+    else if (mode == L"--editor-review") failures += NativeUiTest::RunEditorReview(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
+    else if (mode == L"--text-workflow") failures += NativeUiTest::RunTextWorkflow(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
+    else if (mode == L"--pasted-text") failures += NativeUiTest::RunPastedText(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--advanced") failures += NativeUiTest::RunAdvanced(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--explorer") failures += NativeUiTest::RunExplorer(name);
     else if (mode == L"--explorer-process" && argc > 2) failures += RunExplorerProcessTests(name,std::filesystem::absolute(argv[2]));
@@ -838,7 +856,7 @@ int wmain(int argc, wchar_t** argv) {
         if (mode != L"--async-save") { failures += NativeUiTest::Run(name); failures += NativeUiTest::RunZoom(name); }
         failures += NativeUiTest::RunAsyncSave(name);
     }
-    CCodeEditor::ReleaseResources();
+    simple_editor::ui::ShutdownLocalization(); CCodeEditor::ReleaseResources();
     std::error_code ignored; std::filesystem::remove_all(name, ignored);
     std::wcout << (failures ? L"FAIL: native MFC UI tests\n" : L"PASS: native MFC UI tests\n"); return failures ? 1 : 0;
 }

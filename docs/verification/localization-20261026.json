@@ -1,0 +1,429 @@
+﻿{
+    "date":  "2026-10-26",
+    "scope":  "English / Traditional Chinese UI and complete bilingual user guides",
+    "functional_result":  "PASS",
+    "delivery_result":  "PASS",
+    "cleanup_result":  "PASS",
+    "project_bytes":  14775028,
+    "baseline_project_bytes":  14310212,
+    "tests":  [
+                  {
+                      "log":  "core-localization-debug.log",
+                      "pass_lines":  21,
+                      "result":  "PASS",
+                      "sha256":  "FBBB2B7C71124E5745477166569F2B2333011FDA692E5A44617F7A2CAA6682D0"
+                  },
+                  {
+                      "log":  "core-localization-release.log",
+                      "pass_lines":  21,
+                      "result":  "PASS",
+                      "sha256":  "FBBB2B7C71124E5745477166569F2B2333011FDA692E5A44617F7A2CAA6682D0"
+                  },
+                  {
+                      "log":  "core-preferences-debug.log",
+                      "pass_lines":  10,
+                      "result":  "PASS",
+                      "sha256":  "154B02923A7BB6C2E18EEB702FB4C1D0BBCC2BFEC3AA98349234AB66AAE417FA"
+                  },
+                  {
+                      "log":  "core-preferences-release.log",
+                      "pass_lines":  10,
+                      "result":  "PASS",
+                      "sha256":  "154B02923A7BB6C2E18EEB702FB4C1D0BBCC2BFEC3AA98349234AB66AAE417FA"
+                  },
+                  {
+                      "log":  "formal-cli.log",
+                      "pass_lines":  8,
+                      "result":  "PASS",
+                      "sha256":  "3C059A27B60B526391977E21C8B3CD1BA0B3F4CBFB4DBBC4A8E865F4085F5896"
+                  },
+                  {
+                      "log":  "formal-localization.log",
+                      "pass_lines":  24,
+                      "result":  "PASS",
+                      "sha256":  "D088F424122734CBAFFA08D7401515ED65415A677416B525B05E2859AE6CE518"
+                  },
+                  {
+                      "log":  "formal-workspace-release.log",
+                      "pass_lines":  13,
+                      "result":  "PASS",
+                      "sha256":  "FC9A91CE308421A1D4A01E2CABD0F5A166EB523273FDB067243251281F3516F9"
+                  },
+                  {
+                      "log":  "ui-advanced-debug.log",
+                      "pass_lines":  53,
+                      "result":  "PASS",
+                      "sha256":  "BC72D8AEB81D9C5FF0DE044F7709DCA66E232D111D141368DDE5F01A59DF0823"
+                  },
+                  {
+                      "log":  "ui-advanced-release.log",
+                      "pass_lines":  53,
+                      "result":  "PASS",
+                      "sha256":  "BC72D8AEB81D9C5FF0DE044F7709DCA66E232D111D141368DDE5F01A59DF0823"
+                  },
+                  {
+                      "log":  "ui-async-save-debug.log",
+                      "pass_lines":  33,
+                      "result":  "PASS",
+                      "sha256":  "BCA1D551A6729454AF826D439CCEE0BC8EDF80A02F557AE1C3F9E15FFD08A627"
+                  },
+                  {
+                      "log":  "ui-async-save-release.log",
+                      "pass_lines":  33,
+                      "result":  "PASS",
+                      "sha256":  "BCA1D551A6729454AF826D439CCEE0BC8EDF80A02F557AE1C3F9E15FFD08A627"
+                  },
+                  {
+                      "log":  "ui-editor-review-debug.log",
+                      "pass_lines":  58,
+                      "result":  "PASS",
+                      "sha256":  "0ABE5A6787C4EC670DA9F6C709AB48122E5E381420579FA666EEF4474D23129B"
+                  },
+                  {
+                      "log":  "ui-editor-review-release.log",
+                      "pass_lines":  58,
+                      "result":  "PASS",
+                      "sha256":  "0ABE5A6787C4EC670DA9F6C709AB48122E5E381420579FA666EEF4474D23129B"
+                  },
+                  {
+                      "log":  "ui-localization-debug.log",
+                      "pass_lines":  18,
+                      "result":  "PASS",
+                      "sha256":  "E9067FA42F515ABF9CAE3B56F850B0256E708DAA9D00F29047F81891CA634471"
+                  },
+                  {
+                      "log":  "ui-localization-release.log",
+                      "pass_lines":  18,
+                      "result":  "PASS",
+                      "sha256":  "E9067FA42F515ABF9CAE3B56F850B0256E708DAA9D00F29047F81891CA634471"
+                  },
+                  {
+                      "log":  "ui-preferences-debug.log",
+                      "pass_lines":  15,
+                      "result":  "PASS",
+                      "sha256":  "193C1AF7AF2A1CF44389C64A8E601451016AF3F1258C9BA911A82F47A16B497D"
+                  },
+                  {
+                      "log":  "ui-preferences-release.log",
+                      "pass_lines":  15,
+                      "result":  "PASS",
+                      "sha256":  "193C1AF7AF2A1CF44389C64A8E601451016AF3F1258C9BA911A82F47A16B497D"
+                  },
+                  {
+                      "log":  "ui-text-workflow-debug.log",
+                      "pass_lines":  47,
+                      "result":  "PASS",
+                      "sha256":  "F38340927E5C2AADB7D68E6D0F78D1C89D210E8BB2419E6C32D9A36B611D3121"
+                  },
+                  {
+                      "log":  "ui-text-workflow-release.log",
+                      "pass_lines":  47,
+                      "result":  "PASS",
+                      "sha256":  "F38340927E5C2AADB7D68E6D0F78D1C89D210E8BB2419E6C32D9A36B611D3121"
+                  },
+                  {
+                      "log":  "ui-workflow-expansion-debug.log",
+                      "pass_lines":  46,
+                      "result":  "PASS",
+                      "sha256":  "4C1DD50C07AB2906B7E0EAD2ABC296F6F579D7810EDF67E515F6AA2FF4DF6C8C"
+                  },
+                  {
+                      "log":  "ui-workflow-expansion-release.log",
+                      "pass_lines":  46,
+                      "result":  "PASS",
+                      "sha256":  "4C1DD50C07AB2906B7E0EAD2ABC296F6F579D7810EDF67E515F6AA2FF4DF6C8C"
+                  },
+                  {
+                      "log":  "ui-workspace-debug.log",
+                      "pass_lines":  36,
+                      "result":  "PASS",
+                      "sha256":  "199616E7854165FA509717D67B8A75AB3C9FC1841E00ACD4AB1B91690354C11E"
+                  },
+                  {
+                      "log":  "ui-workspace-release.log",
+                      "pass_lines":  36,
+                      "result":  "PASS",
+                      "sha256":  "199616E7854165FA509717D67B8A75AB3C9FC1841E00ACD4AB1B91690354C11E"
+                  },
+                  {
+                      "log":  "ui-zoom-debug.log",
+                      "pass_lines":  52,
+                      "result":  "PASS",
+                      "sha256":  "FC852AE1D1494305BF619DEDDCA63A1AE34A7ED86ACC849AD4CC0FA02BA2D179"
+                  },
+                  {
+                      "log":  "ui-zoom-release.log",
+                      "pass_lines":  52,
+                      "result":  "PASS",
+                      "sha256":  "FC852AE1D1494305BF619DEDDCA63A1AE34A7ED86ACC849AD4CC0FA02BA2D179"
+                  }
+              ],
+    "commands":  [
+                     "MSBuild NativeCoreTests.vcxproj and NativeUiTests.vcxproj /p:Configuration=Debug|Release /p:Platform=x64 /m:2 (test-only Debug symbols omitted); native tests use owned project TEMP/TMP",
+                     "NativeCoreTests.exe --localization; --preferences",
+                     "NativeUiTests.exe --localization; --preferences; --text-workflow; --workspace; --advanced; --editor-review; --workflow-expansion; --zoom; --async-save",
+                     "scripts/build_release.bat (unchanged Release flags, CL=/MP2)",
+                     "NativeUiTests.exe --workspace-process build/SimpleEditorTool.exe",
+                     "scripts/verify_cli.ps1",
+                     "Formal language fixture: hash-matched EXE/catalogs, fresh directories with absent INI / synthetic language=en / missing catalogs / invalid Version=99; check own HWND, menu language, maximize, menu command 41800, persisted language and normal close/restart"
+                 ],
+    "delivery":  [
+                     {
+                         "name":  "lang_en.ini",
+                         "bytes":  48309,
+                         "sha256":  "FA49FBC133A1702204A07EB750B68FDCDBB94AB618669EE3EA46C40782122653"
+                     },
+                     {
+                         "name":  "lang_tw.ini",
+                         "bytes":  50213,
+                         "sha256":  "C4AF9183C0D42FE3032CD1C1A07FFA087F5368C0EA51ADD405972F91353E927B"
+                     },
+                     {
+                         "name":  "SimpleEditorTool.exe",
+                         "bytes":  3756032,
+                         "sha256":  "0ACAAED5C6ADC31EC34D540D6C5017C22BC77F7C3DE81574A6A2700594BB716F"
+                     },
+                     {
+                         "name":  "simple_editor_tool.ini",
+                         "bytes":  1074,
+                         "sha256":  "8C1666BEEEC045A2F54009AC973A4C17417DB42D843183B74F56437050FAA9CA"
+                     },
+                     {
+                         "name":  "test.ini",
+                         "bytes":  191,
+                         "sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91"
+                     },
+                     {
+                         "name":  "ui_smoke.ini",
+                         "bytes":  262,
+                         "sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                     }
+                 ],
+    "exe_baseline":  {
+                         "bytes":  3707392,
+                         "sha256":  "7094D2A1C02D5D06DC6EDF8AC698EAA7C0E780349ABBA413BAAC77CB2823241E",
+                         "new_bytes":  3756032,
+                         "increase_bytes":  48640,
+                         "compiler_flags_changed":  false
+                     },
+    "catalogs":  {
+                     "unique_entries":  624,
+                     "ids":  [
+                                 "en",
+                                 "tw"
+                             ],
+                     "first_run":  "tw",
+                     "saved_preference_wins":  true,
+                     "source_delivery_hashes_match":  true,
+                     "maximum_bytes":  1048576,
+                     "maximum_entries":  4096,
+                     "fallback":  "Usable built-in English; unlisted diagnostics remain English; native Windows dialogs follow OS language"
+                 },
+    "original_inis":  [
+                          {
+                              "name":  "simple_editor_tool.ini",
+                              "sha256":  "8C1666BEEEC045A2F54009AC973A4C17417DB42D843183B74F56437050FAA9CA",
+                              "unchanged":  true
+                          },
+                          {
+                              "name":  "test.ini",
+                              "sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91",
+                              "unchanged":  true
+                          },
+                          {
+                              "name":  "ui_smoke.ini",
+                              "sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25",
+                              "unchanged":  true
+                          }
+                      ],
+    "test_executables":  [
+                             {
+                                 "path":  "artifacts\\tests\\NativeCoreTests.exe",
+                                 "bytes":  1603072,
+                                 "sha256":  "1153F0600C72A9B8F1AC5D415FC80A5CC8EDD9B50D274D45AD8279AB40AFE96C",
+                                 "producer":  "NativeCoreTests.vcxproj Release or NativeUiTests.vcxproj matching directory configuration",
+                                 "disposition":  "Removed after selected batch; source retained"
+                             },
+                             {
+                                 "path":  "artifacts\\tests\\Debug\\NativeUiTests.exe",
+                                 "bytes":  24465920,
+                                 "sha256":  "A4CE5A13AC0917FB0B11B8EAF341DB0BB9270074C0DAD6BEE047B3FA4DA867A4",
+                                 "producer":  "NativeCoreTests.vcxproj Release or NativeUiTests.vcxproj matching directory configuration",
+                                 "disposition":  "Removed after selected batch; source retained"
+                             },
+                             {
+                                 "path":  "artifacts\\tests\\Release\\NativeUiTests.exe",
+                                 "bytes":  6584320,
+                                 "sha256":  "698D643032750AF930CEF5EF3CC91C88487EED8B9C705F5B7B44759DFBAD9A59",
+                                 "producer":  "NativeCoreTests.vcxproj Release or NativeUiTests.vcxproj matching directory configuration",
+                                 "disposition":  "Removed after selected batch; source retained"
+                             }
+                         ],
+    "pe":  {
+               "native_x64":  true,
+               "high_entropy_aslr":  true,
+               "dynamic_base":  true,
+               "nx":  true,
+               "static_mfc_crt":  true,
+               "imports":  [
+                               "CRYPT32.dll",
+                               "bcrypt.dll",
+                               "ole32.dll",
+                               "KERNEL32.dll",
+                               "USER32.dll",
+                               "GDI32.dll",
+                               "ADVAPI32.dll",
+                               "SHELL32.dll",
+                               "COMCTL32.dll",
+                               "UxTheme.dll",
+                               "OLEAUT32.dll",
+                               "OLEACC.dll",
+                               "IMM32.dll",
+                               "SHLWAPI.dll"
+                           ],
+               "sha256":  "A81B9B1600C817CCB04F8B5BCA794BEEDEE4D46FCC20FA89AD9207A1D2121266"
+           },
+    "critical_files":  [
+                           {
+                               "path":  "src/core/language_catalog.h",
+                               "sha256":  "2BB1BB1D55CCED7D00600C9FCA94F502117985BE8B471900E9422A4BC05DC86B"
+                           },
+                           {
+                               "path":  "src/core/language_catalog.cpp",
+                               "sha256":  "E9ADD0FE1BCA70B4EFCB5AFD30ADE739FCFDBF216D1AC60FDA930F00D64FBC4B"
+                           },
+                           {
+                               "path":  "src/core/portable_preferences.h",
+                               "sha256":  "BD146B9ADBE960083AB5B88254623F20A7EA902793A0E412DC520D6027F82F0E"
+                           },
+                           {
+                               "path":  "src/core/portable_preferences.cpp",
+                               "sha256":  "58B29079E8E8504DE33E843E58F6BCDCC01A934EE8C40DD14FEAB72CBBEDED34"
+                           },
+                           {
+                               "path":  "src/ui/localization.h",
+                               "sha256":  "C8F961E0588C7CDB136D3738D22F7F681C333C733D37C5D25297C99E2CEAF631"
+                           },
+                           {
+                               "path":  "src/ui/localization.cpp",
+                               "sha256":  "F6F17137D446FC2D927FCF6B1989DDB743741A5A043B9A678891D6414C335DB6"
+                           },
+                           {
+                               "path":  "src/ui/localization_internal.h",
+                               "sha256":  "76525A5BA9371F4B75A6F46C3339B570A3A7680AB7CB112C6628292EAB8C9A44"
+                           },
+                           {
+                               "path":  "src/ui/localization_controls.cpp",
+                               "sha256":  "A2D4E2926820227F0CB3AA3D7CD3EA3AD5785EF22570DBB2D5E606DE525F441C"
+                           },
+                           {
+                               "path":  "src/ui/localization_menus.cpp",
+                               "sha256":  "AADD29BC25B7BAC57F76A19D54C8C1461227C5521A9E8C17DB1AD3A7E68498F7"
+                           },
+                           {
+                               "path":  "src/workspace_frame.cpp",
+                               "sha256":  "6C505EF913CE33D12524CA2CD2241F54233CF301A5D9884D68384FEBE13EDE5C"
+                           },
+                           {
+                               "path":  "src/workspace_preferences.cpp",
+                               "sha256":  "80BE039002E03D30C78DEF205E5CEF4107B782079D661062522FA8E56510D5BE"
+                           },
+                           {
+                               "path":  "src/res/lang_en.ini",
+                               "sha256":  "FA49FBC133A1702204A07EB750B68FDCDBB94AB618669EE3EA46C40782122653"
+                           },
+                           {
+                               "path":  "src/res/lang_tw.ini",
+                               "sha256":  "C4AF9183C0D42FE3032CD1C1A07FFA087F5368C0EA51ADD405972F91353E927B"
+                           },
+                           {
+                               "path":  "tests/native_localization_tests.cpp",
+                               "sha256":  "656C37390451111B67738B0A2B891F0C6FC194BAF7F561AFB0EAF459C6A3F9CB"
+                           },
+                           {
+                               "path":  "tests/native_localization_ui.inc",
+                               "sha256":  "F8AC53827AA484DF80CCCCD8CA7F6CAE4B78E6BB3C8DDAFA5D31F041C0FFFDC4"
+                           },
+                           {
+                               "path":  "docs/USER_GUIDE.md",
+                               "sha256":  "A8787E70C0763566FFCCDBA85AEFC714BCEF82F5F1EA0B98A1A9260E18167A33"
+                           },
+                           {
+                               "path":  "docs/USER_GUIDE_EN.md",
+                               "sha256":  "EB01A4AF1153B7A1E35A9B19580AC88416B2E23F2955094197F157EEB7732608"
+                           },
+                           {
+                               "path":  "SimpleEditorTool.vcxproj",
+                               "sha256":  "68EE2010B26768AF22EEB3F4318E497A98A762389A35C091DBD12F20AA08FF96"
+                           },
+                           {
+                               "path":  "NativeCoreTests.vcxproj",
+                               "sha256":  "5EBE1C7F179C1375C52DBAA169801F12A4862C307AC4516772463C5AA756058B"
+                           },
+                           {
+                               "path":  "NativeUiTests.vcxproj",
+                               "sha256":  "4AF88ACF15622504387E1D54C700EF1B377EB0472CCC508FDB325E25588D7689"
+                           }
+                       ],
+    "build_input_manifest":  {
+                                 "scope":  "All src and tests file relative paths plus individual SHA256, sorted by FullName and joined with LF",
+                                 "files":  285,
+                                 "sha256":  "C68E0FD710E624D0E8892415DB510DE6D07335A7F5EE6F30AC13BD1A4157DC2F"
+                             },
+    "documentation":  {
+                          "traditional_default":  "docs/USER_GUIDE.md",
+                          "english_complete":  "docs/USER_GUIDE_EN.md",
+                          "topics_each":  17,
+                          "utf8_and_local_links":  "PASS",
+                          "semantic_coverage_and_product_facing_content":  "PASS",
+                          "visual_review":  [
+                                                "docs/verification/localization-20261026/find-traditional.png",
+                                                "docs/verification/localization-20261026/workspace-traditional.png"
+                                            ]
+                      },
+    "changed_file_groups":  [
+                                "src/core/language_catalog.*, portable_preferences.*: bounded catalogs, safe parameter matching and language persistence",
+                                "src/ui/localization*: own-thread presentation localization; original label caching and explicit data exclusions",
+                                "src/workspace_frame.*, workspace_preferences.cpp, main_frame.cpp, resource.h, app.cpp: menus, immediate switching, guarded control lifetime and shutdown",
+                                "UI prompt call sites in main frame/workspace/editor/preferences/compare/sync dialogs: UiMessageBox wrapper",
+                                "src/res/lang_en.ini, lang_tw.ini, SimpleEditorTool.vcxproj, .gitignore: portable public language assets",
+                                "tests/native_localization_tests.cpp, native_localization_ui.inc, test entry points and vcxproj registration",
+                                "README.md, docs/USER_GUIDE*.md, SPEC/AGENTS/HANDOFF/SELF_CHECK and localization implementation ledger"
+                            ],
+    "not_run":  [
+                    "Physical clipboard/mouse gestures and mixed-monitor DPI",
+                    "Exhaustive dialog/diagnostic localization; missing keys intentionally retain English",
+                    "Injected allocation, disk/power faults and maximum-quota throughput",
+                    "Separate formal Debug application build; Debug native UI caller/lifecycle checks passed"
+                ],
+    "reused_evidence":  [
+                            "Unchanged algorithms: docs/verification/workflow-expansion-20261026.json",
+                            "Unchanged clean fixture/boundary/reparse behavior: docs/verification/project-cleanup-boundary-20261026.json"
+                        ],
+    "clean_static":  {
+                         "scripts":  4,
+                         "result":  "PASS",
+                         "log_sha256":  "BA7920B711864F7518DA26ED2387AEF4893A6BAF92D5946F322E73227ED4FE14"
+                     },
+    "cleanup":  {
+                    "state":  "PASS",
+                    "project_only":  true,
+                    "external_deletions":  0,
+                    "entry_artifact_files":  850,
+                    "entry_artifact_bytes":  1478129089,
+                    "compiler_removed_files":  777,
+                    "purge_removed_files":  10,
+                    "owned_scratch_removed_files":  68,
+                    "owned_scratch_removed_bytes":  15983230,
+                    "total_removed_files":  855,
+                    "total_removed_bytes":  1478438129,
+                    "cleanup_metadata_generated_and_removed_files":  5,
+                    "protected_files_hash_matched":  1238,
+                    "artifacts_absent":  true,
+                    "test_executables_absent":  true,
+                    "retained_disposable_files":  0,
+                    "retained_disposable_bytes":  0,
+                    "retained_evidence":  "This compact record and two native Release screenshots",
+                    "approval_review":  "Initial generic batch deletion rejected with blocked by policy and no detail; safer narrowed cleanup passed: four fixed EXE copies verified against formal artifact/test-log hash, then 64 explicitly named files matched to fixed reviewed hashes / passing test evidence. Unknown or changed files would abort before deletion."
+                }
+}

@@ -1,5 +1,6 @@
 #include "main_frame.h"
 #include "workspace_frame.h"
+#include "core/manual_alignment.h"
 #include <filesystem>
 
 void CMainFrame::SetComparisonPaths(const std::wstring& left, const std::wstring& right, bool insertion_aware) {
@@ -26,6 +27,16 @@ void CMainFrame::OnCompareBrowseLeft() { BrowseComparisonPath(true); }
 void CMainFrame::OnCompareBrowseRight() { BrowseComparisonPath(false); }
 void CMainFrame::OnCompareSwap() {
     if (IsBusy()) return;
+    if (displayed_mode_ == 8) { advanced_.SwapPastedInputs(); return; }
+    if (displayed_mode_ == 2 || displayed_mode_ == 3 || displayed_mode_ >= 5) {
+        simple_editor::core::WorkspaceEntry settings; advanced_.CapturePreferences(settings);
+        std::swap(settings.advanced_encoding,settings.advanced_encoding_right);
+        if (displayed_mode_ == 2) {
+            simple_editor::core::LineAnchors anchors; std::wstring error;
+            if (simple_editor::core::ParseLineAnchors(settings.manual_anchors,&anchors,&error)) { settings.manual_anchors.clear(); for (const auto& pair : anchors) settings.manual_anchors += std::to_wstring(pair.second + 1) + L"," + std::to_wstring(pair.first + 1) + L"\r\n"; }
+        }
+        advanced_.RestorePreferences(settings);
+    }
     CString left, right; compare_left_path_.GetWindowTextW(left); compare_right_path_.GetWindowTextW(right);
     suppress_compare_path_change_ = true; SetPathComboText(compare_left_path_,right.GetString()); SetPathComboText(compare_right_path_,left.GetString());
     suppress_compare_path_change_ = false; OnComparePathChanged();
@@ -49,6 +60,10 @@ void CMainFrame::SetComparisonControlsEnabled(bool enabled) {
 }
 void CMainFrame::OnCompareRun() {
     if (IsBusy()) return;
+    if (displayed_mode_ == 8) {
+        SetWindowTextW(L"Pasted text comparison - Simple Editor Tool");
+        advanced_.StartPastedText(); if (workspace_) workspace_->RefreshLabels(); return;
+    }
     CString left, right; compare_left_path_.GetWindowTextW(left); compare_right_path_.GetWindowTextW(right);
     left.Trim(); right.Trim();
     if (left.IsEmpty() || right.IsEmpty()) { status_.SetPaneText(0, L"Choose both a left file and a right file."); return; }

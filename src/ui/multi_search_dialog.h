@@ -10,6 +10,7 @@ class CMultiSearchDialog : public CDialog {
 public:
     ~CMultiSearchDialog() override;
     void Show(CWnd* owner);
+    bool Present(CWnd* owner,std::vector<simple_editor::services::MultiSearchMatch> matches,const std::wstring& status);
     bool Busy() const { return job_.valid(); }
     std::function<bool(int,std::vector<simple_editor::services::MultiSearchSource>*,std::wstring*)> capture;
     std::function<void(const simple_editor::services::MultiSearchMatch&)> navigate;

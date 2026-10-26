@@ -20,22 +20,32 @@ void CMainFrame::InitializeAdvanced() {
     advanced_.saved_close = [this](bool success) { if (success) { saved_close_pending_ = true; PostMessage(WM_EDITOR_SAVED_CLOSE); } else if (workspace_) workspace_->CancelCloseAll(); };
     advanced_.open_pair = [this](const std::wstring& left, const std::wstring& right, int mode) {
         if (!workspace_) return;
-        if (left.empty() || right.empty()) workspace_->OpenPath(left.empty() ? right : left);
-        else workspace_->NewComparisonInputs(left,right,L"",mode,true);
+        workspace_->OpenFolderPair(this,left,right,mode);
     };
 }
 void CMainFrame::OnCompareModeChanged() {
     const int requested = compare_mode_.GetCurSel();
     if (requested < 0) return;
     if (IsBusy() || !advanced_.CanReset()) { compare_mode_.SetCurSel(displayed_mode_); return; }
+    if (requested == 8 && workspace_ && !comparison_session_) {
+        compare_mode_.SetCurSel(displayed_mode_);
+        workspace_->NewComparisonInputs(L"",L"",L"",8,false); return;
+    }
     if (requested >= 2 && !EnsureAdvanced()) { compare_mode_.SetCurSel(displayed_mode_); status_.SetPaneText(0,L"Could not create the comparison view."); return; }
+    if (requested >= 2 && !advanced_.SetPastedInputs(requested == 8)) { compare_mode_.SetCurSel(displayed_mode_); return; }
+    if (requested < 2 && advanced_.GetSafeHwnd()) advanced_.SetPastedInputs(false);
     displayed_mode_ = requested;
+    if (requested == 8 && comparison_session_) {
+        document_.Close(); ++revision_; hex_.SetDocument(&document_); text_stale_ = true;
+        SetWindowTextW(L"Pasted text comparison - Simple Editor Tool");
+    }
     CString left,right; compare_left_path_.GetWindowTextW(left); compare_right_path_.GetWindowTextW(right);
     SetComparisonPaths(left.GetString(),right.GetString(),requested != 1); compare_mode_.SetCurSel(requested);
-    if (requested >= 2) advanced_.Configure(requested);
+    if (requested >= 2) advanced_.Configure(requested == 8 ? 2 : requested);
     ClearComparison();
     compare_left_label_.SetWindowTextW(requested == 4 ? L"Left folder" : L"Left file"); compare_right_label_.SetWindowTextW(requested == 4 ? L"Right folder" : L"Right file");
     Layout(); ShowPage(2);
+    if (workspace_) workspace_->RefreshLabels();
 }
 void CMainFrame::OnCompareBrowseBase() {
     if (IsBusy()) return; CString initial; compare_base_path_.GetWindowTextW(initial);

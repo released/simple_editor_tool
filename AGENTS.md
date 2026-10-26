@@ -17,11 +17,36 @@ This is a native Windows MFC text, hexadecimal, and binary comparison editor.
 
 ## Local Rules
 
+- Document-focused scope F01-F09 is defined in
+  docs/DOCUMENT_FOCUS_IMPLEMENTATION.md; user operations and supported limits are
+  in docs/DOCUMENT_EDITING_COMPARISON.md and both user guides. Keep independent
+  source codecs, original-line anchors, atomic selected refresh/freshness guards,
+  memory-only comparisons and version-bound review notes. Do not add dynamic
+  plugins, remote access or process-memory editing to this scope.
+
+- UI localization uses bounded `src/res/lang_en.ini` / `lang_tw.ini` catalogs,
+  copied beside the EXE. First run defaults to `tw`; preserve a saved `en`/`tw`
+  preference and usable English fallback. Localize presentation roles only,
+  retaining original source labels for immediate reversal. Never translate or
+  recreate document/search/path buffers, raw result cells, native Undo or schema
+  tokens. User guides: docs/USER_GUIDE.md (Traditional Chinese default) and
+  docs/USER_GUIDE_EN.md (complete English counterpart).
+- Current approved scope W01-W10 is recorded in
+  `docs/WORKFLOW_EXPANSION_IMPLEMENTATION.md`; usage/subset bounds are in
+  `docs/WORKFLOW_EXPANSION.md`. Preserve source-only display adapters, guarded
+  physical position mapping, path-free presets and explicit conversion application.
+  Zero-width Unicode indicators must remain valid in both GDI Debug and Release.
+- Current approved review scope V01-V10 is recorded in
+  `docs/EDITOR_REVIEW_IMPLEMENTATION.md`; product usage and explicit subset limits
+  are in `docs/EDITOR_REVIEW.md`. Preserve read-only comparison sources, chosen-side
+  search focus, snapshot/source-write guards and one-Undo preview application.
 - Use Visual C++ MFC, Unicode, x64, static MFC, and static CRT (`/MT`).
-- Active implementation ledger: `docs/NATIVE_WORKFLOW_IMPLEMENTATION.md`. All nine approved N01-N09 rows are complete; final evidence is in docs/verification/NATIVE_WORKFLOW_ACCEPTANCE.md. `docs/FEATURE_DISCOVERY_IMPLEMENTATION.md` and `docs/ALIGNMENT_IMPLEMENTATION.md` record earlier completed scopes.
+- Previous native workflow ledger: `docs/NATIVE_WORKFLOW_IMPLEMENTATION.md`. All nine approved N01-N09 rows are complete; final evidence is in docs/verification/NATIVE_WORKFLOW_ACCEPTANCE.md. `docs/FEATURE_DISCOVERY_IMPLEMENTATION.md` and `docs/ALIGNMENT_IMPLEMENTATION.md` record earlier completed scopes.
 - Native Scintilla/Lexilla sources are pinned under vendor and statically built by NativeEditor.vcxproj. Preserve UTF-16 MFC bridge semantics, original encoding/EOL, independent buffers, guarded saves and native Undo. Keep licenses available in the standalone EXE.
 - Hex selection/clipboard mutations must use BinaryDocument transactions and respect read-only/save/sync locks. Streaming reports must remain independent of the virtual result-list limit and cannot overwrite their inputs.
 - Scintilla command events are disabled: only real insert/delete notifications are bridged to EN_CHANGE. Fold/bookmark/lexer notifications must never dirty a document or invalidate a worker. Search planning uses isolated hidden native controls on the background job and checks buffer generation before applying.
+- New text opens on Text, with Hex fallback for binary/oversized sources; retain existing-session and explicitly restored page choices. Default dark content is #3F3F3F; Markdown styling must preserve native text, generation and Undo.
+- Workspace-owned Find/Replace follows the active document and optionally snapshots all normal file/untitled Text buffers. Keep jobs cancellable and bounded, recheck all participant versions before applying, retain per-document Undo, and never implicitly save. Only the private open-search lock owner may lock its participating unsaved drafts; preserve normal path/identity lock rejection rules.
 - Firmware tools validate checksums, address maps and overlaps; binary output must preserve explicit sparse-fill behavior and stay separate from its input. Analysis, extraction and pattern scans remain bounded/streamed.
 - Binary differences carry alignment anchors independently of missing-byte addresses. Preserve anchors through range rebasing and ignored-span filtering so subsequent selected merges retain correct offsets. Reports use the same range/ignore settings; display bases remain separate from physical file offsets.
 - Diff presentation never rewrites source/merged buffers. Keep bounded Unicode spans, source line indices, cancellation and native Undo when changing similarity/filter/overview views.
@@ -36,6 +61,7 @@ This is a native Windows MFC text, hexadecimal, and binary comparison editor.
 - Keep document controls, edit history, jobs, encoding and zoom owned by each editor session. Close only the chosen session after its unsaved-change decision; failed/cancelled saves abort pending workspace exit.
 - Comparison sessions have independent left/right path selectors and read-only snapshots. Include unsaved Text/Hex content from open editor sessions without committing or replacing their native buffers.
 - Advanced comparison modes provide two-way text merge, Base/Left/Right three-way merge and recursive folder synchronization. Keep their editable output separate from source snapshots, and never silently save unresolved conflicts.
+- Pasted text uses comparison mode 8 mapped to the existing two-way model. Keep its native source buffers in memory, preserve EOL/Undo across tabs and modes, lock them during jobs, invalidate old rows on edits, and warn before discarding nonempty inputs. Never persist pasted content or synthetic paths in workspace INIs. Quotas reject comparison without trimming the inputs.
 - Folder synchronization requires an operation preview, source/target revalidation and recoverable overwrite/removal backups. Reject reparse paths and overlapping roots; lock affected open editors by path and file identity for the operation's owner.
 - Native Edit controls need CRLF for display. Preserve original LF/CRLF/CR endings through the display adapter, including snapshots and saves; viewing text must not rewrite its newline style.
 - Workspace INI files contain paths/view settings, explicit comparison rules and range annotations, never unsaved file/merge buffers. Loading appends or activates sessions, preserves existing drafts and does not automatically execute comparisons or synchronization.
@@ -54,14 +80,19 @@ This is a native Windows MFC text, hexadecimal, and binary comparison editor.
 - Preserve per-tab content zoom and its independent percentage pane; zoom must not mutate documents or replace text buffers. Keep borrowed control fonts alive until replaced or destroyed.
 - Ordinary mouse wheel scrolls content; only Ctrl+wheel zooms. Apply this to file/shared Text, Hex, comparison results/output and the large-text pager. Keep Ctrl+0 and percentage display.
 - A clamped/no-op Hex scroll must not redraw scrollbars, invalidate content or notify synchronized panes. Actual viewport movement repaints without background erasure; resizing/zoom/content edits retain their own invalidation.
-- Current delivery/Explorer/Hex-boundary evidence: `docs/verification/explorer-20261026.json`. Earlier modifier/feature EXE hashes are historical.
+- Current delivery/pasted-text comparison evidence: `docs/verification/pasted-text-20261026.json`. Explorer/Hex-boundary behavior evidence remains in `docs/verification/explorer-20261026.json`; its EXE hash and earlier modifier/feature hashes are historical.
 - Explorer integration is an explicit current-user static verb under HKCU Software/Classes. Never change defaults/HKLM or remove an unowned entry. Preserve registry values on failed updates; keep quoted executable/input paths and existing session forwarding. Test temporary registry roots and isolated, byte-matched EXEs; preserve user INIs.
 
 ## Verification
 
 - Select verification by changed behavior and affected state paths.
+- For language catalog/preferences/UI changes, select core `--localization` and
+  `--preferences`, native Debug/Release UI `--localization` and affected callers.
+  Check formal first-run/saved-language startup and catalog fallback with isolated
+  copies and synthetic INIs; never use personal preferences as fixtures.
 - Use `scripts/build_release.bat` for the portable Release output. Debug output is separate in `artifacts/debug`; test executables are in `artifacts/tests`.
 - For search/edit/codec changes, build and run `NativeCoreTests.vcxproj`.
+- Use focused `NativeCoreTests.exe --search-codec` / `--preferences` and `NativeUiTests.exe --text-workflow` for Text defaults, Markdown colors and current/all-open Find/Replace; the UI mode accepts an optional native screenshot directory. Test connected search/preferences/workspace callers when changed.
 - For focused file-state/save/compare regressions, run `NativeCoreTests.exe --file-safety`; changes to shared document reads also affect editor/search callers.
 - For line merge, newline display conversion, folder synchronization or workspace-file parsing, run `NativeCoreTests.exe --merge-sync`. Use `NativeUiTests.exe --advanced` for the connected controls, conflict choices, output saves, sync preview/locks and session restore; optionally supply an artifacts screenshot directory.
 - For save progress/cancellation/commit-boundary checks, run `NativeCoreTests.exe --async-save` and `NativeUiTests.exe --async-save` in affected configurations.

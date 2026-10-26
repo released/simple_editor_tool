@@ -82,4 +82,11 @@ bool DecodeText(const std::vector<std::uint8_t>& bytes, TextEncoding requested,
     if (!EncodeText(*text, *codec, true, &roundtrip, error) || roundtrip != bytes) return Fail(error);
     return true;
 }
+std::wstring DescribeTextCodec(const TextCodec& codec,const std::wstring& text) {
+    const auto name = codec.encoding == TextEncoding::Utf8 ? L"UTF-8" : codec.encoding == TextEncoding::Utf16Le ? L"UTF-16 LE" : codec.encoding == TextEncoding::Utf16Be ? L"UTF-16 BE" : codec.encoding == TextEncoding::Big5 ? L"Big5/CP950" : L"CP";
+    std::wstring result = name; if (codec.encoding == TextEncoding::System) result += std::to_wstring(codec.code_page);
+    result += codec.bom ? L"; BOM" : L"; no BOM"; bool crlf = false,lf = false,cr = false;
+    for (std::size_t i = 0; i < text.size(); ++i) if (text[i] == L'\r') { if (i + 1 < text.size() && text[i + 1] == L'\n') { crlf = true; ++i; } else cr = true; } else if (text[i] == L'\n') lf = true;
+    result += L"; EOL="; if (!crlf && !lf && !cr) result += L"none"; else { if (crlf) result += L"CRLF"; if (lf) result += crlf ? L"+LF" : L"LF"; if (cr) result += crlf || lf ? L"+CR" : L"CR"; } return result;
+}
 } // namespace simple_editor::core

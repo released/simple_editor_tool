@@ -1,4 +1,5 @@
 #include "sync_preview.h"
+#include "localization.h"
 #include "../resource.h"
 using namespace simple_editor::core;
 CSyncPreview::CSyncPreview(SyncBundle bundle,CWnd* owner) : CDialog(IDD_SYNC_PREVIEW,owner),bundle_(std::move(bundle)) {
@@ -46,4 +47,4 @@ SyncBundle CSyncPreview::Selected() const {
     for (const auto& row : rows_) if (!row.skip) { if (row.conflict) result.conflicts.push_back(bundle_.conflicts[row.index]); else result.plans[row.plan].operations.push_back(bundle_.plans[row.plan].operations[row.index]); }
     return result;
 }
-void CSyncPreview::OnOK() { if (!Selected().conflicts.empty()) { AfxMessageBox(L"Resolve the conflicts or select and skip them before applying other operations.",MB_ICONWARNING); return; } CDialog::OnOK(); }
+void CSyncPreview::OnOK() { if (!Selected().conflicts.empty()) { UiMessageBox(L"Resolve the conflicts or select and skip them before applying other operations.",MB_ICONWARNING); return; } CDialog::OnOK(); }
