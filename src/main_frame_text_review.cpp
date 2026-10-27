@@ -25,11 +25,9 @@ void CMainFrame::FinishOutline(EditorJobResult result) {
     status_.SetPaneText(0,result.truncated ? L"Outline reached its bounded result or parsing limit." : function_outline_ ? L"C/C++ outline is heuristic. Source text and Undo are retained." : L"Markdown outline preserves text, encoding and Undo.");
 }
 bool CMainFrame::StartFunctionOutline() {
-    auto* editor = ActiveEditor(); if (IsBusy() || !editor || editor->SyntaxName() != "cpp") { status_.SetPaneText(0,L"Choose the C/C++ syntax mode before opening the function list."); return false; }
-    const auto input = editor->Utf8(); if (input.size() > 32 * 1024 * 1024) return false;
-    function_outline_ = true; job_kind_ = EditorJobKind::Outline; job_editor_ = editor; job_editor_generation_ = editor->Generation(); cancelled_ = false;
-    try { job_ = std::async(std::launch::async,[this,text = CCodeEditor::FromUtf8(input)] { EditorJobResult result; result.kind = EditorJobKind::Outline; result.headings = std::make_shared<std::vector<MarkdownHeading>>(); if (!CppFunctionOutline(text,cancelled_,result.headings.get(),&result.truncated)) result.error = L"Function outline cancelled or input exceeds its bounds."; return result; }); }
-    catch (...) { job_editor_ = nullptr; return false; } status_.SetPaneText(0,L"Reading C/C++ definitions; document edits are retained."); return true;
+    if (IsBusy() || FunctionSidebarLanguage() == OutlineLanguage::None) { status_.SetPaneText(0,L"Open a supported code document to show its function sidebar."); return false; }
+    ShowPage(1); if (!function_sidebar_.GetSafeHwnd()) return false;
+    function_sidebar_.RefreshNow(); TickFunctionSidebar(); function_sidebar_.FocusList(); return true;
 }
 void CMainFrame::RequestIndentation(bool reset) {
     if (reset) indentation_manual_ = false;

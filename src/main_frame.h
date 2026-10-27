@@ -21,6 +21,7 @@
 #include "ui/advanced_compare.h"
 #include "ui/path_combo.h"
 #include "ui/code_editor.h"
+#include "ui/function_sidebar.h"
 #include "ui/live_inspector.h"
 #include "ui/log_tail_dialog.h"
 #include "ui/search_results.h"
@@ -105,6 +106,12 @@ protected:
     void FinishDiskReview(EditorJobResult result);
     bool StartOutline();
     bool StartFunctionOutline();
+    simple_editor::core::OutlineLanguage FunctionSidebarLanguage() const;
+    void LayoutFunctionSidebar(CRect&);
+    void TickFunctionSidebar();
+    CFunctionSidebar function_sidebar_;
+    CSplitterBar function_splitter_;
+    int function_sidebar_width_ = 280;
     bool function_outline_ = false;
     void FinishOutline(EditorJobResult result);
     void ReviewBitFields();

@@ -16,7 +16,7 @@ binary and source files, merging changes, and synchronizing folders.
 - Line-aligned text/source comparison with basic syntax colors, whitespace rules,
   two-way merging and three-way conflict resolution.
 - Independent input encodings, graphical alignment points, selection/clipboard
-  comparison, function outlines and annotated text-review reports. See
+  comparison, automatic per-document function sidebars and annotated text-review reports. See
   [Document editing and comparison](docs/DOCUMENT_EDITING_COMPARISON.md).
 - Folder comparison by content, size, time or SHA-256; directed/newer/baseline
   synchronization with exclusions, operation journals and guarded recovery.

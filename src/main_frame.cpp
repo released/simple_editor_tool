@@ -94,6 +94,7 @@ CMainFrame::CMainFrame(bool publish_instance, CWorkspaceFrame* workspace) : work
 }
 CMainFrame::~CMainFrame() { cancelled_ = true; if (job_.valid()) job_.wait(); ReleaseJobLocks(); if (!workspace_) session_menu_.Detach(); }
 void CMainFrame::OnDestroy() {
+    function_sidebar_.Stop();
     if (live_inspector_.GetSafeHwnd()) live_inspector_.DestroyWindow();
     if (log_tail_.GetSafeHwnd()) log_tail_.DestroyWindow();
     KillTimer(1); cancelled_ = true;
@@ -221,7 +222,7 @@ void CMainFrame::Layout() {
     if (!tabs_.GetSafeHwnd() || !status_.GetSafeHwnd() || !differences_.GetSafeHwnd()) return; CRect r; GetClientRect(&r); CRect sr; status_.GetWindowRect(&sr); r.bottom = (std::max<LONG>)(0, r.bottom - sr.Height()); tabs_.MoveWindow(r);
     CRect page = r; tabs_.AdjustRect(FALSE, &page); page.DeflateRect(4, 4);
     page.right = (std::max)(page.left, page.right); page.bottom = (std::max)(page.top, page.bottom); page_rect_ = page;
-    hex_.MoveWindow(page); CRect text_page = page; LayoutSourceNotice(text_page); if (dual_view_ && text_clone_.GetSafeHwnd()) { CRect left = text_page,right = text_page; left.right = text_page.left + text_page.Width() / 2 - 2; right.left = left.right + 4; text_.MoveWindow(left); text_clone_.MoveWindow(right); } else text_.MoveWindow(text_page);
+    hex_.MoveWindow(page); CRect text_page = page; LayoutSourceNotice(text_page); LayoutFunctionSidebar(text_page); if (dual_view_ && text_clone_.GetSafeHwnd()) { CRect left = text_page,right = text_page; left.right = text_page.left + text_page.Width() / 2 - 2; right.left = left.right + 4; text_.MoveWindow(left); text_clone_.MoveWindow(right); } else text_.MoveWindow(text_page);
     compare_mode_.MoveWindow(page.left, page.top, 220, 200); compare_run_.MoveWindow(page.left + 228, page.top, 90, 25); compare_swap_.MoveWindow(page.left + 326, page.top, 100, 25);
     const int middle = page.left + page.Width() / 2;
     compare_left_label_.MoveWindow(page.left, page.top + 30, (std::max<LONG>)(0, middle - page.left - 4), 20);

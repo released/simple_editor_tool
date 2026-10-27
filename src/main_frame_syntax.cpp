@@ -7,6 +7,7 @@ using namespace simple_editor::core;
 void CMainFrame::ConfigureFileSyntax() {
     const auto path = document_.Path(); const auto mode = syntax_mode_.empty() && workspace_ ? workspace_->SyntaxForPath(path) : syntax_mode_;
     for (auto* editor : {&text_,&text_clone_}) if (editor->GetSafeHwnd()) editor->ConfigureLanguage(path,mode);
+    if (!function_sidebar_.Current(text_,revision_,path,FunctionSidebarLanguage())) function_sidebar_.InvalidateSource(); Layout();
 }
 void CMainFrame::ChooseSyntax() {
     if (IsBusy() || comparison_session_ || !document_.IsOpen()) { status_.SetPaneText(0,L"Choose a normal Text document before changing its syntax mode."); return; }

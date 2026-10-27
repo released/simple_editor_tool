@@ -69,4 +69,5 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 
   <ItemGroup><ClCompile Include="src\core\syntax_profiles.cpp" /><ClCompile Include="src\core\function_outline.cpp" /><ClCompile Include="src\core\paged_search.cpp" /><ClCompile Include="src\core\review_notes.cpp" /><ClCompile Include="src\core\review_notes_report.cpp" /><ClCompile Include="src\main_frame_document_focus.cpp" /><ClCompile Include="src\main_frame_syntax.cpp" /><ClCompile Include="src\workspace_document_focus.cpp" /><ClCompile Include="src\workspace_folder_navigation.cpp" /><ClCompile Include="src\ui\advanced_anchors.cpp" /><ClCompile Include="src\ui\advanced_folder_refresh.cpp" /><ClCompile Include="src\ui\advanced_folder_navigation.cpp" /><ClCompile Include="src\ui\advanced_notes.cpp" /><ClCompile Include="src\ui\advanced_notes_io.cpp" /><ClCompile Include="src\ui\review_note_dialog.cpp" /><ClCompile Include="src\ui\text_pager_search.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\program_outline.cpp" /><ClCompile Include="src\ui\function_sidebar.cpp" /><ClCompile Include="src\main_frame_function_sidebar.cpp" /></ItemGroup>
 </Project>

@@ -1,5 +1,39 @@
 # Handoff
 
+## Automatic function sidebar (2026-10-27)
+
+- Code documents now automatically show a native left sidebar in Text. Each
+  CMainFrame owns its list, width and cancellable background snapshot. Click/Enter
+  navigation validates path/revision/generation/language and targets the active
+  shared view. Edits/Undo debounce refresh; Hex/Compare/data pages keep their
+  layout. The former function-outline command refreshes the nonmodal panel.
+- Added C/C++ header declarations and MFC map-macro exclusion; verified the user's
+  hex_view.cpp example. Added bounded Python, JS/TS, Java/C#, PowerShell, Shell,
+  CMake, SQL and Batch-label subsets, retaining raw names/source text. Native
+  extension routing also covers .hxx/.tsx/.pyw/.pyi/.psm1/.bash aliases.
+- PASS Debug/Release: three core modes and eight native UI modes. New tests cover
+  declarations, language routing, tab switching, stale jobs, unsaved edits/Undo,
+  shared-view navigation/editing, Enter, Save As, resize/theme/language and close
+  during analysis. Fixed unnecessary invalidation on unchanged clone syntax;
+  navigation waits for a current model. Both final native images inspected.
+- PASS canonical Release, twelve formal workspace-process assertions and seven
+  CLI exit cases. EXE: 3,932,160 bytes; SHA-256
+  BFB0AE4F78C86D2E1DFBEC06B3682B3C422BE1D26907F41648857D29B3E9CB7D.
+  Static MFC/CRT, native x64, ASLR/high-entropy/NX, Windows-only DLL imports.
+  Catalogs have 730 paired entries; original runtime INIs retain entry hashes.
+- Both guides and product README updated. Scope/plan:
+  docs/OUTLINE_SIDEBAR_IMPLEMENTATION.md. No new dependencies or Git writes.
+  NOT RUN: physical mouse/keyboard/clipboard, mixed-monitor DPI, maximum-quota
+  throughput or injected resource/power failure. Parsing is heuristic; complex
+  syntax/dynamic constructs may be omitted. No embedded HTML-script outline.
+- TST-01/TST-02 PASS: safe clean removed 850 compiler files; reviewed purge
+  retired eleven canonical test/MSBuild outputs. Both checkpoints matched all
+  1,475 protected hashes. Retired 74 expected-hash owned files / 4,384,863 bytes,
+  including the obsolete baseline EXE. artifacts and test-only EXEs are absent.
+  Complete folder is about 18.52 MB, below 20,000,000 bytes. No retention exception
+  or project-external deletion. Compact evidence and two representative images:
+  docs/verification/outline-sidebar-20261027.json.
+
 ## Document editing/comparison F01-F09 (2026-10-26)
 
 - Implemented all nine approved document-focused features. User instructions and

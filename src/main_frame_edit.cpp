@@ -24,7 +24,7 @@ void CMainFrame::RefreshText() {
 }
 
 void CMainFrame::OnTextChanged() {
-    if (!suppress_text_change_ && text_editable_) { text_dirty_ = true; DocumentChanged(); text_stale_ = false; }
+    if (!suppress_text_change_ && text_editable_) { text_dirty_ = true; DocumentChanged(); text_stale_ = false; function_sidebar_.InvalidateSource(); }
 }
 
 bool CMainFrame::ApplyTextEdits() {

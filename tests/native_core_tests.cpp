@@ -136,12 +136,14 @@ void TestDiff(const std::filesystem::path& root) {
 int RunWorkflowExpansionTests(const std::filesystem::path& root);
 int RunLocalizationTests(const std::filesystem::path& root);
 int RunDocumentFocusTests(const std::filesystem::path& root);
+int RunOutlineSidebarTests(const std::filesystem::path& root);
 int wmain(int argc, wchar_t** argv) {
     const auto root = TempDirectory();
     const bool safety_only = argc > 1 && std::wstring(argv[1]) == L"--file-safety";
     const bool async_only = argc > 1 && std::wstring(argv[1]) == L"--async-save";
     const bool merge_only = argc > 1 && std::wstring(argv[1]) == L"--merge-sync";
-    if (argc > 1 && std::wstring(argv[1]) == L"--document-focus") failures += RunDocumentFocusTests(root);
+    if (argc > 1 && std::wstring(argv[1]) == L"--outline-sidebar") failures += RunOutlineSidebarTests(root);
+    else if (argc > 1 && std::wstring(argv[1]) == L"--document-focus") failures += RunDocumentFocusTests(root);
     else if (argc > 1 && std::wstring(argv[1]) == L"--localization") failures += RunLocalizationTests(root);
     else if (argc > 1 && std::wstring(argv[1]) == L"--workflow-expansion") failures += RunWorkflowExpansionTests(root);
     else if (argc > 1 && std::wstring(argv[1]) == L"--search-codec") failures += RunFeatureTests(root);

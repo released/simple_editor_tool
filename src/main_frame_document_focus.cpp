@@ -11,7 +11,7 @@ void CMainFrame::AppendDocumentCommands(CMenu& menu) {
     menu.AppendMenu(MF_STRING,ID_DOCUMENT_FOLDER_REFRESH,L"Refresh selected folder rows");
     menu.AppendMenu(MF_STRING,ID_DOCUMENT_SYNTAX,L"Choose syntax mode...");
     menu.AppendMenu(MF_STRING,ID_DOCUMENT_ASSOCIATIONS,L"Syntax extension associations...");
-    menu.AppendMenu(MF_STRING,ID_DOCUMENT_FUNCTIONS,L"C/C++ function outline...");
+    menu.AppendMenu(MF_STRING,ID_DOCUMENT_FUNCTIONS,L"Function sidebar / refresh");
     menu.AppendMenu(MF_STRING,ID_DOCUMENT_PREVIOUS_FILE,L"Previous differing file");
     menu.AppendMenu(MF_STRING,ID_DOCUMENT_NEXT_FILE,L"Next differing file");
     menu.AppendMenu(MF_STRING,ID_DOCUMENT_PARENT,L"Return to parent folder comparison");

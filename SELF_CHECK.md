@@ -1,5 +1,27 @@
 # Self Check
 
+## Automatic function sidebar (2026-10-27)
+
+- PASS Debug/Release: core --outline-sidebar, --document-focus, --localization;
+  native --outline-sidebar, --code-editor, --text-workflow, --workspace,
+  --localization, --zoom, --async-save and --document-focus. Coverage includes
+  language routing, prototypes/MFC maps, shared-view edits/Undo, stale result
+  rejection, original-line click/Enter navigation, tab widths, Save As and close.
+- PASS: canonical Release; formal --workspace-process (12 assertions), seven
+  CLI exits; native x64/high-entropy ASLR/NX, static runtime and Windows-only DLLs.
+- PASS: both final native sidebar images inspected; strict UTF-8/local guide
+  links; 730 paired stable catalog keys, matching delivery copies and original
+  runtime INI hashes. README remains product-facing.
+- PASS: four-script static clean scan. Unchanged cleanup boundary/fixture
+  evidence remains applicable. Actual safe clean removed 850 compiler files;
+  reviewed purge retired eleven test/MSBuild outputs. All 1,475 protected hashes
+  matched twice. Retired 74 fixed-list expected-hash files / 4,384,863 bytes.
+  TST-01/TST-02 PASS: no artifacts or disposable test EXEs remain; full project
+  is about 18.52 MB, below 20,000,000 bytes, with no external cleanup or exception.
+  Evidence: docs/verification/outline-sidebar-20261027.json.
+- NOT RUN: physical input, mixed DPI, maximum-quota throughput and injected
+  resource/power failure. Supported heuristic subsets are explicit in the guides.
+
 ## Document-focused F01-F09 (2026-10-26)
 
 - PASS: Debug/Release core --document-focus (39 assertions), --localization,

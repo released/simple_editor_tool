@@ -65,4 +65,5 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ItemGroup><ClCompile Include="src\core\syntax_profiles.cpp" /><ClCompile Include="src\core\function_outline.cpp" /><ClCompile Include="src\core\paged_search.cpp" /><ClCompile Include="src\core\review_notes.cpp" /><ClCompile Include="src\core\review_notes_report.cpp" /></ItemGroup>
   <ItemGroup><ClCompile Include="tests\native_document_focus_tests.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\program_outline.cpp" /><ClCompile Include="tests\native_outline_sidebar_tests.cpp" /></ItemGroup>
 </Project>

@@ -56,6 +56,7 @@ public:
 #include "native_workflow_expansion_ui.inc"
 #include "native_localization_ui.inc"
 #include "native_document_focus_ui.inc"
+#include "native_outline_sidebar_ui.inc"
     static int RunCodeEditor(const std::filesystem::path& root) {
         int failures = 0; const auto check = [&](bool ok,const wchar_t* label) { std::wcout << (ok ? L"PASS: " : L"FAIL: ") << label << L'\n'; if (!ok) ++failures; };
         auto* frame = new CMainFrame(false); AfxGetApp()->m_pMainWnd = frame;
@@ -819,6 +820,7 @@ int wmain(int argc, wchar_t** argv) {
         if (argc != 3) { std::wcerr << L"Usage: NativeUiTests.exe --workspace-process <formal-exe>\n"; failures = 1; }
         else failures += RunWorkspaceProcessTests(name, std::filesystem::absolute(argv[2]));
     }
+    else if (mode == L"--outline-sidebar") failures += NativeUiTest::RunOutlineSidebar(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--document-focus") failures += NativeUiTest::RunDocumentFocus(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--localization") failures += NativeUiTest::RunLocalization(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--workflow-expansion") failures += NativeUiTest::RunWorkflowExpansion(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());

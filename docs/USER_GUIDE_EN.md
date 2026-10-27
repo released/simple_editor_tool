@@ -23,10 +23,18 @@ state rules.
   file and its clone. **Syntax extension associations...** stores mappings such
   as `.conf=JSON` or `.inc=C/C++`. Choose Automatic to use mappings again; manual
   overrides travel with explicitly saved workspaces. Text/encoding/Undo remain.
-- **C/C++ function outline...** navigates to recognized definitions in C/C++
-  mode. This bounded heuristic omits some macros, lambdas, constructors and complex
-  declarations; it is not a complete language parser. It reads at most 32 MiB,
-  one million tokens, 1,024 brace levels and 4,096 definitions.
+- Supported code files automatically show **Functions** at the left of **Text**.
+  This includes C/C++ headers and definitions, Python, JavaScript/TypeScript,
+  Java/C#, PowerShell, Shell, CMake and SQL; Batch shows subroutine labels.
+  Click an entry or select it and press Enter to jump. Drag the divider to resize.
+  Each document retains its own list/width; switching tabs updates the visible
+  outline and retains drafts/Undo. Shared views navigate in the active editor.
+  **Review > Function sidebar / refresh** refreshes the nonmodal panel.
+  Edits disable stale navigation and trigger a debounced background refresh of
+  unsaved text. Plain text and JSON/Markdown/XML/HTML/YAML/diff hide the panel.
+  This is heuristic navigation, not a complete parser: complex macros, templates,
+  operators, annotations and dynamic constructs may be omitted. Limits are 32 MiB,
+  4,096 entries, one million tokens and bounded nesting; partial lists are labelled.
 - From a file pair opened by a folder comparison, use **Previous differing
   file**, **Next differing file** and **Return to parent folder comparison**.
   Navigation follows visible parent order without wrapping; existing child drafts

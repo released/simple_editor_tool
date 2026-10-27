@@ -17,6 +17,13 @@ This is a native Windows MFC text, hexadecimal, and binary comparison editor.
 
 ## Local Rules
 
+- Automatic function sidebar: docs/OUTLINE_SIDEBAR_IMPLEMENTATION.md and
+  docs/DOCUMENT_EDITING_COMPARISON.md. Keep ownership per normal Text session,
+  independent cancellable snapshots, debounce and path/revision/generation/
+  language guards. Never navigate stale rows, translate symbol names or change
+  source buffers while refreshing. Header declarations and supported language
+  subsets remain bounded; no interpreter/plugin dependency.
+
 - Document-focused scope F01-F09 is defined in
   docs/DOCUMENT_FOCUS_IMPLEMENTATION.md; user operations and supported limits are
   in docs/DOCUMENT_EDITING_COMPARISON.md and both user guides. Keep independent

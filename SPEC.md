@@ -2,6 +2,15 @@
 
 ## Current Scope
 
+- Supported code documents automatically show a left function sidebar in Text,
+  with per-document entries/divider width and click/Enter navigation into the
+  active shared view. Edits/Undo refresh unsaved snapshots after idle debounce;
+  stale rows cannot navigate. C/C++ includes header declarations and excludes MFC
+  map macros; Python, JS/TS, Java/C#, PowerShell, Shell, CMake, SQL and Batch labels
+  use bounded native heuristics. Other pages/data documents retain their layout.
+  Subsets/limits: docs/DOCUMENT_EDITING_COMPARISON.md. The Review command refreshes
+  the panel; no modal function dialog is required.
+
 - Document editing/comparison: independent Left/Right/Base decoding, original-line
   graphical anchors, selected folder/subtree refresh with explicit older-row
   state, selection/Unicode-clipboard comparison in a new memory tab, supported

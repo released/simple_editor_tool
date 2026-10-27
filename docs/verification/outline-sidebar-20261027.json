@@ -1,0 +1,551 @@
+﻿{
+    "date":  "2026-10-27",
+    "scope":  "Automatic per-document function sidebar, including C/C++ headers and confirmed additional programming languages",
+    "functional_result":  "PASS",
+    "delivery_result":  "PASS",
+    "cleanup_result":  "PASS",
+    "baseline":  {
+                     "date":  "2026-10-27",
+                     "project_bytes":  18280638,
+                     "exe_bytes":  3882496,
+                     "exe_sha256":  "97E9E3DA7A3A5AF164CBA10281ECF8F56FA6E6336DC706D2FC24D7BF3FF17B84",
+                     "ini":  [
+                                 {
+                                     "name":  "lang_en.ini",
+                                     "bytes":  59421,
+                                     "sha256":  "3C4BF8CEFF59BEFDAE97215B5F96A700F7951EBCA4297B2D89A95D44243C1944"
+                                 },
+                                 {
+                                     "name":  "lang_tw.ini",
+                                     "bytes":  61050,
+                                     "sha256":  "B018C05BB39F09EBCA44F2562C1BCE98CF9BCFF3C853C671E8684107CC4A4C57"
+                                 },
+                                 {
+                                     "name":  "simple_editor_tool.ini",
+                                     "bytes":  1198,
+                                     "sha256":  "3B79F701DE47B9C7DE5551FC94EF97806AFEDBFD8D06A4CC5FF514125E57CF10"
+                                 },
+                                 {
+                                     "name":  "test.ini",
+                                     "bytes":  191,
+                                     "sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91"
+                                 },
+                                 {
+                                     "name":  "ui_smoke.ini",
+                                     "bytes":  262,
+                                     "sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                                 }
+                             ]
+                 },
+    "behavior":  [
+                     "Automatic left sidebar on supported normal Text sessions; independent width, list and snapshot per document",
+                     "Click/Enter original-line navigation into the active shared view; no document mutation or implicit Save",
+                     "Debounced unsaved-text refresh, immediate stale-row invalidation and path/revision/generation/language adoption guards",
+                     "C/C++ declarations/definitions and MFC map-macro exclusion; actual hex_view.cpp example tested",
+                     "Native Python, JS/TS, Java/C#, PowerShell, Shell, CMake, SQL and Batch-label subsets",
+                     "Hex/Compare/data pages retain their layout; plain syntax hides the panel; Review refreshes without a modal function dialog"
+                 ],
+    "tests":  [
+                  {
+                      "label":  "core-document-focus-debug",
+                      "executable":  "artifacts/tests/NativeCoreTests.exe",
+                      "binary_sha256":  "FB1944B6EBD102DA4A8F764E3F8BA473DD879B6951F1318861033BD5D571C6D6",
+                      "arguments":  [
+                                        "--document-focus"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  40,
+                      "log_sha256":  "A42EC0BC327C3BCCC8E9C3E90243D272FE2BD1D62CF161FCE5195F41B132C641"
+                  },
+                  {
+                      "label":  "core-document-focus-release",
+                      "executable":  "artifacts/tests/NativeCoreTests.exe",
+                      "binary_sha256":  "A3238C952FFCAE022FC0B353DA3A227C700B1467277F9F4E8DE8855D02C50AEF",
+                      "arguments":  [
+                                        "--document-focus"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  40,
+                      "log_sha256":  "A42EC0BC327C3BCCC8E9C3E90243D272FE2BD1D62CF161FCE5195F41B132C641"
+                  },
+                  {
+                      "label":  "core-localization-debug",
+                      "executable":  "artifacts/tests/NativeCoreTests.exe",
+                      "binary_sha256":  "FB1944B6EBD102DA4A8F764E3F8BA473DD879B6951F1318861033BD5D571C6D6",
+                      "arguments":  [
+                                        "--localization"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  21,
+                      "log_sha256":  "FBBB2B7C71124E5745477166569F2B2333011FDA692E5A44617F7A2CAA6682D0"
+                  },
+                  {
+                      "label":  "core-localization-release",
+                      "executable":  "artifacts/tests/NativeCoreTests.exe",
+                      "binary_sha256":  "A3238C952FFCAE022FC0B353DA3A227C700B1467277F9F4E8DE8855D02C50AEF",
+                      "arguments":  [
+                                        "--localization"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  21,
+                      "log_sha256":  "FBBB2B7C71124E5745477166569F2B2333011FDA692E5A44617F7A2CAA6682D0"
+                  },
+                  {
+                      "label":  "core-outline-sidebar-debug",
+                      "executable":  "artifacts/tests/NativeCoreTests.exe",
+                      "binary_sha256":  "FB1944B6EBD102DA4A8F764E3F8BA473DD879B6951F1318861033BD5D571C6D6",
+                      "arguments":  [
+                                        "--outline-sidebar"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  24,
+                      "log_sha256":  "9D1815B709B4372E3C01DBD02D2CF00C8A4DC230D049F3A04A9DAAD90D45AEF3"
+                  },
+                  {
+                      "label":  "core-outline-sidebar-release",
+                      "executable":  "artifacts/tests/NativeCoreTests.exe",
+                      "binary_sha256":  "A3238C952FFCAE022FC0B353DA3A227C700B1467277F9F4E8DE8855D02C50AEF",
+                      "arguments":  [
+                                        "--outline-sidebar"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  24,
+                      "log_sha256":  "9D1815B709B4372E3C01DBD02D2CF00C8A4DC230D049F3A04A9DAAD90D45AEF3"
+                  },
+                  {
+                      "label":  "formal-workspace-process",
+                      "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                      "binary_sha256":  "C7F30CB6AAECAD3D7C5E80AA322B2C3E523ECC56A27AC1D6DD3DEA596E1D0F8B",
+                      "arguments":  [
+                                        "--workspace-process",
+                                        "build/SimpleEditorTool.exe"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  13,
+                      "log_sha256":  "FC9A91CE308421A1D4A01E2CABD0F5A166EB523273FDB067243251281F3516F9"
+                  },
+                  {
+                      "label":  "ui-async-save-debug",
+                      "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                      "binary_sha256":  "83DC2C8C0F58536D5AB0EEC95BD1B3FD991A7484F603ABE296AB76F65014D60B",
+                      "arguments":  [
+                                        "--async-save"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  33,
+                      "log_sha256":  "BCA1D551A6729454AF826D439CCEE0BC8EDF80A02F557AE1C3F9E15FFD08A627"
+                  },
+                  {
+                      "label":  "ui-async-save-release",
+                      "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                      "binary_sha256":  "C7F30CB6AAECAD3D7C5E80AA322B2C3E523ECC56A27AC1D6DD3DEA596E1D0F8B",
+                      "arguments":  [
+                                        "--async-save"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  33,
+                      "log_sha256":  "BCA1D551A6729454AF826D439CCEE0BC8EDF80A02F557AE1C3F9E15FFD08A627"
+                  },
+                  {
+                      "label":  "ui-code-editor-debug",
+                      "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                      "binary_sha256":  "83DC2C8C0F58536D5AB0EEC95BD1B3FD991A7484F603ABE296AB76F65014D60B",
+                      "arguments":  [
+                                        "--code-editor"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  27,
+                      "log_sha256":  "6186C4E0C580EAD39BFCCB4221038CBEF9A238B1C15593B31D2E80587A472BCB"
+                  },
+                  {
+                      "label":  "ui-code-editor-release",
+                      "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                      "binary_sha256":  "C7F30CB6AAECAD3D7C5E80AA322B2C3E523ECC56A27AC1D6DD3DEA596E1D0F8B",
+                      "arguments":  [
+                                        "--code-editor"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  27,
+                      "log_sha256":  "6186C4E0C580EAD39BFCCB4221038CBEF9A238B1C15593B31D2E80587A472BCB"
+                  },
+                  {
+                      "label":  "ui-document-focus-debug",
+                      "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                      "binary_sha256":  "83DC2C8C0F58536D5AB0EEC95BD1B3FD991A7484F603ABE296AB76F65014D60B",
+                      "arguments":  [
+                                        "--document-focus"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  43,
+                      "log_sha256":  "FBE593244576D9CD379D98518FA338C0D4C733CF79BAC9407F0A609133098C0C"
+                  },
+                  {
+                      "label":  "ui-document-focus-release",
+                      "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                      "binary_sha256":  "C7F30CB6AAECAD3D7C5E80AA322B2C3E523ECC56A27AC1D6DD3DEA596E1D0F8B",
+                      "arguments":  [
+                                        "--document-focus"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  43,
+                      "log_sha256":  "FBE593244576D9CD379D98518FA338C0D4C733CF79BAC9407F0A609133098C0C"
+                  },
+                  {
+                      "label":  "ui-localization-debug",
+                      "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                      "binary_sha256":  "83DC2C8C0F58536D5AB0EEC95BD1B3FD991A7484F603ABE296AB76F65014D60B",
+                      "arguments":  [
+                                        "--localization"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  18,
+                      "log_sha256":  "E9067FA42F515ABF9CAE3B56F850B0256E708DAA9D00F29047F81891CA634471"
+                  },
+                  {
+                      "label":  "ui-localization-release",
+                      "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                      "binary_sha256":  "C7F30CB6AAECAD3D7C5E80AA322B2C3E523ECC56A27AC1D6DD3DEA596E1D0F8B",
+                      "arguments":  [
+                                        "--localization"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  18,
+                      "log_sha256":  "E9067FA42F515ABF9CAE3B56F850B0256E708DAA9D00F29047F81891CA634471"
+                  },
+                  {
+                      "label":  "ui-outline-sidebar-debug",
+                      "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                      "binary_sha256":  "3EE3F27826B68E6799288806C5F9F64652787EC6E622E65C40AE78BE9FC459AB",
+                      "arguments":  [
+                                        "--outline-sidebar"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  45,
+                      "log_sha256":  "6AEB158DF559E1D5E3D78EF3FF7FE5CC54FA4DDC1DB4975D9C123F632FF01ED6"
+                  },
+                  {
+                      "label":  "ui-outline-sidebar-release",
+                      "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                      "binary_sha256":  "C7F30CB6AAECAD3D7C5E80AA322B2C3E523ECC56A27AC1D6DD3DEA596E1D0F8B",
+                      "arguments":  [
+                                        "--outline-sidebar",
+                                        "artifacts/outline-sidebar-20261027/screenshots"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  47,
+                      "log_sha256":  "1074DDB3785040146CEF3A123A1F35F18D60E2FCD4D71F59FB24BEB28F857B85"
+                  },
+                  {
+                      "label":  "ui-text-workflow-debug",
+                      "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                      "binary_sha256":  "83DC2C8C0F58536D5AB0EEC95BD1B3FD991A7484F603ABE296AB76F65014D60B",
+                      "arguments":  [
+                                        "--text-workflow"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  47,
+                      "log_sha256":  "F38340927E5C2AADB7D68E6D0F78D1C89D210E8BB2419E6C32D9A36B611D3121"
+                  },
+                  {
+                      "label":  "ui-text-workflow-release",
+                      "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                      "binary_sha256":  "C7F30CB6AAECAD3D7C5E80AA322B2C3E523ECC56A27AC1D6DD3DEA596E1D0F8B",
+                      "arguments":  [
+                                        "--text-workflow"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  47,
+                      "log_sha256":  "F38340927E5C2AADB7D68E6D0F78D1C89D210E8BB2419E6C32D9A36B611D3121"
+                  },
+                  {
+                      "label":  "ui-workspace-debug",
+                      "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                      "binary_sha256":  "83DC2C8C0F58536D5AB0EEC95BD1B3FD991A7484F603ABE296AB76F65014D60B",
+                      "arguments":  [
+                                        "--workspace"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  36,
+                      "log_sha256":  "199616E7854165FA509717D67B8A75AB3C9FC1841E00ACD4AB1B91690354C11E"
+                  },
+                  {
+                      "label":  "ui-workspace-release",
+                      "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                      "binary_sha256":  "C7F30CB6AAECAD3D7C5E80AA322B2C3E523ECC56A27AC1D6DD3DEA596E1D0F8B",
+                      "arguments":  [
+                                        "--workspace"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  36,
+                      "log_sha256":  "199616E7854165FA509717D67B8A75AB3C9FC1841E00ACD4AB1B91690354C11E"
+                  },
+                  {
+                      "label":  "ui-zoom-debug",
+                      "executable":  "artifacts/tests/Debug/NativeUiTests.exe",
+                      "binary_sha256":  "83DC2C8C0F58536D5AB0EEC95BD1B3FD991A7484F603ABE296AB76F65014D60B",
+                      "arguments":  [
+                                        "--zoom"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  52,
+                      "log_sha256":  "FC852AE1D1494305BF619DEDDCA63A1AE34A7ED86ACC849AD4CC0FA02BA2D179"
+                  },
+                  {
+                      "label":  "ui-zoom-release",
+                      "executable":  "artifacts/tests/Release/NativeUiTests.exe",
+                      "binary_sha256":  "C7F30CB6AAECAD3D7C5E80AA322B2C3E523ECC56A27AC1D6DD3DEA596E1D0F8B",
+                      "arguments":  [
+                                        "--zoom"
+                                    ],
+                      "exit_code":  0,
+                      "pass_lines":  52,
+                      "log_sha256":  "FC852AE1D1494305BF619DEDDCA63A1AE34A7ED86ACC849AD4CC0FA02BA2D179"
+                  }
+              ],
+    "test_selection":  "Three core and eight native UI modes per configuration, selected for parser, routing, frame layout/lifecycle, workspace, language, clone, zoom and Save. Latest extra UI test changes only add alias checks; unchanged earlier caller evidence retains its original test-binary hashes.",
+    "formal_cli":  {
+                       "log_sha256":  "3C059A27B60B526391977E21C8B3CD1BA0B3F4CBFB4DBBC4A8E865F4085F5896",
+                       "result":  "PASS",
+                       "exit_cases":  7
+                   },
+    "initial_ui_diagnostic":  {
+                                  "fix":  "Retain current models when syntax configuration has not changed source identity or language; wait for current model in tests and verify clone edit/Undo/Enter",
+                                  "log_sha256":  "481C9D184BA99A8B1F4C38E538F8346F001404002CF28A43B5AF0AF026113C55",
+                                  "final_result":  "PASS Debug/Release",
+                                  "failure":  "First test attempted clone navigation while an unnecessary clone-syntax refresh was pending"
+                              },
+    "pe":  {
+               "machine":  "0x8664",
+               "native":  true,
+               "aslr":  true,
+               "high_entropy_va":  true,
+               "nx":  true,
+               "imports":  [
+                               "CRYPT32.dll",
+                               "bcrypt.dll",
+                               "ole32.dll",
+                               "KERNEL32.dll",
+                               "USER32.dll",
+                               "GDI32.dll",
+                               "ADVAPI32.dll",
+                               "SHELL32.dll",
+                               "COMCTL32.dll",
+                               "UxTheme.dll",
+                               "OLEAUT32.dll",
+                               "OLEACC.dll",
+                               "IMM32.dll",
+                               "SHLWAPI.dll"
+                           ],
+               "bytes":  3932160,
+               "sha256":  "BFB0AE4F78C86D2E1DFBEC06B3682B3C422BE1D26907F41648857D29B3E9CB7D"
+           },
+    "delivery":  [
+                     {
+                         "path":  "build/lang_en.ini",
+                         "bytes":  60532,
+                         "sha256":  "DB1C1D2291D4A0940B1FB06AC98815CCC865707C75FB02D175CB872AE1BCD301"
+                     },
+                     {
+                         "path":  "build/lang_tw.ini",
+                         "bytes":  62137,
+                         "sha256":  "34398572F3E228A883ADBEED982163ADAD9CE7BDC10F7243A410503DDDD08541"
+                     },
+                     {
+                         "path":  "build/SimpleEditorTool.exe",
+                         "bytes":  3932160,
+                         "sha256":  "BFB0AE4F78C86D2E1DFBEC06B3682B3C422BE1D26907F41648857D29B3E9CB7D"
+                     },
+                     {
+                         "path":  "build/simple_editor_tool.ini",
+                         "bytes":  1198,
+                         "sha256":  "3B79F701DE47B9C7DE5551FC94EF97806AFEDBFD8D06A4CC5FF514125E57CF10"
+                     },
+                     {
+                         "path":  "build/test.ini",
+                         "bytes":  191,
+                         "sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91"
+                     },
+                     {
+                         "path":  "build/ui_smoke.ini",
+                         "bytes":  262,
+                         "sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                     }
+                 ],
+    "catalog_entries":  730,
+    "screenshots":  [
+                        {
+                            "path":  "docs/verification/outline-sidebar-20261027/header-functions.png",
+                            "bytes":  45036,
+                            "sha256":  "B62676694EAE94E58391E38C0C77EE797F343FEB869AD79429EAE49DEE143AD7",
+                            "visual_qa":  "PASS"
+                        },
+                        {
+                            "path":  "docs/verification/outline-sidebar-20261027/typescript-functions.png",
+                            "bytes":  48308,
+                            "sha256":  "008299E7A077B52613468D417D7393416BD5BCAF66A6A064C1E0BAB2E2B971C1",
+                            "visual_qa":  "PASS"
+                        }
+                    ],
+    "source_inputs":  [
+                          {
+                              "path":  "src/core/function_outline.h",
+                              "sha256":  "3538C6E349238FBFB9E6193F9E02DF1B44B891D534952CF8F601ACB3BAE8012F"
+                          },
+                          {
+                              "path":  "src/core/function_outline.cpp",
+                              "sha256":  "C9CCBD51DCE2C7D58E5CB34E8E40D42BE6BDC9BAB72924C6CB79F0F14B6CD026"
+                          },
+                          {
+                              "path":  "src/core/program_outline.cpp",
+                              "sha256":  "A624947C130C882AE4F8C18CCA8CC712906966324C16E5B62EA988747384D656"
+                          },
+                          {
+                              "path":  "src/ui/function_sidebar.h",
+                              "sha256":  "1B7B2D9A79938AA35026026BFD384F3F8D4CF69161B5E8EC974D71226BFC34D3"
+                          },
+                          {
+                              "path":  "src/ui/function_sidebar.cpp",
+                              "sha256":  "F945F6A77D55101114D39F8F7716193634CDF71099FBCC3810862AC6FE4E31A8"
+                          },
+                          {
+                              "path":  "src/ui/code_editor.cpp",
+                              "sha256":  "9BC05B1EF664B90ED3F974A97906053B03884F5A4C3191C8BF13D694B002025C"
+                          },
+                          {
+                              "path":  "src/main_frame.h",
+                              "sha256":  "283236EA0908BF05CB70C858FC086CC966BB9F6F87EB685711A9C2A6FDC10D78"
+                          },
+                          {
+                              "path":  "src/main_frame.cpp",
+                              "sha256":  "41ADC12F33AD659736D452B572A8BEF4BAEE982EEAD946C4ACE6EF78CF13CDC0"
+                          },
+                          {
+                              "path":  "src/main_frame_compare.cpp",
+                              "sha256":  "BC233467AA0E9373C94A74056D2EC4AC5FC87258E41FE1021C321B1B3181E3DE"
+                          },
+                          {
+                              "path":  "src/main_frame_edit.cpp",
+                              "sha256":  "C32E9585CACC040230F4EC941C12C2A97C13D623EFB9AD3E6F162737740520F9"
+                          },
+                          {
+                              "path":  "src/main_frame_syntax.cpp",
+                              "sha256":  "9FF4827D99B05499F9CB92CE16846FD40BC8E03B480533AD4715B87B691EC315"
+                          },
+                          {
+                              "path":  "src/main_frame_function_sidebar.cpp",
+                              "sha256":  "3CCF5B0D9E13D3686E6996278C839FF0E99FEB470E1A9DC8546ECB57779D6A27"
+                          },
+                          {
+                              "path":  "src/main_frame_text_review.cpp",
+                              "sha256":  "46B9947BB53D36203CCF77CB317A6A577CB657D7E9FAA7225AF4B837EF71E18C"
+                          },
+                          {
+                              "path":  "src/main_frame_document_focus.cpp",
+                              "sha256":  "AED8BFD3D7CC65D67857F2348B79C19957FD3B6015CDEB3D63A4C2CC35667838"
+                          },
+                          {
+                              "path":  "src/resource.h",
+                              "sha256":  "F09D980D8BB491E786DB3BD42615808ABEF61F92DAAF197FE4514407D0A5273B"
+                          },
+                          {
+                              "path":  "tests/native_outline_sidebar_tests.cpp",
+                              "sha256":  "3948689179D7937BA1D686081CB58D413201BDE5BAC81163F6AB6D94515B15D3"
+                          },
+                          {
+                              "path":  "tests/native_outline_sidebar_ui.inc",
+                              "sha256":  "22BFF389AEF2C11C67A0BD0FFD522CE5D1BC14A9FAA43754F2573908F461782B"
+                          },
+                          {
+                              "path":  "tests/native_core_tests.cpp",
+                              "sha256":  "2FEF48EF160DF503D937F9BC398DC90B9CE40AE78728C07AD92482BFA06458BD"
+                          },
+                          {
+                              "path":  "tests/native_ui_tests.cpp",
+                              "sha256":  "1173D78BB17EE158E8A9782AB80C95F318424435EC6581DDFC38E879176FA499"
+                          },
+                          {
+                              "path":  "NativeCoreTests.vcxproj",
+                              "sha256":  "5DB8CE855A2E449CDF53B37D8AF083676FE6B1407890BCCD713EB8CC7B17EBC5"
+                          },
+                          {
+                              "path":  "NativeUiTests.vcxproj",
+                              "sha256":  "82F964797BEEDA50739234AAA49153E0B1C14D63E520F44144ECF3C4DDEBE994"
+                          },
+                          {
+                              "path":  "SimpleEditorTool.vcxproj",
+                              "sha256":  "992D71E11722A1D0CB72A9B2D2720444C3C55DF97DE67A9E49E7A63E68224D4A"
+                          },
+                          {
+                              "path":  "NativeEditor.vcxproj",
+                              "sha256":  "FEE6685E8FBBAF1DB137460E77C47D699F38E3ECCFCA9B5CF54291966EB53854"
+                          },
+                          {
+                              "path":  "src/res/lang_en.ini",
+                              "sha256":  "DB1C1D2291D4A0940B1FB06AC98815CCC865707C75FB02D175CB872AE1BCD301"
+                          },
+                          {
+                              "path":  "src/res/lang_tw.ini",
+                              "sha256":  "34398572F3E228A883ADBEED982163ADAD9CE7BDC10F7243A410503DDDD08541"
+                          }
+                      ],
+    "documents":  {
+                      "value":  [
+                                    {
+                                        "path":  "README.md",
+                                        "utf8":  "PASS",
+                                        "links":  "PASS",
+                                        "sha256":  "2879782227B629305F1E78060C698F43B7BD763A84F9273A7549DED2131DA6D6"
+                                    },
+                                    {
+                                        "path":  "docs/USER_GUIDE.md",
+                                        "utf8":  "PASS",
+                                        "links":  "PASS",
+                                        "sha256":  "630DC0E406EE5A6E51D5509986351A6EFC315FDEBE230325ECBF17D32D8CEA17"
+                                    },
+                                    {
+                                        "path":  "docs/USER_GUIDE_EN.md",
+                                        "utf8":  "PASS",
+                                        "links":  "PASS",
+                                        "sha256":  "7536FAF90E356798D1A264BEC1D8C4ECAE72AE202C18F55923B45C3F87ED3673"
+                                    },
+                                    {
+                                        "path":  "docs/DOCUMENT_EDITING_COMPARISON.md",
+                                        "utf8":  "PASS",
+                                        "links":  "PASS",
+                                        "sha256":  "91155B350C6CA631A3EDAEC24779D38888F07680366ADF8E710014BEEDA30ABA"
+                                    }
+                                ],
+                      "Count":  4
+                  },
+    "reproduction":  "Build NativeCoreTests.vcxproj and NativeUiTests.vcxproj x64 Debug/Release; run --outline-sidebar and recorded affected modes. Canonical product: scripts/build_release.bat. Formal process: NativeUiTests --workspace-process \u003cformal-exe\u003e; CLI: scripts/verify_cli.ps1. Test TEMP/TMP stays under the owned project run and is restored in finally.",
+    "cleanup":  {
+                    "static_scan":  "PASS four scripts",
+                    "boundary_fixture":  "Reused unchanged project-cleanup-boundary-20261026.json",
+                    "safe_clean":  "scripts/clean.ps1; 850 allowlisted compiler files removed",
+                    "recognized_purge":  "scripts/purge_artifacts.ps1 preview then -Apply; 11 canonical test/MSBuild outputs retired",
+                    "protected_files_verified_twice":  1475,
+                    "preservation":  "PASS before and after fixed expected-hash owned retirement",
+                    "clean_log_sha256":  "25EA96E3B40F268437006230B8CA72B117930A1E4E297C4128B3038F565196EF",
+                    "purge_log_sha256":  "97A3A2EC778E62564347F47BA11DBC1597E11EA872C5E85B2FDA2DDF97B2D307",
+                    "owned_retirement_files":  74,
+                    "owned_retirement_bytes":  4384863,
+                    "owned_manifest_sha256":  "DA66710AAEA24D2760A3410BFD2A9DAEF752829AD29BE0CD0F754461D3D9E277",
+                    "project_bytes_at_entry":  18280638,
+                    "project_bytes_before_clean":  1691289039,
+                    "artifact_bytes_at_cleanup_start":  1672773874,
+                    "all_initial_artifact_bytes_retired":  true,
+                    "retained_artifact_bytes":  0,
+                    "artifact_directory_absent":  true,
+                    "test_only_executables_absent":  true,
+                    "external_deletions":  0,
+                    "retention_exception":  "none",
+                    "status":  "PASS"
+                },
+    "limitations":  [
+                        "Bounded heuristics, not full AST or preprocessing. Complex macros/templates/operators/annotations, dynamic syntax, computed names, template-string expressions and complex here documents can be omitted or interpreted imperfectly.",
+                        "No embedded HTML script outline or function sidebar for data/document formats. Limits: 32 MiB native editor text, 4096 entries, one million tokens, bounded nesting.",
+                        "Physical mouse/keyboard/clipboard, mixed-monitor DPI, maximum-quota throughput and injected resource/power failure were not tested."
+                    ],
+    "publication":  "No commit, push or GitHub write",
+    "project_bytes":  18517556
+}

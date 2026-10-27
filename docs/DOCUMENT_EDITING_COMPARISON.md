@@ -14,7 +14,7 @@ sources remain read only. Saving a merge, review metadata or report is explicit.
 | Compare selection with clipboard | Compare the current Text selection against Unicode clipboard text in a new pasted-text tab. Existing tabs and edits are retained. |
 | Choose syntax mode | Override automatic highlighting for a normal file's Text view and shared clone. Automatic returns to extension mappings; Plain text disables the lexer. |
 | Syntax extension associations | Enter one `extension=language` per line, for example `.conf=JSON` and `.inc=C/C++`. Preferences remember the mappings. A document override takes priority. |
-| C/C++ function outline | With C/C++ highlighting selected, show recognized function definitions and navigate to the original line. |
+| Function sidebar / refresh | Supported code files automatically show a function list at the left of Text. The command refreshes that panel without a modal dialog. |
 | Previous / Next differing file | From a folder child comparison, follow the parent's current visible order. Existing paired tabs retain their output drafts. |
 | Return to parent folder comparison | Activate the folder tab that opened this pair. |
 | Annotate selected difference | Add a note and optional Reviewed state to a changed two-way/three-way text block. Review state does not resolve merge conflicts. |
@@ -47,12 +47,39 @@ are portable preferences for normal file editors. Supported modes are C/C++,
 Python, JSON, HTML/XML, PowerShell, Markdown, SQL, YAML, Shell, Batch, Diff/Patch,
 CMake and Plain text. These reuse the bundled lexers and do not load plugins.
 
-The C/C++ outline is a bounded heuristic, not a compiler or complete language
-parser. It skips comments, strings, directives, prototypes and function bodies;
-macros, lambdas, complex constructors/operators/templates and conditional code
-may be omitted or interpreted imperfectly. Up to 32 MiB of editor input, 4,096
-definitions, one million tokens and 1,024 brace levels are considered. Edits
-invalidate the captured result before navigation.
+Supported code files automatically show **Functions** at the left of Text.
+Click an entry or select it and press Enter to jump to its original line. Drag
+the vertical divider to resize the panel. Every document owns its list and width;
+switching workspace tabs shows that document's functions and preserves drafts,
+caret and Undo. Shared Text views use one list and navigate in the active view.
+Hex/Compare pages and ordinary data/documents retain their own layout. Use
+**Review > Function sidebar / refresh** to refresh the panel.
+
+| Source type | Recognized subset |
+| --- | --- |
+| C/C++ and headers | Definitions and declarations, ordinary constructors/destructors, inline and pure/default members. MFC message-map macros are excluded. Header extensions include `.h`, `.hh`, `.hpp`, `.hxx`, `.h++`, `.inl`, `.ipp` and `.tpp`. |
+| Python | Named `def` / `async def`, including methods and nested definitions. |
+| JavaScript / TypeScript | Named functions, common assigned arrow functions, methods and interface/class signatures; `.js`, `.jsx`, `.mjs`, `.cjs`, `.ts`, `.tsx`. |
+| Java / C# | Ordinary methods, constructors and typed declarations. |
+| PowerShell / Shell | Function/filter blocks; common shell `name() {}` / `function name` forms. |
+| CMake | `function` and `macro` declarations. |
+| SQL | Unquoted routine names in `CREATE [OR REPLACE / OR ALTER] FUNCTION/PROCEDURE/PROC`. |
+| Batch | Subroutine labels, excluding `::` comments and `:eof`. |
+
+Syntax overrides/associations determine the parser. Plain text disables the
+panel. JSON, Markdown, XML/HTML, YAML and diff formats have no function sidebar;
+embedded HTML scripts are not analyzed. Edits invalidate old navigation
+immediately, then refresh after a brief idle delay using the unsaved editor
+snapshot. Completed jobs are accepted only for the same path, revision,
+generation and language. Closing a file cancels/joins its own analysis.
+
+These are bounded heuristics, not full compilers/ASTs or preprocessing engines.
+Complex decorators/attributes, operators/templates, macro-generated functions,
+conditional code, dynamic definitions, computed property names, template-string
+expressions and complex here documents may be omitted or interpreted imperfectly.
+At most 32 MiB of native editor text, 4,096 entries and one million tokens are
+considered; C/C++ nesting and matched parameter nesting are capped at 1,024.
+Partial results are explicitly labelled. Analysis never rewrites or saves text.
 
 The large-text pager has its own **Find...** and **Find next** buttons, `Ctrl+F`
 and `F3`. It streams exact, case-sensitive literal searches in UTF-8 or UTF-16

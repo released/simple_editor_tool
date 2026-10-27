@@ -1,4 +1,5 @@
 #include "code_editor.h"
+#include "../core/function_outline.h"
 #include <algorithm>
 #include <filesystem>
 #include <vector>
@@ -85,10 +86,10 @@ void CCodeEditor::SetTheme(unsigned theme) {
 }
 void CCodeEditor::ConfigureLanguage(const std::wstring& path,const std::wstring& mode) {
     if (!GetSafeHwnd()) return; auto ext = std::filesystem::path(path).extension().wstring(); for (auto& c : ext) c = static_cast<wchar_t>(towlower(c)); lexer_.clear();
-    if (ext == L".c" || ext == L".cpp" || ext == L".h" || ext == L".hpp" || ext == L".cxx" || ext == L".cs" || ext == L".js" || ext == L".ts" || ext == L".java") lexer_ = "cpp";
-    else if (ext == L".py") lexer_ = "python"; else if (ext == L".json") lexer_ = "json"; else if (ext == L".html" || ext == L".xml" || ext == L".htm") lexer_ = "hypertext";
-    else if (ext == L".ps1") lexer_ = "powershell"; else if (ext == L".md" || ext == L".markdown" || ext == L".mdown") lexer_ = "markdown"; else if (ext == L".sql") lexer_ = "sql";
-    else if (ext == L".yaml" || ext == L".yml") lexer_ = "yaml"; else if (ext == L".sh") lexer_ = "bash"; else if (ext == L".bat" || ext == L".cmd") lexer_ = "batch"; else if (ext == L".diff" || ext == L".patch") lexer_ = "diff"; else if (ext == L".cmake" || std::filesystem::path(path).filename() == L"CMakeLists.txt") lexer_ = "cmake";
+    if (simple_editor::core::CppOutlinePath(path) || ext == L".cs" || ext == L".js" || ext == L".jsx" || ext == L".mjs" || ext == L".cjs" || ext == L".ts" || ext == L".tsx" || ext == L".java") lexer_ = "cpp";
+    else if (ext == L".py" || ext == L".pyw" || ext == L".pyi") lexer_ = "python"; else if (ext == L".json") lexer_ = "json"; else if (ext == L".html" || ext == L".xml" || ext == L".htm") lexer_ = "hypertext";
+    else if (ext == L".ps1" || ext == L".psm1") lexer_ = "powershell"; else if (ext == L".md" || ext == L".markdown" || ext == L".mdown") lexer_ = "markdown"; else if (ext == L".sql") lexer_ = "sql";
+    else if (ext == L".yaml" || ext == L".yml") lexer_ = "yaml"; else if (ext == L".sh" || ext == L".bash" || ext == L".zsh" || ext == L".ksh") lexer_ = "bash"; else if (ext == L".bat" || ext == L".cmd") lexer_ = "batch"; else if (ext == L".diff" || ext == L".patch") lexer_ = "diff"; else if (ext == L".cmake" || std::filesystem::path(path).filename() == L"CMakeLists.txt") lexer_ = "cmake";
     if (!mode.empty()) lexer_ = mode == L"text" ? "" : ToUtf8(mode);
     Call(SCI_SETILEXER,0,reinterpret_cast<LPARAM>(EditorCreateLexer(lexer_.c_str())));
     Call(SCI_SETPROPERTY,reinterpret_cast<WPARAM>("fold"),reinterpret_cast<LPARAM>("1"));
