@@ -1,4 +1,5 @@
 #include "main_frame.h"
+#include "ui/ui_font.h"
 #include "resource.h"
 #include "ui/localization.h"
 #include "workspace_frame.h"
@@ -210,6 +211,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT create) {
     differences_.InsertColumn(0, L"#", LVCFMT_RIGHT, 70); differences_.InsertColumn(1, L"Left address", LVCFMT_LEFT, 145); differences_.InsertColumn(2, L"Left", LVCFMT_LEFT, 70); differences_.InsertColumn(3, L"Right address", LVCFMT_LEFT, 145); differences_.InsertColumn(4, L"Right", LVCFMT_LEFT, 70);
     status_.Create(this); UINT indicators[] = { ID_SEPARATOR, ID_VIEW_ZOOM_STATUS }; status_.SetIndicators(indicators, 2);
     status_.SetPaneInfo(0, ID_SEPARATOR, SBPS_STRETCH | SBPS_NOBORDERS, 0);
+    if (!simple_editor::ui::CreateUiFont(ui_font_, *this)) return -1;
+    simple_editor::ui::BindUiFont(*this, ui_font_, {500, 503, 506, 507, 525, AFX_IDW_STATUS_BAR,
+        IDC_COMPARE_LEFT_PATH, IDC_COMPARE_RIGHT_PATH, IDC_COMPARE_BASE_PATH, IDC_COMPARE_MODE,
+        ID_COMPARE_BROWSE_LEFT, ID_COMPARE_BROWSE_RIGHT, ID_COMPARE_BROWSE_BASE, ID_COMPARE_RUN, ID_COMPARE_SWAP});
+    if (auto* header = differences_.GetHeaderCtrl()) header->SetFont(&ui_font_, FALSE);
     InitializeZoom();
     DragAcceptFiles(TRUE); hex_.SetDocument(&document_); hex_.bookmarks = &bookmarks_; hex_.modified_ranges = &modified_ranges_; compare_left_.SetDocument(&compare_left_document_);
     search_dialog_.execute = [this](const SearchRequest& request) { ExecuteSearch(request); };

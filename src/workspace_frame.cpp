@@ -2,6 +2,7 @@
 #include "main_frame.h"
 #include "resource.h"
 #include "ui/localization.h"
+#include "ui/ui_font.h"
 #include <algorithm>
 #include <filesystem>
 #include <cwctype>
@@ -81,6 +82,7 @@ CWorkspaceFrame::CWorkspaceFrame(bool publish_instance) {
 }
 int CWorkspaceFrame::OnCreate(LPCREATESTRUCT create) {
     if (CFrameWnd::OnCreate(create) == -1) return -1;
+    if (!simple_editor::ui::CreateUiFont(ui_font_, *this)) return -1;
     root_menu_.CreateMenu(); CMenu file; file.CreatePopupMenu();
     file.AppendMenu(MF_STRING, ID_FILE_OPEN, L"&Open files...\tCtrl+O");
     file.AppendMenu(MF_STRING, ID_FILE_COMPARE, L"&New comparison...");
@@ -103,6 +105,7 @@ int CWorkspaceFrame::OnCreate(LPCREATESTRUCT create) {
     sessions_tab_.reorder = [this](int from,int to) { ReorderSessions(from,to); };
     welcome_.Create(L"Drop files here or choose Open files.\r\nEach file stays open in its own tab.\r\nUse Compare files to select the left and right inputs.",
                     WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(), this, 601);
+    simple_editor::ui::BindUiFont(*this, ui_font_, {ID_WORKSPACE_OPEN, ID_WORKSPACE_COMPARE, ID_WORKSPACE_CLOSE, 600, 601});
     DragAcceptFiles(TRUE); close_button_.EnableWindow(FALSE); Layout(); return 0;
 }
 void CWorkspaceFrame::Layout() {

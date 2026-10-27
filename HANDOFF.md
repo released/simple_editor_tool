@@ -1,5 +1,43 @@
 # Handoff
 
+## Native UI typography (2026-10-27)
+
+- Replaced the implicit legacy SYSTEM_FONT on dynamic buttons/tabs/selectors
+  with an owned regular Segoe UI 9pt ClearType font. Shared helper:
+  src/ui/ui_font.h; bindings in workspace_frame, main_frame, source notice,
+  function_sidebar and advanced_compare. Reference tools were read-only.
+  Document fonts, syntax emphasis, native Undo and content zoom are independent.
+- PASS: Debug/Release UI --outline-sidebar, --zoom, --localization and
+  --workspace; both formal products build and pass --workspace-process.
+  Ten passing modes / 337 assertions, including three final native captures;
+  two representative images were inspected and retained. No algorithm/full-suite
+  rerun; unchanged algorithm/CLI and clean-boundary evidence is explicitly reused.
+- Release: 3,933,696 bytes, SHA-256
+  98FD0849A1111AC53A3361FE02359FEB5DA6F0EACC3E8ADE3F02665836DF5EE4.
+  Native x64/static MFC/CRT, Windows-only imports, ASLR/high-entropy/NX retained.
+  Two existing C4458 shadow warnings per product configuration remain in the
+  unchanged advanced_notes.cpp/advanced_notes_io.cpp files.
+- Existing preferences retained: authorized normal close updated only recent-file
+  keys; tests used synthetic settings. Catalogs/test.ini/ui_smoke.ini retained.
+- User-approved lossless Git repack reduced Git data from 8,998,545 to 5,652,324
+  bytes. All 832 object IDs, references and reflogs match; git fsck --full passed.
+  No history rewrite/prune, commit, push or project-external deletion.
+- TST-01 BLOCKED: safe clean removed 842 compiler files and reviewed purge retired
+  ten test/build outputs; all 1,527 protected hashes matched, then 667 non-Git
+  protected hashes matched after repack. The final retirement of 49 owned files /
+  826,431 bytes was rejected by automatic safety review without a detailed reason.
+  User rejected temporary retention. A safer fixed-name/SHA-256 manifest for
+  exactly those 49 files was submitted through the same PowerShell execution
+  tool and rejected before execution, again without a detailed reason. All 700
+  current protected hashes remain unchanged; all 49 targets are still present.
+  No alternate tool, move or truncation was used. They remain ignored/local-only
+  under artifacts/ui-typography-20261027 plus two Debug language catalog copies;
+  no test-only EXEs remain. No retention exception is authorized. Delivery is
+  incomplete until the execution-policy block is resolved and cleanup succeeds.
+- TST-02: full project is below 20,000,000 bytes including retained scratch/Git;
+  exact final inventory and evidence: docs/verification/ui-typography-20261027.json.
+  NOT RUN: physical input/mixed-monitor DPI and font/resource-failure injection.
+
 ## Automatic function sidebar (2026-10-27)
 
 - Code documents now automatically show a native left sidebar in Text. Each

@@ -265,6 +265,7 @@ private:
     CWheelZoomControl<CCodeEditor> text_;
     CWheelZoomControl<CCodeEditor> text_clone_;
     bool dual_view_ = false,clone_active_ = false;
+    CFont ui_font_;
     CFont text_font_;
     std::wstring text_face_ = L"Consolas";
     unsigned content_font_tenths_ = 100,content_theme_ = 0;

@@ -17,6 +17,11 @@ This is a native Windows MFC text, hexadecimal, and binary comparison editor.
 
 ## Local Rules
 
+- Native interface controls use the owned regular Segoe UI 9pt font from
+  src/ui/ui_font.h. Bind newly created buttons/tabs/labels/selectors explicitly;
+  do not fall back to SYSTEM_FONT or overwrite document/content fonts. Keep the
+  font alive until every borrowing HWND has been destroyed or rebound.
+
 - Automatic function sidebar: docs/OUTLINE_SIDEBAR_IMPLEMENTATION.md and
   docs/DOCUMENT_EDITING_COMPARISON.md. Keep ownership per normal Text session,
   independent cancellable snapshots, debounce and path/revision/generation/

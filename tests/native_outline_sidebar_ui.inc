@@ -14,6 +14,27 @@
         const auto a = root / L"first.cpp",header = root / L"api.hxx",py = root / L"script.py",js = root / L"module.ts",plain = root / L"notes.md";
         write_text(a,L"// first source\nint first() { return 1; }\n\nint second() { return 2; }\n"); write_text(header,L"#pragma once\nclass Device {\npublic:\n Device();\n virtual void start() = 0;\n int read(int count) const;\n};\n"); write_text(py,L"# second language\ndef python_first():\n    return 1\n\nasync def python_second(value):\n    return value\n"); write_text(js,L"function load(value: number): number { return value; }\nconst transform = (value: number): number => value + 1;\n"); write_text(plain,L"# Heading\nordinary documentation\n");
         workspace->OpenPath(a.wstring()); auto* first = workspace->sessions_.back(); check(first->active_tab_ == 1 && visible(first->function_sidebar_) && wait_outline(first) && first->function_sidebar_.entries_.size() == 2 && has(first,L"second"),L"opening C++ automatically creates a nonmodal left-side function list");
+        const auto regular_ui = [](CWnd& control) {
+            if (!control.GetSafeHwnd()) return false;
+            const auto font = reinterpret_cast<HFONT>(control.SendMessage(WM_GETFONT)); LOGFONT spec{}; CClientDC dc(&control);
+            return font && font != GetStockObject(SYSTEM_FONT) && GetObjectW(font,sizeof(spec),&spec) &&
+                spec.lfWeight == FW_NORMAL && !spec.lfItalic && wcscmp(spec.lfFaceName,L"Segoe UI") == 0 &&
+                spec.lfHeight == -MulDiv(9,dc.GetDeviceCaps(LOGPIXELSY),72);
+        };
+        const auto caption_fits = [](CWnd& control) {
+            CString caption; control.GetWindowTextW(caption); CRect rect; control.GetClientRect(rect);
+            CClientDC dc(&control); auto* old = dc.SelectObject(control.GetFont()); const auto extent = dc.GetTextExtent(caption); dc.SelectObject(old);
+            return extent.cx + 16 <= rect.Width() && extent.cy + 4 <= rect.Height();
+        };
+        check(regular_ui(workspace->open_button_) && regular_ui(workspace->compare_button_) && regular_ui(workspace->close_button_) && regular_ui(workspace->sessions_tab_) && regular_ui(workspace->welcome_),L"workspace buttons and file tabs use a regular sans-serif UI font instead of SYSTEM_FONT");
+        check(regular_ui(first->tabs_) && regular_ui(first->compare_left_path_) && regular_ui(first->compare_right_path_) && regular_ui(first->compare_mode_) && regular_ui(first->compare_run_) && regular_ui(first->status_),L"page tabs, path selectors, actions and status share consistent regular typography");
+        check(regular_ui(first->source_notice_) && regular_ui(first->source_keep_) && regular_ui(first->source_compare_) && regular_ui(first->source_reload_),L"external-change notice and its actions share the main UI font");
+        check(regular_ui(first->function_sidebar_.caption_) && regular_ui(first->function_sidebar_.status_) && regular_ui(first->function_sidebar_.list_) && regular_ui(*first->function_sidebar_.list_.GetHeaderCtrl()),L"function panel title, rows and native header use matching regular typography");
+        check(first->EnsureAdvanced() && regular_ui(first->advanced_.take_left_) && regular_ui(first->advanced_.encoding_) && regular_ui(first->advanced_.include_),L"created advanced comparison actions and selectors retain the common regular UI font");
+        LOGFONT content_font{}; first->text_.GetFont()->GetLogFont(&content_font);
+        check(wcscmp(content_font.lfFaceName,L"Consolas") == 0 && first->function_sidebar_.list_.GetBkColor() == RGB(63,63,63),L"UI typography preserves the code font and dark sidebar background");
+        check(caption_fits(workspace->open_button_) && caption_fits(workspace->compare_button_) && caption_fits(workspace->close_button_),L"Traditional Chinese toolbar captions fit their native button bounds");
+        SetUiLanguage(L"en"); check(caption_fits(workspace->open_button_) && caption_fits(workspace->compare_button_) && caption_fits(workspace->close_button_) && regular_ui(workspace->sessions_tab_),L"English toolbar captions fit and language changes preserve the bound font"); SetUiLanguage(L"tw");
         CRect list_rect,text_rect; first->function_sidebar_.GetWindowRect(list_rect); first->text_.GetWindowRect(text_rect); check(list_rect.right < text_rect.left && list_rect.Height() == text_rect.Height(),L"function sidebar occupies the left side without covering source content");
         const auto bytes = first->text_.Utf8(); const auto generation = first->text_.Generation(); const auto revision = first->revision_; const auto disk = ReadDisk(a); auto& panel = first->function_sidebar_; panel.list_.SetItemState(1,LVIS_SELECTED | LVIS_FOCUSED,LVIS_SELECTED | LVIS_FOCUSED); NMHDR activate{}; LRESULT result = 0; panel.OnActivate(&activate,&result);
         check(first->text_.Call(SCI_LINEFROMPOSITION,first->text_.Call(SCI_GETCURRENTPOS)) == 3 && first->text_.Utf8() == bytes && first->text_.Generation() == generation && first->revision_ == revision && ReadDisk(a) == disk,L"single-click navigation reaches the original function line without editing or saving");
@@ -34,7 +55,14 @@
         script->syntax_mode_ = L"text"; script->ConfigureFileSyntax(); check(!visible(script->function_sidebar_),L"Plain text syntax explicitly disables automatic function analysis"); script->syntax_mode_.clear(); script->ConfigureFileSyntax(); check(wait_outline(script) && visible(script->function_sidebar_),L"automatic syntax restores document-specific function analysis");
         const auto source = script->text_.Utf8(); const auto source_generation = script->text_.Generation(); SetUiLanguage(L"en"); SetUiLanguage(L"tw"); CString caption; script->function_sidebar_.caption_.GetWindowTextW(caption); check(caption == Localize(L"Functions").c_str() && script->text_.Utf8() == source && script->text_.Generation() == source_generation && has(script,L"transform"),L"language switches translate sidebar controls without translating function names or buffers");
         workspace->SetWindowPos(nullptr,0,0,760,560,SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER); script->function_sidebar_.GetWindowRect(list_rect); script->text_.GetWindowRect(text_rect); check(list_rect.Width() >= 120 && text_rect.Width() >= 160 && list_rect.right < text_rect.left,L"narrow-window sidebar and editor remain visible without overlap");
-        if (!screenshots.empty()) { workspace->SetWindowPos(nullptr,0,0,1400,950,SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER); check(ExpansionCapture(*workspace,screenshots / L"typescript-functions.png"),L"capture native TypeScript sidebar"); workspace->ActivateSession(1); check(ExpansionCapture(*workspace,screenshots / L"header-functions.png"),L"capture native C++ header declarations sidebar"); }
+        if (!screenshots.empty()) {
+            workspace->SetWindowPos(nullptr,0,0,1400,950,SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
+            check(ExpansionCapture(*workspace,screenshots / L"typescript-functions.png"),L"capture native TypeScript sidebar");
+            workspace->ActivateSession(1); headers->source_notice_visible_ = true; headers->Layout();
+            check(ExpansionCapture(*workspace,screenshots / L"header-functions.png"),L"capture native C++ header declarations sidebar and source notice"); headers->source_notice_visible_ = false; headers->Layout();
+            SetUiLanguage(L"en"); headers->compare_mode_.SetCurSel(2); headers->OnCompareModeChanged();
+            check(ExpansionCapture(*workspace,screenshots / L"comparison-controls.png"),L"capture English comparison selector and button typography"); headers->ShowPage(1); SetUiLanguage(L"tw");
+        }
         workspace->ActivateSession(0); first->ShowPage(1); first->function_sidebar_.RefreshNow(); first->TickFunctionSidebar(); const auto closing = GetTickCount64();
         const auto deadline = GetTickCount64() + 10000; while (workspace->preferences_io_.valid() && GetTickCount64() < deadline) { workspace->TickPreferences(); Sleep(1); } for (auto* frame : workspace->sessions_) { frame->text_dirty_ = false; frame->text_.SetModify(FALSE); frame->document_.Close(); frame->advanced_.dirty_ = false; } workspace->DestroyWindow(); AfxGetApp()->m_pMainWnd = nullptr;
         check(GetTickCount64() - closing < 10000,L"closing with sidebar analysis pending joins only owned workers safely"); ShutdownLocalization(); return failures;

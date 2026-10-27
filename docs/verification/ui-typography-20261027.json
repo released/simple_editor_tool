@@ -1,0 +1,601 @@
+{
+    "date":  "2026-10-27",
+    "scope":  "Consistent regular native UI typography matching the named reference tools",
+    "functional_result":  "PASS",
+    "delivery_result":  "PASS",
+    "cleanup_result":  "BLOCKED_AUTOMATIC_REVIEW",
+    "baseline":  {
+                     "project_bytes":  20777115,
+                     "exe_bytes":  3932160,
+                     "exe_sha256":  "BFB0AE4F78C86D2E1DFBEC06B3682B3C422BE1D26907F41648857D29B3E9CB7D",
+                     "ini":  [
+                                 {
+                                     "name":  "lang_en.ini",
+                                     "bytes":  60532,
+                                     "sha256":  "DB1C1D2291D4A0940B1FB06AC98815CCC865707C75FB02D175CB872AE1BCD301"
+                                 },
+                                 {
+                                     "name":  "lang_tw.ini",
+                                     "bytes":  62137,
+                                     "sha256":  "34398572F3E228A883ADBEED982163ADAD9CE7BDC10F7243A410503DDDD08541"
+                                 },
+                                 {
+                                     "name":  "simple_editor_tool.ini",
+                                     "bytes":  1452,
+                                     "sha256":  "69DED2FBFE5F5747B1319380792B5FE20C454EF46277D40D88A3D86B217ABDF6"
+                                 },
+                                 {
+                                     "name":  "test.ini",
+                                     "bytes":  191,
+                                     "sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91"
+                                 },
+                                 {
+                                     "name":  "ui_smoke.ini",
+                                     "bytes":  262,
+                                     "sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                                 }
+                             ],
+                     "recipe":  "NativeUiTests Debug/Release outline-sidebar, zoom, localization and workspace; formal Release build and isolated workspace-process smoke. TEMP/TMP restricted to owned run. Disposable build/run outputs retired after validation."
+                 },
+    "root_cause":  "Dynamically created workspace buttons, session/page tabs and basic comparison selectors did not bind a UI font and used legacy SYSTEM_FONT. The function sidebar and source notice used an inconsistent stock font.",
+    "implementation":  [
+                           "Owned Segoe UI 9pt FW_NORMAL ClearType font using the existing process/window DC DPI context; no SDK target, DPI manifest or runtime change.",
+                           "Explicit bindings for workspace buttons/tabs/welcome, page tabs, comparison paths/actions, status/notice controls, function list/header and advanced comparison controls.",
+                           "Document font, syntax emphasis, source buffers, Undo and independent content zoom retained. Resource dialogs already use Segoe UI 9pt."
+                       ],
+    "reference_files":  [
+                            "simple_renesas_isp_tool/src/main_frame.cpp",
+                            "simple_com_chart_gui/src/dpi_support.h",
+                            "simple_capture_tool/src/ui/UiSupport.h"
+                        ],
+    "tests":  [
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "outline-sidebar",
+                      "exit_code":  0,
+                      "assertions":  52,
+                      "exe_sha256":  "C0539919BB7ADA060AD9C994F27E5DEB22354816DBAAE174471D6D2BE38E10F7",
+                      "log_sha256":  "9CB06A1CA8DEF8DC94A5EEB3BD0853B7825901D4E7FFAF174F540E1700999C0D"
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "zoom",
+                      "exit_code":  0,
+                      "assertions":  51,
+                      "exe_sha256":  "C0539919BB7ADA060AD9C994F27E5DEB22354816DBAAE174471D6D2BE38E10F7",
+                      "log_sha256":  "FF257A12EECCB743E4072F56EBD66955C58C29ECC8E19EEA2DF89E512238701F"
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "localization",
+                      "exit_code":  0,
+                      "assertions":  17,
+                      "exe_sha256":  "C0539919BB7ADA060AD9C994F27E5DEB22354816DBAAE174471D6D2BE38E10F7",
+                      "log_sha256":  "9AAA6AFE72351D69AD5BA7D286FC4021149DB9F8CD8D410AC9997BF92C84D90F"
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "workspace",
+                      "exit_code":  0,
+                      "assertions":  35,
+                      "exe_sha256":  "C0539919BB7ADA060AD9C994F27E5DEB22354816DBAAE174471D6D2BE38E10F7",
+                      "log_sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939"
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "workspace-process",
+                      "exit_code":  0,
+                      "assertions":  12,
+                      "exe_sha256":  "C0539919BB7ADA060AD9C994F27E5DEB22354816DBAAE174471D6D2BE38E10F7",
+                      "log_sha256":  "FF8DD4A78ED67D7209FF6363924EA8B973BF0760FDE32FCD360F720022CF4BCB"
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "outline-sidebar",
+                      "exit_code":  0,
+                      "assertions":  55,
+                      "exe_sha256":  "D819482F8180E7CEF3CD88898877617128D8102D80485AC03CED34DD2B30A3C2",
+                      "log_sha256":  "04942F05A65AECD62234AB8F18E17A171F4F480E0AEBCBF404FF249BFFE7599E"
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "zoom",
+                      "exit_code":  0,
+                      "assertions":  51,
+                      "exe_sha256":  "D819482F8180E7CEF3CD88898877617128D8102D80485AC03CED34DD2B30A3C2",
+                      "log_sha256":  "FF257A12EECCB743E4072F56EBD66955C58C29ECC8E19EEA2DF89E512238701F"
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "localization",
+                      "exit_code":  0,
+                      "assertions":  17,
+                      "exe_sha256":  "D819482F8180E7CEF3CD88898877617128D8102D80485AC03CED34DD2B30A3C2",
+                      "log_sha256":  "9AAA6AFE72351D69AD5BA7D286FC4021149DB9F8CD8D410AC9997BF92C84D90F"
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "workspace",
+                      "exit_code":  0,
+                      "assertions":  35,
+                      "exe_sha256":  "D819482F8180E7CEF3CD88898877617128D8102D80485AC03CED34DD2B30A3C2",
+                      "log_sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939"
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "workspace-process",
+                      "exit_code":  0,
+                      "assertions":  12,
+                      "exe_sha256":  "D819482F8180E7CEF3CD88898877617128D8102D80485AC03CED34DD2B30A3C2",
+                      "log_sha256":  "FF8DD4A78ED67D7209FF6363924EA8B973BF0760FDE32FCD360F720022CF4BCB"
+                  }
+              ],
+    "builds":  [
+                   {
+                       "configuration":  "Debug",
+                       "result":  "PASS",
+                       "path":  "artifacts\\debug\\SimpleEditorTool.exe",
+                       "bytes":  16916992,
+                       "sha256":  "891FEDEFC34A5222005DE26C2233294E73203816493994B2B93EBBAFB42F46BC",
+                       "build_log_sha256":  "A77C92ECEE98C2EC61F55EF2068D03E8BCAC95DE21E56168BE2632177C01B4AF",
+                       "warnings":  2
+                   },
+                   {
+                       "configuration":  "Release",
+                       "result":  "PASS",
+                       "path":  "build\\SimpleEditorTool.exe",
+                       "bytes":  3933696,
+                       "sha256":  "98FD0849A1111AC53A3361FE02359FEB5DA6F0EACC3E8ADE3F02665836DF5EE4",
+                       "build_log_sha256":  "20AA7857878D56C2E6EDF5EA0E229B7999B3ABED086C4D6F021394925652693D",
+                       "warnings":  2
+                   }
+               ],
+    "build_concurrency":  "Transient CL=/MP4 for accepted builds; no persistent compiler/linker flag changes.",
+    "pe":  {
+               "native_x64":  true,
+               "high_entropy_aslr_nx":  true,
+               "static_mfc_crt_configuration_unchanged":  true,
+               "imports":  [
+                               "ADVAPI32.dll",
+                               "bcrypt.dll",
+                               "COMCTL32.dll",
+                               "CRYPT32.dll",
+                               "GDI32.dll",
+                               "IMM32.dll",
+                               "KERNEL32.dll",
+                               "ole32.dll",
+                               "OLEACC.dll",
+                               "OLEAUT32.dll",
+                               "SHELL32.dll",
+                               "SHLWAPI.dll",
+                               "USER32.dll",
+                               "UxTheme.dll"
+                           ]
+           },
+    "source_inputs":  [
+                          {
+                              "path":  "src/ui/ui_font.h",
+                              "sha256":  "EAC4236783844CF9E8CDF148CEEAE62BD115A945AC025342C55FE7073EE39B91"
+                          },
+                          {
+                              "path":  "src/workspace_frame.h",
+                              "sha256":  "E4C0F74E2BC63648692767793720BDF66C621E334D6EA06669BC82210EA263BB"
+                          },
+                          {
+                              "path":  "src/workspace_frame.cpp",
+                              "sha256":  "FB08F04D4DE15D2EC6E78595D79252E64BE2B2C1E2A354A6CD5504A1F54E387D"
+                          },
+                          {
+                              "path":  "src/main_frame.h",
+                              "sha256":  "B6AA466EB74240CF367D17DBD32658B2EF2F81537917649A0A7D62EF31F112F8"
+                          },
+                          {
+                              "path":  "src/main_frame.cpp",
+                              "sha256":  "BCFE388F3E457D663EDF255985DFE21B27F3EA75F9AC5C8759FC564902C84903"
+                          },
+                          {
+                              "path":  "src/main_frame_text_expansion.cpp",
+                              "sha256":  "B4B6D3D167CA41123FFD031E62630D04FCB071C24857F45F47553DDCD72F6439"
+                          },
+                          {
+                              "path":  "src/ui/function_sidebar.h",
+                              "sha256":  "EF49A27A28E52F2698101F6C176893763738DA1DF18E256038A3C7BDB2D4497F"
+                          },
+                          {
+                              "path":  "src/ui/function_sidebar.cpp",
+                              "sha256":  "DC7DE993752926AF3870A166C36FC2E77BC42194EBA8E29FACD86930267088C6"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare.cpp",
+                              "sha256":  "42A75A904E6A22CD8232F5DFFA30B20E9B48B8416516F16107DD7E1518D7E670"
+                          },
+                          {
+                              "path":  "tests/native_outline_sidebar_ui.inc",
+                              "sha256":  "E38ECC13CD8E4D5EE30FFFF8E06045DD11CB2C82D83B772425AD6495E35A75A6"
+                          },
+                          {
+                              "path":  "AGENTS.md",
+                              "sha256":  "16FB6B97A819ED3E8596349F1DAECAD300A3043B4DD31FF77A56A1D356D37AF2"
+                          },
+                          {
+                              "path":  "SPEC.md",
+                              "sha256":  "FB986D9F7458F8A35BF501C7D16CA08F7CD7A8A80B386F45084E5A48D88401A4"
+                          }
+                      ],
+    "normal_close":  {
+                         "reason":  "Authorized graceful close of the existing normal application persisted its legitimate session/settings; no user INI was used as a test fixture.",
+                         "before_sha256":  "69DED2FBFE5F5747B1319380792B5FE20C454EF46277D40D88A3D86B217ABDF6",
+                         "after_sha256":  "1F14E7B1B689A62EFB70123EE81A12081BB03A2B298D8E9883B8D0E02D8159D7",
+                         "changed_keys":  [
+                                              "simpleeditortool.recent/0",
+                                              "simpleeditortool.recent/1",
+                                              "simpleeditortool.recent/10",
+                                              "simpleeditortool.recent/2",
+                                              "simpleeditortool.recent/3",
+                                              "simpleeditortool.recent/4",
+                                              "simpleeditortool.recent/5",
+                                              "simpleeditortool.recent/6",
+                                              "simpleeditortool.recent/7",
+                                              "simpleeditortool.recent/8",
+                                              "simpleeditortool.recent/9",
+                                              "simpleeditortool.recent/count"
+                                          ]
+                     },
+    "diagnostics":  [
+                        {
+                            "reason":  "Initial GetDpiForWindow call unavailable at the unchanged SDK target; corrected to existing CClientDC LOGPIXELSY pattern.",
+                            "error":  "C3861 GetDpiForWindow",
+                            "log_sha256":  "E6D82AC81810460860341132DF965D5C1D5469F8B438EC24E556ED6ED3AE20FF"
+                        },
+                        {
+                            "configuration":  "Release",
+                            "mode":  "outline-sidebar",
+                            "reason":  "Fixture queried lazy advanced-comparison HWNDs before EnsureAdvanced; product font checks require native control creation first.",
+                            "failed_check":  "advanced comparison actions and selectors retain the common regular UI font",
+                            "exe_sha256":  "6703764DBEE9303210130AB11C98AE5F259294AA4037DF3D25BA6C99FA396806",
+                            "log_sha256":  "649A07F784834D4CDA7F9C71FA7012E9E185722393F46C06483CA55F27099356"
+                        }
+                    ],
+    "reused":  [
+                   "Unchanged editor/compare/search algorithms and CLI behavior: outline-sidebar-20261027.json.",
+                   "Unchanged clean boundary/fixture safety: project-cleanup-boundary-20261026.json. Current static scan and actual preservation are separate."
+               ],
+    "not_run":  [
+                    "Physical input and mixed-monitor DPI. No DPI manifest/layout redesign was requested.",
+                    "Resource exhaustion/font allocation failure injection."
+                ],
+    "images":  [
+                   {
+                       "path":  "ui-typography-20261027/comparison-controls.png",
+                       "bytes":  49257,
+                       "sha256":  "8F3BA134ED2D942A80B3926AB70853D630E7B4B66DEC0E343FF7CB1B8B77CEFD",
+                       "visual_result":  "PASS - final native image inspected"
+                   },
+                   {
+                       "path":  "ui-typography-20261027/header-functions.png",
+                       "bytes":  51201,
+                       "sha256":  "4679EA18349AC0EFFF9ED05EF5BC5C94D4668C0E74A1ACFF8B08FB49F0FCE1FB",
+                       "visual_result":  "PASS - final native image inspected"
+                   }
+               ],
+    "cleanup":  {
+                    "result":  "PARTIAL",
+                    "normal_clean_removed_files":  842,
+                    "reviewed_purge_removed_files":  10,
+                    "protected_hashes_verified_after_clean":  1527,
+                    "protected_non_git_hashes_verified_after_repack":  667,
+                    "pre_clean":  {
+                                      "files":  1527,
+                                      "project_bytes":  2298167214,
+                                      "artifact_bytes":  2277265451
+                                  },
+                    "static_clean_scan":  "PASS - four scripts",
+                    "static_scan_log_sha256":  "BA7920B711864F7518DA26ED2387AEF4893A6BAF92D5946F322E73227ED4FE14",
+                    "clean_log_sha256":  "82EA19AF420C997492980DA5FC0BECB71338BAA834CCCADFDABBDFA663513B4B",
+                    "purge_log_sha256":  "0555AE7A12EC81F4F7370046CF16206D5295169F4A860116456CE08EB9FB0DFD",
+                    "automatic_review_rejection":  {
+                                                       "action":  "Retire owned verification run and two new hash-matched Debug language catalog copies inside the selected project.",
+                                                       "reason":  "blocked by policy; no detailed reason provided",
+                                                       "no_alternate_deletion_attempt":  true
+                                                   },
+                    "remaining_files":  49,
+                    "remaining_bytes":  826431,
+                    "remaining_paths":  [
+                                            "artifacts/ui-typography-20261027",
+                                            "artifacts/debug/lang_en.ini",
+                                            "artifacts/debug/lang_tw.ini"
+                                        ],
+                    "test_executables_absent":  true,
+                    "retention_decision":  "USER_REJECTED_RETENTION",
+                    "maximum_project_budget_bytes":  20000000,
+                    "additional_safer_review":  {
+                                                    "date":  "2026-10-27",
+                                                    "requested_files":  49,
+                                                    "method":  "Same PowerShell execution tool; fixed literal filenames and expected SHA-256 hashes, selected-project path/reparse/ownership/process guards, no recursive deletion.",
+                                                    "result":  "REJECTED_BEFORE_EXECUTION",
+                                                    "reason":  "blocked by policy; no detailed reason provided",
+                                                    "all_700_current_protected_hashes_unchanged":  true,
+                                                    "all_49_targets_still_present":  true,
+                                                    "no_alternate_tool_move_or_truncation":  true
+                                                },
+                    "remaining_manifest":  {
+                                               "value":  [
+                                                             {
+                                                                 "path":  "artifacts/debug/lang_en.ini",
+                                                                 "bytes":  60532,
+                                                                 "sha256":  "DB1C1D2291D4A0940B1FB06AC98815CCC865707C75FB02D175CB872AE1BCD301"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/debug/lang_tw.ini",
+                                                                 "bytes":  62137,
+                                                                 "sha256":  "34398572F3E228A883ADBEED982163ADAD9CE7BDC10F7243A410503DDDD08541"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/.owner",
+                                                                 "bytes":  60,
+                                                                 "sha256":  "CB69FD8FD9239754542A288962B197492FBB2F772466826896E0B92CABFD23CC"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/baseline.json",
+                                                                 "bytes":  1542,
+                                                                 "sha256":  "C1ECB564D126091FF8C50D756796D1A8E8D426954CF26256E9FE2EC9BB3F7A56"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/before-normal-close.ini",
+                                                                 "bytes":  1452,
+                                                                 "sha256":  "69DED2FBFE5F5747B1319380792B5FE20C454EF46277D40D88A3D86B217ABDF6"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/build-product-Debug.log",
+                                                                 "bytes":  1202,
+                                                                 "sha256":  "3ECDEED94D6E2429E590FD7E72651ABD879037122525C11B97CC57B2C2D707FB"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/build-product-Debug-final.log",
+                                                                 "bytes":  9496,
+                                                                 "sha256":  "A77C92ECEE98C2EC61F55EF2068D03E8BCAC95DE21E56168BE2632177C01B4AF"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/build-product-Release.log",
+                                                                 "bytes":  10044,
+                                                                 "sha256":  "20AA7857878D56C2E6EDF5EA0E229B7999B3ABED086C4D6F021394925652693D"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/build-products.ps1",
+                                                                 "bytes":  694,
+                                                                 "sha256":  "B23ADAD9474B6D704CA7C55B68AFB1667DCBD94DB5B69BD54072ED91F62E8BE2"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/build-ui-Debug.log",
+                                                                 "bytes":  9918,
+                                                                 "sha256":  "E6D82AC81810460860341132DF965D5C1D5469F8B438EC24E556ED6ED3AE20FF"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/build-ui-Debug-accepted.log",
+                                                                 "bytes":  600,
+                                                                 "sha256":  "E5E9510126187865B3B9E121081AE8C0799A1A0811C4DC66D495E27F521D66D1"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/build-ui-Debug-final.log",
+                                                                 "bytes":  9694,
+                                                                 "sha256":  "0AA1A5301E304B814F43545834EBA1553847A3DC623EAD1932119AD60A8EEC80"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/build-ui-Release.log",
+                                                                 "bytes":  11586,
+                                                                 "sha256":  "FB4BF26E1350C634571F1F61C710C7B1BA68AA3E7E2F6051C6EADBEE1F241BFE"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/build-ui-Release-accepted.log",
+                                                                 "bytes":  608,
+                                                                 "sha256":  "53F8EA9E3DE45EE81AE99C120321C8DEA778B576984E63E718BCB132876C2496"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/clean-static.log",
+                                                                 "bytes":  158,
+                                                                 "sha256":  "BA7920B711864F7518DA26ED2387AEF4893A6BAF92D5946F322E73227ED4FE14"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/clean-static-final.log",
+                                                                 "bytes":  158,
+                                                                 "sha256":  "BA7920B711864F7518DA26ED2387AEF4893A6BAF92D5946F322E73227ED4FE14"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Debug-formal-results.json",
+                                                                 "bytes":  297,
+                                                                 "sha256":  "A8AB1435E19636BA6C0D17B9F353FF2EE7CBE34C08AAEAEB85490E2EB3AEA422"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Debug-localization.log",
+                                                                 "bytes":  2804,
+                                                                 "sha256":  "9AAA6AFE72351D69AD5BA7D286FC4021149DB9F8CD8D410AC9997BF92C84D90F"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Debug-outline-sidebar.log",
+                                                                 "bytes":  7832,
+                                                                 "sha256":  "9CB06A1CA8DEF8DC94A5EEB3BD0853B7825901D4E7FFAF174F540E1700999C0D"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Debug-ui-results.json",
+                                                                 "bytes":  1288,
+                                                                 "sha256":  "C3851BE6DF9E6321D73DDE805ACEC97E522FBBC437C4BA61A2C44C7B2E9228F2"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Debug-workspace.log",
+                                                                 "bytes":  5190,
+                                                                 "sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Debug-workspace-process.log",
+                                                                 "bytes":  1600,
+                                                                 "sha256":  "FF8DD4A78ED67D7209FF6363924EA8B973BF0760FDE32FCD360F720022CF4BCB"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Debug-zoom.log",
+                                                                 "bytes":  6190,
+                                                                 "sha256":  "FF257A12EECCB743E4072F56EBD66955C58C29ECC8E19EEA2DF89E512238701F"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/fixture-failure.json",
+                                                                 "bytes":  500,
+                                                                 "sha256":  "59937C8E40507BA6418874B4081474BA956A9B375335F0DD104619A236A7F7D7"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/git-fsck.log",
+                                                                 "bytes":  0,
+                                                                 "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/git-objects-before.txt",
+                                                                 "bytes":  34944,
+                                                                 "sha256":  "0F8F30B531DD485FC10D6E472649EAB83957BCB3DA51A21A3A629AF3099CD18D"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/git-reflog-before.txt",
+                                                                 "bytes":  2048,
+                                                                 "sha256":  "7B5F742413A9AB092B96D5429300E35996C3F9067BBAA7A888036F9A4F61D3FE"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/git-refs-before.txt",
+                                                                 "bytes":  243,
+                                                                 "sha256":  "7FB9C2982635A4F5DB77001988DEC820631CCD4B430C61A59B90020BAB413A62"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/git-repack.log",
+                                                                 "bytes":  0,
+                                                                 "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/git-result.json",
+                                                                 "bytes":  672,
+                                                                 "sha256":  "1A8528B15C4ABD9F5D2FA31A1C8E497E573EB79EB69054B828FDEBF0674CC905"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/normal-close-checkpoint.json",
+                                                                 "bytes":  1065,
+                                                                 "sha256":  "DD175CEBF4BE0D526885EBD0A1CFF88C365836DDCAE0E847E6A3DB30923205B6"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/pe-headers.txt",
+                                                                 "bytes":  12958,
+                                                                 "sha256":  "300EBAAB93E39AF191857F5D2B76183A1CB03312F772670E0443CA4FA15EE559"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/pe-imports.txt",
+                                                                 "bytes":  52050,
+                                                                 "sha256":  "5F2FC84CFCEDDDFA428303DCACBDCAB7A81D9C02813A467DB6346D65F221597D"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/pre-clean-size.json",
+                                                                 "bytes":  100,
+                                                                 "sha256":  "B47E43FF71693247726D16640B925476B07AABC9B18977DA7254C488033880A1"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/protected-files.json",
+                                                                 "bytes":  326799,
+                                                                 "sha256":  "96E7DEB0E5AEDF580649FC2F01BEE0B9F9CD990A789880D85D448E848632C2FA"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/purge-apply.log",
+                                                                 "bytes":  4818,
+                                                                 "sha256":  "0555AE7A12EC81F4F7370046CF16206D5295169F4A860116456CE08EB9FB0DFD"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/purge-preview.log",
+                                                                 "bytes":  5880,
+                                                                 "sha256":  "96768F969F20E823C41BB7E351B4A666F23686736FF6E7562A0A27DFA0973237"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Release-formal-results.json",
+                                                                 "bytes":  299,
+                                                                 "sha256":  "A43B14BDAB1B4E728B9E3CF9D9272E8F6C0C1E74892A90240C290C3449642B6B"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Release-localization.log",
+                                                                 "bytes":  2804,
+                                                                 "sha256":  "9AAA6AFE72351D69AD5BA7D286FC4021149DB9F8CD8D410AC9997BF92C84D90F"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Release-outline-sidebar.log",
+                                                                 "bytes":  8188,
+                                                                 "sha256":  "04942F05A65AECD62234AB8F18E17A171F4F480E0AEBCBF404FF249BFFE7599E"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Release-ui-results.json",
+                                                                 "bytes":  1296,
+                                                                 "sha256":  "29C0C9C94C95ED211F03604B988181293191D87DAF05A7A717C95CF710FD9C89"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Release-workspace.log",
+                                                                 "bytes":  5190,
+                                                                 "sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Release-workspace-process.log",
+                                                                 "bytes":  1600,
+                                                                 "sha256":  "FF8DD4A78ED67D7209FF6363924EA8B973BF0760FDE32FCD360F720022CF4BCB"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/Release-zoom.log",
+                                                                 "bytes":  6190,
+                                                                 "sha256":  "FF257A12EECCB743E4072F56EBD66955C58C29ECC8E19EEA2DF89E512238701F"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/run-tests.ps1",
+                                                                 "bytes":  2240,
+                                                                 "sha256":  "05E6CC6706D83656FD42A0853D33F9687DAEC770CFF515FF090C3EE4425E38CA"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/safe-clean.log",
+                                                                 "bytes":  298,
+                                                                 "sha256":  "82EA19AF420C997492980DA5FC0BECB71338BAA834CCCADFDABBDFA663513B4B"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/screenshots/comparison-controls.png",
+                                                                 "bytes":  49257,
+                                                                 "sha256":  "8F3BA134ED2D942A80B3926AB70853D630E7B4B66DEC0E343FF7CB1B8B77CEFD"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/screenshots/header-functions.png",
+                                                                 "bytes":  51201,
+                                                                 "sha256":  "4679EA18349AC0EFFF9ED05EF5BC5C94D4668C0E74A1ACFF8B08FB49F0FCE1FB"
+                                                             },
+                                                             {
+                                                                 "path":  "artifacts/ui-typography-20261027/screenshots/typescript-functions.png",
+                                                                 "bytes":  50709,
+                                                                 "sha256":  "7BC68C77AD05444EA931B3C270C1021B58053D236217C6FE2AB7EFF07BDE3888"
+                                                             }
+                                                         ],
+                                               "Count":  49
+                                           },
+                    "retention_exception_authorized":  false
+                },
+    "git_repack":  {
+                       "result":  "PASS",
+                       "authorization":  "User approved lossless Git-object repacking in this task.",
+                       "command":  "git repack -a -d",
+                       "no_history_rewrite_or_prune":  true,
+                       "all_objects_preserved":  832,
+                       "refs_unchanged":  true,
+                       "reflogs_unchanged":  true,
+                       "fsck_full":  "PASS",
+                       "before_bytes":  8998545,
+                       "after_bytes":  5652324,
+                       "object_id_list_sha256":  "0F8F30B531DD485FC10D6E472649EAB83957BCB3DA51A21A3A629AF3099CD18D",
+                       "refs_list_sha256":  "7FB9C2982635A4F5DB77001988DEC820631CCD4B430C61A59B90020BAB413A62",
+                       "reflog_list_sha256":  "7B5F742413A9AB092B96D5429300E35996C3F9067BBAA7A888036F9A4F61D3FE"
+                   },
+    "existing_build_warnings":  {
+                                    "code":  "C4458",
+                                    "files":  [
+                                                  "src/ui/advanced_notes.cpp:29",
+                                                  "src/ui/advanced_notes_io.cpp:3"
+                                              ],
+                                    "reason":  "Unchanged local report parameters shadow an existing class member.",
+                                    "count_per_product_configuration":  2
+                                },
+    "final_project_bytes":  18415498,
+    "retained_evidence_bytes":  146071,
+    "project_budget_result":  "PASS",
+    "task_completion":  "INCOMPLETE_CLEANUP_BLOCKED"
+}

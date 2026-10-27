@@ -2,6 +2,11 @@
 
 ## Current Scope
 
+- Main-window buttons, session/page tabs, comparison selectors, status/notice
+  controls and function sidebar use consistent regular Segoe UI 9pt typography.
+  Document fonts, syntax emphasis, content zoom and native dialog fonts remain
+  independent; interface fonts use the existing process/window DC DPI context.
+
 - Supported code documents automatically show a left function sidebar in Text,
   with per-document entries/divider width and click/Enter navigation into the
   active shared view. Edits/Undo refresh unsaved snapshots after idle debounce;

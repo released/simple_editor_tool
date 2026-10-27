@@ -2,6 +2,7 @@
 #include "../core/manual_alignment.h"
 #include "../resource.h"
 #include "localization.h"
+#include "ui_font.h"
 #include <algorithm>
 #include <chrono>
 #include <cwctype>
@@ -52,7 +53,8 @@ END_MESSAGE_MAP()
 CAdvancedCompareView::~CAdvancedCompareView() { cancelled_ = true; if (job_.valid()) job_.wait(); ReleaseLocks(); }
 int CAdvancedCompareView::OnCreate(LPCREATESTRUCT create) {
     if (CWnd::OnCreate(create) == -1) return -1;
-    ui_font_.CreatePointFont(90, L"Segoe UI"); content_font_.CreatePointFont(100, L"Consolas");
+    if (!simple_editor::ui::CreateUiFont(ui_font_, *this)) return -1;
+    content_font_.CreatePointFont(100, L"Consolas");
     const auto button = [&](CButton& control, const wchar_t* text, int id, bool check = false) {
         control.Create(text, WS_CHILD | WS_TABSTOP | (check ? BS_AUTOCHECKBOX : BS_PUSHBUTTON), CRect(), this, id); control.SetFont(&ui_font_);
     };

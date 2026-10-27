@@ -1,5 +1,6 @@
 #include "function_sidebar.h"
 #include "localization.h"
+#include "ui_font.h"
 #include "../resource.h"
 #include <algorithm>
 using namespace simple_editor::core;
@@ -20,7 +21,9 @@ bool CFunctionSidebar::Create(CWnd* owner) {
 int CFunctionSidebar::OnCreate(LPCREATESTRUCT create) {
     if (CWnd::OnCreate(create) == -1) return -1;
     if (!caption_.Create(L"Functions",WS_CHILD | WS_VISIBLE,CRect(),this,IDC_FUNCTION_CAPTION) || !status_.Create(L"Updating function list...",WS_CHILD | WS_VISIBLE,CRect(),this,IDC_FUNCTION_STATUS) || !list_.Create(WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | LVS_REPORT | LVS_OWNERDATA | LVS_SINGLESEL | LVS_SHOWSELALWAYS,CRect(),this,IDC_FUNCTION_LIST)) return -1;
-    auto* font = CFont::FromHandle(static_cast<HFONT>(GetStockObject(DEFAULT_GUI_FONT))); caption_.SetFont(font); status_.SetFont(font); list_.SetFont(font);
+    if (!simple_editor::ui::CreateUiFont(ui_font_, *this)) return -1;
+    simple_editor::ui::BindUiFont(*this, ui_font_, {IDC_FUNCTION_CAPTION, IDC_FUNCTION_STATUS, IDC_FUNCTION_LIST});
+    if (auto* header = list_.GetHeaderCtrl()) header->SetFont(&ui_font_, FALSE);
     list_.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER | LVS_EX_LABELTIP);
     list_.InsertColumn(0,L"Function",LVCFMT_LEFT,240); list_.InsertColumn(1,L"Line",LVCFMT_RIGHT,55); list_.EnableWindow(FALSE); return 0;
 }

@@ -10,7 +10,7 @@ void CMainFrame::CreateSourceNotice() {
     source_keep_.Create(L"Keep draft",WS_CHILD | WS_TABSTOP,CRect(),this,ID_WORKFLOW_SOURCE_KEEP);
     source_compare_.Create(L"Compare with disk",WS_CHILD | WS_TABSTOP,CRect(),this,ID_WORKFLOW_SOURCE_COMPARE);
     source_reload_.Create(L"Reload...",WS_CHILD | WS_TABSTOP,CRect(),this,ID_WORKFLOW_SOURCE_RELOAD);
-    for (CWnd* control : {static_cast<CWnd*>(&source_notice_),static_cast<CWnd*>(&source_keep_),static_cast<CWnd*>(&source_compare_),static_cast<CWnd*>(&source_reload_)}) control->SendMessage(WM_SETFONT,reinterpret_cast<WPARAM>(GetStockObject(DEFAULT_GUI_FONT)),FALSE);
+    for (CWnd* control : {static_cast<CWnd*>(&source_notice_),static_cast<CWnd*>(&source_keep_),static_cast<CWnd*>(&source_compare_),static_cast<CWnd*>(&source_reload_)}) control->SetFont(&ui_font_,FALSE);
 }
 void CMainFrame::LayoutSourceNotice(CRect& page) {
     if (!source_notice_.GetSafeHwnd()) return;

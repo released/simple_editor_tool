@@ -28,6 +28,7 @@ private:
     struct Result { bool ok = false,truncated = false; std::uint64_t generation = 0,revision = 0; std::wstring path; simple_editor::core::OutlineLanguage language = simple_editor::core::OutlineLanguage::None; std::vector<simple_editor::core::MarkdownHeading> entries; };
     void Status(const std::wstring&);
     void Layout();
+    CFont ui_font_;
     CStatic caption_,status_;
     CListCtrl list_;
     std::future<Result> job_;

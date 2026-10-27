@@ -1,5 +1,30 @@
 # Self Check
 
+## Native UI typography (2026-10-27)
+
+- PASS: Debug/Release --outline-sidebar (52/55 assertions), --zoom (51 each),
+  --localization (17 each), --workspace (35 each); formal Debug/Release products
+  build and pass --workspace-process (12 each). Three Release native renders;
+  final Chinese Text/sidebar/notice and English Compare images inspected.
+- PASS: explicit normal sans-serif fonts, native caption bounds, language/tab
+  switching, source/Undo/zoom retention and owned font lifetime. PE remains native
+  x64/static runtime with Windows-only imports and existing security flags.
+  Existing C4458 warnings in two unchanged notes files are recorded, not hidden.
+- PASS: four-script clean scan, 842 compiler files and ten test/build outputs
+  retired, 1,527 protected hashes matched. User-approved lossless Git repack
+  preserves all 832 objects/references/reflogs; full fsck and 667 non-Git protected
+  hashes passed. Only the formal Release EXE remains in the entire project.
+- TST-01 BLOCKED: user rejected temporary retention of the final 49 owned files /
+  826,431 bytes. The fixed-name/SHA-256 manifest was also rejected by automatic
+  review before execution, without a detailed reason. All 700 current protected
+  hashes match; all 49 targets remain. No alternate tool/move/truncation or
+  retention exception; delivery remains incomplete. TST-02 PASS: complete project
+  remains below 20 MB, including Git and the blocked local-only/ignored scratch.
+- Evidence, remaining paths, source/build hashes and exact bytes:
+  docs/verification/ui-typography-20261027.json. Unchanged algorithm/CLI and
+  boundary-fixture evidence reused; physical input/mixed DPI/resource injection
+  NOT RUN. Existing settings retained; normal close changed recent-file keys only.
+
 ## Automatic function sidebar (2026-10-27)
 
 - PASS Debug/Release: core --outline-sidebar, --document-focus, --localization;

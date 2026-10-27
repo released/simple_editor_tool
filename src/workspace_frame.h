@@ -171,6 +171,7 @@ private:
     bool open_search_preview_ = false;
     std::set<std::uint64_t> open_search_sessions_;
     std::uint64_t next_session_id_ = 0;
+    CFont ui_font_;
     CWorkspaceTabs sessions_tab_;
     CButton open_button_, compare_button_, close_button_;
     CStatic welcome_;
