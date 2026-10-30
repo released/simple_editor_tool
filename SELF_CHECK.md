@@ -1,5 +1,95 @@
 # Self Check
 
+## Completed verification: comparison notice / virtual rows (2026-10-30)
+
+- PASS: old virtual mappings/native counts retire before snapshot adoption;
+  Cell/custom draw reject late out-of-range rows. The supplied NG.jpg failure
+  and prior partial-folder abort are resolved by the original regression.
+- PASS: --compare-notice in Debug (36 checks with image) and Release (35), plus
+  advanced, document-focus, side-merge, presentation, compare-page, localization
+  in both. Canonical Release passes workspace-process (12 checks): 15 new groups.
+- PASS: native Traditional Chinese popup image inspected. Cancel/failure/partial/
+  truncated/filtered results cannot claim equality. Copy/Undo auto compare stays
+  quiet; source drafts, independent output and guarded saves remain intact.
+- PASS: x64/static MFC/CRT, Windows-system DLL imports, high-entropy ASLR/NX.
+  Core localization result from the prior checkpoint is reused explicitly.
+- Final TST-01/TST-02 and preservation measurements are recorded in
+  docs/verification/compare-notice-20261030.json. Older checkpoint entries below
+  describe the earlier incomplete state and do not override this verification.
+- TST-01 PARTIAL: removed 674 compiler files / eight reviewed outputs; all 714
+  protected content hashes unchanged. No current-batch fixture/test EXE remains.
+  All 67 prior remnants / 832,118 bytes still require cleanup: the additional
+  15 obsolete fixture files were hash/owner verified but rejected before execution
+  by automatic safety review. No alternate deletion or retention exception.
+  TST-02 PASS: complete project remains below 20,000,000 bytes, including NG.jpg.
+
+## Shutdown checkpoint: compare equality notice (2026-10-30)
+
+- PASS: source Debug UI build and core localization (20 checks plus footer).
+- INCOMPLETE: --compare-notice emitted 22 PASS checks, then exited 3 at/after
+  the failed-folder case before the synthetic partial-folder case completed.
+  Investigate the exact abort and native-dialog teardown before final acceptance.
+- NOT RUN: final Release UI regression, canonical Release update, formal smoke
+  and localized popup screenshot. Desktop computer-use pipe was unavailable.
+- Preserve the previously verified canonical EXE. HANDOFF.md contains exact
+  versions, failure location, retained fixture ownership and resume steps.
+- Shutdown clean: 594 compiler files and nine reviewed test/build outputs removed;
+  no test EXE remains. Canonical EXE/runtime INI retained unchanged. Complete folder
+  about 19.49 MB. Cleanup remains incomplete for prior 49 files and 18 interrupted/
+  failed fixture files (133 bytes); exact provenance and the rejected first-run
+  retirement are recorded in compare-notice-20261030-checkpoint.json.
+
+## Two-way source copying and central line list (2026-10-28)
+
+- REQ-01 PASS: middle original-line list, main-height sources, optional retained
+  output, selected/whole L-to-R and R-to-L copies, next/previous block buttons.
+- PASS: --side-merge in Debug and Release checks actual HWND geometry, source
+  selection, separate differences under ignored EOL, inactive target creation,
+  draft-only copies, native Undo/Redo, stale/read-only rejection, strict Big5
+  representability, destination EOL, side Save/Ctrl+S, resize and zoom.
+- PASS: --compare-page, --advanced, --workspace, --pasted-text, --zoom,
+  --localization, --presentation, --editor-review, --workflow-expansion,
+  --workflows and --async-save in both configurations. Both formal EXEs pass
+  --workspace-process. Core Release: --merge-sync, --presentation, --merge-tools,
+  --localization, --text-reports and --document-focus. 32 selected groups pass.
+- PASS: canonical Release is x64, statically linked MFC/CRT, Windows-system
+  imports only, ASLR/high-entropy/NX; source/delivery language catalogs match.
+  One native image inspected. Remaining manual desktop/DPI coverage and final
+  TST-01/TST-02 measurements are recorded in the versioned verification JSON.
+- TST-01 PARTIAL: 946 compiler and 12 reviewed test/build files removed; 709
+  protected hashes identical. No test EXE/current fixture remains. Historical
+  47-file typography archive and two regenerated Debug INIs (49 / 831,985 bytes)
+  were hash/owner verified, but exact retirement was rejected before execution
+  by automatic safety review. No alternate deletion or retention exception;
+  full cleanup/delivery remains incomplete. TST-02: under 20,000,000 bytes.
+
+## Comparison page behavior (2026-10-28)
+
+- PASS: --compare-page Debug 31 / Release 32 assertions including one final
+  screenshot. Covers closed-file history/persistence, exact editable paths,
+  default text/explicit binary modes, side-specific OLE/legacy/root drops,
+  invalid/busy rejection, source/merge/Undo retention, actual z-order and first
+  native repaint. Inactive file Base is excluded from folder history. Lazy
+  function-sidebar and shared-Text windows retain the correct z-order after layout.
+- PASS: affected workspace, drop-targets, advanced, pasted-text, zoom, async-save,
+  localization, presentation and outline/sidebar callers in both configurations.
+  The final shared-layout audit reran every selected UI mode on final binaries.
+  Formal Debug/Release process tests add twelve assertions each:
+  twenty-two selected passing runs / 669 assertions.
+- PASS: canonical Release, native x64/static runtime/Windows-only imports/security
+  flags, paired guides and exact source/input hashes. Existing C4458 warnings are
+  recorded. Test settings are synthetic; real app closure changed recent keys only.
+- TST-01 this batch PASS: safe clean removed 846 compiler files; reviewed purge
+  retired ten final test/build files (111,474,395 bytes); 705 protected hashes matched.
+  No new test-root files or test-only EXEs remain. Prior 49 files / 826,431 bytes
+  remain blocked and unchanged, with retention rejected; global cleanup/delivery
+  is still incomplete. No new attempt to delete that blocked set or new exception.
+- TST-02 PASS: complete project below 20 MB after previously authorized lossless
+  Git repack; all 859 objects/four references/reflogs and full fsck pass. All 672
+  non-Git protected hashes match. Evidence and exact bytes:
+  docs/verification/compare-page-20261028.json. Physical Explorer/mixed-DPI and
+  fault-injection checks NOT RUN; unrelated core algorithms were outside the change.
+
 ## Native UI typography (2026-10-27)
 
 - PASS: Debug/Release --outline-sidebar (52/55 assertions), --zoom (51 each),

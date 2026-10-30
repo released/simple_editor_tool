@@ -17,6 +17,23 @@ This is a native Windows MFC text, hexadecimal, and binary comparison editor.
 
 ## Local Rules
 
+- Two-way file comparison uses a central line-number list and optional merged
+  output. Directional block/whole copies mutate the target's normal editor draft
+  through workspace_side_merge.cpp, with raw-source freshness checks, codec/EOL
+  preservation and one Undo. Keep source presentation adapters read-only, never
+  save implicitly, and retain independent three-way/folder/pasted workflows.
+  Focused regression: NativeUiTests --side-merge and core --merge-sync.
+
+- Comparison page defaults to mode 2; keep explicit/restored modes. Path history
+  reuses portable recent files and preserves exact typed paths/caret on refresh.
+  Drop forwarding must retain screen coordinates; target one comparison side only
+  after input validation, keeping source/merge drafts and busy-worker guards.
+  Keep both tab backgrounds behind clipped content and repaint children after
+  result layout. Tests: NativeUiTests --compare-page plus affected callers.
+  Retire virtual row indices/counts before installing replacement comparison
+  snapshots; column/layout calls may synchronously request row text/painting.
+  Keep display-callback bounds checks. Regression: --compare-notice.
+
 - Native interface controls use the owned regular Segoe UI 9pt font from
   src/ui/ui_font.h. Bind newly created buttons/tabs/labels/selectors explicitly;
   do not fall back to SYSTEM_FONT or overwrite document/content fonts. Keep the

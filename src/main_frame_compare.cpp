@@ -28,7 +28,7 @@ bool CMainFrame::PrepareComparison(bool insertion_aware) {
     StartSave(document_.Path(), insertion_aware ? AfterSave::CompareInsertion : AfterSave::CompareEqual); return false;
 }
 void CMainFrame::OnCompare() {
-    if (workspace_) { workspace_->NewComparison(document_.Path(), true); return; }
+    if (workspace_) { workspace_->NewComparison(document_.Path()); return; }
     if (!PrepareComparison()) return;
     CFileDialog dialog(TRUE, nullptr, nullptr, OFN_FILEMUSTEXIST, L"All files (*.*)|*.*||", this);
     if (dialog.DoModal() == IDOK) StartCompare(dialog.GetPathName().GetString(), true);
@@ -64,7 +64,9 @@ void CMainFrame::StartCompare(const std::wstring& right, bool insertion_aware) {
     auto worker_right = compare_right_document_.Snapshot(&error);
     if (!worker_left || !worker_right) { ClearComparison(); status_.SetPaneText(0, error.c_str()); return; }
     compare_left_.SetDocument(&compare_left_document_); compare_right_.SetDocument(&compare_right_document_);
-    SetComparisonPaths(document_.Path(), right, insertion_aware);
+    displayed_mode_ = insertion_aware ? 0 : 1;
+    SetComparisonPaths(document_.Path(), right, displayed_mode_);
+    if (workspace_) { workspace_->RememberRecent(compare_left_document_.Path()); workspace_->RememberRecent(compare_right_document_.Path()); }
     compare_left_label_.SetWindowTextW(L"Left file"); compare_right_label_.SetWindowTextW(L"Right file");
     ShowPage(2); status_.SetPaneText(0, L"Comparing... Esc cancels.");
     job_revision_ = revision_; job_kind_ = EditorJobKind::Compare; cancelled_ = false; progress_ = 0; shown_progress_ = UINT_MAX;
@@ -161,6 +163,12 @@ void CMainFrame::FinishJob() {
         if (!result.message.empty()) message = result.message.c_str(); else message.Format(L"Replaced %llu matches. Undo restores the entire operation.", static_cast<unsigned long long>(result.count));
     }
     status_.SetPaneText(0, message);
+    if (result.kind == EditorJobKind::Compare && pending_differences_.empty() && !result.truncated) NotifyNoDifferences();
+}
+void CMainFrame::NotifyNoDifferences() {
+    const bool previous = path_dialog_; path_dialog_ = true;
+    UiMessageBox(L"Comparison complete. No differences were found using the current comparison settings.",MB_OK | MB_ICONINFORMATION);
+    path_dialog_ = previous;
 }
 
 void CMainFrame::OnDifferenceDisplay(NMHDR* header, LRESULT* result) {

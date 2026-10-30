@@ -21,6 +21,11 @@ struct TextMergeModel {
     bool three_way = false;
 };
 struct TextMergeRow { int base = -1, left = -1, right = -1; std::size_t block = 0; };
+struct TextSideCopy {
+    bool to_right = true;
+    std::wstring left_path, right_path, left, right, replacement;
+    TextCodec left_codec, right_codec;
+};
 std::vector<TextLine> SplitLines(const std::wstring& text);
 std::wstring TextForEditControl(const std::wstring& text);
 std::wstring TextFromEditControl(const std::wstring& original, const std::wstring& displayed);
@@ -29,4 +34,7 @@ bool BuildTextMerge(const std::wstring& base, const std::wstring& left, const st
                     TextMergeModel* model, std::wstring* error);
 std::wstring RenderMerge(const TextMergeModel& model, std::size_t* unresolved = nullptr);
 std::vector<TextMergeRow> MergeRows(const TextMergeModel& model);
+bool CopyTextBlocks(const TextMergeModel& model, bool to_right, bool whole,
+                    const std::vector<std::size_t>& selected, const std::atomic_bool& cancel,
+                    std::wstring* output, std::wstring* error);
 } // namespace simple_editor::core

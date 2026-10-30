@@ -66,6 +66,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_CONTROL(CBN_SELCHANGE, IDC_COMPARE_RIGHT_PATH, OnComparePathChanged)
     ON_CONTROL(CBN_EDITCHANGE, IDC_COMPARE_BASE_PATH, OnComparePathChanged)
     ON_CONTROL(CBN_SELCHANGE, IDC_COMPARE_BASE_PATH, OnComparePathChanged)
+    ON_CONTROL(CBN_DROPDOWN, IDC_COMPARE_LEFT_PATH, OnComparePathsDropdown)
+    ON_CONTROL(CBN_DROPDOWN, IDC_COMPARE_RIGHT_PATH, OnComparePathsDropdown)
+    ON_CONTROL(CBN_DROPDOWN, IDC_COMPARE_BASE_PATH, OnComparePathsDropdown)
     ON_COMMAND_RANGE(ID_ENCODING_AUTO, ID_ENCODING_SYSTEM, OnEncoding)
     ON_WM_TIMER()
     ON_UPDATE_COMMAND_UI(ID_FILE_COMPARE, OnUpdateJobCommand)
@@ -87,7 +90,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 END_MESSAGE_MAP()
 
 CMainFrame::CMainFrame(bool publish_instance, CWorkspaceFrame* workspace) : workspace_(workspace), cancelled_(false), suppress_text_change_(false), text_dirty_(false) {
-    Create(nullptr, L"Simple Editor Tool - Native MFC", workspace ? WS_CHILD | WS_CLIPCHILDREN : WS_OVERLAPPEDWINDOW,
+    Create(nullptr, L"Simple Editor Tool - Native MFC", workspace ? WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS : WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
            rectDefault, workspace, nullptr);
     SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), TRUE);
     simple_editor::ui::RegisterLocalizationRoot(this); simple_editor::ui::RegisterLocalizationMenu(session_menu_.GetSafeHmenu(),GetSafeHwnd());
@@ -172,7 +175,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT create) {
     
     AppendReviewMenu(menu); if (workspace_) simple_editor::ui::AppendLanguageMenu(menu); CMenu help_menu; help_menu.CreatePopupMenu(); help_menu.AppendMenu(MF_STRING,ID_APP_ABOUT,L"About / native component notices..."); menu.AppendMenu(MF_POPUP,reinterpret_cast<UINT_PTR>(help_menu.Detach()),L"&Help");
     session_menu_.Attach(menu.Detach()); if (!workspace_) SetMenu(&session_menu_);
-    tabs_.Create(WS_CHILD | WS_VISIBLE | TCS_TABS, CRect(), this, 500); tabs_.InsertItem(0, L"Hex"); tabs_.InsertItem(1, L"Text"); tabs_.InsertItem(2, L"Compare");
+    tabs_.Create(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, CRect(), this, 500); tabs_.InsertItem(0, L"Hex"); tabs_.InsertItem(1, L"Text"); tabs_.InsertItem(2, L"Compare");
     const CString hex_class = AfxRegisterWndClass(CS_DBLCLKS, LoadCursor(nullptr, IDC_IBEAM), reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1), nullptr);
     hex_.Create(hex_class, nullptr, WS_CHILD | WS_VISIBLE | WS_VSCROLL, CRect(), this, 501);
     compare_left_.Create(hex_class, nullptr, WS_CHILD | WS_VSCROLL, CRect(), this, 504);
@@ -184,7 +187,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT create) {
     compare_browse_left_.Create(L"Browse...", WS_CHILD | BS_PUSHBUTTON, CRect(), this, ID_COMPARE_BROWSE_LEFT);
     compare_browse_right_.Create(L"Browse...", WS_CHILD | BS_PUSHBUTTON, CRect(), this, ID_COMPARE_BROWSE_RIGHT);
     compare_mode_.Create(WS_CHILD | WS_VSCROLL | CBS_DROPDOWNLIST, CRect(), this, IDC_COMPARE_MODE);
-    for (auto value : {L"Hex - insertion aware",L"Hex - equal address",L"Text/source (2-way)",L"Text merge (3-way)",L"Folders / sync",L"CSV fields (read-only)",L"TSV fields (read-only)",L"JSON values (read-only)",L"Pasted text (2-way)"}) compare_mode_.AddString(value); compare_mode_.SetCurSel(0);
+    for (auto value : {L"Hex - insertion aware",L"Hex - equal address",L"Text/source (2-way)",L"Text merge (3-way)",L"Folders / sync",L"CSV fields (read-only)",L"TSV fields (read-only)",L"JSON values (read-only)",L"Pasted text (2-way)"}) compare_mode_.AddString(value); compare_mode_.SetCurSel(2);
     compare_run_.Create(L"Compare", WS_CHILD | BS_PUSHBUTTON, CRect(), this, ID_COMPARE_RUN);
     compare_swap_.Create(L"Swap sides", WS_CHILD | BS_PUSHBUTTON, CRect(), this, ID_COMPARE_SWAP);
     compare_base_label_.Create(L"Base file:",WS_CHILD,CRect(),this,525);
@@ -219,7 +222,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT create) {
     InitializeZoom();
     DragAcceptFiles(TRUE); hex_.SetDocument(&document_); hex_.bookmarks = &bookmarks_; hex_.modified_ranges = &modified_ranges_; compare_left_.SetDocument(&compare_left_document_);
     search_dialog_.execute = [this](const SearchRequest& request) { ExecuteSearch(request); };
-    CreateSourceNotice(); SetTimer(1, 50, nullptr); Layout(); return 0;
+    CreateSourceNotice(); tabs_.SetWindowPos(&wndBottom,0,0,0,0,SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    SetTimer(1, 50, nullptr); Layout(); return 0;
 }
 
 void CMainFrame::OnSize(UINT type, int cx, int cy) { CFrameWnd::OnSize(type, cx, cy); Layout(); }
@@ -246,12 +250,19 @@ void CMainFrame::Layout() {
     compare_left_.MoveWindow(left); compare_right_.MoveWindow(right); differences_.MoveWindow(list);
     vertical_splitter_.MoveWindow(left.right, content.top, 6, (std::max<LONG>)(0, left.bottom - content.top));
     horizontal_splitter_.MoveWindow(content.left, left.bottom, content.Width(), 6);
+    tabs_.SetWindowPos(&wndBottom,0,0,0,0,SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     Invalidate(TRUE);
 }
 void CMainFrame::OnTabChanging(NMHDR*, LRESULT* result) { *result = active_tab_ == 1 && !ApplyTextEdits() ? TRUE : FALSE; }
 void CMainFrame::OnTabChanged(NMHDR*, LRESULT* result) { ShowPage(tabs_.GetCurSel()); *result = 0; }
 void CMainFrame::ShowPage(int tab) {
     if (active_tab_ == 1 && tab != 1 && !ApplyTextEdits()) { tabs_.SetCurSel(1); return; }
+    if (tab == 2 && displayed_mode_ >= 2 && !EnsureAdvanced()) { tabs_.SetCurSel(active_tab_); return; }
+    if (tab == 2) {
+        CString left; compare_left_path_.GetWindowTextW(left);
+        if (!comparison_session_ && left.IsEmpty() && document_.IsOpen()) SetPathComboText(compare_left_path_,untitled_ ? untitled_name_ : document_.Path());
+        RefreshComparisonPaths();
+    }
     active_tab_ = tab; tabs_.SetCurSel(tab);
     if (text_clone_.GetSafeHwnd()) text_clone_.ShowWindow(tab == 1 && dual_view_ ? SW_SHOW : SW_HIDE);
     UpdateZoomStatus();
@@ -292,7 +303,6 @@ void CMainFrame::OnReload() {
     const auto path = document_.Path();
     if (OpenPath(path)) status_.SetPaneText(0, L"Reloaded from disk.");
 }
-void CMainFrame::OnDropFiles(HDROP drop) { if (workspace_) { workspace_->OpenDroppedFiles(drop); return; } wchar_t path[MAX_PATH]; if (DragQueryFileW(drop, 0, path, MAX_PATH)) OpenPath(path); DragFinish(drop); }
 bool CMainFrame::ConfirmDiscardChanges(AfterSave next, const std::wstring& next_path) {
     if (!document_.IsModified() && !text_dirty_ && !text_.GetModify() && !untitled_dirty_) return true;
     const int answer = UiMessageBox(L"The current file has unsaved changes. Save them now?", MB_YESNOCANCEL | MB_ICONWARNING);

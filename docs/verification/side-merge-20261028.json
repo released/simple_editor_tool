@@ -1,0 +1,320 @@
+{
+    "date":  "2026-10-28",
+    "scope":  "Central line list, full-height two-way sources, directional block/whole draft copies and difference navigation.",
+    "implementation":  {
+                           "layout":  "Left source / middle original-line list / right source. Independent merged output collapsed by default, retained when hidden.",
+                           "copy":  "Cancellable core plan; exact current raw-source validation; inactive normal target editor; one native Undo; explicit side Save; target codec/EOL and 16 MiB quota checks.",
+                           "ignored_differences":  "Split important versus ignored adjacent changes in two-way models; three-way partitioning unchanged.",
+                           "sources":  "Read-only presentation adapters remain separate from normal editable drafts."
+                       },
+    "tests":  {
+                  "selected_groups":  32,
+                  "Debug":  {
+                                "binary_sha256":  "63E5E168238345069386CAB4265359DD191AA29D739C8AB9E7C37DE3EC207258",
+                                "runs":  [
+                                             {
+                                                 "mode":  "--side-merge",
+                                                 "exit":  0,
+                                                 "log_sha256":  "9D5D5F219C7742A964C04831B308793EAFDA5B1AE8B7375954CB8551CC46E5B3"
+                                             },
+                                             {
+                                                 "mode":  "--compare-page",
+                                                 "exit":  0,
+                                                 "log_sha256":  "97FCB7D22F2C4AB3BE9C051955B5EE433449A4DAC750D8B3F53C8F949228D28A"
+                                             },
+                                             {
+                                                 "mode":  "--advanced",
+                                                 "exit":  0,
+                                                 "log_sha256":  "F5CB15607CE0F23B0AE00C581B3FD9F86B84343B2B45EE79433C503C451E6972"
+                                             },
+                                             {
+                                                 "mode":  "--workspace",
+                                                 "exit":  0,
+                                                 "log_sha256":  "3A94B03AB12D224CC1E0487161B136718B7EA13C1D1487AFA5C4D95011421B8B"
+                                             },
+                                             {
+                                                 "mode":  "--pasted-text",
+                                                 "exit":  0,
+                                                 "log_sha256":  "37114D1A350A9D2D69791D90EB4727F440362869AAC70F66E139B4B73678F88B"
+                                             },
+                                             {
+                                                 "mode":  "--zoom",
+                                                 "exit":  0,
+                                                 "log_sha256":  "BA2FA3E753E163E104D39D2924038C5486D69B1E9426649C4183D31289120DE2"
+                                             },
+                                             {
+                                                 "mode":  "--localization",
+                                                 "exit":  0,
+                                                 "log_sha256":  "E8750B76F55AC8707F6A11B6C716C273F7256275D973C0D833163618A4481685"
+                                             },
+                                             {
+                                                 "mode":  "--presentation",
+                                                 "exit":  0,
+                                                 "log_sha256":  "258C0A7B03A02389E617A0D78D327669E27BD22A7DA440EBF9E67B380B1A635C"
+                                             },
+                                             {
+                                                 "mode":  "--editor-review",
+                                                 "exit":  0,
+                                                 "log_sha256":  "7B9E7DFDD3E4E2CCCCB2519AC64569FBC21CE8AF5618F7337191A8EA1CEC6911"
+                                             },
+                                             {
+                                                 "mode":  "--workflow-expansion",
+                                                 "exit":  0,
+                                                 "log_sha256":  "EB89E1BDF168DF7FB8E7B258C662A68613970475A8B0F1736D6C36FAB5DEB3EA"
+                                             },
+                                             {
+                                                 "mode":  "--workflows",
+                                                 "exit":  0,
+                                                 "log_sha256":  "BE7A5A0705F45D3B7D176E4928A17F06E52ADB7B3008E95AB8F43DE65E5A612A"
+                                             },
+                                             {
+                                                 "mode":  "--async-save",
+                                                 "exit":  0,
+                                                 "log_sha256":  "DD1D7E6AAF640CE944BFDF5D4E285889D9DDBF937DE8346D2295F9B6BF1BEA73"
+                                             }
+                                         ]
+                            },
+                  "Release":  {
+                                  "binary_sha256":  "82E0A7780285E64D3D1C43542F6666430F8274C4425773E432F065299D89EF07",
+                                  "runs":  [
+                                               {
+                                                   "mode":  "--side-merge",
+                                                   "exit":  0,
+                                                   "log_sha256":  "40CE48258140A509881CBDAB7BE4CC61257F7B63F8E3242A0FC3C2969E6BBCBA"
+                                               },
+                                               {
+                                                   "mode":  "--compare-page",
+                                                   "exit":  0,
+                                                   "log_sha256":  "97FCB7D22F2C4AB3BE9C051955B5EE433449A4DAC750D8B3F53C8F949228D28A"
+                                               },
+                                               {
+                                                   "mode":  "--advanced",
+                                                   "exit":  0,
+                                                   "log_sha256":  "F5CB15607CE0F23B0AE00C581B3FD9F86B84343B2B45EE79433C503C451E6972"
+                                               },
+                                               {
+                                                   "mode":  "--workspace",
+                                                   "exit":  0,
+                                                   "log_sha256":  "3A94B03AB12D224CC1E0487161B136718B7EA13C1D1487AFA5C4D95011421B8B"
+                                               },
+                                               {
+                                                   "mode":  "--pasted-text",
+                                                   "exit":  0,
+                                                   "log_sha256":  "37114D1A350A9D2D69791D90EB4727F440362869AAC70F66E139B4B73678F88B"
+                                               },
+                                               {
+                                                   "mode":  "--zoom",
+                                                   "exit":  0,
+                                                   "log_sha256":  "BA2FA3E753E163E104D39D2924038C5486D69B1E9426649C4183D31289120DE2"
+                                               },
+                                               {
+                                                   "mode":  "--localization",
+                                                   "exit":  0,
+                                                   "log_sha256":  "E8750B76F55AC8707F6A11B6C716C273F7256275D973C0D833163618A4481685"
+                                               },
+                                               {
+                                                   "mode":  "--presentation",
+                                                   "exit":  0,
+                                                   "log_sha256":  "258C0A7B03A02389E617A0D78D327669E27BD22A7DA440EBF9E67B380B1A635C"
+                                               },
+                                               {
+                                                   "mode":  "--editor-review",
+                                                   "exit":  0,
+                                                   "log_sha256":  "7B9E7DFDD3E4E2CCCCB2519AC64569FBC21CE8AF5618F7337191A8EA1CEC6911"
+                                               },
+                                               {
+                                                   "mode":  "--workflow-expansion",
+                                                   "exit":  0,
+                                                   "log_sha256":  "EB89E1BDF168DF7FB8E7B258C662A68613970475A8B0F1736D6C36FAB5DEB3EA"
+                                               },
+                                               {
+                                                   "mode":  "--workflows",
+                                                   "exit":  0,
+                                                   "log_sha256":  "BE7A5A0705F45D3B7D176E4928A17F06E52ADB7B3008E95AB8F43DE65E5A612A"
+                                               },
+                                               {
+                                                   "mode":  "--async-save",
+                                                   "exit":  0,
+                                                   "log_sha256":  "DD1D7E6AAF640CE944BFDF5D4E285889D9DDBF937DE8346D2295F9B6BF1BEA73"
+                                               }
+                                           ]
+                              },
+                  "formal":  {
+                                 "command":  "NativeUiTests --workspace-process \u003cformal-exe\u003e",
+                                 "Debug":  {
+                                               "exit":  0,
+                                               "exe_sha256":  "FD5AC38D9F90A806ECE4DE3FC21B1E7F87C4F0B8BD97CD6F6112351D705AB191"
+                                           },
+                                 "Release":  {
+                                                 "exit":  0,
+                                                 "exe_sha256":  "8AC6F349DC4AB03EE2F3C3F71255DB3F2F6579E09DE2C358DE415E7BE04C8D26"
+                                             },
+                                 "log_sha256":  "451A2E152A8EAAA85B5A5D2940172CE6F546E7EDBB2297E6E98269EFE384A3A6"
+                             },
+                  "core":  {
+                               "configuration":  "Release",
+                               "binary_sha256":  "4CD1D915806138BA1B2BA4E9EE33CB6CAFE96BEC7D68072B046BBB1A940D8B9F",
+                               "runs":  [
+                                            {
+                                                "mode":  "--merge-sync",
+                                                "exit":  0,
+                                                "log_sha256":  "8A83555D808A48421D346E1AB7289C5B4E84FE05E0ECDB79EE228D2D85E62D2C"
+                                            },
+                                            {
+                                                "mode":  "--presentation",
+                                                "exit":  0,
+                                                "log_sha256":  "CBF17C0EA4A589B76AAF4D96B3097EE9479F8746147743D50CA00486F74CC1FF"
+                                            },
+                                            {
+                                                "mode":  "--merge-tools",
+                                                "exit":  0,
+                                                "log_sha256":  "C1D0AC72705B1FA9BD4269AC4D4F601A76995313F5B301DE1FECAFC30A9C82E9"
+                                            },
+                                            {
+                                                "mode":  "--localization",
+                                                "exit":  0,
+                                                "log_sha256":  null
+                                            },
+                                            {
+                                                "mode":  "--text-reports",
+                                                "exit":  0,
+                                                "log_sha256":  "31C7E2102B82FED329408BA16443680B7971A85C8E2761EAD45BDC1CCC3664F3"
+                                            },
+                                            {
+                                                "mode":  "--document-focus",
+                                                "exit":  0,
+                                                "log_sha256":  "5BF93B3263B255B3297A26AFF8A48A420B588D1DF7C626252AF56EED365DCD34"
+                                            }
+                                        ]
+                           }
+              },
+    "diagnostics":  {
+                        "first_debug_ui":  "Four failing checks found an ignored-EOL block grouping issue and simulated button commands retaining source focus. Grouping corrected and test commands now focus the actual button. Final Debug/Release selected runs pass.",
+                        "language":  "One appended catalog comment lacked a preceding newline. Corrected in both catalogs; final localization tests pass.",
+                        "existing_warnings":  [
+                                                  "C4458 src/ui/advanced_notes.cpp:29",
+                                                  "C4458 src/ui/advanced_notes_io.cpp:3"
+                                              ],
+                        "raw_logs_retained":  0
+                    },
+    "not_run":  [
+                    "Physical desktop mouse actions, mixed monitor DPI, elevation/UIPI variations. Native HWND/command/OLE/legacy-drop and isolated process tests provide automated coverage.",
+                    "Unchanged firmware/device, remote/plugin and binary-analysis suites (outside change impact)."
+                ],
+    "screenshot":  {
+                       "path":  "docs/verification/side-merge-20261028.png",
+                       "visual_result":  "PASS: inspected native PrintWindow image; source panes occupy main height; middle list and optional output do not overlap.",
+                       "sha256":  "FC38AB3870BAA0D269495533FFEE7B489EDB708CC262707A84812280018D7F95"
+                   },
+    "cleanup":  {
+                    "result":  "PARTIAL_AUTOMATIC_REVIEW_BLOCKED",
+                    "pre_clean":  {
+                                      "project_files":  1716,
+                                      "project_bytes":  2552064626,
+                                      "artifact_files":  1007,
+                                      "artifact_bytes":  2533450409
+                                  },
+                    "compiler_files_removed":  946,
+                    "reviewed_purge_files_removed":  12,
+                    "removed_rebuildable_bytes":  2532618424,
+                    "commands":  [
+                                     "powershell.exe -File scripts/clean.ps1",
+                                     "powershell.exe -File scripts/purge_artifacts.ps1 (preview)",
+                                     "powershell.exe -File scripts/purge_artifacts.ps1 -Apply (12 reviewed outputs; four EXE hashes matched final verification)"
+                                 ],
+                    "protected_files":  709,
+                    "protected_pre_post_sha256":  "506EFE0E47505AF3E280175AD07FBD635E7C54022B13D8A3B7EEE55B164A3454",
+                    "protected_result":  "PASS: every file outside artifacts retained the same content hash across clean/purge and the rejected retirement.",
+                    "runtime_ini_sha256":  "086AE39D7610E55DF3F5F2E0E1BE5003A288A4C7D012011A1F18A16EE0A328B6",
+                    "fixture_files_remaining":  0,
+                    "fixture_roots_remaining":  0,
+                    "test_executables_remaining":  0,
+                    "remaining_files":  49,
+                    "remaining_bytes":  831985,
+                    "remaining_paths":  [
+                                            "artifacts/ui-typography-20261027 (47 historical owned files)",
+                                            "artifacts/debug/lang_en.ini",
+                                            "artifacts/debug/lang_tw.ini"
+                                        ],
+                    "ownership_revalidation":  "All 47 historical hashes/sizes match ui-typography-20261027.json; two Debug catalogs were regenerated by this batch\u0027s required Debug build and match current source hashes. Retained typography JSON/images verified before retirement.",
+                    "automatic_review":  {
+                                             "attempts_this_batch":  1,
+                                             "action":  "Exact hash/size/owner-verified retirement of 49 files strictly inside the independently anchored project/artifacts roots; reparse/process/duplicate/unknown-file guards; no recursive deletion.",
+                                             "result":  "REJECTED_BEFORE_EXECUTION",
+                                             "reason":  "blocked by policy; no detailed reason provided",
+                                             "no_subsequent_alternate_delete_move_or_truncation":  true
+                                         },
+                    "retention_exception_authorized":  false,
+                    "delivery_state":  "Feature implemented and verified. Overall requested cleanup remains incomplete; user previously rejected retaining this data.",
+                    "build_only_exe_ini":  true,
+                    "only_project_executable":  "build/SimpleEditorTool.exe",
+                    "git_repack":  "Not needed; retained data is below the 20,000,000-byte budget."
+                },
+    "builds":  {
+                   "Debug":  "scripts/build.ps1 -Configuration Debug",
+                   "Release":  "scripts/build_release.bat",
+                   "result":  "PASS",
+                   "release_bytes":  3964928,
+                   "release_sha256":  "8AC6F349DC4AB03EE2F3C3F71255DB3F2F6579E09DE2C358DE415E7BE04C8D26",
+                   "pe":  "x64; static MFC/CRT; Windows-system DLL imports; high-entropy ASLR, Dynamic base, NX"
+               },
+    "source_inputs":  {
+                          "files":  323,
+                          "scope":  "src/**, tests/** and four native project files, sorted relativePath|SHA256 joined with LF (UTF-8).",
+                          "aggregate_sha256":  "E3D4F0BCBD67ED10E080014E2D1F1716B9370DB25687D523148CB34F811C6E20",
+                          "catalog_en_sha256":  "1177D674A617D62A0241740D1EF4D12336EDC8B5143091F309EFA25D95715F06",
+                          "catalog_tw_sha256":  "84866DAD7BDA2C3B5F44BB42BFD56B4D3052EE90CF893ACD4B3FA9DE6EAAE29C",
+                          "catalog_entries":  753
+                      },
+    "final_project_bytes":  19462271,
+    "project_budget_bytes":  20000000,
+    "project_budget_result":  "PASS",
+    "task_completion":  "FEATURE_VERIFIED_CLEANUP_BLOCKED",
+    "changed_files_this_task":  {
+                                    "core":  [
+                                                 "src/core/line_merge.h",
+                                                 "src/core/line_merge.cpp"
+                                             ],
+                                    "compare_ui":  [
+                                                       "src/ui/advanced_compare.h",
+                                                       "src/ui/advanced_compare.cpp",
+                                                       "src/ui/advanced_compare_actions.cpp",
+                                                       "src/ui/advanced_sources.cpp"
+                                                   ],
+                                    "workspace_and_save":  [
+                                                               "src/workspace_side_merge.cpp",
+                                                               "src/workspace_frame.h",
+                                                               "src/main_frame_advanced.cpp",
+                                                               "src/main_frame_save.cpp"
+                                                           ],
+                                    "commands_and_languages":  [
+                                                                   "src/resource.h",
+                                                                   "src/res/lang_en.ini",
+                                                                   "src/res/lang_tw.ini",
+                                                                   "build/lang_en.ini",
+                                                                   "build/lang_tw.ini"
+                                                               ],
+                                    "build":  [
+                                                  "SimpleEditorTool.vcxproj",
+                                                  "NativeUiTests.vcxproj",
+                                                  "build/SimpleEditorTool.exe"
+                                              ],
+                                    "tests":  [
+                                                  "tests/native_side_merge_ui.inc",
+                                                  "tests/native_compare_page_ui.inc",
+                                                  "tests/native_ui_tests.cpp",
+                                                  "tests/native_merge_sync_tests.cpp"
+                                              ],
+                                    "documents":  [
+                                                      "AGENTS.md",
+                                                      "SPEC.md",
+                                                      "HANDOFF.md",
+                                                      "SELF_CHECK.md",
+                                                      "docs/USER_GUIDE.md",
+                                                      "docs/USER_GUIDE_EN.md",
+                                                      "docs/verification/side-merge-20261028.json",
+                                                      "docs/verification/side-merge-20261028.png"
+                                                  ]
+                                },
+    "pre_existing_work":  "Earlier path history, painting, drops, typography and other existing modifications preserved without reverting or committing."
+}

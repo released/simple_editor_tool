@@ -7,6 +7,9 @@ void CAdvancedCompareView::OnDraw(NMHDR* header,LRESULT* result) {
     if (draw->nmcd.dwDrawStage == CDDS_PREPAINT) { *result = CDRF_NOTIFYITEMDRAW; return; }
     if (draw->nmcd.dwDrawStage == CDDS_ITEMPREPAINT) {
         const auto row = static_cast<std::size_t>(draw->nmcd.dwItemSpec); if (row >= visible_.size()) return;
+        const auto mapped = visible_[row];
+        if (mode_ == 4 && scan_ && (mapped >= scan_->rows.size() || (folder_tree_ && (mapped >= tree_rows_.errors.size() || mapped >= tree_rows_.differences.size())))) return;
+        if (model_ && (mapped >= text_rows_.size() || text_rows_[mapped].block >= model_->blocks.size())) return;
         if (mode_ == 4 && scan_) { const auto index = visible_[row]; auto state = scan_->rows[index].state; if (folder_tree_ && tree_rows_.errors[index]) state = FolderState::Error; else if (folder_tree_ && tree_rows_.differences[index] && state == FolderState::Equal) state = FolderState::Different; draw->clrTextBk = state == FolderState::Equal ? RGB(255,255,255) : state == FolderState::Error || state == FolderState::TypeConflict ? RGB(255,215,215) : RGB(255,248,205); }
         else if (model_) { const auto& block = model_->blocks[text_rows_[visible_[row]].block]; draw->clrTextBk = !block.changed ? RGB(255,255,255) : block.conflict && block.choice == MergeChoice::Unresolved && !manual_resolved_ ? RGB(255,210,210) : !block.important ? RGB(225,240,255) : RGB(255,248,205); }
         if (theme_ == 1) { const bool equal = draw->clrTextBk == RGB(255,255,255),conflict = draw->clrTextBk == RGB(255,210,210) || draw->clrTextBk == RGB(255,215,215); draw->clrTextBk = equal ? RGB(63,63,63) : conflict ? RGB(90,40,45) : RGB(70,60,25); draw->clrText = RGB(225,228,235); }

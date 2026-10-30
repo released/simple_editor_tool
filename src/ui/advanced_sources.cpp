@@ -23,7 +23,7 @@ CCodeEditor* CAdvancedCompareView::SearchEditor() {
     for (CCodeEditor* editor : {static_cast<CCodeEditor*>(&source_left_),static_cast<CCodeEditor*>(&source_right_),static_cast<CCodeEditor*>(&source_base_),static_cast<CCodeEditor*>(&input_left_),static_cast<CCodeEditor*>(&input_right_),static_cast<CCodeEditor*>(&output_)})
         if (editor->GetSafeHwnd() && (editor->GetStyle() & WS_VISIBLE) && ::GetFocus() == editor->GetSafeHwnd()) { review_focus_ = editor; return editor; }
     if (review_focus_ && review_focus_->GetSafeHwnd() && (review_focus_->GetStyle() & WS_VISIBLE)) return review_focus_;
-    return OutputEditor();
+    return SideBySide() && !show_output_ ? &source_left_ : OutputEditor();
 }
 void CAdvancedCompareView::RefreshSources() {
     if (!source_left_.GetSafeHwnd()) return;
@@ -72,8 +72,23 @@ void CAdvancedCompareView::RefreshSources() {
 void CAdvancedCompareView::SourceChanged(unsigned side) {
     CCodeEditor* editors[] = {&source_base_,&source_left_,&source_right_}; auto& from = *editors[side];
     if (source_sync_ || !source_aligned_ || stale_ || !model_ || ::GetFocus() != from.GetSafeHwnd()) return;
-    const auto top = from.Call(SCI_GETFIRSTVISIBLELINE); auto& previous = source_top_[side]; if (top == previous) return; previous = top;
-    source_sync_ = true; for (unsigned target = model_->three_way ? 0u : 1u; target < 3; ++target) if (target != side) editors[target]->Call(SCI_SETFIRSTVISIBLELINE,top); source_sync_ = false;
+    source_sync_ = true;
+    const auto top = from.Call(SCI_GETFIRSTVISIBLELINE); auto& previous = source_top_[side];
+    if (top != previous) { previous = top; for (unsigned target = model_->three_way ? 0u : 1u; target < 3; ++target) if (target != side) editors[target]->Call(SCI_SETFIRSTVISIBLELINE,top); }
+    if (SideBySide()) {
+        review_focus_ = &from;
+        const auto line = from.OriginalLine(from.Call(SCI_LINEFROMPOSITION,from.Call(SCI_GETCURRENTPOS)));
+        for (std::size_t i = 0; i < visible_.size(); ++i) {
+            const auto& row = text_rows_[visible_[i]];
+            if ((side == 1 ? row.left : row.right) != line || context_rows_.hidden.count(visible_[i])) continue;
+            if (!(rows_.GetItemState(static_cast<int>(i),LVIS_SELECTED) & LVIS_SELECTED)) {
+                rows_.SetItemState(-1,0,LVIS_SELECTED); rows_.SetItemState(static_cast<int>(i),LVIS_SELECTED | LVIS_FOCUSED,LVIS_SELECTED | LVIS_FOCUSED);
+                rows_.EnsureVisible(static_cast<int>(i),FALSE);
+            }
+            break;
+        }
+    }
+    source_sync_ = false;
 }
 void CAdvancedCompareView::SelectSourceRow(std::size_t row) {
     if (!model_ || stale_ || row >= text_rows_.size()) return;
@@ -86,7 +101,7 @@ void CAdvancedCompareView::SelectSourceRow(std::size_t row) {
 }
 void CAdvancedCompareView::OnSourceRowChanged(NMHDR* header,LRESULT* result) {
     *result = 0; const auto* item = reinterpret_cast<NMLISTVIEW*>(header);
-    if ((item->uNewState & LVIS_SELECTED) && item->iItem >= 0 && static_cast<std::size_t>(item->iItem) < visible_.size()) SelectSourceRow(visible_[item->iItem]);
+    if (!source_sync_ && (item->uNewState & LVIS_SELECTED) && item->iItem >= 0 && static_cast<std::size_t>(item->iItem) < visible_.size()) SelectSourceRow(visible_[item->iItem]);
 }
 void CAdvancedCompareView::ReviewMovedBlocks() {
     if (Busy() || stale_ || !model_ || model_->three_way) { Status(L"Run a two-way Text comparison before reviewing moved blocks."); return; }

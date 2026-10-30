@@ -1,5 +1,147 @@
 # Handoff
 
+## Resume: comparison notice and virtual-row adoption (2026-10-30)
+
+- NG.jpg identifies the Debug vector-index assertion. Confirmed replacement
+  ordering: a new empty scan replaced scan_ while old visible_ indices/native
+  item count remained; Columns() synchronously requested old row data. Accepted
+  Text/Scan/Structured/Refresh/Presentation results now retire virtual rows before
+  installing snapshots. Cell/custom-draw callbacks additionally check bounds.
+- Debug --compare-notice PASS: 36 checks plus footer, including the formerly
+  aborting partial scan, populated/empty/populated scans and late row callbacks.
+  Six affected Debug callers also PASS: advanced, document-focus, side-merge,
+  presentation, compare-page, localization. Native localized popup image was
+  captured and inspected at docs/verification/compare-notice-20261030.png.
+- PASS: the same seven UI modes in Release and the canonical Release process
+  smoke (15 new groups). Formal EXE: 3,966,976 bytes, SHA256
+  434BD93A66CE3920196378DC64E58E98B8C09812A9097982A3567FDAAB1AC9B8.
+  Earlier shutdown-checkpoint failures below are historical and superseded.
+  Current evidence/cleanup: docs/verification/compare-notice-20261030.json.
+- Final safe clean removed 674 compiler files; reviewed purge retired eight
+  test/build outputs, with test EXE hashes matching acceptance. All 714 protected
+  hashes matched before/after cleanup, including NG.jpg and the runtime INI.
+  No new fixture, raw log or test EXE remains. Existing 67 files / 832,118 bytes
+  are still blocked: exact retirement of the remaining 15 former failure inputs
+  (107 bytes) was rejected before execution, "blocked by policy", without details.
+  No alternate removal or retention exception. Full cleanup remains incomplete;
+  the project is below 20,000,000 bytes. No Git repack or publication was needed.
+
+## Shutdown checkpoint: no-differences popup (2026-10-30)
+
+- User requested a shutdown checkpoint; do not restart the prior side-merge work.
+  Notification source changes and paired user guides/catalogs are saved. Explicit
+  successful comparisons notify on full-model equality under current settings;
+  automatic copy/Undo recomparison and post-sync rescans suppress the popup.
+  Existing cancellation/error/truncation/partial-result guards precede notices.
+- Source changes: main_frame.h, main_frame_paths.cpp, main_frame_advanced.cpp,
+  main_frame_compare.cpp, ui/advanced_compare.h/.cpp, advanced_compare_actions.cpp,
+  advanced_text_inputs.cpp, res/lang_en.ini and lang_tw.ini. Tests add
+  native_compare_notice_ui.inc and --compare-notice dispatch/legacy notice timer.
+- PASS: Debug UI builds; earlier Release UI build before final test-harness
+  changes; core --localization (20 checks plus final footer), SHA256
+  1A47862031917750D18D9928892EA5CB946D2AD0C94A50AA03B9704C780BE28D.
+- INCOMPLETE: final Debug --compare-notice exited 3 after 22 passing checks.
+  Last PASS: failed folder scan does not display success. The next case injects
+  an empty partial FolderScan; investigate the exact abort before assuming the
+  notification implementation is at fault. The final fixture is
+  artifacts/compare-notice-ui-debug-20261030-04. No screenshot was reached.
+  Debug test SHA256: 31EF6D4873ED2E3BC30D466308CDC74C72C6C8F1165DF22C5FDA2ED9CEBEE028;
+  log SHA256: B500E77E30ADEFAA2810BD594BBFA748223A39F7AB22A492DBA09CE188588917.
+- Earlier three isolated diagnostic runs stalled in dialog-control recognition
+  and were stopped by verified test EXE PID/path only. This Windows dialog did
+  not expose expected IDOK/Static controls. The final harness identifies its
+  owned modal comparison scope and uses EndDialog. Check lifecycle implications
+  while investigating exit 3. Computer-use native pipe was unavailable after
+  retry/reset; no manual desktop verification was completed.
+- Pending: fix/revalidate --compare-notice, run affected Debug/Release callers,
+  rebuild canonical Release, formal smoke, inspect localized popup, final cleanup.
+  Do not reuse the stale Release test EXE as final test evidence.
+- Canonical build/SimpleEditorTool.exe is intentionally still the previous
+  verified version (8AC6F349DC4AB03EE2F3C3F71255DB3F2F6579E09DE2C358DE415E7BE04C8D26);
+  it does NOT yet include this request. Do not delete it during cleanup.
+- Cleanup restriction: prior 49 files remain. Exact retirement of the first
+  interrupted run's three hash-verified files (26 bytes) was also rejected before
+  execution: blocked by policy, no detailed reason. No alternate removal was
+  attempted. The two other interrupted fixture roots and latest failed fixture
+  need ownership-based review on resume; do not bulk-delete artifacts or touch
+  project-external paths. Safe compiler/test EXE cleanup is recorded separately.
+- Shutdown cleanup PASS for rebuildable outputs: safe clean removed 594 compiler
+  files; reviewed purge removed nine test/build outputs after EXE hash checks.
+  No test EXE remains. The canonical EXE and runtime INI hashes are unchanged.
+  Folder is about 19.49 MB. There are 67 retained artifact files / 832,118 bytes:
+  prior 49 plus 18 interrupted/failed fixture files (133 bytes). The latest failure
+  fixture is a concrete debugging checkpoint; review duplicates on resume without
+  bypassing the blocked first-run retirement. Exact fixture hashes and results:
+  docs/verification/compare-notice-20261030-checkpoint.json.
+
+## Two-way source copying and central line list (2026-10-28)
+
+- Two-way file text comparisons give the main height to left/right sources,
+  with the original-line list in the middle and independent merged output
+  collapsed by default. Output can be expanded without losing its draft.
+- Explicit Block/All commands copy in both directions. A cancellable core plan
+  validates both current raw inputs before applying one native Undo transaction
+  to an existing or inactive new normal editor. Comparison reruns from drafts;
+  file bytes remain untouched until explicit side/document Save. Ctrl+S with
+  output collapsed targets the focused source or last copied side.
+- Target read-only/busy checks, strict codec/EOL preservation and input quotas
+  precede mutation. Two-way ignored EOL/space/case runs no longer swallow adjacent
+  meaningful blocks; three-way grouping remains unchanged. Source presentation
+  adapters stay read-only. Visible source search and merged-output Undo remain
+  independent. Middle context placeholders retain expansion.
+- PASS: twelve selected UI modes in each configuration, two hash-matched formal
+  process runs and six focused core modes (32 groups). Native screenshot inspected.
+  Existing unrelated C4458 warnings remain. Complete version, commands, hashes,
+  cleanup result and verification limits: docs/verification/side-merge-20261028.json.
+- TST-01: removed 946 compiler files and 12 reviewed test/build outputs; all 709
+  protected hashes matched. Current fixtures/test EXEs are gone. Exact retirement
+  of 47 prior typography files and two regenerated Debug catalogs was rejected
+  before execution by automatic safety review ("blocked by policy", no details).
+  The 49 files / 831,985 bytes remain, with no retention exception or workaround.
+  Feature verification passes; overall requested cleanup is still incomplete.
+  The complete folder remains below 20,000,000 bytes; no Git repack was needed.
+
+## Comparison page paths, defaults, painting and drops (2026-10-28)
+
+- Generic comparisons and file Compare pages default to Text/source (2-way).
+  Explicit binary/advanced/restored modes remain intact. An empty left path uses
+  the current document. Dropdowns retain exact path/caret text and combine open
+  documents with portable recent-file history (20 entries), including closed tabs.
+  Validated browse/drop/comparison paths update that history; inactive Base files
+  do not enter folder choices. Both complete user guides describe the workflow.
+- Single-file drops choose the indicated comparison side after validation;
+  forwarded OLE/legacy HDROP data retains screen coordinates. Busy/unreadable
+  replacements keep inputs unchanged. Original editor/merge buffers, Undo and
+  multiple-file tab opening are preserved; press Compare after selecting inputs.
+- Reproduced two incorrect native z-orders: session behind workspace tabs and
+  advanced surface behind page tabs. Explicit front placement, sibling clipping,
+  initialization before activation and child invalidation after result layout
+  fix the first complete display. Keep the tab background last after every layout
+  so lazily created function-sidebar/shared-Text controls also remain above it.
+  Native order/update-region checks and one inspected screenshot cover the result.
+- PASS: twenty-two selected Debug/Release UI/formal-process runs, 669 assertions.
+  The final shared-layout audit reran every selected UI mode in both configurations,
+  including outline/sidebar/shared-view callers, on final binaries. Native
+  drag/drop, path persistence, source snapshots, binary/advanced/pasted modes,
+  presentation, zoom, asynchronous save and localization passed. Formal products
+  also pass maximized/single-instance/multi-tab/startup/normal-close checks.
+- Canonical Release: 3,936,768 bytes; SHA-256
+  9227F6DBBDFB9A2D422351EB70F31A455F736A5113E0D5F4BEDB96D21C1000DB.
+  Static MFC/CRT, native x64/security flags and Windows-only imports retained.
+  Two pre-existing C4458 notes-parameter warnings per product remain unchanged.
+  Authorized normal close updated recent-file keys only; user INIs were not test
+  fixtures. No unrelated core-suite run or new dependency.
+- This batch cleaned 846 compiler files and ten known test/build outputs;
+  705 final protected hashes matched. Logs were collected in memory, synthetic fixtures
+  retired themselves, and the fresh test root is absent: zero new scratch bytes.
+  Lossless Git repack preserves all 859 objects, four references and reflogs;
+  full fsck passed, then all 672 non-Git protected hashes matched. Budget is below
+  20,000,000 bytes; exact final bytes: docs/verification/compare-page-20261028.json.
+- Prior cleanup block remains: 49 files / 826,431 bytes from 2026-10-27 were
+  already present, hash-preserved and not retried or exempted. User rejected
+  retention; overall delivery remains incomplete while that policy block exists.
+  NOT RUN: physical Explorer gestures/mixed DPI and resource/OS/SMB fault injection.
+
 ## Native UI typography (2026-10-27)
 
 - Replaced the implicit legacy SYSTEM_FONT on dynamic buttons/tabs/selectors

@@ -57,6 +57,9 @@ public:
 #include "native_localization_ui.inc"
 #include "native_document_focus_ui.inc"
 #include "native_outline_sidebar_ui.inc"
+#include "native_compare_page_ui.inc"
+#include "native_side_merge_ui.inc"
+#include "native_compare_notice_ui.inc"
     static int RunCodeEditor(const std::filesystem::path& root) {
         int failures = 0; const auto check = [&](bool ok,const wchar_t* label) { std::wcout << (ok ? L"PASS: " : L"FAIL: ") << label << L'\n'; if (!ok) ++failures; };
         auto* frame = new CMainFrame(false); AfxGetApp()->m_pMainWnd = frame;
@@ -438,7 +441,7 @@ public:
               L"controls keep live borrowed font handles after repeated zoom");
         frame->SetWindowPos(nullptr,0,0,1200,800,SWP_NOACTIVATE | SWP_NOZORDER);
         frame->compare_mode_.SetCurSel(2); frame->OnCompareModeChanged();
-        frame->SetComparisonPaths(file.wstring(),right.wstring(),true); frame->OnCompareRun();
+        frame->SetComparisonPaths(file.wstring(),right.wstring(),2); frame->OnCompareRun();
         check(Wait(frame) && frame->advanced_.rows_.GetItemCount() > 100, L"text comparison provides scrollable native results for wheel routing");
         auto& advanced = frame->advanced_; const int comparison_zoom = frame->zoom_percent_[2];
         const int advanced_top = advanced.rows_.GetTopIndex(); wheel(advanced.rows_, -120, 0);
@@ -497,7 +500,7 @@ public:
         workspace->SendMessage(WM_COMMAND, ID_WORKSPACE_COMPARE); auto* compare = workspace->sessions_.back();
         check(workspace->sessions_.size() == 4 && compare->comparison_session_ && compare->active_tab_ == 2 && compare->compare_left_path_.GetCount() == 3,
               L"comparison has a separate session and a dropdown of open file paths");
-        compare->SetComparisonPaths(first.wstring(), second.wstring(), false);
+        compare->SetComparisonPaths(first.wstring(), second.wstring(), 1); compare->OnCompareModeChanged();
         saw_picker_ = false; auto picker_timer = ::SetTimer(nullptr, 0, 50, PickerCancelTimer); compare->OnCompareBrowseLeft(); ::KillTimer(nullptr, picker_timer);
         CString selected_left; compare->compare_left_path_.GetWindowTextW(selected_left);
         check(saw_picker_ && selected_left == first.wstring().c_str(), L"left Browse opens the native file explorer and Cancel preserves the path");
@@ -816,10 +819,14 @@ int wmain(int argc, wchar_t** argv) {
     INITCOMMONCONTROLSEX controls{sizeof(controls), ICC_WIN95_CLASSES}; InitCommonControlsEx(&controls);
     wchar_t temp[MAX_PATH]{}, name[MAX_PATH]{}; GetTempPathW(MAX_PATH, temp); GetTempFileNameW(temp, L"set", 0, name); DeleteFileW(name); CreateDirectoryW(name, nullptr); { std::ofstream isolated(std::filesystem::path(name) / L".editorconfig",std::ios::binary); isolated << "root = true\n"; }
     int failures = 0;
+    const UINT_PTR completion_timer = mode == L"--compare-notice" ? 0 : ::SetTimer(nullptr,0,30,NativeUiTest::CompareNoticeTimer);
     if (mode == L"--workspace-process") {
         if (argc != 3) { std::wcerr << L"Usage: NativeUiTests.exe --workspace-process <formal-exe>\n"; failures = 1; }
         else failures += RunWorkspaceProcessTests(name, std::filesystem::absolute(argv[2]));
     }
+    else if (mode == L"--compare-page") failures += NativeUiTest::RunComparePage(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
+    else if (mode == L"--side-merge") failures += NativeUiTest::RunSideMerge(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
+    else if (mode == L"--compare-notice") failures += NativeUiTest::RunCompareNotice(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--outline-sidebar") failures += NativeUiTest::RunOutlineSidebar(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--document-focus") failures += NativeUiTest::RunDocumentFocus(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--localization") failures += NativeUiTest::RunLocalization(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
@@ -858,6 +865,7 @@ int wmain(int argc, wchar_t** argv) {
         if (mode != L"--async-save") { failures += NativeUiTest::Run(name); failures += NativeUiTest::RunZoom(name); }
         failures += NativeUiTest::RunAsyncSave(name);
     }
+    if (completion_timer) ::KillTimer(nullptr,completion_timer);
     simple_editor::ui::ShutdownLocalization(); CCodeEditor::ReleaseResources();
     std::error_code ignored; std::filesystem::remove_all(name, ignored);
     std::wcout << (failures ? L"FAIL: native MFC UI tests\n" : L"PASS: native MFC UI tests\n"); return failures ? 1 : 0;

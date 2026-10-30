@@ -1,4 +1,5 @@
 #include "code_editor.h"
+#include "file_drop.h"
 #include "../core/function_outline.h"
 #include <algorithm>
 #include <filesystem>
@@ -133,7 +134,7 @@ LRESULT CCodeEditor::WindowProc(UINT message, WPARAM wparam, LPARAM lparam) {
     LRESULT handled = 0; if (source_presentation_ && SourceMessage(message,wparam,lparam,&handled)) return handled;
     switch (message) {
     case WM_NCDESTROY: DetachDropTarget(); return CEdit::WindowProc(message,wparam,lparam);
-    case WM_DROPFILES: { auto* frame = GetParentFrame(); if (frame && frame->GetSafeHwnd()) frame->SendMessage(WM_DROPFILES,wparam,lparam); else DragFinish(reinterpret_cast<HDROP>(wparam)); return 0; }
+    case WM_DROPFILES: { auto* frame = GetParentFrame(); if (frame && frame->GetSafeHwnd()) { simple_editor::ui::DropPointToScreen(reinterpret_cast<HDROP>(wparam),GetSafeHwnd()); frame->SendMessage(WM_DROPFILES,wparam,lparam); } else DragFinish(reinterpret_cast<HDROP>(wparam)); return 0; }
     case WM_SETTEXT: { const std::wstring wide = lparam ? reinterpret_cast<const wchar_t*>(lparam) : L""; auto value = ToUtf8(wide); if (!wide.empty() && value.empty()) return FALSE; if (source_presentation_) value.insert(0,"\r\n"); const bool previous = suppress_; suppress_ = true; const auto readonly = Call(SCI_GETREADONLY); Call(SCI_SETREADONLY,0); Call(SCI_SETCHANGEHISTORY,SC_CHANGE_HISTORY_DISABLED); Call(SCI_SETTEXT,0,reinterpret_cast<LPARAM>(value.c_str())); Call(SCI_SETREADONLY,readonly); Call(SCI_EMPTYUNDOBUFFER); Call(SCI_SETSAVEPOINT); Call(SCI_SETCHANGEHISTORY,SC_CHANGE_HISTORY_ENABLED | SC_CHANGE_HISTORY_MARKERS); forced_modified_ = false; suppress_ = previous; UpdateMargins(); return TRUE; }
     case WM_GETTEXTLENGTH: return UnitPosition(Call(SCI_GETLENGTH));
     case WM_GETTEXT: { if (!wparam || !lparam) return 0; const auto text = FromUtf8(Utf8()); const auto count = (std::min<std::size_t>)(text.size(),wparam - 1); memcpy(reinterpret_cast<void*>(lparam),text.data(),count * sizeof(wchar_t)); reinterpret_cast<wchar_t*>(lparam)[count] = 0; return count; }

@@ -24,6 +24,12 @@
 
 class CAdvancedCompareView : public CWnd {
 public:
+    using SideCopy = simple_editor::core::TextSideCopy;
+    std::function<bool(const SideCopy&,std::wstring*)> apply_side_copy;
+    std::function<bool(const std::wstring&,bool)> undo_side;
+    std::function<bool(const std::wstring&)> save_side;
+    std::function<void()> compare_again;
+    std::function<void()> no_differences;
     std::function<void(const std::wstring&)> report;
     std::function<bool(const std::vector<std::wstring>&, bool, const std::vector<simple_editor::core::FileStamp>&)> lock_paths;
     std::function<void(bool)> saved_close;
@@ -40,17 +46,18 @@ public:
     void Configure(int mode);
     bool SetPastedInputs(bool enabled);
     bool HasPastedInputs() const;
-    void StartPastedText();
+    void StartPastedText(bool notify_equal = true);
     void SetSnapshotInputs(const std::wstring& left,const std::wstring& right,const std::wstring& path,const simple_editor::core::TextCodec& codec,const simple_editor::core::FileStamp& stamp);
     void SwapPastedInputs();
     void InvalidateInputs();
     void StartText(std::unique_ptr<simple_editor::core::BinaryDocument> base,
                    std::unique_ptr<simple_editor::core::BinaryDocument> left,
-                   std::unique_ptr<simple_editor::core::BinaryDocument> right);
-    void StartFolders(const std::wstring& left, const std::wstring& right);
+                   std::unique_ptr<simple_editor::core::BinaryDocument> right, bool notify_equal = true);
+    void StartFolders(const std::wstring& left, const std::wstring& right, bool notify_equal = true);
     void Tick();
     void Cancel();
     void SaveResult();
+    bool SaveFocusedSide();
     bool SaveTo(const std::wstring& path);
     void Undo(bool redo = false);
     void Navigate(bool previous, bool conflicts_only = false);
@@ -109,7 +116,7 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 private:
-    enum class JobKind { Text, Render, Scan, Refresh, Plan, Sync, Save, Presentation, Report, Structured, Pairing, NotesLoad, NotesSave };
+    enum class JobKind { Text, Render, Scan, Refresh, Plan, Sync, Save, Presentation, Report, Structured, Pairing, NotesLoad, NotesSave, SideCopy };
     struct Result {
         JobKind kind = JobKind::Text;
         std::shared_ptr<simple_editor::core::TextMergeModel> model;
@@ -122,6 +129,8 @@ private:
         bool anchored = false;
         simple_editor::core::SyncResult sync;
         simple_editor::core::TextCodec codec;
+        simple_editor::core::TextCodec right_codec;
+        std::shared_ptr<SideCopy> side_copy;
         simple_editor::core::FileStamp written;
         std::wstring text, error, output_path,codec_details,review_fingerprint;
         std::shared_ptr<simple_editor::core::ComparisonNotes> review_notes;
@@ -146,7 +155,8 @@ private:
     void StartTextJob(std::unique_ptr<simple_editor::core::BinaryDocument> base,
                       std::unique_ptr<simple_editor::core::BinaryDocument> left,
                       std::unique_ptr<simple_editor::core::BinaryDocument> right,
-                      std::wstring left_text, std::wstring right_text, bool pasted);
+                      std::wstring left_text, std::wstring right_text, bool pasted, bool notify_equal);
+    void CompleteComparisonNotice(bool equal);
     void StartStructured(std::unique_ptr<simple_editor::core::BinaryDocument> left,std::unique_ptr<simple_editor::core::BinaryDocument> right);
     void Columns();
     void SetBusy(bool busy);
@@ -156,6 +166,9 @@ private:
     void OrderFolderRows();
     bool FolderRowVisible(const simple_editor::core::FolderRow& row) const;
     void Take(simple_editor::core::MergeChoice choice);
+    void CopySide(bool to_right, bool whole);
+    void SaveSide(bool right);
+    bool SideBySide() const { return mode_ == 2 && !pasted_inputs_ && !manual_view_; }
     void RenderAsync();
     void PlanSync(bool left_to_right, bool all);
     void ApplyPlan(simple_editor::core::SyncPlan plan);
@@ -195,6 +208,10 @@ private:
     CButton ignore_space_, ignore_case_, ignore_eol_, changes_only_, conflicts_only_, syntax_;
     CButton similar_;
     CButton take_left_, take_right_, take_base_, take_both_, undo_, redo_, save_, allow_markers_, manual_resolved_button_;
+    CButton block_right_, block_left_, whole_right_, whole_left_, previous_, next_, show_output_button_, save_left_, save_right_;
+    bool show_output_ = false;
+    bool last_copy_right_ = true;
+    simple_editor::core::TextCodec right_codec_;
     CButton recursive_, show_equal_, mirror_, copy_right_, copy_left_, sync_right_, sync_left_;
     CComboBox folder_criterion_, folder_filter_, folder_tolerance_;
     CComboBox sync_policy_;
@@ -238,6 +255,7 @@ private:
     bool suppress_result_ = false, dirty_ = false, manual_ = false, stale_ = false, close_after_save_ = false;
     bool locks_held_ = false;
     bool modal_ = false;
+    bool notify_equal_ = true;
     bool search_busy_ = false;
     std::size_t unresolved_ = 0;
     std::size_t model_unresolved_ = 0;

@@ -1,0 +1,688 @@
+{
+    "date":  "2026-10-28",
+    "scope":  "Comparison path history, default two-way text, first-result repaint and side-targeted file drops",
+    "functional_result":  "PASS",
+    "verified_product_result":  "PASS",
+    "completion":  "INCOMPLETE_PREEXISTING_CLEANUP_BLOCK",
+    "baseline":  {
+                     "project_bytes":  20556228,
+                     "exe_bytes":  3933696,
+                     "exe_sha256":  "98FD0849A1111AC53A3361FE02359FEB5DA6F0EACC3E8ADE3F02665836DF5EE4",
+                     "ini":  [
+                                 {
+                                     "name":  "lang_en.ini",
+                                     "sha256":  "DB1C1D2291D4A0940B1FB06AC98815CCC865707C75FB02D175CB872AE1BCD301"
+                                 },
+                                 {
+                                     "name":  "lang_tw.ini",
+                                     "sha256":  "34398572F3E228A883ADBEED982163ADAD9CE7BDC10F7243A410503DDDD08541"
+                                 },
+                                 {
+                                     "name":  "simple_editor_tool.ini",
+                                     "sha256":  "1F14E7B1B689A62EFB70123EE81A12081BB03A2B298D8E9883B8D0E02D8159D7"
+                                 },
+                                 {
+                                     "name":  "test.ini",
+                                     "sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91"
+                                 },
+                                 {
+                                     "name":  "ui_smoke.ini",
+                                     "sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25"
+                                 }
+                             ]
+                 },
+    "requirements":  [
+                         {
+                             "request":  "Left/right recent path dropdowns",
+                             "change":  "Open/current paths plus existing portable recent-file history (20 entries); exact path text/caret preserved, closed paths retained; inactive file Base excluded from folder choices."
+                         },
+                         {
+                             "request":  "Default Text/source (2-way)",
+                             "change":  "Generic new comparisons and file Compare pages default to mode 2; explicit/restored binary and advanced modes preserved; current file seeds an empty left input."
+                         },
+                         {
+                             "request":  "Complete first comparison render",
+                             "change":  "Prepare a comparison before activating its frame; place active session/advanced surfaces above tab backgrounds, clip sibling painting and invalidate result children after layout."
+                         },
+                         {
+                             "request":  "Drop onto the right side",
+                             "change":  "Preserve real screen coordinates in forwarded HDROP payloads; validate a single file and select only the indicated side. Busy/invalid replacements preserve inputs, source/merge drafts and Undo. Multiple-file opening retained."
+                         }
+                     ],
+    "tests":  [
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "compare-page",
+                      "exit_code":  0,
+                      "assertions":  31,
+                      "exe_sha256":  "2C173C411D07AB938BDAF7C8BFA494DCEDB098E181C730F53C76FD513278BA34",
+                      "normalized_log_sha256":  "45FF3497F8C26181A46AEEC765E40548E1958685377863D15399070B9AAB4872",
+                      "checks":  [
+                                     "PASS: close a clean file while retaining its recent-file record",
+                                     "PASS: a lazily created function sidebar paints above the tab background",
+                                     "PASS: a newly created shared Text view paints above the tab background",
+                                     "PASS: entering Compare defaults to two-way text and seeds the current file on the left",
+                                     "PASS: both dropdowns include previously opened files after their document tab is closed",
+                                     "PASS: opening history preserves the exact current path and edit selection",
+                                     "PASS: the native path combobox displays an expandable history list",
+                                     "PASS: a workspace-level file drop onto the right path assigns only the right input",
+                                     "PASS: comparison input drops preserve the existing draft, native Undo and original disk file",
+                                     "PASS: Compare creates a ready two-way text session while retaining the source editor",
+                                     "PASS: the new comparison uses the selected paths and the open editor\u0027s unsaved snapshot",
+                                     "PASS: workspace tabs clip sibling content during background painting",
+                                     "PASS: page tabs clip sibling content during background painting",
+                                     "PASS: the active session paints above the workspace tab background",
+                                     "PASS: the comparison surface paints above the page tab background",
+                                     "PASS: result layout invalidates native source and output children without requiring a tab switch",
+                                     "PASS: the first comparison paints complete, non-overlapping source and result panes",
+                                     "PASS: OLE drops on the read-only right source retain the real drop position and update only the right path",
+                                     "PASS: changing a dropped input invalidates old results while retaining merge output and source Undo",
+                                     "PASS: dropping during a comparison cannot replace an input used by the active worker",
+                                     "PASS: OLE drops on the left source independently select the left input",
+                                     "PASS: legacy child-window file drops translate client coordinates before forwarding",
+                                     "PASS: an unreadable dropped file preserves both selected inputs and all sessions",
+                                     "PASS: the main Compare command also defaults to two-way text",
+                                     "PASS: explicit equal-address binary comparison remains available",
+                                     "PASS: explicit insertion-aware binary comparison remains available",
+                                     "PASS: folder history excludes an inactive file Base while preserving its saved value",
+                                     "PASS: close a comparison-history file without erasing its record",
+                                     "PASS: history refresh retains closed comparison paths and preserves the current selection",
+                                     "PASS: comparison/open-file history persists through the existing portable preference writer",
+                                     "PASS: all path, comparison, painting and drag/drop operations retain source drafts and disk bytes",
+                                     "PASS: native MFC UI tests"
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "workspace",
+                      "exit_code":  0,
+                      "assertions":  35,
+                      "exe_sha256":  "2C173C411D07AB938BDAF7C8BFA494DCEDB098E181C730F53C76FD513278BA34",
+                      "normalized_log_sha256":  "3A94B03AB12D224CC1E0487161B136718B7EA13C1D1487AFA5C4D95011421B8B",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "drop-targets",
+                      "exit_code":  0,
+                      "assertions":  10,
+                      "exe_sha256":  "2C173C411D07AB938BDAF7C8BFA494DCEDB098E181C730F53C76FD513278BA34",
+                      "normalized_log_sha256":  "92AC3A1E6688F244FBCE165B05485B7BC5B753AE86C06076AFDC815594CF582B",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "advanced",
+                      "exit_code":  0,
+                      "assertions":  52,
+                      "exe_sha256":  "2C173C411D07AB938BDAF7C8BFA494DCEDB098E181C730F53C76FD513278BA34",
+                      "normalized_log_sha256":  "F5CB15607CE0F23B0AE00C581B3FD9F86B84343B2B45EE79433C503C451E6972",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "pasted-text",
+                      "exit_code":  0,
+                      "assertions":  34,
+                      "exe_sha256":  "2C173C411D07AB938BDAF7C8BFA494DCEDB098E181C730F53C76FD513278BA34",
+                      "normalized_log_sha256":  "37114D1A350A9D2D69791D90EB4727F440362869AAC70F66E139B4B73678F88B",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "zoom",
+                      "exit_code":  0,
+                      "assertions":  51,
+                      "exe_sha256":  "2C173C411D07AB938BDAF7C8BFA494DCEDB098E181C730F53C76FD513278BA34",
+                      "normalized_log_sha256":  "BA2FA3E753E163E104D39D2924038C5486D69B1E9426649C4183D31289120DE2",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "async-save",
+                      "exit_code":  0,
+                      "assertions":  32,
+                      "exe_sha256":  "2C173C411D07AB938BDAF7C8BFA494DCEDB098E181C730F53C76FD513278BA34",
+                      "normalized_log_sha256":  "DD1D7E6AAF640CE944BFDF5D4E285889D9DDBF937DE8346D2295F9B6BF1BEA73",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "localization",
+                      "exit_code":  0,
+                      "assertions":  17,
+                      "exe_sha256":  "2C173C411D07AB938BDAF7C8BFA494DCEDB098E181C730F53C76FD513278BA34",
+                      "normalized_log_sha256":  "E8750B76F55AC8707F6A11B6C716C273F7256275D973C0D833163618A4481685",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "presentation",
+                      "exit_code":  0,
+                      "assertions":  8,
+                      "exe_sha256":  "2C173C411D07AB938BDAF7C8BFA494DCEDB098E181C730F53C76FD513278BA34",
+                      "normalized_log_sha256":  "258C0A7B03A02389E617A0D78D327669E27BD22A7DA440EBF9E67B380B1A635C",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "outline-sidebar",
+                      "exit_code":  0,
+                      "assertions":  52,
+                      "exe_sha256":  "2C173C411D07AB938BDAF7C8BFA494DCEDB098E181C730F53C76FD513278BA34",
+                      "normalized_log_sha256":  "A1AE80BA1375F7DB777DDA08938F6873D7A3B8EAE93C9FCCA182849BE1E476D3",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "compare-page",
+                      "exit_code":  0,
+                      "assertions":  32,
+                      "exe_sha256":  "A1C20158D0EF36DC4DD2707AF817D3FA721F7E0FE94EFFAA4A37C8A460046620",
+                      "normalized_log_sha256":  "60ACDCA8F6D1AB24EB953DB4399EF880E0D183BF9E04EFC2A9EBCBC54627FA72",
+                      "checks":  [
+                                     "PASS: close a clean file while retaining its recent-file record",
+                                     "PASS: a lazily created function sidebar paints above the tab background",
+                                     "PASS: a newly created shared Text view paints above the tab background",
+                                     "PASS: entering Compare defaults to two-way text and seeds the current file on the left",
+                                     "PASS: both dropdowns include previously opened files after their document tab is closed",
+                                     "PASS: opening history preserves the exact current path and edit selection",
+                                     "PASS: the native path combobox displays an expandable history list",
+                                     "PASS: a workspace-level file drop onto the right path assigns only the right input",
+                                     "PASS: comparison input drops preserve the existing draft, native Undo and original disk file",
+                                     "PASS: Compare creates a ready two-way text session while retaining the source editor",
+                                     "PASS: the new comparison uses the selected paths and the open editor\u0027s unsaved snapshot",
+                                     "PASS: workspace tabs clip sibling content during background painting",
+                                     "PASS: page tabs clip sibling content during background painting",
+                                     "PASS: the active session paints above the workspace tab background",
+                                     "PASS: the comparison surface paints above the page tab background",
+                                     "PASS: result layout invalidates native source and output children without requiring a tab switch",
+                                     "PASS: the first comparison paints complete, non-overlapping source and result panes",
+                                     "PASS: capture the completed comparison before switching document tabs",
+                                     "PASS: OLE drops on the read-only right source retain the real drop position and update only the right path",
+                                     "PASS: changing a dropped input invalidates old results while retaining merge output and source Undo",
+                                     "PASS: dropping during a comparison cannot replace an input used by the active worker",
+                                     "PASS: OLE drops on the left source independently select the left input",
+                                     "PASS: legacy child-window file drops translate client coordinates before forwarding",
+                                     "PASS: an unreadable dropped file preserves both selected inputs and all sessions",
+                                     "PASS: the main Compare command also defaults to two-way text",
+                                     "PASS: explicit equal-address binary comparison remains available",
+                                     "PASS: explicit insertion-aware binary comparison remains available",
+                                     "PASS: folder history excludes an inactive file Base while preserving its saved value",
+                                     "PASS: close a comparison-history file without erasing its record",
+                                     "PASS: history refresh retains closed comparison paths and preserves the current selection",
+                                     "PASS: comparison/open-file history persists through the existing portable preference writer",
+                                     "PASS: all path, comparison, painting and drag/drop operations retain source drafts and disk bytes",
+                                     "PASS: native MFC UI tests"
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "workspace",
+                      "exit_code":  0,
+                      "assertions":  35,
+                      "exe_sha256":  "A1C20158D0EF36DC4DD2707AF817D3FA721F7E0FE94EFFAA4A37C8A460046620",
+                      "normalized_log_sha256":  "3A94B03AB12D224CC1E0487161B136718B7EA13C1D1487AFA5C4D95011421B8B",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "drop-targets",
+                      "exit_code":  0,
+                      "assertions":  10,
+                      "exe_sha256":  "A1C20158D0EF36DC4DD2707AF817D3FA721F7E0FE94EFFAA4A37C8A460046620",
+                      "normalized_log_sha256":  "92AC3A1E6688F244FBCE165B05485B7BC5B753AE86C06076AFDC815594CF582B",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "advanced",
+                      "exit_code":  0,
+                      "assertions":  52,
+                      "exe_sha256":  "A1C20158D0EF36DC4DD2707AF817D3FA721F7E0FE94EFFAA4A37C8A460046620",
+                      "normalized_log_sha256":  "F5CB15607CE0F23B0AE00C581B3FD9F86B84343B2B45EE79433C503C451E6972",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "pasted-text",
+                      "exit_code":  0,
+                      "assertions":  34,
+                      "exe_sha256":  "A1C20158D0EF36DC4DD2707AF817D3FA721F7E0FE94EFFAA4A37C8A460046620",
+                      "normalized_log_sha256":  "37114D1A350A9D2D69791D90EB4727F440362869AAC70F66E139B4B73678F88B",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "zoom",
+                      "exit_code":  0,
+                      "assertions":  51,
+                      "exe_sha256":  "A1C20158D0EF36DC4DD2707AF817D3FA721F7E0FE94EFFAA4A37C8A460046620",
+                      "normalized_log_sha256":  "BA2FA3E753E163E104D39D2924038C5486D69B1E9426649C4183D31289120DE2",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "async-save",
+                      "exit_code":  0,
+                      "assertions":  32,
+                      "exe_sha256":  "A1C20158D0EF36DC4DD2707AF817D3FA721F7E0FE94EFFAA4A37C8A460046620",
+                      "normalized_log_sha256":  "DD1D7E6AAF640CE944BFDF5D4E285889D9DDBF937DE8346D2295F9B6BF1BEA73",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "localization",
+                      "exit_code":  0,
+                      "assertions":  17,
+                      "exe_sha256":  "A1C20158D0EF36DC4DD2707AF817D3FA721F7E0FE94EFFAA4A37C8A460046620",
+                      "normalized_log_sha256":  "E8750B76F55AC8707F6A11B6C716C273F7256275D973C0D833163618A4481685",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "presentation",
+                      "exit_code":  0,
+                      "assertions":  8,
+                      "exe_sha256":  "A1C20158D0EF36DC4DD2707AF817D3FA721F7E0FE94EFFAA4A37C8A460046620",
+                      "normalized_log_sha256":  "258C0A7B03A02389E617A0D78D327669E27BD22A7DA440EBF9E67B380B1A635C",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "outline-sidebar",
+                      "exit_code":  0,
+                      "assertions":  52,
+                      "exe_sha256":  "A1C20158D0EF36DC4DD2707AF817D3FA721F7E0FE94EFFAA4A37C8A460046620",
+                      "normalized_log_sha256":  "A1AE80BA1375F7DB777DDA08938F6873D7A3B8EAE93C9FCCA182849BE1E476D3",
+                      "checks":  [
+
+                                 ],
+                      "failures":  [
+
+                                   ]
+                  },
+                  {
+                      "configuration":  "Debug",
+                      "mode":  "workspace-process",
+                      "exit_code":  0,
+                      "assertions":  12,
+                      "exe_sha256":  "2C173C411D07AB938BDAF7C8BFA494DCEDB098E181C730F53C76FD513278BA34",
+                      "formal_sha256":  "2EA07905228E301199B01FBF6B18F54E7A271AE25ABF1BE56208B58E432E11A6",
+                      "checks":  [
+                                     "PASS: isolate formal EXE copies without user settings",
+                                     "PASS: formal and renamed EXE copies match every source byte",
+                                     "PASS: start concurrent formal and renamed instances with several file paths",
+                                     "PASS: concurrent launches publish exactly one normal workspace",
+                                     "PASS: secondary forwards all paths and duplicate activation retains three file tabs",
+                                     "PASS: ready formal workspace starts maximized",
+                                     "PASS: renamed-copy forwarding creates no second top-level workspace",
+                                     "PASS: formal Close tab removes only the explicitly selected file",
+                                     "PASS: formal multi-session workspace closes normally with exit zero",
+                                     "PASS: relaunch the renamed formal EXE after normal close",
+                                     "PASS: normal close releases the singleton for the next workspace",
+                                     "PASS: relaunched formal workspace shuts down normally",
+                                     "PASS: native MFC UI tests"
+                                 ]
+                  },
+                  {
+                      "configuration":  "Release",
+                      "mode":  "workspace-process",
+                      "exit_code":  0,
+                      "assertions":  12,
+                      "exe_sha256":  "A1C20158D0EF36DC4DD2707AF817D3FA721F7E0FE94EFFAA4A37C8A460046620",
+                      "formal_sha256":  "9227F6DBBDFB9A2D422351EB70F31A455F736A5113E0D5F4BEDB96D21C1000DB",
+                      "checks":  [
+                                     "PASS: isolate formal EXE copies without user settings",
+                                     "PASS: formal and renamed EXE copies match every source byte",
+                                     "PASS: start concurrent formal and renamed instances with several file paths",
+                                     "PASS: concurrent launches publish exactly one normal workspace",
+                                     "PASS: secondary forwards all paths and duplicate activation retains three file tabs",
+                                     "PASS: ready formal workspace starts maximized",
+                                     "PASS: renamed-copy forwarding creates no second top-level workspace",
+                                     "PASS: formal Close tab removes only the explicitly selected file",
+                                     "PASS: formal multi-session workspace closes normally with exit zero",
+                                     "PASS: relaunch the renamed formal EXE after normal close",
+                                     "PASS: normal close releases the singleton for the next workspace",
+                                     "PASS: relaunched formal workspace shuts down normally",
+                                     "PASS: native MFC UI tests"
+                                 ]
+                  }
+              ],
+    "within_batch_reuse":  "The final shared-layout audit reran every selected UI mode on final Debug/Release binaries, including outline/sidebar/shared-view callers. No earlier per-mode binary results substitute for final selected runs.",
+    "builds":  [
+                   {
+                       "target":  "SimpleEditorTool",
+                       "configuration":  "Debug",
+                       "exit_code":  0,
+                       "concurrency":  "/MP2",
+                       "warnings":  [
+                                        "D:\\SourceCode\\python\\simple_editor_tool\\src\\ui\\advanced_notes.cpp(29,57): warning C4458: \u0027report\u0027 的宣告會隱藏類別成員 [D:\\SourceCode\\python\\simple_editor_tool\\SimpleEditorTool.vcxproj]",
+                                        "D:\\SourceCode\\python\\simple_editor_tool\\src\\ui\\advanced_notes_io.cpp(3,81): warning C4458: \u0027report\u0027 的宣告會隱藏類別成員 [D:\\SourceCode\\python\\simple_editor_tool\\SimpleEditorTool.vcxproj]"
+                                    ],
+                       "errors":  [
+
+                                  ],
+                       "bytes":  16933888,
+                       "sha256":  "2EA07905228E301199B01FBF6B18F54E7A271AE25ABF1BE56208B58E432E11A6"
+                   },
+                   {
+                       "target":  "SimpleEditorTool",
+                       "configuration":  "Release",
+                       "canonical_command":  "scripts/build_release.bat",
+                       "exit_code":  0,
+                       "concurrency":  "/MP4",
+                       "warnings":  [
+                                        "D:\\SourceCode\\python\\simple_editor_tool\\src\\ui\\advanced_notes.cpp(29,57): warning C4458: \u0027report\u0027 的宣告會隱藏類別成員 [D:\\SourceCode\\python\\simple_editor_tool\\SimpleEditorTool.vcxproj]",
+                                        "D:\\SourceCode\\python\\simple_editor_tool\\src\\ui\\advanced_notes_io.cpp(3,81): warning C4458: \u0027report\u0027 的宣告會隱藏類別成員 [D:\\SourceCode\\python\\simple_editor_tool\\SimpleEditorTool.vcxproj]"
+                                    ],
+                       "errors":  [
+
+                                  ],
+                       "bytes":  3936768,
+                       "sha256":  "9227F6DBBDFB9A2D422351EB70F31A455F736A5113E0D5F4BEDB96D21C1000DB"
+                   }
+               ],
+    "build_concurrency":  "Temporary CL=/MP4 for UI and Release product, /MP2 for final Debug product; persistent compilation/runtime/security settings unchanged.",
+    "native_pe":  {
+                      "x64":  true,
+                      "high_entropy_aslr_nx":  true,
+                      "static_mfc_crt_unchanged":  true,
+                      "imports":  [
+                                      "ADVAPI32.dll",
+                                      "bcrypt.dll",
+                                      "COMCTL32.dll",
+                                      "CRYPT32.dll",
+                                      "GDI32.dll",
+                                      "IMM32.dll",
+                                      "KERNEL32.dll",
+                                      "ole32.dll",
+                                      "OLEACC.dll",
+                                      "OLEAUT32.dll",
+                                      "SHELL32.dll",
+                                      "SHLWAPI.dll",
+                                      "USER32.dll",
+                                      "UxTheme.dll"
+                                  ]
+                  },
+    "source_inputs":  [
+                          {
+                              "path":  "src/main_frame.cpp",
+                              "sha256":  "7A7B36EC9C42F9813D948210F7728A9A81F8F364362BA38D0A3C41A01BC8BEC0"
+                          },
+                          {
+                              "path":  "src/main_frame.h",
+                              "sha256":  "09E0E1E0CE2B90B8C5FB88AA93E6016BD9C87510347B80A27361DC14CAB31301"
+                          },
+                          {
+                              "path":  "src/main_frame_advanced.cpp",
+                              "sha256":  "670C4AACBD563AE17832ECF6EBA58D1E5E7B1E799C7AAF7CC9EA28B6AE292286"
+                          },
+                          {
+                              "path":  "src/main_frame_compare.cpp",
+                              "sha256":  "F1E1EADEB7B23F8814F7BCCB41E625EBC1F640109DB25BDE999B4EC9E7F427D2"
+                          },
+                          {
+                              "path":  "src/main_frame_paths.cpp",
+                              "sha256":  "0CE78DD1739F6FA7B2CAF8E830D9BE630056DEA8BC5A8F307626E04664DA010B"
+                          },
+                          {
+                              "path":  "src/main_frame_drop.cpp",
+                              "sha256":  "7EC0C77D6758E0307264CC8EF62C5FD5E16F2F248842005EA3F19267791F2D8A"
+                          },
+                          {
+                              "path":  "src/ui/file_drop.h",
+                              "sha256":  "FD959C11E61AD2B1B5FD82047CF36984E99F2E407D80BD2844DF1B8E45D5333A"
+                          },
+                          {
+                              "path":  "src/ui/advanced_compare.cpp",
+                              "sha256":  "21152CEB05BC469A33C09634CC698F83608AC5171F263A381017CE5A61B0DABC"
+                          },
+                          {
+                              "path":  "src/ui/code_editor.cpp",
+                              "sha256":  "79562B7A97715B6B62A3E9023ECD96873DFDA188C51238C4F4F192D4C84B78C0"
+                          },
+                          {
+                              "path":  "src/ui/editor_drop_target.cpp",
+                              "sha256":  "C475F119A447841C1A86C39E660CF6B874BFDF90547CD93CFF78EF465E8C614C"
+                          },
+                          {
+                              "path":  "src/workspace_frame.cpp",
+                              "sha256":  "37AE6B9BDCB038A53658566C06F6CECF3A976DE69FE7F75E79748063E9FD846E"
+                          },
+                          {
+                              "path":  "src/workspace_frame.h",
+                              "sha256":  "0F2660358A87B8895FDBE2287CD2D3E9A87AC918DEF95BD552A6C785F3744CDD"
+                          },
+                          {
+                              "path":  "NativeUiTests.vcxproj",
+                              "sha256":  "F44FEDCB4F79490ECD16CA684EB4D67F41F1720F6345B3B0433940BA337EDDCF"
+                          },
+                          {
+                              "path":  "SimpleEditorTool.vcxproj",
+                              "sha256":  "170FB60AFA1A0316F8FC203B0A14D45045A3F85BDA18AEE961F3656F730490BD"
+                          },
+                          {
+                              "path":  "tests/native_compare_page_ui.inc",
+                              "sha256":  "8FD84F44A1EB6E3E4869608FE32B642CDFC1A5D31EBDC7FD63DF06B1791D1DB5"
+                          },
+                          {
+                              "path":  "tests/native_ui_tests.cpp",
+                              "sha256":  "B7FD6527289B3C4EE5BD54C808148B379F2AB7C2EA8E5481D7D78208A4932DF4"
+                          },
+                          {
+                              "path":  "tests/native_presentation_ui.inc",
+                              "sha256":  "C50BD890FEAD83A9C767CCAA32BD5FB7E4532A26A5532B6918667FE1F6E3B136"
+                          },
+                          {
+                              "path":  "docs/USER_GUIDE.md",
+                              "sha256":  "A36FAC2C0FBC38502D28027C76F978EBDC9BD263DA1E156801385C90CD0F402B"
+                          },
+                          {
+                              "path":  "docs/USER_GUIDE_EN.md",
+                              "sha256":  "AF50636450A38E8EE38B9A871152422623BA57A2D27931B2A44BAC91C0A5D0B2"
+                          },
+                          {
+                              "path":  "AGENTS.md",
+                              "sha256":  "4F3093A727BDD915515C1E4DEA95E219676142FD8F2B1E1BE182BC00C6A2FEB0"
+                          },
+                          {
+                              "path":  "SPEC.md",
+                              "sha256":  "086CA545CF7ED535A242849AAE75EBCD127E88ED3B7578D52D77C66843857B70"
+                          }
+                      ],
+    "image":  {
+                  "path":  "compare-page-20261028/compare-after-run.png",
+                  "bytes":  71326,
+                  "sha256":  "318DB1F8FF6A7C7D40FDCB0A2CED0BBF8F9DB4E7AB889FD8DA395C9D6D82B21B",
+                  "visual_result":  "PASS - final native render inspected before changing tabs."
+              },
+    "settings":  {
+                     "before_sha256":  "1F14E7B1B689A62EFB70123EE81A12081BB03A2B298D8E9883B8D0E02D8159D7",
+                     "after_sha256":  "066CCB87417F4A587967166AB0EA7B4A192D11975B3E755D6266E82BB802C231",
+                     "changed_keys":  [
+                                          "simpleeditortool.recent/0",
+                                          "simpleeditortool.recent/1",
+                                          "simpleeditortool.recent/10",
+                                          "simpleeditortool.recent/11",
+                                          "simpleeditortool.recent/12",
+                                          "simpleeditortool.recent/2",
+                                          "simpleeditortool.recent/3",
+                                          "simpleeditortool.recent/4",
+                                          "simpleeditortool.recent/5",
+                                          "simpleeditortool.recent/6",
+                                          "simpleeditortool.recent/7",
+                                          "simpleeditortool.recent/8",
+                                          "simpleeditortool.recent/9",
+                                          "simpleeditortool.recent/count"
+                                      ],
+                     "reason":  "Authorized graceful closure of the existing normal application persisted recent-file keys only. Native tests used synthetic settings; no user INI was a test fixture."
+                 },
+    "diagnostics":  [
+                        {
+                            "configuration":  "Debug",
+                            "mode":  "compare-page",
+                            "exe_sha256":  "5E8EBBFC21E8F576AD5EF80A15EF6E645D52FF7B038D8B18E1F25339AEF21C9E",
+                            "exit_code":  1,
+                            "failed_check":  "comparison surfaces paint above clipped tab backgrounds at both hierarchy levels",
+                            "passed_assertions":  24,
+                            "subsequent_probe":  "Sibling-clipping flags passed; both active-session/workspace-tab and advanced-surface/page-tab z-order checks failed before explicit front placement was added.",
+                            "resolved":  true
+                        }
+                    ],
+    "verification_scope":  "Selected native UI and formal process callers only. Core algorithms/CLI were outside this change; no unrelated full suite rerun.",
+    "not_run":  [
+                    "Physical Explorer mouse gestures and mixed-monitor DPI.",
+                    "Injected font/resource exhaustion, OS/file-system faults or SMB latency."
+                ],
+    "artifact_lifecycle":  {
+                               "result":  "PASS_THIS_BATCH",
+                               "normal_clean_removed_files":  846,
+                               "reviewed_purge_removed_files":  10,
+                               "reviewed_purge_removed_bytes":  111474395,
+                               "temporary_root":  "artifacts/compare-page-layout-final-20261028",
+                               "new_test_root_absent":  true,
+                               "new_scratch_bytes_remaining":  0,
+                               "test_only_executables_absent":  true,
+                               "protected_files_unchanged_after_clean":  705,
+                               "protected_digest":  "C266DD3AD386F00B6D2A2A93FC4B75CF6F91D82A7C37E5EE7277BC3634265351",
+                               "non_git_files":  672,
+                               "non_git_digest":  "57FF0A4F86C2BAE52D3DD2D72777A51366A5991FB8BE4A9A608709747886F7B1",
+                               "protected_pre_clean":  {
+                                                           "protected_files":  705,
+                                                           "protected_digest":  "C266DD3AD386F00B6D2A2A93FC4B75CF6F91D82A7C37E5EE7277BC3634265351",
+                                                           "non_git_files":  672,
+                                                           "non_git_digest":  "57FF0A4F86C2BAE52D3DD2D72777A51366A5991FB8BE4A9A608709747886F7B1",
+                                                           "project_bytes":  2277462998,
+                                                           "artifact_bytes":  2259007388
+                                                       },
+                               "static_clean_scan":  "PASS - four unchanged project cleanup scripts; unchanged boundary fixture evidence reused.",
+                               "deletion_scope":  "Known current-batch compiler/test outputs inside the selected project only. Prior rejected files untouched; no outside deletion or retention exception.",
+                               "owner":  "Comparison-page final native verification, 2026-10-28",
+                               "recipe":  "Fresh project-local TEMP/TMP; NativeUiTests generates/retire its synthetic fixtures, logs collected in memory; safe clean followed by reviewed exact test/build-output purge."
+                           },
+    "preexisting_cleanup_block":  {
+                                      "reference":  "ui-typography-20261027.json",
+                                      "files":  49,
+                                      "bytes":  826431,
+                                      "retention_rejected_by_user":  true,
+                                      "previous_review_rejections":  2,
+                                      "no_new_deletion_attempt":  true,
+                                      "result":  "UNCHANGED_BLOCKED",
+                                      "all_original_hashes_match":  true
+                                  },
+    "final_project_bytes":  19282921,
+    "git_repack":  {
+                       "result":  "PASS",
+                       "command":  "git repack -a -d",
+                       "authorization":  "Previously approved lossless object repacking for this project; authorization retained.",
+                       "before_bytes":  7793054,
+                       "after_bytes":  6376557,
+                       "objects_preserved":  859,
+                       "references_preserved":  4,
+                       "reflogs_unchanged":  true,
+                       "fsck_full":  "PASS",
+                       "history_rewrite_or_prune":  false
+                   },
+    "project_budget_limit_bytes":  20000000,
+    "late_layout_audit":  "Keep the tab background behind function-sidebar and shared-Text controls created after initial window construction; add native z-order checks and outline/clone regressions.",
+    "first_phase_cleanup":  {
+                                "compiler_files":  846,
+                                "test_build_files":  10,
+                                "test_build_bytes":  112576539,
+                                "protected_hashes_matched":  732,
+                                "new_scratch_bytes":  0
+                            },
+    "retained_evidence_bytes":  114193
+}

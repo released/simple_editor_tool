@@ -1,15 +1,33 @@
 #include "main_frame.h"
 #include "workspace_frame.h"
 #include "core/manual_alignment.h"
+#include <algorithm>
 #include <filesystem>
 
-void CMainFrame::SetComparisonPaths(const std::wstring& left, const std::wstring& right, bool insertion_aware) {
-    suppress_compare_path_change_ = true;
-    compare_left_path_.ResetContent(); compare_right_path_.ResetContent();
-    if (workspace_) for (const auto& path : displayed_mode_ == 4 ? workspace_->FolderPaths() : workspace_->OpenPaths()) { compare_left_path_.AddString(path.c_str()); compare_right_path_.AddString(path.c_str()); }
+void CMainFrame::SetComparisonPaths(const std::wstring& left, const std::wstring& right, int mode) {
+    const bool previous = suppress_compare_path_change_; suppress_compare_path_change_ = true;
     SetPathComboText(compare_left_path_,left); SetPathComboText(compare_right_path_,right);
-    compare_mode_.SetCurSel(insertion_aware ? 0 : 1); suppress_compare_path_change_ = false;
+    compare_mode_.SetCurSel(mode); RefreshComparisonPaths(); suppress_compare_path_change_ = previous;
 }
+void CMainFrame::RefreshComparisonPaths() {
+    if (!compare_left_path_.GetSafeHwnd() || IsBusy()) return;
+    const bool previous = suppress_compare_path_change_; suppress_compare_path_change_ = true;
+    auto paths = workspace_ ? workspace_->ComparisonPaths(compare_mode_.GetCurSel() == 4) : std::vector<std::wstring>();
+    const auto add = [&](const std::wstring& path) {
+        if (!path.empty() && std::none_of(paths.begin(),paths.end(),[&](const auto& item) { return CompareStringOrdinal(item.c_str(),-1,path.c_str(),-1,TRUE) == CSTR_EQUAL; })) paths.push_back(path);
+    };
+    for (auto* box : {&compare_left_path_,&compare_right_path_,&compare_base_path_}) {
+        if (box == &compare_base_path_ && compare_mode_.GetCurSel() != 3) continue;
+        CString text; box->GetWindowTextW(text); add(text.GetString());
+    }
+    for (auto* box : {&compare_left_path_,&compare_right_path_,&compare_base_path_}) {
+        CString text; box->GetWindowTextW(text); const auto selection = box->GetEditSel(); box->ResetContent();
+        for (const auto& path : paths) box->AddString(path.c_str());
+        SetPathComboText(*box,text.GetString()); box->SetEditSel(LOWORD(selection),HIWORD(selection));
+    }
+    suppress_compare_path_change_ = previous;
+}
+void CMainFrame::OnComparePathsDropdown() { RefreshComparisonPaths(); }
 void CMainFrame::BrowseComparisonPath(bool left) {
     if (IsBusy()) return;
     CComboBox& box = left ? compare_left_path_ : compare_right_path_; CString initial; box.GetWindowTextW(initial);
@@ -21,7 +39,7 @@ void CMainFrame::BrowseComparisonPath(bool left) {
                        OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER, L"All files (*.*)|*.*||", this);
     dialog.m_ofn.lpstrTitle = left ? L"Select left comparison file" : L"Select right comparison file";
     path_dialog_ = true; const INT_PTR answer = dialog.DoModal(); path_dialog_ = false;
-    if (answer == IDOK) { SetPathComboText(box,dialog.GetPathName().GetString()); OnComparePathChanged(); }
+    if (answer == IDOK) { SetPathComboText(box,dialog.GetPathName().GetString()); if (workspace_) workspace_->RememberRecent(dialog.GetPathName().GetString()); OnComparePathChanged(); RefreshComparisonPaths(); }
 }
 void CMainFrame::OnCompareBrowseLeft() { BrowseComparisonPath(true); }
 void CMainFrame::OnCompareBrowseRight() { BrowseComparisonPath(false); }
@@ -59,10 +77,13 @@ void CMainFrame::SetComparisonControlsEnabled(bool enabled) {
     if (compare_browse_base_.GetSafeHwnd()) compare_browse_base_.EnableWindow(enabled);
 }
 void CMainFrame::OnCompareRun() {
+    RunComparison(true);
+}
+void CMainFrame::RunComparison(bool notify_equal) {
     if (IsBusy()) return;
     if (displayed_mode_ == 8) {
         SetWindowTextW(L"Pasted text comparison - Simple Editor Tool");
-        advanced_.StartPastedText(); if (workspace_) workspace_->RefreshLabels(); return;
+        advanced_.StartPastedText(notify_equal); if (workspace_) workspace_->RefreshLabels(); return;
     }
     CString left, right; compare_left_path_.GetWindowTextW(left); compare_right_path_.GetWindowTextW(right);
     left.Trim(); right.Trim();
@@ -71,14 +92,15 @@ void CMainFrame::OnCompareRun() {
     if (displayed_mode_ >= 2) {
         const auto left_name = std::filesystem::path(left.GetString()).filename().wstring(), right_name = std::filesystem::path(right.GetString()).filename().wstring();
         SetWindowTextW((left_name + L" vs " + right_name + L" - Simple Editor Tool").c_str()); if (workspace_) workspace_->RefreshLabels();
-        if (displayed_mode_ == 4) { advanced_.StartFolders(left.GetString(),right.GetString()); return; }
+        if (displayed_mode_ == 4) { advanced_.StartFolders(left.GetString(),right.GetString(),notify_equal); return; }
         CString base; compare_base_path_.GetWindowTextW(base); if (displayed_mode_ == 3 && base.IsEmpty()) { status_.SetPaneText(0,L"Choose the common Base file for a three-way merge."); return; }
         std::wstring detail;
         const auto snapshot = [&](const std::wstring& path) { if (workspace_) return workspace_->SnapshotForPath(path,&detail); auto doc = std::make_unique<simple_editor::core::BinaryDocument>(); if (!doc->Open(path,&detail)) doc.reset(); return doc; };
         auto a = snapshot(left.GetString()), b = snapshot(right.GetString()); auto c = displayed_mode_ == 3 ? snapshot(base.GetString()) : nullptr;
         if (!a || !b || (displayed_mode_ == 3 && !c)) { status_.SetPaneText(0,detail.c_str()); return; }
+        if (workspace_) { workspace_->RememberRecent(a->Path()); workspace_->RememberRecent(b->Path()); if (c) workspace_->RememberRecent(c->Path()); RefreshComparisonPaths(); }
         auto preview = a->Snapshot(&detail); if (preview) { document_.Swap(*preview); hex_.SetDocument(&document_); text_stale_ = true; }
-        advanced_.StartText(std::move(c),std::move(a),std::move(b)); return;
+        advanced_.StartText(std::move(c),std::move(a),std::move(b),notify_equal); return;
     }
     std::wstring error;
     std::unique_ptr<simple_editor::core::BinaryDocument> source;

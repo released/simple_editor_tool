@@ -1,0 +1,137 @@
+{
+    "date":  "2026-10-30",
+    "status":  "USER_REQUESTED_SHUTDOWN_CHECKPOINT",
+    "request":  "Show a no-differences information dialog after successful Compare",
+    "source_implementation":  "Saved; compare completion, settings-aware equality, modal guards, quiet automatic recomparison, English/Traditional Chinese catalogs",
+    "builds":  {
+                   "DebugUI":  "PASS",
+                   "CanonicalRelease":  "NOT RUN; preserved previous verified EXE",
+                   "ReleaseUI":  "Earlier test-harness version built; final harness NOT RUN"
+               },
+    "tests":  {
+                  "core_localization":  {
+                                            "log_sha256":  "17B97499FF5FFA548735D15830765BD1A0C1167564237A1C5F5DBB055D0FF487",
+                                            "checks":  20,
+                                            "exit":  0
+                                        },
+                  "debug_compare_notice":  {
+                                               "last_pass":  "failed folder scan does not display success",
+                                               "next_case":  "synthetic empty partial FolderScan",
+                                               "passing_checks_before_abort":  22,
+                                               "log_sha256":  "B500E77E30ADEFAA2810BD594BBFA748223A39F7AB22A492DBA09CE188588917",
+                                               "exit":  3
+                                           },
+                  "screenshot":  "NOT RUN: abort before capture",
+                  "desktop_computer_use":  "Native pipe unavailable after retry/reset"
+              },
+    "canonical_exe_sha256":  "8AC6F349DC4AB03EE2F3C3F71255DB3F2F6579E09DE2C358DE415E7BE04C8D26",
+    "runtime_ini_sha256":  "879FD86CF67BE868E6362D2AACAF27738AFBCA8E55BAD50CEC01E525391A6DBA",
+    "cleanup":  {
+                    "no_alternate_retirement_attempt":  true,
+                    "fixtures":  [
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030/set4AA2.tmp/.editorconfig",
+                                         "bytes":  12,
+                                         "sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030/set4AA2.tmp/left.txt",
+                                         "bytes":  7,
+                                         "sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030/set4AA2.tmp/right.txt",
+                                         "bytes":  7,
+                                         "sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-02/set6893.tmp/.editorconfig",
+                                         "bytes":  12,
+                                         "sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-02/set6893.tmp/left.txt",
+                                         "bytes":  7,
+                                         "sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-02/set6893.tmp/right.txt",
+                                         "bytes":  7,
+                                         "sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-03/set4667.tmp/.editorconfig",
+                                         "bytes":  12,
+                                         "sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-03/set4667.tmp/left.txt",
+                                         "bytes":  7,
+                                         "sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-03/set4667.tmp/right.txt",
+                                         "bytes":  7,
+                                         "sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-04/setC9D8.tmp/.editorconfig",
+                                         "bytes":  12,
+                                         "sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-04/setC9D8.tmp/a.json",
+                                         "bytes":  7,
+                                         "sha256":  "015ABD7F5CC57A2DD94B7590F04AD8084273905EE33EC5CEBEAE62276A97F862"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-04/setC9D8.tmp/b.json",
+                                         "bytes":  7,
+                                         "sha256":  "7E8059F495589FCD981232CC11D00B00DA3802C01D688FA1CF1F6BED6E5BB33C"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-04/setC9D8.tmp/left.bin",
+                                         "bytes":  3,
+                                         "sha256":  "D6792235F7A72EB1692992A7763C5AD64C9AFEDD3679ABC152397D2D30F6CF9E"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-04/setC9D8.tmp/left.txt",
+                                         "bytes":  7,
+                                         "sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-04/setC9D8.tmp/right.bin",
+                                         "bytes":  3,
+                                         "sha256":  "D6792235F7A72EB1692992A7763C5AD64C9AFEDD3679ABC152397D2D30F6CF9E"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-04/setC9D8.tmp/right.txt",
+                                         "bytes":  3,
+                                         "sha256":  "5AE7E6A42304DC6E4176210B83C43024F99A0BCE9A870C3B6D2C95FC8EBFB74C"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-04/setC9D8.tmp/folder-left/same.txt",
+                                         "bytes":  4,
+                                         "sha256":  "0967115F2813A3541EAEF77DE9D9D5773F1C0C04314B0BBFE4FF3B3B1C55B5D5"
+                                     },
+                                     {
+                                         "path":  "artifacts/compare-notice-ui-debug-20261030-04/setC9D8.tmp/folder-right/same.txt",
+                                         "bytes":  9,
+                                         "sha256":  "9D6F965AC832E40A5DF6C06AFE983E3B449C07B843FF51CE76204DE05C690D11"
+                                     }
+                                 ],
+                    "test_executables_remaining":  0,
+                    "failed_fixture_files":  18,
+                    "reviewed_purge_files_removed":  9,
+                    "failed_fixture_bytes":  133,
+                    "compiler_files_removed":  594,
+                    "prior_blocked_files":  49,
+                    "rejection":  "First diagnostic run exact hash-verified three-file retirement rejected before execution: blocked by policy, no details"
+                },
+    "resume":  [
+                   "Read HANDOFF.md and inspect current changes; do not redo the completed side-merge feature",
+                   "Investigate exit 3 after failed-folder scan/partial-folder fixture, including native EndDialog lifecycle",
+                   "Finish Debug/Release focused tests, rebuild canonical Release and run formal smoke",
+                   "Inspect localized popup; retire identified test fixtures and compiler/test outputs safely"
+               ]
+}

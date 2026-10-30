@@ -1,0 +1,155 @@
+{
+  "date": "2026-10-30",
+  "scope": "No-differences completion notice and folder virtual-list assertion fix",
+  "root_cause": "New empty/shrinking scan replaced scan_ before Columns(), leaving old visible_ indices and native item count. Column/layout messages synchronously requested old rows and indexed the new smaller vector.",
+  "change": "Successful Text/Scan/Structured/Refresh/Presentation adoption retires virtual rows before snapshot replacement; text/custom-draw callbacks reject retired indices. Explicit completed comparisons notify on full-result equivalence under current settings. Automatic copy/Undo and post-sync rescan stay quiet.",
+  "changed_files": [
+    "src/main_frame.h",
+    "src/main_frame_compare.cpp",
+    "src/main_frame_paths.cpp",
+    "src/main_frame_advanced.cpp",
+    "src/ui/advanced_compare.h",
+    "src/ui/advanced_compare.cpp",
+    "src/ui/advanced_compare_draw.cpp",
+    "src/ui/advanced_compare_actions.cpp",
+    "src/ui/advanced_text_inputs.cpp",
+    "src/res/lang_en.ini",
+    "src/res/lang_tw.ini",
+    "tests/native_compare_notice_ui.inc",
+    "tests/native_ui_tests.cpp",
+    "AGENTS.md",
+    "SPEC.md",
+    "HANDOFF.md",
+    "SELF_CHECK.md",
+    "docs/USER_GUIDE.md",
+    "docs/USER_GUIDE_EN.md",
+    "build/SimpleEditorTool.exe",
+    "build/lang_en.ini",
+    "build/lang_tw.ini"
+  ],
+  "tests": {
+    "new_groups": 15,
+    "Debug": {
+      "exe_sha256": "257D303DD3A9F701882E2CCEAC031168B0FB0972AC32E18D316F9AAA6833CF7D",
+      "notice": {
+        "exit": 0,
+        "checks": 36,
+        "log_sha256": "CF1E672742F773D1BAB50D0EB4FC2B4F1C479FD2F7775B9110ED3E226CCD8486"
+      }
+    },
+    "Release": {
+      "exe_sha256": "C2092BDC715A1DEE2FCD494B6EC69616F198330C9D4F167722FECFD6C8A3428B",
+      "notice": {
+        "exit": 0,
+        "checks": 35,
+        "log_sha256": "48B80DD2F1B396DF326DAE180A4FC6FB21CA19ACE8BDA1B79CA5E6DFC4593CF3"
+      }
+    },
+    "shared_runs": [
+      {
+        "mode": "--advanced",
+        "configurations": "Debug,Release",
+        "exit": 0,
+        "log_sha256": "F5CB15607CE0F23B0AE00C581B3FD9F86B84343B2B45EE79433C503C451E6972"
+      },
+      {
+        "mode": "--document-focus",
+        "configurations": "Debug,Release",
+        "exit": 0,
+        "log_sha256": "68E01DC909CFA4C447DD1A8EE6FC353EE3CCE33430380DF1518700651DB29601"
+      },
+      {
+        "mode": "--side-merge",
+        "configurations": "Debug,Release",
+        "exit": 0,
+        "log_sha256": "9D5D5F219C7742A964C04831B308793EAFDA5B1AE8B7375954CB8551CC46E5B3"
+      },
+      {
+        "mode": "--presentation",
+        "configurations": "Debug,Release",
+        "exit": 0,
+        "log_sha256": "258C0A7B03A02389E617A0D78D327669E27BD22A7DA440EBF9E67B380B1A635C"
+      },
+      {
+        "mode": "--compare-page",
+        "configurations": "Debug,Release",
+        "exit": 0,
+        "log_sha256": "97FCB7D22F2C4AB3BE9C051955B5EE433449A4DAC750D8B3F53C8F949228D28A"
+      },
+      {
+        "mode": "--localization",
+        "configurations": "Debug,Release",
+        "exit": 0,
+        "log_sha256": "E8750B76F55AC8707F6A11B6C716C273F7256275D973C0D833163618A4481685"
+      }
+    ],
+    "formal": {
+      "command": "NativeUiTests --workspace-process build/SimpleEditorTool.exe",
+      "configuration": "Release",
+      "exit": 0,
+      "checks": 12,
+      "log_sha256": "451A2E152A8EAAA85B5A5D2940172CE6F546E7EDBB2297E6E98269EFE384A3A6"
+    },
+    "coverage": "Equal/different Text, binary modes, pasted/empty inputs, JSON and folders; ignores versus filtered empty lists; cancel/error/stale/truncated/partial guards; quiet auto recomparison; populated/empty scans and late text/draw callbacks; modal guards; independent merges/saves; native formal startup.",
+    "reused": "Prior core localization: 20 passing checks, log 17B97499FF5FFA548735D15830765BD1A0C1167564237A1C5F5DBB055D0FF487 in compare-notice-20261030-checkpoint.json. Catalog/core implementation unchanged since that run; no core algorithm changes in this resume."
+  },
+  "build": {
+    "command": "scripts/build_release.bat",
+    "result": "PASS",
+    "bytes": 3966976,
+    "sha256": "434BD93A66CE3920196378DC64E58E98B8C09812A9097982A3567FDAAB1AC9B8",
+    "pe": "x64, static MFC/CRT, Windows-system DLL imports, high-entropy ASLR, Dynamic base, NX",
+    "existing_warnings": [
+      "C4458 advanced_notes.cpp:29",
+      "C4458 advanced_notes_io.cpp:3"
+    ]
+  },
+  "source_inputs": {
+    "files": 324,
+    "aggregate_recipe": "Sorted src/**, tests/** and four native vcxproj relativePath|SHA256 joined with LF; UTF-8 SHA256.",
+    "aggregate_sha256": "EE787011A194580AB6440EA4E580E6ED33CF99661BA6026D7C81207DCB7DE05F",
+    "en_sha256": "FF87A1E502E056F9EC34BDCA5C9A1BA0BBB21D3014E4D7388922109AA20F31D2",
+    "tw_sha256": "61B56A00B4D9FDF00BEBB36A752F51E9FAB59EFA5A360A983D9597F74D9C3301"
+  },
+  "visual": {
+    "path": "compare-notice-20261030.png",
+    "sha256": "45CFBD16A5D56430461ECBE1DCE04EFFF19010A0329A7E4095D371216927B704",
+    "result": "PASS: native Debug modal information dialog captured and visually inspected; correct Traditional Chinese message and OK button."
+  },
+  "preservation": {
+    "user_NG_jpg_sha256": "C7C9D108976B715366129B35FD341C72A1187A3093E5910407F8318092AF5070",
+    "runtime_ini_sha256": "879FD86CF67BE868E6362D2AACAF27738AFBCA8E55BAD50CEC01E525391A6DBA"
+  },
+  "not_run": "Physical mouse / mixed-DPI desktop testing. Native modal lifecycle and screenshot were tested; external computer-use pipe was unavailable during earlier checkpoint diagnostics.",
+  "cleanup": {
+    "result": "PARTIAL_AUTOMATIC_REVIEW_BLOCKED",
+    "compiler_files_removed": 674,
+    "reviewed_purge_files_removed": 8,
+    "rebuildable_bytes_removed": 1793516042,
+    "protected_files": 714,
+    "protected_pre_post_sha256": "39F61B71D53F7F31B73F9FECB8A75A5DC3B42DC16AA34A10FAB2E3D2093308F6",
+    "preservation_result": "PASS: every file outside artifacts, including canonical EXE, source, Git data, runtime INI and user NG.jpg, retained identical hashes during cleanup.",
+    "new_fixture_files_remaining": 0,
+    "new_fixture_roots_remaining": 0,
+    "test_executables_remaining": 0,
+    "raw_logs_retained": 0,
+    "remaining_files": 67,
+    "remaining_bytes": 832118,
+    "remaining_scope": "Prior 49 typography/debug-catalog files plus 18 interrupted/failed fixture files (133 bytes); provenance/hashes remain in earlier verification/checkpoint records.",
+    "current_review": {
+      "targets": 15,
+      "bytes": 107,
+      "source": "Second/third interrupted runs and the former partial-folder failure fixture; exact recorded hashes/sizes matched; original rejected 49+3 targets excluded.",
+      "result": "REJECTED_BEFORE_EXECUTION",
+      "reason": "blocked by policy; no detailed reason provided",
+      "no_alternate_delete_move_or_truncate": true
+    },
+    "retention_exception_authorized": false,
+    "build_only_exe_ini": true,
+    "only_project_executable": "build/SimpleEditorTool.exe",
+    "final_project_bytes": 19974254,
+    "budget_bytes": 20000000,
+    "git_repack": "Not needed.",
+    "delivery_state": "Feature and native regression fix verified; full requested cleanup remains incomplete due automatic safety rejection."
+  }
+}

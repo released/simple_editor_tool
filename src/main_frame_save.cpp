@@ -49,7 +49,7 @@ bool CMainFrame::SaveCurrent(AfterSave next,const std::wstring& next_path,bool c
     path_dialog_ = true; const auto accepted = dialog.DoModal(); path_dialog_ = false;
     return accepted == IDOK && StartSave(dialog.GetPathName().GetString(),next,next_path);
 }
-void CMainFrame::OnSave() { if (AdvancedActive()) { advanced_.SaveResult(); return; } SaveCurrent(); }
+void CMainFrame::OnSave() { if (AdvancedActive()) { if (!advanced_.SaveFocusedSide()) advanced_.SaveResult(); return; } SaveCurrent(); }
 void CMainFrame::OnSaveAs() {
     if (AdvancedActive()) { advanced_.SaveResult(); return; }
     if (IsBusy() || !document_.IsOpen()) { status_.SetPaneText(0, L"Wait for the current operation before Save As."); return; }

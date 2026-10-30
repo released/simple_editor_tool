@@ -72,7 +72,7 @@ void CAdvancedCompareView::OnPastedInputChanged() {
     if (changed) changed();
 }
 
-void CAdvancedCompareView::StartPastedText() {
+void CAdvancedCompareView::StartPastedText(bool notify_equal) {
     if (Busy() || !pasted_inputs_ || mode_ != 2) return;
     constexpr LRESULT limit = 16 * 1024 * 1024;
     if (input_left_.Call(SCI_GETLENGTH) > limit || input_right_.Call(SCI_GETLENGTH) > limit) {
@@ -84,7 +84,7 @@ void CAdvancedCompareView::StartPastedText() {
         !simple_editor::core::ValidateText(left,&error) || !simple_editor::core::ValidateText(right,&error)) {
         Status(L"Pasted inputs must be valid Unicode text without embedded NUL. Inputs are retained."); return;
     }
-    StartTextJob(nullptr,nullptr,nullptr,std::move(left),std::move(right),true);
+    StartTextJob(nullptr,nullptr,nullptr,std::move(left),std::move(right),true,notify_equal);
 }
 bool CAdvancedCompareView::LoadPastedPair(const std::wstring& left,const std::wstring& right) {
     if (Busy() || !pasted_inputs_ || read_only_snapshots_ || HasPastedInputs()) return false;

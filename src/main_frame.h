@@ -153,6 +153,7 @@ protected:
     afx_msg void OnCompareRun();
     afx_msg void OnCompareSwap();
     afx_msg void OnComparePathChanged();
+    afx_msg void OnComparePathsDropdown();
     afx_msg void OnCompareModeChanged();
     afx_msg void OnCompareBrowseBase();
     afx_msg void OnEncoding(UINT id);
@@ -213,7 +214,11 @@ private:
     bool ApplyTextEdits();
     bool PrepareComparison(bool insertion_aware = true);
     void StartCompare(const std::wstring& right, bool insertion_aware);
-    void SetComparisonPaths(const std::wstring& left, const std::wstring& right, bool insertion_aware);
+    void RunComparison(bool notify_equal);
+    void NotifyNoDifferences();
+    void SetComparisonPaths(const std::wstring& left, const std::wstring& right, int mode);
+    void RefreshComparisonPaths();
+    bool AcceptComparisonDrop(const std::vector<std::wstring>& paths, CPoint screen);
     void BrowseComparisonPath(bool left);
     void SetComparisonControlsEnabled(bool enabled);
     bool AdvancedActive() const { return active_tab_ == 2 && displayed_mode_ >= 2; }
@@ -238,7 +243,7 @@ private:
     CStatic compare_base_label_;
     CButton compare_browse_base_;
     CAdvancedCompareView advanced_;
-    int displayed_mode_ = 0;
+    int displayed_mode_ = 2;
     bool path_dialog_ = false;
     CRect compare_view_rect_;
     simple_editor::core::BinaryDocument document_;

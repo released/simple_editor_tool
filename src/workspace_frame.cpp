@@ -3,6 +3,7 @@
 #include "resource.h"
 #include "ui/localization.h"
 #include "ui/ui_font.h"
+#include "ui/file_drop.h"
 #include <algorithm>
 #include <filesystem>
 #include <cwctype>
@@ -99,13 +100,14 @@ int CWorkspaceFrame::OnCreate(LPCREATESTRUCT create) {
     open_button_.Create(L"Open files...", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_WORKSPACE_OPEN);
     compare_button_.Create(L"Compare files...", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_WORKSPACE_COMPARE);
     close_button_.Create(L"Close tab", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_WORKSPACE_CLOSE);
-    sessions_tab_.Create(WS_CHILD | WS_VISIBLE | TCS_TABS | TCS_SINGLELINE, CRect(), this, 600);
+    sessions_tab_.Create(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS | TCS_SINGLELINE, CRect(), this, 600);
     sessions_tab_.close = [this](int index) { if (index >= 0 && static_cast<std::size_t>(index) < sessions_.size()) { close_queue_.clear(); CloseSession(sessions_[index]); } };
     sessions_tab_.context = [this](int index,CPoint point) { TabContext(index,point); };
     sessions_tab_.reorder = [this](int from,int to) { ReorderSessions(from,to); };
     welcome_.Create(L"Drop files here or choose Open files.\r\nEach file stays open in its own tab.\r\nUse Compare files to select the left and right inputs.",
                     WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(), this, 601);
     simple_editor::ui::BindUiFont(*this, ui_font_, {ID_WORKSPACE_OPEN, ID_WORKSPACE_COMPARE, ID_WORKSPACE_CLOSE, 600, 601});
+    sessions_tab_.SetWindowPos(&wndBottom,0,0,0,0,SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
     DragAcceptFiles(TRUE); close_button_.EnableWindow(FALSE); Layout(); return 0;
 }
 void CWorkspaceFrame::Layout() {
@@ -129,11 +131,11 @@ void CWorkspaceFrame::FocusActive() {
 }
 void CWorkspaceFrame::OnSetFocus(CWnd* previous) { CFrameWnd::OnSetFocus(previous); FocusActive(); }
 void CWorkspaceFrame::OnGetMinMaxInfo(MINMAXINFO* info) { CFrameWnd::OnGetMinMaxInfo(info); info->ptMinTrackSize = {720, 480}; }
-CMainFrame* CWorkspaceFrame::CreateSession() {
+CMainFrame* CWorkspaceFrame::CreateSession(bool activate) {
     auto* session = new CMainFrame(false, this);
     if (!session->GetSafeHwnd()) { delete session; return nullptr; }
     session->workspace_session_id_ = ++next_session_id_; ApplyPreferencesToFrame(session); sessions_.push_back(session); sessions_tab_.InsertItem(static_cast<int>(sessions_.size()) - 1, L"New comparison");
-    ActivateSession(static_cast<int>(sessions_.size()) - 1); return session;
+    if (activate) ActivateSession(static_cast<int>(sessions_.size()) - 1); return session;
 }
 void CWorkspaceFrame::ActivateSession(int index) {
     if (active_session_ >= 0 && active_session_ < static_cast<int>(sessions_.size())) TrackNavigation(sessions_[active_session_]);
@@ -141,13 +143,12 @@ void CWorkspaceFrame::ActivateSession(int index) {
     for (std::size_t i = 0; i < sessions_.size(); ++i) {
         auto* session = sessions_[i];
         if (static_cast<int>(i) != index && session->search_dialog_.GetSafeHwnd()) session->search_dialog_.ShowWindow(SW_HIDE);
-        session->ShowWindow(static_cast<int>(i) == index ? SW_SHOW : SW_HIDE);
+        if (static_cast<int>(i) == index) session->SetWindowPos(&wndTop,0,0,0,0,SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);
+        else session->ShowWindow(SW_HIDE);
     }
     active_session_ = index; sessions_tab_.SetCurSel(index); welcome_.ShowWindow(SW_HIDE);
     if (sessions_[index]->comparison_session_) {
-        auto* session = sessions_[index]; CString left, right;
-        session->compare_left_path_.GetWindowTextW(left); session->compare_right_path_.GetWindowTextW(right);
-        const int mode = session->compare_mode_.GetCurSel(); session->SetComparisonPaths(left.GetString(), right.GetString(), mode != 1); session->compare_mode_.SetCurSel(mode);
+        sessions_[index]->RefreshComparisonPaths();
     }
     SetMenu(&sessions_[index]->session_menu_); DrawMenuBar(); close_button_.EnableWindow(TRUE); Layout(); RefreshLabels(); FocusActive(); TrackNavigation(sessions_[index]);
 }
@@ -198,6 +199,9 @@ void CWorkspaceFrame::ChooseFiles() {
     POSITION position = dialog.GetStartPosition(); while (position) OpenPath(dialog.GetNextPathName(position).GetString());
 }
 void CWorkspaceFrame::OpenDroppedFiles(HDROP drop) {
+    if (active_session_ >= 0 && sessions_[active_session_]->active_tab_ == 2) {
+        simple_editor::ui::DropPointToScreen(drop,GetSafeHwnd()); sessions_[active_session_]->OnDropFiles(drop); return;
+    }
     const UINT count = DragQueryFileW(drop, 0xFFFFFFFF, nullptr, 0);
     std::vector<std::wstring> paths;
     for (UINT i = 0; i < count; ++i) {
@@ -206,16 +210,14 @@ void CWorkspaceFrame::OpenDroppedFiles(HDROP drop) {
     }
     DragFinish(drop); for (const auto& path : paths) OpenPath(path);
 }
-void CWorkspaceFrame::NewComparison(const std::wstring& left, bool insertion_aware) {
-    CancelCloseAll();
-    auto* session = CreateSession(); if (!session) return;
-    session->comparison_session_ = true; session->SetSaveReadOnly(false); session->SetComparisonPaths(left, L"", insertion_aware);
-    session->ShowPage(2); session->SetWindowTextW(L"New comparison - Simple Editor Tool"); RefreshLabels();
-}
+void CWorkspaceFrame::NewComparison(const std::wstring& left) { NewComparisonInputs(left,L"",L"",2); }
+void CWorkspaceFrame::NewComparison(const std::wstring& left, bool insertion_aware) { NewComparisonInputs(left,L"",L"",insertion_aware ? 0 : 1); }
 void CWorkspaceFrame::NewComparisonInputs(const std::wstring& left, const std::wstring& right, const std::wstring& base, int mode, bool run) {
-    NewComparison(left,mode != 1); if (active_session_ < 0) return; auto* session = sessions_[active_session_];
-    session->SetComparisonPaths(left,right,mode != 1); SetPathComboText(session->compare_base_path_,base);
-    session->compare_mode_.SetCurSel(mode); session->OnCompareModeChanged(); if (run) session->OnCompareRun(); RefreshLabels();
+    CancelCloseAll(); auto* session = CreateSession(false); if (!session) return;
+    session->comparison_session_ = true; session->SetSaveReadOnly(false);
+    session->SetComparisonPaths(left,right,mode); SetPathComboText(session->compare_base_path_,base);
+    session->OnCompareModeChanged(); session->SetWindowTextW(L"New comparison - Simple Editor Tool");
+    ActivateSession(static_cast<int>(sessions_.size()) - 1); if (run) session->OnCompareRun(); RefreshLabels();
 }
 bool CWorkspaceFrame::PathLocked(const std::wstring& path) const { return !path.empty() && locked_paths_.count(LockKey(path)) != 0; }
 bool CWorkspaceFrame::DocumentLocked(const simple_editor::core::BinaryDocument& document) const { return PathLocked(document.Path()) || (document.IsOpen() && locked_identities_.count(document.SourceIdentity()) != 0); }
@@ -251,6 +253,12 @@ std::vector<std::wstring> CWorkspaceFrame::FolderPaths() const {
         CString left,right; session->compare_left_path_.GetWindowTextW(left); session->compare_right_path_.GetWindowTextW(right);
         if (!left.IsEmpty()) paths.emplace_back(left.GetString()); if (!right.IsEmpty()) paths.emplace_back(right.GetString());
     }
+    return paths;
+}
+std::vector<std::wstring> CWorkspaceFrame::ComparisonPaths(bool folders) const {
+    if (folders) return FolderPaths();
+    auto paths = OpenPaths();
+    for (const auto& recent : recent_files_) if (std::none_of(paths.begin(),paths.end(),[&](const auto& path) { return SamePath(path,recent); })) paths.push_back(recent);
     return paths;
 }
 std::unique_ptr<simple_editor::core::BinaryDocument> CWorkspaceFrame::SnapshotForPath(const std::wstring& path, std::wstring* error) {

@@ -123,7 +123,7 @@ struct Alignment {
     }
 };
 std::vector<MergeBlock> Diff(const std::vector<TextLine>& a, const std::vector<TextLine>& b,
-                             const LineOptions& options, const std::atomic_bool& cancel) {
+                             const LineOptions& options, const std::atomic_bool& cancel, bool separate_ignored = false) {
     std::vector<std::wstring> ak, bk; ak.reserve(a.size()); bk.reserve(b.size());
     for (const auto& line : a) ak.push_back(Key(line, options));
     for (const auto& line : b) bk.push_back(Key(line, options));
@@ -132,13 +132,14 @@ std::vector<MergeBlock> Diff(const std::vector<TextLine>& a, const std::vector<T
     std::size_t ai = 0, bi = 0;
     for (const auto& row : alignment.rows) {
         const bool changed = row.a < 0 || row.b < 0 || !Exact(a[row.a], b[row.b]);
-        if (blocks.empty() || blocks.back().changed != changed) {
+        const bool important = row.a < 0 || row.b < 0 || ak[row.a] != bk[row.b];
+        if (blocks.empty() || blocks.back().changed != changed || (separate_ignored && changed && blocks.back().important != important)) {
             MergeBlock block; block.base_begin = block.left_begin = ai; block.right_begin = bi; block.changed = changed; block.important = false; blocks.push_back(block);
         }
         auto& block = blocks.back();
         if (row.a >= 0) ++ai; if (row.b >= 0) ++bi;
         block.base_end = block.left_end = ai; block.right_end = bi;
-        block.important = block.important || row.a < 0 || row.b < 0 || ak[row.a] != bk[row.b];
+        block.important = block.important || important;
     }
     if (options.rules.ignore_blank || !options.rules.ignore_prefix.empty() || !options.rules.ignore_contains.empty()) for (auto& block : blocks) if (block.changed) { std::vector<std::wstring> first,second; for (auto i = block.left_begin; i < block.left_end; ++i) if (!IgnoredLine(a[i].text,options.rules)) first.push_back(Key(a[i],options)); for (auto i = block.right_begin; i < block.right_end; ++i) if (!IgnoredLine(b[i].text,options.rules)) second.push_back(Key(b[i],options)); block.important = first != second; }
     return blocks;
@@ -177,7 +178,7 @@ bool BuildTextMerge(const std::wstring& base, const std::wstring& left, const st
                     TextMergeModel* model, std::wstring* error) {
     if (!WithinLineLimit(left) || !WithinLineLimit(right) || (three_way && !WithinLineLimit(base))) { if (error) *error = L"Text comparison supports up to 200,000 lines per input. Use Hex for larger files."; return false; }
     TextMergeModel result; result.three_way = three_way; result.left = SplitLines(left); result.right = SplitLines(right); result.base = SplitLines(three_way ? base : left);
-    if (!three_way) result.blocks = Diff(result.left, result.right, options, cancel);
+    if (!three_way) result.blocks = Diff(result.left, result.right, options, cancel, true);
     else {
         const auto ld = Diff(result.base, result.left, options, cancel), rd = Diff(result.base, result.right, options, cancel);
         std::vector<Edit> edits;
@@ -240,5 +241,37 @@ std::vector<TextMergeRow> MergeRows(const TextMergeModel& model) {
         for (std::size_t j = 0; j < count; ++j) rows.push_back({model.three_way && j < b.base_end - b.base_begin ? static_cast<int>(b.base_begin + j) : -1, j < b.left_end - b.left_begin ? static_cast<int>(b.left_begin + j) : -1, j < b.right_end - b.right_begin ? static_cast<int>(b.right_begin + j) : -1, i});
     }
     return rows;
+}
+bool CopyTextBlocks(const TextMergeModel& model, bool to_right, bool whole,
+                    const std::vector<std::size_t>& selected, const std::atomic_bool& cancel,
+                    std::wstring* output, std::wstring* error) {
+    const auto fail = [&]() { if (error) *error = L"Invalid or cancelled difference selection. Compare again before copying."; return false; };
+    if (!output || model.three_way || cancel) return fail();
+    const auto& source = to_right ? model.left : model.right;
+    const auto& target = to_right ? model.right : model.left;
+    std::wstring result;
+    const auto append = [&](const std::vector<TextLine>& lines, std::size_t begin, std::size_t end) {
+        if (begin > end || end > lines.size()) return false;
+        for (auto i = begin; i < end; ++i) {
+            if (cancel || lines[i].text.size() + lines[i].ending.size() > 32 * 1024 * 1024 - result.size()) return false;
+            result += lines[i].text; result += lines[i].ending;
+        }
+        return true;
+    };
+    if (whole) { if (!append(source,0,source.size())) return fail(); }
+    else {
+        if (selected.empty()) return fail();
+        std::size_t cursor = 0, previous = SIZE_MAX;
+        for (auto index : selected) {
+            if (index >= model.blocks.size() || (previous != SIZE_MAX && index <= previous)) return fail();
+            previous = index; const auto& block = model.blocks[index];
+            const auto begin = to_right ? block.right_begin : block.left_begin, end = to_right ? block.right_end : block.left_end;
+            if (!block.changed || begin < cursor || end < begin || !append(target,cursor,begin) ||
+                !append(source,to_right ? block.left_begin : block.right_begin,to_right ? block.left_end : block.right_end)) return fail();
+            cursor = end; if (cursor > target.size()) return fail();
+        }
+        if (!append(target,cursor,target.size())) return fail();
+    }
+    if (cancel) return fail(); *output = std::move(result); return true;
 }
 } // namespace simple_editor::core

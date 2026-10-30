@@ -29,7 +29,7 @@ BEGIN_MESSAGE_MAP(CAdvancedCompareView, CWnd)
     ON_NOTIFY(NM_CUSTOMDRAW, kRows, OnDraw)
     ON_NOTIFY(NM_DBLCLK, kRows, OnDoubleClick)
     ON_NOTIFY(LVN_COLUMNCLICK, kRows, OnFolderColumn)
-    ON_COMMAND_RANGE(ID_ADV_TAKE_LEFT, ID_ADV_MANUAL_RESOLVED, OnAction)
+    ON_COMMAND_RANGE(ID_ADV_TAKE_LEFT, ID_ADV_SAVE_RIGHT, OnAction)
     ON_CONTROL(EN_CHANGE, kOutput, OnResultChanged)
     ON_CONTROL(EN_CHANGE, 582, OnPastedInputChanged)
     ON_CONTROL(EN_CHANGE, 583, OnPastedInputChanged)
@@ -65,6 +65,11 @@ int CAdvancedCompareView::OnCreate(LPCREATESTRUCT create) {
     button(undo_, L"Undo", ID_ADV_UNDO); button(redo_, L"Redo", ID_ADV_REDO); button(save_, L"Save result...", ID_ADV_SAVE);
     button(allow_markers_, L"Allow unresolved markers", 556, true);
     button(manual_resolved_button_,L"Mark manual result resolved",ID_ADV_MANUAL_RESOLVED);
+    button(block_right_,L"Block ->",ID_ADV_BLOCK_RIGHT); button(block_left_,L"<- Block",ID_ADV_BLOCK_LEFT);
+    button(whole_right_,L"All ->",ID_ADV_WHOLE_RIGHT); button(whole_left_,L"<- All",ID_ADV_WHOLE_LEFT);
+    button(previous_,L"Previous difference",ID_ADV_PREVIOUS); button(next_,L"Next difference",ID_ADV_NEXT);
+    button(show_output_button_,L"Merged output",ID_ADV_SHOW_OUTPUT,true);
+    button(save_left_,L"Save left",ID_ADV_SAVE_LEFT); button(save_right_,L"Save right",ID_ADV_SAVE_RIGHT);
     button(recursive_, L"Subfolders", 557, true); recursive_.SetCheck(BST_CHECKED);
     button(show_equal_, L"Show equal", IDC_ADV_SHOW_EQUAL, true); show_equal_.SetCheck(BST_CHECKED);
     button(mirror_, L"Mirror: move target-only files to backup", 558, true);
@@ -134,14 +139,18 @@ void CAdvancedCompareView::Layout() {
         if (x && x + preferred > width) { x = 0; y += 27; }
         control.MoveWindow(x, y, (std::min)(preferred, width), dropdown ? 180 : 24); x += preferred + 5;
     };
-    const bool folder = mode_ == 4,structured = mode_ >= 5 || manual_view_;
+    const bool folder = mode_ == 4,structured = mode_ >= 5 || manual_view_, sides = SideBySide();
+    const bool merged = !sides || show_output_;
     for (CButton* c : {&ignore_space_,&ignore_case_,&ignore_eol_,&changes_only_,&conflicts_only_,&syntax_}) place(*c, 65, !folder && !structured);
     place(similar_,150,!folder && mode_ == 2);
     for (CButton* c : {&recursive_,&show_equal_,&mirror_}) place(*c, 80, folder);
     if (folder) { x = 0; y += 27; }
     place(folder_criterion_,190,folder,true); place(folder_filter_,190,folder,true); place(folder_tolerance_,210,folder,true);
     x = 0; y += 27;
-    for (CButton* c : {&take_left_,&take_right_,&take_base_,&take_both_,&undo_,&redo_,&save_}) place(*c, 55, !folder && !structured && (c != &take_base_ || mode_ == 3));
+    for (CButton* c : {&block_right_,&block_left_,&whole_right_,&whole_left_,&save_left_,&save_right_}) place(*c,55,sides);
+    place(previous_,90,!folder && !structured); place(next_,90,!folder && !structured); place(show_output_button_,100,sides);
+    for (CButton* c : {&take_left_,&take_right_,&take_base_,&take_both_,&save_}) place(*c, 55, !folder && !structured && merged && (c != &take_base_ || mode_ == 3));
+    for (CButton* c : {&undo_,&redo_}) place(*c,55,!folder && !structured);
     for (CButton* c : {&copy_right_,&copy_left_,&sync_right_,&sync_left_}) place(*c, 80, folder);
     if (folder) { x = 0; y += 27; }
     place(sync_policy_,230,folder,true); place(baseline_save_,125,folder); place(baseline_load_,125,folder); place(propagate_deletions_,210,folder);
@@ -149,11 +158,31 @@ void CAdvancedCompareView::Layout() {
     place(journal_retry_,130,folder); place(journal_recover_,140,folder); place(backup_browse_,135,folder);
     x = 0; y += 27; if (structured) y = 0; place(encoding_label_, 75, !folder && !pasted_inputs_); place(encoding_, 110, !folder && !pasted_inputs_, true);
     place(encoding_right_label_,75,!folder && !pasted_inputs_); place(encoding_right_,110,!folder && !pasted_inputs_,true); place(encoding_base_label_,75,mode_ == 3); place(encoding_base_,110,mode_ == 3,true);
-    place(allow_markers_,150,!folder && !structured); place(manual_resolved_button_,170,!folder && !structured);
+    place(allow_markers_,150,!folder && !structured && merged); place(manual_resolved_button_,170,!folder && !structured && merged);
     codec_details_.ShowWindow(!folder && !pasted_inputs_); if (!folder && !pasted_inputs_) { x = 0; y += 27; codec_details_.MoveWindow(0,y,width,24); }
     include_label_.ShowWindow(folder); exclude_label_.ShowWindow(folder); include_.ShowWindow(folder); exclude_.ShowWindow(folder);
     if (folder) { const int half = width / 2; include_label_.MoveWindow(0, y, 55, 22); include_.MoveWindow(58, y, (std::max)(0, half - 65), 24); exclude_label_.MoveWindow(half, y, 60, 22); exclude_.MoveWindow(half + 63, y, (std::max)(0, width - half - 63), 24); }
-    int top = y + 29; const bool sources = model_ && !stale_ && mode_ < 4 && !pasted_inputs_ && r.Height() - top > 180; const int source_height = sources ? (std::max)(60,(r.Height() - top - 80) / 3) : 0;
+    int top = y + 29;
+    if (sides) {
+        const int bottom = (std::max)(top,r.Height() - 42), available = bottom - top;
+        const int output_height = show_output_ ? (std::min)(available / 3,180) : 0;
+        const int pane_height = (std::max)(0,available - output_height - (show_output_ ? 24 : 0));
+        const int center = (std::min)(width / 3,MulDiv(180,zoom_percent_,100)), gap = 5;
+        const int part = (std::max)(0,(width - center - gap * 2 - 20) / 2), right = part + center + gap * 2;
+        for (CWnd* c : {static_cast<CWnd*>(&source_left_),static_cast<CWnd*>(&source_right_),static_cast<CWnd*>(&source_left_label_),static_cast<CWnd*>(&source_right_label_)}) c->ShowWindow(SW_SHOW);
+        source_base_.ShowWindow(SW_HIDE); source_base_label_.ShowWindow(SW_HIDE);
+        source_left_label_.MoveWindow(0,top,part,20); source_right_label_.MoveWindow(right,top,(std::max)(0,width - right - 20),20);
+        source_left_.MoveWindow(0,top + 20,part,(std::max)(0,pane_height - 20));
+        source_right_.MoveWindow(right,top + 20,(std::max)(0,width - right - 20),(std::max)(0,pane_height - 20));
+        rows_.MoveWindow(part + gap,top,center,pane_height);
+        overview_.MoveWindow((std::max)(0,width - 18),top,(std::min)(18,width),pane_height);
+        output_label_.ShowWindow(show_output_); output_.ShowWindow(show_output_);
+        output_label_.MoveWindow(0,top + pane_height,width,show_output_ ? 24 : 0);
+        output_.MoveWindow(0,top + pane_height + (show_output_ ? 24 : 0),width,output_height);
+        status_.MoveWindow(0,bottom,width,(std::max)(0,r.Height() - bottom)); Columns();
+        RedrawWindow(nullptr,nullptr,RDW_INVALIDATE | RDW_ALLCHILDREN); return;
+    }
+    const bool sources = model_ && !stale_ && mode_ < 4 && !pasted_inputs_ && r.Height() - top > 180; const int source_height = sources ? (std::max)(60,(r.Height() - top - 80) / 3) : 0;
     for (CWnd* c : {static_cast<CWnd*>(&source_left_),static_cast<CWnd*>(&source_right_),static_cast<CWnd*>(&source_left_label_),static_cast<CWnd*>(&source_right_label_)}) c->ShowWindow(sources ? SW_SHOW : SW_HIDE);
     const bool base_source = sources && mode_ == 3 && show_base_source_;
     source_base_.ShowWindow(base_source); source_base_label_.ShowWindow(base_source);
@@ -164,6 +193,7 @@ void CAdvancedCompareView::Layout() {
     output_label_.MoveWindow(0, top + list_height, width, (std::min)(22, available));
     output_.MoveWindow(0, top + list_height + 22, width, (std::max)(0, available - list_height - 22));
     status_.MoveWindow(0, bottom, width, (std::max)(0, r.Height() - bottom)); Columns();
+    RedrawWindow(nullptr,nullptr,RDW_INVALIDATE | RDW_ALLCHILDREN);
 }
 void CAdvancedCompareView::Columns() {
     if (!rows_.GetSafeHwnd()) return; CRect r; rows_.GetClientRect(r);
@@ -173,6 +203,11 @@ void CAdvancedCompareView::Columns() {
     const int bytes_width = (std::max)(110,static_cast<int>(dc.GetTextExtent(L"18446744073709551615").cx) + 16); dc.SelectObject(old);
     if (mode_ == 4) { const int widths[] = {MulDiv(260,zoom_percent_,100),state_width,bytes_width,bytes_width,MulDiv(280,zoom_percent_,100),MulDiv(220,zoom_percent_,100),MulDiv(220,zoom_percent_,100),MulDiv(260,zoom_percent_,100),MulDiv(400,zoom_percent_,100)}; for (int i = 0; i < 9; ++i) rows_.SetColumnWidth(i, widths[i]); int order[] = {0,1,7,2,3,4,5,6,8}; rows_.SetColumnOrderArray(9,order); if (folder_text_rules_.empty()) { rows_.SetColumnWidth(7,0); rows_.SetColumnWidth(8,0); } }
     else if (mode_ >= 5) { const int widths[] = {300,400,400,140}; for (int i = 0; i < 4; ++i) rows_.SetColumnWidth(i,MulDiv(widths[i],zoom_percent_,100)); }
+    else if (SideBySide()) {
+        for (int i = 0; i < 8; ++i) rows_.SetColumnWidth(i,0);
+        const int each = (std::max)(35,(r.Width() - GetSystemMetrics(SM_CXVSCROLL)) / 2);
+        rows_.SetColumnWidth(2,each); rows_.SetColumnWidth(4,each);
+    }
     else {
         const int count = mode_ == 3 ? 3 : 2;
         const int text_width = (std::max)(MulDiv(160,zoom_percent_,100),(r.Width() - number_width * count - state_width) / count);
@@ -193,15 +228,17 @@ void CAdvancedCompareView::SetBusy(bool busy) {
     folder_criterion_.EnableWindow(!busy); folder_tolerance_.EnableWindow(!busy); folder_filter_.EnableWindow(!busy);
     sync_policy_.EnableWindow(!busy); baseline_save_.EnableWindow(!busy); baseline_load_.EnableWindow(!busy); propagate_deletions_.EnableWindow(!busy);
     journal_retry_.EnableWindow(!busy); journal_recover_.EnableWindow(!busy); backup_browse_.EnableWindow(!busy);
+    for (CButton* button : {&block_right_,&block_left_,&whole_right_,&whole_left_,&save_left_,&save_right_,&previous_,&next_,&show_output_button_}) button->EnableWindow(!busy);
 }
 void CAdvancedCompareView::InvalidateInputs() { if (codec_details_.GetSafeHwnd()) codec_details_.SetWindowTextW(L""); stale_ = true; rows_.SetItemCountEx(0); overview_.SetBands({}); RefreshSources(); Layout(); Status(L"Inputs changed. Press Compare. Existing merge output is retained."); }
-void CAdvancedCompareView::StartText(std::unique_ptr<BinaryDocument> base, std::unique_ptr<BinaryDocument> left, std::unique_ptr<BinaryDocument> right) {
+void CAdvancedCompareView::StartText(std::unique_ptr<BinaryDocument> base, std::unique_ptr<BinaryDocument> left, std::unique_ptr<BinaryDocument> right, bool notify_equal) {
     source_left_path_ = left ? left->Path() : L""; source_right_path_ = right ? right->Path() : L"";
     source_base_path_ = base ? base->Path() : L"";
-    StartTextJob(std::move(base),std::move(left),std::move(right),L"",L"",false);
+    StartTextJob(std::move(base),std::move(left),std::move(right),L"",L"",false,notify_equal);
 }
-void CAdvancedCompareView::StartTextJob(std::unique_ptr<BinaryDocument> base, std::unique_ptr<BinaryDocument> left, std::unique_ptr<BinaryDocument> right, std::wstring left_text, std::wstring right_text, bool pasted) {
+void CAdvancedCompareView::StartTextJob(std::unique_ptr<BinaryDocument> base, std::unique_ptr<BinaryDocument> left, std::unique_ptr<BinaryDocument> right, std::wstring left_text, std::wstring right_text, bool pasted, bool notify_equal) {
     if (Busy() || !CanReset()) return;
+    notify_equal_ = notify_equal;
     if (mode_ >= 5) { StartStructured(std::move(left),std::move(right)); return; }
     const int mode = mode_; const auto encoding = static_cast<TextEncoding>((std::max)(0, encoding_.GetCurSel()));
     const auto right_encoding = static_cast<TextEncoding>((std::max)(0,encoding_right_.GetCurSel())),base_encoding = static_cast<TextEncoding>((std::max)(0,encoding_base_.GetCurSel()));
@@ -214,6 +251,7 @@ void CAdvancedCompareView::StartTextJob(std::unique_ptr<BinaryDocument> base, st
         if (!pasted) {
             TextCodec base_codec;
             if (!DecodeDocument(left.get(),encoding,&a,&result.codec,&result.error) || !DecodeDocument(right.get(),right_encoding,&b,&other,&result.error) || (mode == 3 && !DecodeDocument(base.get(),base_encoding,&c,&base_codec,&result.error))) return result;
+            result.right_codec = other;
             result.codec_details = L"Left: " + DescribeTextCodec(result.codec,a) + L" | Right: " + DescribeTextCodec(other,b);
             if (mode == 3) result.codec_details += L" | Base: " + DescribeTextCodec(base_codec,c);
         }
@@ -225,8 +263,9 @@ void CAdvancedCompareView::StartTextJob(std::unique_ptr<BinaryDocument> base, st
         return result;
     }); } catch (const std::exception&) { SetBusy(false); Status(L"Could not start text comparison. The inputs are retained."); }
 }
-void CAdvancedCompareView::StartFolders(const std::wstring& left, const std::wstring& right) {
+void CAdvancedCompareView::StartFolders(const std::wstring& left, const std::wstring& right, bool notify_equal) {
     if (Busy() || !CanReset()) return;
+    notify_equal_ = notify_equal;
     folder_left_ = left; folder_right_ = right; CString include, exclude; include_.GetWindowTextW(include); exclude_.GetWindowTextW(exclude);
     FolderOptions options{recursive_.GetCheck() == BST_CHECKED,include.IsEmpty() ? L"*" : include.GetString(),exclude.GetString()};
     options.criterion = static_cast<FolderCriterion>((std::max)(0,folder_criterion_.GetCurSel())); options.time_tolerance_seconds = static_cast<unsigned>((std::max)(0,folder_tolerance_.GetCurSel()));
@@ -243,6 +282,7 @@ void CAdvancedCompareView::AdoptText(std::wstring text, bool initial) {
     suppress_result_ = false; manual_resolved_ = false; RefreshOutputState();
     Status(L"Text comparison complete. " + std::to_wstring(unresolved_) + L" unresolved conflict(s). Select changed rows and Take a side, or edit the output. Save result keeps source tabs intact.");
     if (changed) changed();
+    if (SideBySide()) Status(L"Two-way comparison: select a difference, then copy a block or all text in either direction. Copies remain unsaved in document tabs until Save left / Save right.");
     if (manual_view_) { output_.SetReadOnly(TRUE); Status(L"Read-only manually aligned comparison. Clear manual anchors and compare again to enable merging. Existing source files remain unchanged."); }
     else if (!text_rules_.empty()) { const auto ignored = std::count_if(model_->blocks.begin(),model_->blocks.end(),[](const auto& block) { return block.changed && !block.important; }); Status(L"Advanced text rules active: " + std::to_wstring(ignored) + L" ignored difference block(s). Original source/output text is retained."); }
 }
@@ -261,7 +301,7 @@ void CAdvancedCompareView::Tick() {
         sync_summary_ = std::to_wstring(result.sync.completed) + L" operation(s) committed. Backup: " + (result.text.empty() ? result.sync.backup.wstring() : result.text);
         if (!result.sync.error.empty()) sync_summary_ += L". " + result.sync.error;
         if (result.sync.cancelled) sync_summary_ += L". Cancelled; committed files remain committed.";
-        Status(sync_summary_); StartFolders(folder_left_,folder_right_); return;
+        Status(sync_summary_); StartFolders(folder_left_,folder_right_,false); return;
     }
     if (!result.error.empty() || (cancelled_ && !((result.kind == JobKind::Save || result.kind == JobKind::NotesSave || result.kind == JobKind::Report) && result.saved))) {
         if (job_kind_ == JobKind::Presentation) similar_.SetCheck(presentation_similar_ ? BST_CHECKED : BST_UNCHECKED);
@@ -272,7 +312,19 @@ void CAdvancedCompareView::Tick() {
         if (close_after_save_) { close_after_save_ = false; if (saved_close) saved_close(false); } return;
     }
     if (result.kind == JobKind::Pairing) { if (result.pairs) FinishContentPairing(*result.pairs); return; }
+    if (result.kind == JobKind::SideCopy) {
+        if (result.side_copy && apply_side_copy && apply_side_copy(*result.side_copy,&result.error)) {
+            last_copy_right_ = result.side_copy->to_right;
+            if (compare_again) compare_again();
+        } else Status(result.error.empty() ? L"Could not copy the difference. Compare again before retrying." : result.error);
+        return;
+    }
     if (result.kind == JobKind::NotesLoad || result.kind == JobKind::NotesSave) { FinishNotesIo(result); return; }
+    if (result.kind == JobKind::Text || result.kind == JobKind::Scan || result.kind == JobKind::Structured || result.kind == JobKind::Refresh || result.kind == JobKind::Presentation) {
+        // Column/layout messages can synchronously request virtual row data.
+        // Retire old indices before replacing their backing snapshot.
+        visible_.clear(); rows_.SetItemCountEx(0); overview_.SetBands({});
+    }
     if (result.kind == JobKind::Refresh) {
         ++folder_generation_;
         scan_ = std::move(result.scan); tree_expanded_.clear();
@@ -282,8 +334,8 @@ void CAdvancedCompareView::Tick() {
     }
     if (result.kind == JobKind::Text || result.kind == JobKind::Structured) codec_details_.SetWindowTextW(result.codec_details.c_str());
     if (result.kind == JobKind::Text || result.kind == JobKind::Scan || result.kind == JobKind::Structured) stale_ = false;
-    if (result.kind == JobKind::Structured) { structured_ = std::move(result.structured); model_.reset(); scan_.reset(); dirty_ = manual_ = false; RebuildRows(); Status(L"Read-only field comparison: " + std::to_wstring(structured_->different) + L" difference(s), " + std::to_wstring(structured_->compared) + L" compared nodes/cells." + (structured_->truncated ? L" First 20,000 differences shown." : L"") + L" Value/path previews: 512/2048 characters. Original inputs remain unchanged."); return; }
-    if (result.kind == JobKind::Text) { moves_ = std::move(result.moves); manual_view_ = result.anchored; model_ = std::move(result.model); review_fingerprint_ = result.review_fingerprint; if (notes_.notes.empty()) notes_.fingerprint = review_fingerprint_; context_expanded_.clear(); codec_ = result.codec; report_inputs_ = std::move(result.inputs); presentation_ = std::move(result.presentation); line_options_ = result.options; presentation_similar_ = result.similar; if (presentation_) text_rows_ = std::move(presentation_->rows); scan_.reset(); saved_path_.clear(); AdoptText(std::move(result.text),true); RebuildRows(); RefreshSources(); Layout(); }
+    if (result.kind == JobKind::Structured) { structured_ = std::move(result.structured); model_.reset(); scan_.reset(); dirty_ = manual_ = false; RebuildRows(); Status(L"Read-only field comparison: " + std::to_wstring(structured_->different) + L" difference(s), " + std::to_wstring(structured_->compared) + L" compared nodes/cells." + (structured_->truncated ? L" First 20,000 differences shown." : L"") + L" Value/path previews: 512/2048 characters. Original inputs remain unchanged."); CompleteComparisonNotice(!structured_->truncated && structured_->different == 0); return; }
+    if (result.kind == JobKind::Text) { moves_ = std::move(result.moves); manual_view_ = result.anchored; model_ = std::move(result.model); review_fingerprint_ = result.review_fingerprint; if (notes_.notes.empty()) notes_.fingerprint = review_fingerprint_; context_expanded_.clear(); codec_ = result.codec; right_codec_ = result.right_codec; report_inputs_ = std::move(result.inputs); presentation_ = std::move(result.presentation); line_options_ = result.options; presentation_similar_ = result.similar; if (presentation_) text_rows_ = std::move(presentation_->rows); scan_.reset(); saved_path_.clear(); AdoptText(std::move(result.text),true); RebuildRows(); RefreshSources(); Layout(); }
     else if (result.kind == JobKind::Presentation) { presentation_ = std::move(result.presentation); presentation_similar_ = result.similar; if (presentation_) text_rows_ = std::move(presentation_->rows); RebuildRows(); RefreshSources(); Status(L"Source alignment updated. Original line numbers and merged-output edits are retained."); }
     else if (result.kind == JobKind::Render) { const auto before_extra = extra_conflicts_; extra_conflicts_ = result.extra_conflicts; AdoptText(std::move(result.text),false); if (!choice_actions_.empty()) choice_actions_.back().before_extra = before_extra; render_before_.clear(); RebuildRows(); }
     else if (result.kind == JobKind::Scan) { ++folder_generation_; scan_options_ = result.folder_options; scan_ = std::move(result.scan); tree_expanded_.clear(); model_.reset(); Columns(); RebuildRows(); Status(sync_summary_ + L" Folder comparison complete: " + std::to_wstring(scan_->rows.size()) + L" entries. Sync uses saved disk contents. Preview every operation before applying."); }
@@ -293,6 +345,8 @@ void CAdvancedCompareView::Tick() {
         if (result.saved) { saved_path_ = result.output_path; saved_stamp_ = result.written; CString value; output_.GetWindowTextW(value); saved_text_ = value.GetString(); dirty_ = false; output_.SetModify(FALSE); Status(L"Merge result saved: " + saved_path_); if (changed) changed(); }
         if (close_after_save_) { close_after_save_ = false; if (saved_close) saved_close(result.saved); }
     }
+    if (result.kind == JobKind::Text && model_) CompleteComparisonNotice(std::none_of(model_->blocks.begin(),model_->blocks.end(),[](const auto& block) { return block.changed && block.important; }));
+    else if (result.kind == JobKind::Scan && scan_) CompleteComparisonNotice(!scan_->partial_refresh && std::all_of(scan_->rows.begin(),scan_->rows.end(),[](const auto& row) { return row.state == FolderState::Equal && row.error.empty() && row.text_error.empty() && row.fresh; }));
 }
 void CAdvancedCompareView::RebuildRows() {
     visible_.clear(); context_rows_ = {}; eligible_folder_rows_.clear();
@@ -317,8 +371,9 @@ void CAdvancedCompareView::RebuildRows() {
 }
 std::wstring CAdvancedCompareView::Cell(int row, int column) const {
     if (row < 0 || static_cast<std::size_t>(row) >= visible_.size()) return L"";
-    if (mode_ >= 5 && structured_) { const auto& item = structured_->rows[visible_[row]]; return column == 0 ? item.path : column == 1 ? item.left : column == 2 ? item.right : column == 3 ? simple_editor::ui::Localize(item.state) : L""; }
+    if (mode_ >= 5 && structured_) { if (visible_[row] >= structured_->rows.size()) return L""; const auto& item = structured_->rows[visible_[row]]; return column == 0 ? item.path : column == 1 ? item.left : column == 2 ? item.right : column == 3 ? simple_editor::ui::Localize(item.state) : L""; }
     if (mode_ == 4 && scan_) {
+        if (visible_[row] >= scan_->rows.size() || (folder_tree_ && visible_[row] >= tree_rows_.depth.size())) return L"";
         const auto& item = scan_->rows[visible_[row]]; const auto state_text = [&](const std::wstring& text) { return simple_editor::ui::Localize(text) + (item.fresh ? L"" : simple_editor::ui::Localize(L" [not rescanned]")); };
         if (column == 0) { if (!folder_tree_) return item.relative.wstring(); const auto index = visible_[row]; const auto prefix = item.left.directory || item.right.directory ? tree_expanded_.count(index) ? L"[-] " : L"[+] " : L"    "; return std::wstring((std::min)(16u,tree_rows_.depth[index]) * 2,L' ') + prefix + item.relative.filename().wstring(); } if (column == 1) { if (folder_tree_ && (item.left.directory || item.right.directory) && item.state == FolderState::Equal) { const auto index = visible_[row]; return state_text(tree_rows_.errors[index] ? L"Subtree errors" : tree_rows_.differences[index] ? L"Subtree different" : L"Subtree equal"); } return state_text(State(item.state)); }
         if (column == 7) return simple_editor::ui::Localize(item.text_state); if (column == 8) return simple_editor::ui::Localize(item.text_error);
@@ -330,8 +385,12 @@ std::wstring CAdvancedCompareView::Cell(int row, int column) const {
         FILETIME utc{static_cast<DWORD>(stamp.modified),static_cast<DWORD>(stamp.modified >> 32)},local{}; SYSTEMTIME time{}; if (!FileTimeToLocalFileTime(&utc,&local) || !FileTimeToSystemTime(&local,&time)) return L"?";
         wchar_t value[48]{}; swprintf_s(value,L"%04u-%02u-%02u %02u:%02u:%02u",time.wYear,time.wMonth,time.wDay,time.wHour,time.wMinute,time.wSecond); return value;
     }
-    if (!model_) return L"";
-    const auto hidden = context_rows_.hidden.find(visible_[row]); if (hidden != context_rows_.hidden.end()) return column == 3 ? L"[+] " + std::to_wstring(hidden->second) + L" hidden rows - double-click to expand" : L"";
+    if (!model_ || visible_[row] >= text_rows_.size() || text_rows_[visible_[row]].block >= model_->blocks.size()) return L"";
+    const auto hidden = context_rows_.hidden.find(visible_[row]);
+    if (hidden != context_rows_.hidden.end()) {
+        if (SideBySide()) return column == 2 ? L"[+]" : column == 4 ? std::to_wstring(hidden->second) : L"";
+        return column == 3 ? L"[+] " + std::to_wstring(hidden->second) + L" hidden rows - double-click to expand" : L"";
+    }
     const auto& item = text_rows_[visible_[row]]; const auto& b = model_->blocks[item.block];
     if (column == 7) return NoteCell(text_rows_[visible_[row]].block);
     if (column == 6) { if (presentation_ && visible_[row] < presentation_->hints.size() && !presentation_->hints[visible_[row]].empty()) return simple_editor::ui::Localize(presentation_->hints[visible_[row]]); return simple_editor::ui::Localize(!b.changed ? L"Equal" : b.conflict && b.choice == MergeChoice::Unresolved && !manual_resolved_ ? L"CONFLICT" : !b.important ? L"Ignored" : b.conflict ? L"Resolved" : L"Changed"); }
@@ -345,6 +404,7 @@ void CAdvancedCompareView::OnDisplay(NMHDR* header, LRESULT* result) {
 }
 void CAdvancedCompareView::OnResultChanged() {
     if (suppress_result_) return;
+    if (SideBySide() && !show_output_) { show_output_ = true; show_output_button_.SetCheck(BST_CHECKED); Layout(); }
     if (manual_resolved_) { manual_resolved_ = false; unresolved_ = model_unresolved_; RebuildRows(); }
     RefreshOutputState();
 }

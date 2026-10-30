@@ -33,7 +33,9 @@ public:
             if (!valid) { GlobalUnlock(medium.hGlobal); Error(L"Invalid dropped file list."); return S_OK; }
             const auto copy = GlobalAlloc(GMEM_MOVEABLE,size); auto* target = copy ? GlobalLock(copy) : nullptr;
             if (!target) { if (copy) GlobalFree(copy); GlobalUnlock(medium.hGlobal); return S_OK; }
-            memcpy(target,bytes,size); GlobalUnlock(copy); GlobalUnlock(medium.hGlobal);
+            memcpy(target,bytes,size);
+            auto* copied = static_cast<DROPFILES*>(target); copied->pt = {location.x,location.y}; copied->fNC = TRUE;
+            GlobalUnlock(copy); GlobalUnlock(medium.hGlobal);
             owner_->SendMessage(WM_DROPFILES,reinterpret_cast<WPARAM>(copy),0); *effect = DROPEFFECT_COPY; return S_OK;
         }
         const auto* begin = reinterpret_cast<const wchar_t*>(bytes); const auto* end = std::find(begin,begin + size / sizeof(wchar_t),L'\0');

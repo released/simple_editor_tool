@@ -17,6 +17,7 @@
 #include "core/portable_preferences.h"
 #include "core/recovery_store.h"
 #include "core/editor_config.h"
+#include "core/line_merge.h"
 
 class CMainFrame;
 
@@ -26,7 +27,8 @@ public:
     bool OpenPath(const std::wstring& path, bool silent = false);
     void ChooseFiles();
     void OpenDroppedFiles(HDROP drop);
-    void NewComparison(const std::wstring& left = L"", bool insertion_aware = true);
+    void NewComparison(const std::wstring& left = L"");
+    void NewComparison(const std::wstring& left, bool insertion_aware);
     void NewComparisonInputs(const std::wstring& left, const std::wstring& right, const std::wstring& base, int mode, bool run = false);
     bool NewPastedPair(const std::wstring& left,const std::wstring& right,std::wstring* error);
     std::wstring SyntaxForPath(const std::wstring& path) const;
@@ -58,7 +60,10 @@ public:
     simple_editor::core::IndentationSettings IndentationDefaults() const { return {preferences_.tab_width,preferences_.tab_width,preferences_.use_tabs}; }
     std::vector<std::wstring> OpenPaths() const;
     std::vector<std::wstring> FolderPaths() const;
+    std::vector<std::wstring> ComparisonPaths(bool folders) const;
     std::unique_ptr<simple_editor::core::BinaryDocument> SnapshotForPath(const std::wstring& path, std::wstring* error);
+    bool ApplyComparisonCopy(const simple_editor::core::TextSideCopy& copy,std::wstring* error);
+    bool ComparisonSideAction(const std::wstring& path,int action);
     BOOL PreTranslateMessage(MSG* message) override;
     BOOL OnCmdMsg(UINT id, int code, void* extra, AFX_CMDHANDLERINFO* handler) override;
     friend class NativeUiTest;
@@ -103,7 +108,7 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 private:
-    CMainFrame* CreateSession();
+    CMainFrame* CreateSession(bool activate = true);
     void ActivateSession(int index);
     void Layout();
     void FocusActive();

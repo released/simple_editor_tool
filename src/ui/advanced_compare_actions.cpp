@@ -20,6 +20,11 @@ bool CAdvancedCompareView::CanReset() {
     if (answer == IDCANCEL) return false;
     dirty_ = false; return true;
 }
+void CAdvancedCompareView::CompleteComparisonNotice(bool equal) {
+    if (!equal || !notify_equal_ || !no_differences) return;
+    notify_equal_ = false;
+    ModalFlag guard(modal_); no_differences();
+}
 bool CAdvancedCompareView::CanClose() {
     if (modal_) { Status(L"Complete or cancel the active dialog before closing this tab."); return false; }
     if (Busy()) {
@@ -56,12 +61,20 @@ void CAdvancedCompareView::Take(MergeChoice choice) {
     std::set<std::size_t> blocks;
     for (int row = rows_.GetNextItem(-1,LVNI_SELECTED); row >= 0; row = rows_.GetNextItem(row,LVNI_SELECTED)) if (static_cast<std::size_t>(row) < visible_.size() && !context_rows_.hidden.count(visible_[row])) blocks.insert(text_rows_[visible_[row]].block);
     if (blocks.empty()) { Status(L"Select changed rows first. Ctrl+A selects all visible rows."); return; }
+    if (SideBySide() && !show_output_) { show_output_ = true; show_output_button_.SetCheck(BST_CHECKED); Layout(); }
     RenderCheckpoint(); bool altered = false;
     for (auto index : blocks) if (model_->blocks[index].changed && model_->blocks[index].choice != choice) { model_->blocks[index].choice = choice; altered = true; }
     if (!altered) { render_before_.clear(); return; }
     RenderAsync();
 }
 void CAdvancedCompareView::Undo(bool redo) {
+    if (SideBySide() && (!show_output_ || ::GetFocus() == source_left_.GetSafeHwnd() || ::GetFocus() == source_right_.GetSafeHwnd())) {
+        if (Busy() || !model_ || stale_) return;
+        if (dirty_) { Status(L"Save the merged output before undoing a source draft."); return; }
+        const bool right = ::GetFocus() == source_left_.GetSafeHwnd() ? false : ::GetFocus() == source_right_.GetSafeHwnd() ? true : last_copy_right_;
+        if (undo_side && undo_side(right ? source_right_path_ : source_left_path_,redo) && compare_again) compare_again();
+        return;
+    }
     if (::GetFocus() == source_left_.GetSafeHwnd() || ::GetFocus() == source_right_.GetSafeHwnd() || ::GetFocus() == source_base_.GetSafeHwnd()) return;
     if (!Busy()) if (auto* input = FocusedInput()) { if (redo) input->Redo(); else input->Undo(); return; }
     if (manual_view_) return;
@@ -85,6 +98,14 @@ void CAdvancedCompareView::SaveResult() {
     CFileDialog dialog(FALSE,L"txt",saved_path_.empty() ? L"merged.txt" : saved_path_.c_str(),OFN_OVERWRITEPROMPT,L"All files (*.*)|*.*||",this);
     INT_PTR selected; { ModalFlag guard(modal_); selected = dialog.DoModal(); } if (selected != IDOK) return;
     SaveTo(dialog.GetPathName().GetString());
+}
+bool CAdvancedCompareView::SaveFocusedSide() {
+    if (!SideBySide() || show_output_) return false;
+    const bool right = ::GetFocus() == source_left_.GetSafeHwnd() ? false : ::GetFocus() == source_right_.GetSafeHwnd() ? true : last_copy_right_;
+    SaveSide(right); return true;
+}
+void CAdvancedCompareView::SaveSide(bool right) {
+    if (!Busy() && save_side && model_ && !stale_) Status(save_side(right ? source_right_path_ : source_left_path_) ? L"Saving selected side. Check its document tab for the final save status." : L"No writable target draft is available. Open the target document to check its status.");
 }
 bool CAdvancedCompareView::SaveTo(const std::wstring& path) {
     if (Busy() || !model_ || mode_ == 4 || (unresolved_ && !allow_markers_.GetCheck())) return false;
@@ -152,6 +173,13 @@ void CAdvancedCompareView::OnAction(UINT id) {
     case ID_ADV_UNDO: Undo(); break; case ID_ADV_REDO: Undo(true); break; case ID_ADV_SAVE: SaveResult(); break;
     case ID_ADV_COPY_RIGHT: PlanSync(true,false); break; case ID_ADV_COPY_LEFT: PlanSync(false,false); break;
     case ID_ADV_SYNC_RIGHT: PlanSync(true,true); break; case ID_ADV_SYNC_LEFT: PlanSync(false,true); break;
+    case ID_ADV_BLOCK_RIGHT: CopySide(true,false); break; case ID_ADV_BLOCK_LEFT: CopySide(false,false); break;
+    case ID_ADV_WHOLE_RIGHT: CopySide(true,true); break; case ID_ADV_WHOLE_LEFT: CopySide(false,true); break;
+    case ID_ADV_PREVIOUS: Navigate(true); break; case ID_ADV_NEXT: Navigate(false); break;
+    case ID_ADV_SHOW_OUTPUT:
+        if (!Busy()) { show_output_ = show_output_button_.GetCheck() != 0; Layout(); } break;
+    case ID_ADV_SAVE_LEFT: case ID_ADV_SAVE_RIGHT:
+        SaveSide(id == ID_ADV_SAVE_RIGHT); break;
     case ID_ADV_MANUAL_RESOLVED:
         if (!Busy() && model_ && manual_) {
             CString value; output_.GetWindowTextW(value); bool markers = false;
@@ -161,6 +189,28 @@ void CAdvancedCompareView::OnAction(UINT id) {
         }
         break;
     }
+}
+void CAdvancedCompareView::CopySide(bool to_right, bool whole) {
+    if (!SideBySide() || Busy() || stale_ || !model_ || !apply_side_copy || !CanReset()) return;
+    std::set<std::size_t> selected;
+    if (!whole) for (int row = rows_.GetNextItem(-1,LVNI_SELECTED); row >= 0; row = rows_.GetNextItem(row,LVNI_SELECTED)) {
+        if (static_cast<std::size_t>(row) < visible_.size() && !context_rows_.hidden.count(visible_[row])) {
+            const auto block = text_rows_[visible_[row]].block;
+            if (model_->blocks[block].changed) selected.insert(block);
+        }
+    }
+    if (!whole && selected.empty()) { Status(L"Select a difference in either source pane or the middle line list first."); return; }
+    auto request = std::make_shared<SideCopy>(); request->to_right = to_right;
+    request->left_path = source_left_path_; request->right_path = source_right_path_;
+    request->left_codec = codec_; request->right_codec = right_codec_;
+    auto model = model_; const std::vector<std::size_t> blocks(selected.begin(),selected.end());
+    cancelled_ = false; job_kind_ = JobKind::SideCopy; SetBusy(true);
+    try { job_ = std::async(std::launch::async,[this,request,model,blocks,whole,to_right]() {
+        Result result; result.kind = JobKind::SideCopy; result.side_copy = request;
+        for (const auto& line : model->left) { if (cancelled_) return result; request->left += line.text; request->left += line.ending; }
+        for (const auto& line : model->right) { if (cancelled_) return result; request->right += line.text; request->right += line.ending; }
+        CopyTextBlocks(*model,to_right,whole,blocks,cancelled_,&request->replacement,&result.error); return result;
+    }); } catch (const std::exception&) { SetBusy(false); Status(L"Could not copy the difference. Compare again before retrying."); }
 }
 void CAdvancedCompareView::Navigate(bool previous, bool conflicts_only) {
     if (Busy() || stale_ || visible_.empty()) return;

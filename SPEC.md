@@ -2,6 +2,33 @@
 
 ## Current Scope
 
+- Successful explicit comparisons show a localized information dialog when the
+  complete result has no differences under the selected settings. Equality uses
+  full models, not filtered rows; cancellation, failure, stale binary results,
+  truncated structured output and partial/error folder scans cannot report
+  equality. Modal session guards remain active until dismissal. Automatic source
+  copy/Undo recomparisons and post-sync rescans suppress the completion popup.
+  Result replacement retires old virtual row mappings/counts before new snapshots
+  or column/layout changes; late text/draw callbacks reject out-of-range rows.
+
+- Two-way file Text/source comparison gives sources the main vertical space,
+  placing the original left/right line list between them. Separate merged output
+  is collapsed by default and can be expanded without losing edits. Explicit
+  block/whole directional copies apply one native Undo transaction to the normal
+  target document draft, then compare snapshots again. Preflight both current
+  raw sources and target writability/codec/quota; never mutate display adapters
+  or write disk implicitly. Save side uses existing normal editor safety/close/
+  recovery behavior. Previous/Next buttons reuse difference-block navigation.
+
+- New comparison pages default to Text/source (2-way), while explicit binary,
+  structured, folder, pasted and restored modes retain their chosen modes.
+  Left/right/Base path dropdowns combine current inputs, open documents and the
+  existing bounded recent-file history without translating raw paths. Closed-file
+  history persists through portable preferences. Compare-page single-file drops
+  select the indicated side, preserve editor/merge drafts and reject busy or
+  unreadable replacements. Multiple-file opening remains available. Tab backgrounds
+  clip sibling surfaces; completed result layouts invalidate their child panes.
+
 - Main-window buttons, session/page tabs, comparison selectors, status/notice
   controls and function sidebar use consistent regular Segoe UI 9pt typography.
   Document fonts, syntax emphasis, content zoom and native dialog fonts remain

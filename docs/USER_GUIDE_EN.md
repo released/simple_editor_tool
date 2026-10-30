@@ -178,9 +178,24 @@ review compares the draft against its saved disk version.
 
 ## 6. Comparing files or directly pasted text
 
-Choose **Compare files...**. Enter the left/right paths, use Browse, or select
-open files from the dropdowns. Select a mode and press Compare. Swap sides
-exchanges the inputs; compare again afterward.
+Choose **Compare files...**; **Text/source (2-way)** is the default. Enter the
+left/right paths, use Browse, or select open and recently opened files from the
+dropdowns, then press Compare. Up to 20 recent files remain available after their
+document tabs close and are saved through the existing portable preferences.
+Entering Compare from an open document fills an empty left path with that document.
+
+After an explicit Compare completes successfully, an information dialog appears
+when no differences are found under the current settings. Ignoring whitespace,
+case or EOL may treat different original bytes as equivalent. Display filters do
+not affect this decision; failed/cancelled comparisons do not show the notice.
+Automatic recomparison after copying a block does not repeat the popup.
+
+Drop a single file onto the left or right side to select that input, including
+the read-only source panes in comparison results. Press Compare to run afterward.
+Drops preserve existing editor tabs and unsaved drafts; inputs cannot change
+during a running comparison. Multiple-file drops still open each file in a retained
+tab. Swap sides exchanges the inputs; compare again afterward. Select either Hex
+mode explicitly from the mode list when comparing binary data.
 
 | Mode | Use |
 | --- | --- |
@@ -204,6 +219,27 @@ are excluded from workspace INIs and prompt before closing. Save result writes
 only the selected output; pasted comparisons default to UTF-8 output.
 
 ## 7. Merging text and reviewing differences
+
+Two-way Text/source comparison places complete sources side by side with original
+left/right line numbers in the middle. Merged output starts collapsed; check
+**Merged output** to expand it without discarding its draft.
+Select a changed source line or middle row and use **Block -> / <- Block** to
+copy that difference to the opposite side. The middle list supports multiple
+selection. **All -> / <- All** copies the entire text. **Previous difference /
+Next difference**, or `Shift+F7` / `F7`, cycles through difference blocks.
+
+Copies update or create the target's unsaved document tab, retain other tabs,
+and immediately compare the current drafts again. The destination retains its
+encoding and newline convention; enable Ignore EOL when only newline differences
+remain. With output collapsed, Undo/Redo targets the last copied side; shortcuts
+in a source pane target that side. **Save left / Save right**, or Save in its
+document tab, explicitly writes that file. Save any separate unsaved merged output
+before undoing a source draft. With output collapsed, `Ctrl+S` saves
+the focused source side, or the last copied side when a button has focus.
+Check that tab's status for the final
+save result. Stale sources, read-only/busy destinations and unrepresentable text
+reject copying while preserving drafts. Manual anchors, pasted comparisons and
+three-way mode retain their respective merge workflows.
 
 Ignore spaces, case or EOL differences; filter changes/conflicts; select blocks
 and take left, right or both. Three-way mode can also take Base. Independent

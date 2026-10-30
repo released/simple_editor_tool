@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <numeric>
+#include <algorithm>
 #include <random>
 using namespace simple_editor::core;
 namespace {
@@ -13,6 +14,26 @@ std::string Read(const std::filesystem::path& path) { std::ifstream stream(path,
 int RunMergeSyncTests(const std::filesystem::path& root) {
     int failures = 0; const auto check = [&](bool condition, const wchar_t* label) { std::wcout << (condition ? L"PASS: " : L"FAIL: ") << label << L'\n'; if (!condition) ++failures; };
     std::atomic_bool cancel{false}; std::wstring error; TextMergeModel model; std::size_t conflicts = 0;
+    {
+        const std::wstring left = L"start\n左\nkeep\ninsert\nend", right = L"start\n右\nkeep\nend\nextra\n";
+        TextMergeModel copy; std::wstring output = L"sentinel"; std::vector<std::size_t> blocks;
+        check(BuildTextMerge(L"",left,right,false,{},cancel,&copy,&error),L"build directional copy fixture");
+        for (std::size_t i = 0; i < copy.blocks.size(); ++i) if (copy.blocks[i].changed) blocks.push_back(i);
+        check(CopyTextBlocks(copy,true,false,blocks,cancel,&output,&error) && output == left,L"all selected blocks copy left to right with insertion/deletion/EOF and Unicode");
+        check(CopyTextBlocks(copy,false,false,blocks,cancel,&output,&error) && output == right,L"selected blocks copy right to left with exact source endings");
+        check(CopyTextBlocks(copy,true,true,{},cancel,&output,&error) && output == left,L"whole left document copy");
+        check(CopyTextBlocks(copy,false,true,{},cancel,&output,&error) && output == right,L"whole right document copy");
+        check(CopyTextBlocks(copy,true,false,{blocks.front()},cancel,&output,&error) && output.find(L"左") != std::wstring::npos && output.find(L"extra") != std::wstring::npos,L"one block leaves unrelated target differences intact");
+        output = L"sentinel"; cancel = true;
+        check(!CopyTextBlocks(copy,true,true,{},cancel,&output,&error) && output == L"sentinel",L"cancelled copy preserves caller output"); cancel = false;
+        check(!CopyTextBlocks(copy,true,false,{SIZE_MAX},cancel,&output,&error) && output == L"sentinel",L"invalid copy index preserves output");
+        check(!CopyTextBlocks(copy,true,false,{blocks.front(),blocks.front()},cancel,&output,&error),L"duplicate copy blocks are rejected");
+        copy.three_way = true; check(!CopyTextBlocks(copy,true,true,{},cancel,&output,&error),L"side copy cannot rewrite a three-way merge");
+        check(BuildTextMerge(L"",L"",L"only\r\n",false,{},cancel,&copy,&error) && CopyTextBlocks(copy,true,true,{},cancel,&output,&error) && output.empty(),L"copy an empty document to clear a target");
+        error.clear();
+        check(BuildTextMerge(L"",L"top\nleft\nsame\nleft-end\n",L"top\r\nright\r\nsame\r\nright-end\r\n",false,{false,false,true},cancel,&copy,&error) &&
+            std::count_if(copy.blocks.begin(),copy.blocks.end(),[](const auto& b) { return b.changed && b.important; }) == 2,L"ignored EOL rows separate two independent meaningful copy/navigation blocks");
+    }
     check(TextForEditControl(L"a\nb\rc\r\n") == L"a\r\nb\r\nc\r\n",L"native edit display presents all source newline styles");
     check(TextFromEditControl(L"a\nb\r\nc\r",L"a\r\nb\r\nc\r\n") == L"a\nb\r\nc\r",L"unchanged display preserves exact mixed source newlines");
     check(TextFromEditControl(L"a\nb\r\nc\r",L"a\r\nB\r\nc\r\n") == L"a\nB\r\nc\r",L"manual edit preserves surrounding mixed line endings");
