@@ -1,0 +1,1296 @@
+﻿{
+    "date":  "2026-10-31T20:23:46.1723061+08:00",
+    "scope":  "Approved R1-R7 reliability, interaction and UI-thread preparation",
+    "functional_status":  "PASS",
+    "overall_status":  "Cleanup incomplete; no retention exception",
+    "formal":  {
+                   "security":  [
+                                    "High entropy ASLR",
+                                    "Dynamic base",
+                                    "NX compatible"
+                                ],
+                   "import_dlls":  [
+                                       "CRYPT32.dll",
+                                       "bcrypt.dll",
+                                       "ole32.dll",
+                                       "KERNEL32.dll",
+                                       "USER32.dll",
+                                       "GDI32.dll",
+                                       "ADVAPI32.dll",
+                                       "SHELL32.dll",
+                                       "COMCTL32.dll",
+                                       "UxTheme.dll",
+                                       "OLEAUT32.dll",
+                                       "OLEACC.dll",
+                                       "IMM32.dll",
+                                       "SHLWAPI.dll"
+                                   ],
+                   "x64":  true,
+                   "bytes":  4001792,
+                   "static_mfc_crt":  true,
+                   "path":  "build/SimpleEditorTool.exe",
+                   "runtime_ini_sha256":  "879FD86CF67BE868E6362D2AACAF27738AFBCA8E55BAD50CEC01E525391A6DBA",
+                   "sha256":  "0E5F7DBC306DCE9AEF4EBD54F84B94FB3824F5823D503603FD1810E08FCEA797"
+               },
+    "core":  {
+                 "configuration":  "Release",
+                 "injected_failure_stages":  34,
+                 "allocation_operations":  6,
+                 "groups":  [
+                                {
+                                    "mode":  "allocation-safety",
+                                    "log_sha256":  "431E120C5896DC705FAB7EFA8CB6BF884FBACFE0C8EC8A255E762215A773FD02",
+                                    "exit":  0,
+                                    "pass_lines":  7,
+                                    "fail_lines":  0,
+                                    "metrics":  [
+
+                                                ]
+                                },
+                                {
+                                    "mode":  "file-safety",
+                                    "log_sha256":  "BFAFB1B7CEF179969B3B877E3A5CCD21A4B356AFA6156F3D751B19F78AE6D1AD",
+                                    "exit":  0,
+                                    "pass_lines":  29,
+                                    "fail_lines":  0,
+                                    "metrics":  [
+
+                                                ]
+                                },
+                                {
+                                    "mode":  "merge-sync",
+                                    "log_sha256":  "25B53EC4462F81301AEF9DEAC451A901EF9B600F055940FFC38F20B6B85DC7C1",
+                                    "exit":  0,
+                                    "pass_lines":  60,
+                                    "fail_lines":  0,
+                                    "metrics":  [
+
+                                                ]
+                                },
+                                {
+                                    "mode":  "async-save",
+                                    "log_sha256":  "26611FA98DDF7C097D01D5D9A0787FCEA1689528C91DE11CF1806D0BF71A0688",
+                                    "exit":  0,
+                                    "pass_lines":  24,
+                                    "fail_lines":  0,
+                                    "metrics":  [
+
+                                                ]
+                                },
+                                {
+                                    "mode":  "search-codec",
+                                    "log_sha256":  "B0F1B98058CE162980EB99C487508FB1D98EB35F868E9E69802717BBAD5D16A5",
+                                    "exit":  0,
+                                    "pass_lines":  2,
+                                    "fail_lines":  0,
+                                    "metrics":  [
+
+                                                ]
+                                },
+                                {
+                                    "mode":  "preferences",
+                                    "log_sha256":  "B1995D4A8700D6148DB14ED15C0767DEDB049B79D154DCC63423646F08FA12F0",
+                                    "exit":  0,
+                                    "pass_lines":  10,
+                                    "fail_lines":  0,
+                                    "metrics":  [
+
+                                                ]
+                                },
+                                {
+                                    "mode":  "localization",
+                                    "log_sha256":  "6A6835B668C881ED146D98FC093463D214BF4B3667E6043677D85B0E9FD020A5",
+                                    "exit":  0,
+                                    "pass_lines":  21,
+                                    "fail_lines":  0,
+                                    "metrics":  [
+
+                                                ]
+                                },
+                                {
+                                    "mode":  "merge-tools",
+                                    "log_sha256":  "21C75B94F0A466CB09CB8669B424338A14AE68CB940F80A59698CFAD02178E8A",
+                                    "exit":  0,
+                                    "pass_lines":  20,
+                                    "fail_lines":  0,
+                                    "metrics":  [
+
+                                                ]
+                                },
+                                {
+                                    "mode":  "regions",
+                                    "log_sha256":  "6F5B4FDEBDEFD608CCBD75875F9864767808DAA9C38F7ECBCBF5697D5963C0EB",
+                                    "exit":  0,
+                                    "pass_lines":  15,
+                                    "fail_lines":  0,
+                                    "metrics":  [
+
+                                                ]
+                                }
+                            ],
+                 "test_sha256":  "5BD961EF7DB7A5C145E4F7F4D53D96E9DD6FA76B29FA4AE146ED92ABC5D2046A",
+                 "reuse_note":  "Storage/algorithms unchanged after this run. Subsequent worker preparation changes are verified in final UI executables."
+             },
+    "ui":  {
+               "debug_before_final_source_adoption_guard":  {
+                                                                "test_sha256":  "286A10E8CB963B3D5E8AA891AE6B4A89AB4D01E3C771ADE13FA1F3D58604EAE8",
+                                                                "groups":  {
+                                                                               "value":  [
+                                                                                             {
+                                                                                                 "log_sha256":  "40BC781F74CD9D1CD546D8DD2AE905536CF139C1984F4B0A1ED7BFE02B7C0922",
+                                                                                                 "pass_lines":  31,
+                                                                                                 "mode":  "side-merge",
+                                                                                                 "exit":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "log_sha256":  "8E65A8BC33646468C3990EBBDAA37B774639050C6E231C12D56BD0B635B2DF28",
+                                                                                                 "pass_lines":  36,
+                                                                                                 "mode":  "compare-notice",
+                                                                                                 "exit":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "log_sha256":  "2CD0A8C907F51AEB67EECDD1736CAF779B8A4C00676C15CF4E6FE095BF64761C",
+                                                                                                 "pass_lines":  53,
+                                                                                                 "mode":  "advanced",
+                                                                                                 "exit":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "log_sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939",
+                                                                                                 "pass_lines":  36,
+                                                                                                 "mode":  "workspace",
+                                                                                                 "exit":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "log_sha256":  "7D292CD67E556A23504B118F15AF81080548B44159BDCAD668B31F6A32F16A22",
+                                                                                                 "pass_lines":  15,
+                                                                                                 "mode":  "preferences",
+                                                                                                 "exit":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "log_sha256":  "07C8DDB2D80378073FEA7926B38EC86895594EB135093331B0C5BC8BC5D73160",
+                                                                                                 "pass_lines":  9,
+                                                                                                 "mode":  "presentation",
+                                                                                                 "exit":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "log_sha256":  "75422F7402C0054CC9A04D19C9497B2264EF58CDB3F579B481EB5A132C8CEE0F",
+                                                                                                 "pass_lines":  46,
+                                                                                                 "mode":  "workflow-expansion",
+                                                                                                 "exit":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "log_sha256":  "C226FB2F035754D4154AA62C857D68C6C2133FD5F620AE2EDAD46F7BC7D8B8F2",
+                                                                                                 "pass_lines":  47,
+                                                                                                 "mode":  "text-workflow",
+                                                                                                 "exit":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "log_sha256":  "07B8326AFA6E62B2421355AAA8957487181947705BB423324EB80B09F96C6EEC",
+                                                                                                 "pass_lines":  33,
+                                                                                                 "mode":  "async-save",
+                                                                                                 "exit":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "log_sha256":  "9AAA6AFE72351D69AD5BA7D286FC4021149DB9F8CD8D410AC9997BF92C84D90F",
+                                                                                                 "pass_lines":  18,
+                                                                                                 "mode":  "localization",
+                                                                                                 "exit":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "log_sha256":  "077BD78556CF8DD915C159F402B267F5D2116A39AB383861878D43487CFC665C",
+                                                                                                 "pass_lines":  35,
+                                                                                                 "mode":  "pasted-text",
+                                                                                                 "exit":  0
+                                                                                             },
+                                                                                             {
+                                                                                                 "log_sha256":  "1930C19D0EBB6A962F627C6D7518941015811E1F79022E3ABF2CF138C893A5A7",
+                                                                                                 "pass_lines":  43,
+                                                                                                 "mode":  "document-focus",
+                                                                                                 "exit":  0
+                                                                                             }
+                                                                                         ],
+                                                                               "Count":  12
+                                                                           }
+                                                            },
+               "screenshot":  "docs/verification/reliability-20261031.png",
+               "final_debug_connected":  {
+                                             "value":  [
+                                                           {
+                                                               "log_sha256":  "40BC781F74CD9D1CD546D8DD2AE905536CF139C1984F4B0A1ED7BFE02B7C0922",
+                                                               "pass_lines":  31,
+                                                               "mode":  "side-merge",
+                                                               "exit":  0
+                                                           },
+                                                           {
+                                                               "log_sha256":  "8E65A8BC33646468C3990EBBDAA37B774639050C6E231C12D56BD0B635B2DF28",
+                                                               "pass_lines":  36,
+                                                               "mode":  "compare-notice",
+                                                               "exit":  0
+                                                           },
+                                                           {
+                                                               "log_sha256":  "2CD0A8C907F51AEB67EECDD1736CAF779B8A4C00676C15CF4E6FE095BF64761C",
+                                                               "pass_lines":  53,
+                                                               "mode":  "advanced",
+                                                               "exit":  0
+                                                           },
+                                                           {
+                                                               "log_sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939",
+                                                               "pass_lines":  36,
+                                                               "mode":  "workspace",
+                                                               "exit":  0
+                                                           },
+                                                           {
+                                                               "log_sha256":  "740DF1EAC947C921B3B1BBFCB3E8137EF0B209BA08BF0420C0B62BE6D7E5DA09",
+                                                               "pass_lines":  32,
+                                                               "mode":  "compare-page",
+                                                               "exit":  0
+                                                           },
+                                                           {
+                                                               "log_sha256":  "FCA5C9F044E3D9ED38B3317B04F9805EDAFF8FCFFD304D55EE9BC54E2E0E7BE3",
+                                                               "pass_lines":  7,
+                                                               "mode":  "structured",
+                                                               "exit":  0
+                                                           }
+                                                       ],
+                                             "Count":  6
+                                         },
+               "retired_binaries":  {
+                                        "value":  [
+                                                      {
+                                                          "Path":  "artifacts\\tests\\Debug\\NativeUiTests.exe",
+                                                          "Hash":  "60E99DB009937E71E74B8DE56542B9DA69766B80386479005AD795DE6CB519ED"
+                                                      },
+                                                      {
+                                                          "Path":  "artifacts\\tests\\Release\\NativeUiTests.exe",
+                                                          "Hash":  "F51911A9A6A52B98F1912DC684088540F761D86241BD54D47613AD46FEA0D6B6"
+                                                      },
+                                                      {
+                                                          "Path":  "artifacts\\tests\\NativeCoreTests.exe",
+                                                          "Hash":  "BFCC1A43CA5BEE1F279A39EF6724697FCDF36CA9F2B64828C1DEBF18C85E1E66"
+                                                      }
+                                                  ],
+                                        "Count":  3
+                                    },
+               "final_debug_reliability":  {
+                                               "log_sha256":  "4AFC6B7D6F2B203C9971E29185D3936190D03F4998BF894BD2ED12E718092D19",
+                                               "pass_lines":  30,
+                                               "metrics":  [
+                                                               "METRIC source_lookup_rows=20000 reference_linear_us=181457 indexed_us=5.4 checksum=19990000",
+                                                               "METRIC snapshot_bytes=8006128 reference_sync_ms=4570.85 capture_ui_ms=11.4711 preparation_wall_ms=4591 ui_pumps=413"
+                                                           ],
+                                               "fail_lines":  0,
+                                               "exit":  0
+                                           },
+               "screenshot_inspected":  true,
+               "final_release_reliability":  {
+                                                 "log_sha256":  "E82CDFD8D371FF710229B9D66E1D376BB61BA44A95E0005EC6B0BC3E848986BF",
+                                                 "pass_lines":  30,
+                                                 "metrics":  [
+                                                                 "METRIC source_lookup_rows=20000 reference_linear_us=8620.9 indexed_us=1.4 checksum=19990000",
+                                                                 "METRIC snapshot_bytes=8006128 reference_sync_ms=259.802 capture_ui_ms=6.3486 preparation_wall_ms=542.699 ui_pumps=1"
+                                                             ],
+                                                 "fail_lines":  0,
+                                                 "exit":  0
+                                             },
+               "final_release_connected":  {
+                                               "value":  [
+                                                             {
+                                                                 "log_sha256":  "40BC781F74CD9D1CD546D8DD2AE905536CF139C1984F4B0A1ED7BFE02B7C0922",
+                                                                 "pass_lines":  31,
+                                                                 "mode":  "side-merge",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "8E65A8BC33646468C3990EBBDAA37B774639050C6E231C12D56BD0B635B2DF28",
+                                                                 "pass_lines":  36,
+                                                                 "mode":  "compare-notice",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "2CD0A8C907F51AEB67EECDD1736CAF779B8A4C00676C15CF4E6FE095BF64761C",
+                                                                 "pass_lines":  53,
+                                                                 "mode":  "advanced",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939",
+                                                                 "pass_lines":  36,
+                                                                 "mode":  "workspace",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "740DF1EAC947C921B3B1BBFCB3E8137EF0B209BA08BF0420C0B62BE6D7E5DA09",
+                                                                 "pass_lines":  32,
+                                                                 "mode":  "compare-page",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "FCA5C9F044E3D9ED38B3317B04F9805EDAFF8FCFFD304D55EE9BC54E2E0E7BE3",
+                                                                 "pass_lines":  7,
+                                                                 "mode":  "structured",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "7D292CD67E556A23504B118F15AF81080548B44159BDCAD668B31F6A32F16A22",
+                                                                 "pass_lines":  15,
+                                                                 "mode":  "preferences",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "07C8DDB2D80378073FEA7926B38EC86895594EB135093331B0C5BC8BC5D73160",
+                                                                 "pass_lines":  9,
+                                                                 "mode":  "presentation",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "75422F7402C0054CC9A04D19C9497B2264EF58CDB3F579B481EB5A132C8CEE0F",
+                                                                 "pass_lines":  46,
+                                                                 "mode":  "workflow-expansion",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "C226FB2F035754D4154AA62C857D68C6C2133FD5F620AE2EDAD46F7BC7D8B8F2",
+                                                                 "pass_lines":  47,
+                                                                 "mode":  "text-workflow",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "07B8326AFA6E62B2421355AAA8957487181947705BB423324EB80B09F96C6EEC",
+                                                                 "pass_lines":  33,
+                                                                 "mode":  "async-save",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "9AAA6AFE72351D69AD5BA7D286FC4021149DB9F8CD8D410AC9997BF92C84D90F",
+                                                                 "pass_lines":  18,
+                                                                 "mode":  "localization",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "077BD78556CF8DD915C159F402B267F5D2116A39AB383861878D43487CFC665C",
+                                                                 "pass_lines":  35,
+                                                                 "mode":  "pasted-text",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "1930C19D0EBB6A962F627C6D7518941015811E1F79022E3ABF2CF138C893A5A7",
+                                                                 "pass_lines":  43,
+                                                                 "mode":  "document-focus",
+                                                                 "exit":  0
+                                                             },
+                                                             {
+                                                                 "log_sha256":  "FF8DD4A78ED67D7209FF6363924EA8B973BF0760FDE32FCD360F720022CF4BCB",
+                                                                 "pass_lines":  13,
+                                                                 "mode":  "workspace-process",
+                                                                 "exit":  0
+                                                             }
+                                                         ],
+                                               "Count":  15
+                                           }
+           },
+    "catalogs":  [
+                     {
+                         "keys":  765,
+                         "source_sha256":  "24685084A329046EAC8E6FF2E0BA62B0489F895FD0B037A66DBD19F821B8784A",
+                         "language":  "en",
+                         "unique":  765,
+                         "delivery_sha256":  "24685084A329046EAC8E6FF2E0BA62B0489F895FD0B037A66DBD19F821B8784A"
+                     },
+                     {
+                         "keys":  765,
+                         "source_sha256":  "D80389E70FF290961DE2D2067CB5F0FAA171B80D199F667D89CA166FB84AFE1A",
+                         "language":  "tw",
+                         "unique":  765,
+                         "delivery_sha256":  "D80389E70FF290961DE2D2067CB5F0FAA171B80D199F667D89CA166FB84AFE1A"
+                     }
+                 ],
+    "not_run":  [
+                    "Debug global allocation injection: Debug STL proxy allocation can occur in noexcept constructors; the aborted initial attempt is not acceptance. Release injection covers all six mutation/history operations.",
+                    "Unchanged unrelated full suites were not rerun.",
+                    "No physical hardware or external third-party tools are required/claimed."
+                ],
+    "resolved_failures":  [
+                              {
+                                  "configuration":  "Debug",
+                                  "verified":  "Final Debug reliability and connected UI modes PASS",
+                                  "initial":  "Native GetStyle assertion at MFC winocc.cpp:201 while advanced HWND was absent",
+                                  "fix":  "Guard PollSourceFreshness with GetSafeHwnd; CRT test hook now exits immediately on assertion"
+                              },
+                              {
+                                  "configuration":  "Debug core",
+                                  "initial":  "Global allocation injection aborted inside Debug STL runtime",
+                                  "resolution":  "Test injection restricted to Release; normal Debug native paths remain covered"
+                              }
+                          ],
+    "git_repack":  {
+                       "preservation":  "All object IDs, refs and reflog file hashes identical",
+                       "after_bytes":  7233142,
+                       "objects":  916,
+                       "reflogs":  4,
+                       "refs":  3,
+                       "before_bytes":  8771333
+                   },
+    "cleanup":  {
+                    "protected":  {
+                                      "checked":  719,
+                                      "changed":  0,
+                                      "paths":  [
+                                                    null
+                                                ]
+                                  },
+                    "raw_retirement":  "BLOCKED before execution: automatic safety review returned blocked by policy without details. No retry or alternate deletion of these 89 files; no retention exception.",
+                    "size":  {
+                                 "includes":  "hidden, ignored, Git, vendor, build, artifacts",
+                                 "pass":  false,
+                                 "breakdown":  [
+                                                   {
+                                                       "bytes":  256879,
+                                                       "path":  "\u003croot\u003e"
+                                                   },
+                                                   {
+                                                       "bytes":  7181676,
+                                                       "path":  ".git"
+                                                   },
+                                                   {
+                                                       "bytes":  3209501,
+                                                       "path":  "artifacts"
+                                                   },
+                                                   {
+                                                       "bytes":  4136972,
+                                                       "path":  "build"
+                                                   },
+                                                   {
+                                                       "bytes":  1855560,
+                                                       "path":  "docs"
+                                                   },
+                                                   {
+                                                       "bytes":  20567,
+                                                       "path":  "scripts"
+                                                   },
+                                                   {
+                                                       "bytes":  1444425,
+                                                       "path":  "src"
+                                                   },
+                                                   {
+                                                       "bytes":  597076,
+                                                       "path":  "tests"
+                                                   },
+                                                   {
+                                                       "bytes":  4285185,
+                                                       "path":  "vendor"
+                                                   }
+                                               ],
+                                 "files":  887,
+                                 "bytes":  22987841,
+                                 "limit_bytes":  20000000,
+                                 "skipped_paths":  0,
+                                 "reparse_paths":  0,
+                                 "decimal_mb":  22.987841
+                             },
+                    "purge_removed_files":  13,
+                    "release_core_retired_via":  "MSBuild NativeCoreTests /t:Clean with original isolated Release OutDir",
+                    "historical":  {
+                                       "record":  "docs/verification/compare-notice-20261030.json",
+                                       "files":  67,
+                                       "bytes":  832118,
+                                       "state":  "Previously rejected; no alternate deletion attempted"
+                                   },
+                    "current_blocked":  {
+                                            "allocation_file":  {
+                                                                    "bytes":  32,
+                                                                    "path":  "artifacts/reliability-20261031/core-debug-allocation-safety/setBA32.tmp/allocation.bin"
+                                                                },
+                                            "no_bypass":  true,
+                                            "reason":  "Automatic safety review rejected before execution: blocked by policy; no detailed reason",
+                                            "failed_ui_fixtures":  [
+                                                                       {
+                                                                           "path":  "artifacts/reliability-20261031/ui-debug-diagnostic-small/set8C6.tmp/.editorconfig",
+                                                                           "sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6",
+                                                                           "bytes":  12
+                                                                       },
+                                                                       {
+                                                                           "path":  "artifacts/reliability-20261031/ui-debug-diagnostic-small/set8C6.tmp/a.txt",
+                                                                           "sha256":  "43506BFBAF8CA647C4AA193E508C6838C28ABE629ACF4E21187ACB1E9EC28645",
+                                                                           "bytes":  3730
+                                                                       },
+                                                                       {
+                                                                           "path":  "artifacts/reliability-20261031/ui-debug-diagnostic-small/set8C6.tmp/b.txt",
+                                                                           "sha256":  "D0A947CE48CC5379CA3713E133D4DFA63ED825AE46027562C2F0C15FE0614B71",
+                                                                           "bytes":  3730
+                                                                       },
+                                                                       {
+                                                                           "path":  "artifacts/reliability-20261031/ui-debug-reliability/set8904.tmp/.editorconfig",
+                                                                           "sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6",
+                                                                           "bytes":  12
+                                                                       },
+                                                                       {
+                                                                           "path":  "artifacts/reliability-20261031/ui-debug-reliability/set8904.tmp/a.txt",
+                                                                           "sha256":  "6D567DA92F1FA836DF1CC0D7FF7834963C4CB6D47FA91DADD54A88F7749AD0AE",
+                                                                           "bytes":  328890
+                                                                       },
+                                                                       {
+                                                                           "path":  "artifacts/reliability-20261031/ui-debug-reliability/set8904.tmp/b.txt",
+                                                                           "sha256":  "87138BAB8AD208B27E4233EC070EBAA9FB1B5D69C1EF53D2DFCC8C64B626095D",
+                                                                           "bytes":  328890
+                                                                       },
+                                                                       {
+                                                                           "path":  "artifacts/reliability-20261031/ui-debug-reliability-02/set30AA.tmp/.editorconfig",
+                                                                           "sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6",
+                                                                           "bytes":  12
+                                                                       },
+                                                                       {
+                                                                           "path":  "artifacts/reliability-20261031/ui-debug-reliability-02/set30AA.tmp/a.txt",
+                                                                           "sha256":  "6D567DA92F1FA836DF1CC0D7FF7834963C4CB6D47FA91DADD54A88F7749AD0AE",
+                                                                           "bytes":  328890
+                                                                       },
+                                                                       {
+                                                                           "path":  "artifacts/reliability-20261031/ui-debug-reliability-02/set30AA.tmp/b.txt",
+                                                                           "sha256":  "87138BAB8AD208B27E4233EC070EBAA9FB1B5D69C1EF53D2DFCC8C64B626095D",
+                                                                           "bytes":  328890
+                                                                       }
+                                                                   ]
+                                        },
+                    "purge_mib":  98.44,
+                    "safe_clean_removed_files":  774,
+                    "raw_manifest":  [
+                                         {
+                                             "path":  "artifacts/reliability-20261031/build-release-final.log",
+                                             "sha256":  "EA173DD45C1DFDD09EB09E2906857064D77ABE0355540E88B0BA3C27E6147186",
+                                             "bytes":  3176
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/build-ui-debug-final.log",
+                                             "sha256":  "FF9CFDDB4F36E618A914B48909B4F33C63B5D313C424B0F9015801E413BF78EB",
+                                             "bytes":  2320
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/build-ui-release-final.log",
+                                             "sha256":  "4AB9C93B1C5759972332D3089F9D264DF784B22591FC3130EC4EE714C15338D0",
+                                             "bytes":  2324
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/clean-obj.log",
+                                             "sha256":  "026B0ADDF7E99A948C3627622607C0ADA35BC7B025911CD395E2D26A3F53869E",
+                                             "bytes":  298
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/clean-preservation.json",
+                                             "sha256":  "DF0A3B86A043FA464F288E579AD7DD22CFE6F01CFAC508B5B8006AC628830DF4",
+                                             "bytes":  109
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-debug-allocation-safety.log",
+                                             "sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                                             "bytes":  0
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-debug-build.log",
+                                             "sha256":  "D06A4FA56C9C7182719CA188EB1A2BADEC1CBD8FD6B3DCCDFB8BCCBC555142BD",
+                                             "bytes":  2344
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-debug-console.log",
+                                             "sha256":  "D482C0971DA17D976A50E34ACEC1F6F5ED99CDA4721A9FF82BB54BC533750A1C",
+                                             "bytes":  4684
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-release-allocation-safety.log",
+                                             "sha256":  "431E120C5896DC705FAB7EFA8CB6BF884FBACFE0C8EC8A255E762215A773FD02",
+                                             "bytes":  1156
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-release-async-save.log",
+                                             "sha256":  "26611FA98DDF7C097D01D5D9A0787FCEA1689528C91DE11CF1806D0BF71A0688",
+                                             "bytes":  2854
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-release-build.log",
+                                             "sha256":  "01A4DE4DF453F97392F0DBA2AA31A69BB8BFAECEB04FB1DA697AF0B6A64E754E",
+                                             "bytes":  4970
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-release-file-safety.log",
+                                             "sha256":  "BFAFB1B7CEF179969B3B877E3A5CCD21A4B356AFA6156F3D751B19F78AE6D1AD",
+                                             "bytes":  3068
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-release-localization.log",
+                                             "sha256":  "6A6835B668C881ED146D98FC093463D214BF4B3667E6043677D85B0E9FD020A5",
+                                             "bytes":  2972
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-release-merge-sync.log",
+                                             "sha256":  "25B53EC4462F81301AEF9DEAC451A901EF9B600F055940FFC38F20B6B85DC7C1",
+                                             "bytes":  6512
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-release-merge-tools.log",
+                                             "sha256":  "21C75B94F0A466CB09CB8669B424338A14AE68CB940F80A59698CFAD02178E8A",
+                                             "bytes":  2474
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-release-preferences.log",
+                                             "sha256":  "B1995D4A8700D6148DB14ED15C0767DEDB049B79D154DCC63423646F08FA12F0",
+                                             "bytes":  1510
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-release-regions.log",
+                                             "sha256":  "6F5B4FDEBDEFD608CCBD75875F9864767808DAA9C38F7ECBCBF5697D5963C0EB",
+                                             "bytes":  2270
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-release-retire.log",
+                                             "sha256":  "15C83F79DBE08E04B0E3F8158A6999E3414F28BA2AF8B475B252A8569D347762",
+                                             "bytes":  102
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/core-release-search-codec.log",
+                                             "sha256":  "B0F1B98058CE162980EB99C487508FB1D98EB35F868E9E69802717BBAD5D16A5",
+                                             "bytes":  216
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/failed-fixture-retirement.json",
+                                             "sha256":  "A062ADDB068B0FCDB2968EFDA2D12AAFA9CC88B260D68C631427EE998AE2F077",
+                                             "bytes":  2431
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/formal-pe.txt",
+                                             "sha256":  "F16D94C2685526C2B2ACBAB9E4AA71682117E6353E7C9E21F412B91F13BEE199",
+                                             "bytes":  64398
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/git-repack.json",
+                                             "sha256":  "12AC3B81A3812C7D62BC28D2EF1E095D82E3740DBAAE5147627BC30980679717",
+                                             "bytes":  207
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ownership.json",
+                                             "sha256":  "308543156AF8DA5E1E2D4FA17D1853F7EE4EFCA3EEF1F1884A9FD6855EEE7907",
+                                             "bytes":  181293
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/product-release-build.log",
+                                             "sha256":  "9391A4BFDB1EED052EACBA2158B180DF5C68DECB324600A0FC6E7EDAD581E0C5",
+                                             "bytes":  12238
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/product-release-guard-build.log",
+                                             "sha256":  "A1CCCB10490D177199AD84A7715A6FA173BE060665675AC1B6D24C385CBD2AB0",
+                                             "bytes":  1246
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/product-release-incremental-build.log",
+                                             "sha256":  "7617DF9467A2656A6CED9F30A3ECFE90224375E65B7DBD6FF5E434DFE0EAD9A3",
+                                             "bytes":  1406
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/protected-before-clean.json",
+                                             "sha256":  "23946A744E318C0AD44C44A6A720307388BAA8742AAACB502ADCFB70C5E914ED",
+                                             "bytes":  129614
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/purge-apply.log",
+                                             "sha256":  "300CA3E40ACDA5E513EA5B3B0734DA46643F08C61AC0AF5F6CBD72AAC3993556",
+                                             "bytes":  18530
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/purge-preview.log",
+                                             "sha256":  "FE4F33EA8D0871BFD78669AF40B91474E5A38CB0D6CEF6A98E90592A6357BDC5",
+                                             "bytes":  19848
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/raw-inventory.json",
+                                             "sha256":  "89FE15570D78AEFA115D9308903A2903EB8861553188C6B660F1079900EE9CDA",
+                                             "bytes":  15521
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/reliability-debug-final.png",
+                                             "sha256":  "2F16C6529EB0E0B7196B239FD0C475CBF9F4A3BF13073AA0A743E8E9B3B281D8",
+                                             "bytes":  88326
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/reliability-debug.png",
+                                             "sha256":  "6ECFF74A23ED1CF804704A6BCD72A8003DD93678EDA85917BE588AA88FE3E28F",
+                                             "bytes":  88253
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/reliability-release-final.png",
+                                             "sha256":  "77EEAE9205A8C3F8FD08FE2A9AA1F44C9DF3F1F5F35104EC4D93A4D90FBDE6E5",
+                                             "bytes":  88278
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/reliability-release.png",
+                                             "sha256":  "53EDA5688703C8C1C740EDA7E4E0048C89320A9DBD4F9F1CF9FAE9405D4FAF9B",
+                                             "bytes":  88199
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/retired-test-hashes.json",
+                                             "sha256":  "DE5D480F42F3572740A3C63FAD90D6DE3B3276191DF76F286C48EEBF07C4239D",
+                                             "bytes":  497
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-accept-advanced.log",
+                                             "sha256":  "2CD0A8C907F51AEB67EECDD1736CAF779B8A4C00676C15CF4E6FE095BF64761C",
+                                             "bytes":  6668
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-accept-async-save.log",
+                                             "sha256":  "07B8326AFA6E62B2421355AAA8957487181947705BB423324EB80B09F96C6EEC",
+                                             "bytes":  3806
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-accept-compare-notice.log",
+                                             "sha256":  "8E65A8BC33646468C3990EBBDAA37B774639050C6E231C12D56BD0B635B2DF28",
+                                             "bytes":  4702
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-accept-document-focus.log",
+                                             "sha256":  "1930C19D0EBB6A962F627C6D7518941015811E1F79022E3ABF2CF138C893A5A7",
+                                             "bytes":  5976
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-accept-localization.log",
+                                             "sha256":  "9AAA6AFE72351D69AD5BA7D286FC4021149DB9F8CD8D410AC9997BF92C84D90F",
+                                             "bytes":  2804
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-accept-pasted-text.log",
+                                             "sha256":  "077BD78556CF8DD915C159F402B267F5D2116A39AB383861878D43487CFC665C",
+                                             "bytes":  4742
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-accept-preferences.log",
+                                             "sha256":  "7D292CD67E556A23504B118F15AF81080548B44159BDCAD668B31F6A32F16A22",
+                                             "bytes":  2204
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-accept-presentation.log",
+                                             "sha256":  "07C8DDB2D80378073FEA7926B38EC86895594EB135093331B0C5BC8BC5D73160",
+                                             "bytes":  1218
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-accept-side-merge.log",
+                                             "sha256":  "40BC781F74CD9D1CD546D8DD2AE905536CF139C1984F4B0A1ED7BFE02B7C0922",
+                                             "bytes":  4008
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-accept-text-workflow.log",
+                                             "sha256":  "C226FB2F035754D4154AA62C857D68C6C2133FD5F620AE2EDAD46F7BC7D8B8F2",
+                                             "bytes":  5438
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-accept-workflow-expansion.log",
+                                             "sha256":  "75422F7402C0054CC9A04D19C9497B2264EF58CDB3F579B481EB5A132C8CEE0F",
+                                             "bytes":  6504
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-accept-workspace.log",
+                                             "sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939",
+                                             "bytes":  5190
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-build.log",
+                                             "sha256":  "D5AB60E7A66F05FE82729BF1E039AA2EADAB8F7952C158E046C477DE47E4EB34",
+                                             "bytes":  8082
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-diagnostic-small.log",
+                                             "sha256":  "79C1D5785C031025DD56E2CEE53997246413C683919A659D05E2A387F612743D",
+                                             "bytes":  1534
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-diagnostics-build.log",
+                                             "sha256":  "E612E4453A531E70223F9EF37685416A1A87631C0C33F6BE8C2B814AFEFEB1A8",
+                                             "bytes":  364
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-final-advanced.log",
+                                             "sha256":  "2CD0A8C907F51AEB67EECDD1736CAF779B8A4C00676C15CF4E6FE095BF64761C",
+                                             "bytes":  6668
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-final-build.log",
+                                             "sha256":  "A6D36D458432E96CB767CE5BE2EB9FBAF7BA8806F3AE655B6680065B4E12FC7F",
+                                             "bytes":  9224
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-final-compare-notice.log",
+                                             "sha256":  "8E65A8BC33646468C3990EBBDAA37B774639050C6E231C12D56BD0B635B2DF28",
+                                             "bytes":  4702
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-final-compare-page.log",
+                                             "sha256":  "740DF1EAC947C921B3B1BBFCB3E8137EF0B209BA08BF0420C0B62BE6D7E5DA09",
+                                             "bytes":  5062
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-final-reliability.log",
+                                             "sha256":  "4AFC6B7D6F2B203C9971E29185D3936190D03F4998BF894BD2ED12E718092D19",
+                                             "bytes":  5082
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-final-results.json",
+                                             "sha256":  "CE8D9C07606D9BC0166B64E6F585D4EF485B564BF6C43944C48A959EBF55E118",
+                                             "bytes":  1132
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-final-side-merge.log",
+                                             "sha256":  "40BC781F74CD9D1CD546D8DD2AE905536CF139C1984F4B0A1ED7BFE02B7C0922",
+                                             "bytes":  4008
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-final-structured.log",
+                                             "sha256":  "FCA5C9F044E3D9ED38B3317B04F9805EDAFF8FCFFD304D55EE9BC54E2E0E7BE3",
+                                             "bytes":  1058
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-final-workspace.log",
+                                             "sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939",
+                                             "bytes":  5190
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-guard-build.log",
+                                             "sha256":  "488024638B9EA85E792B491ED01BC0292C921752DDF86BD92DACE8FDC9EC98B6",
+                                             "bytes":  412
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-harness-build.log",
+                                             "sha256":  "E612E4453A531E70223F9EF37685416A1A87631C0C33F6BE8C2B814AFEFEB1A8",
+                                             "bytes":  364
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-incremental-build.log",
+                                             "sha256":  "FF54B801F40ABFA0B81FE2CF1DADABE51D8309ACCBB268285320E37FFEAF5429",
+                                             "bytes":  570
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-reliability-02.log",
+                                             "sha256":  "D040897DE6E9E49FCB7C874C5177407FE1A1BFBB31FAE62252F8F61567B9090F",
+                                             "bytes":  594
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-reliability-final.log",
+                                             "sha256":  "F944FD5368A3DB629109AF827FDC68790875F4CD415C33EDC5F90BDEA19781D5",
+                                             "bytes":  4910
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-reliability.log",
+                                             "sha256":  "9AEC4C7A7B3288D069A34EA33D5222921B94848283DC839FB170C60E1D227513",
+                                             "bytes":  4394
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-debug-results.json",
+                                             "sha256":  "75FB111D8BBC1EC5EA4F19A339AEB1C6E4CE2195E29290E9A0BD53A27E23F9FE",
+                                             "bytes":  2273
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-build.log",
+                                             "sha256":  "D31303F778DEBA8C35596C01E555DC284DBDB94CE82CD22C6458DC1EB51FFBA6",
+                                             "bytes":  9228
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-advanced.log",
+                                             "sha256":  "2CD0A8C907F51AEB67EECDD1736CAF779B8A4C00676C15CF4E6FE095BF64761C",
+                                             "bytes":  6668
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-async-save.log",
+                                             "sha256":  "07B8326AFA6E62B2421355AAA8957487181947705BB423324EB80B09F96C6EEC",
+                                             "bytes":  3806
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-compare-notice.log",
+                                             "sha256":  "8E65A8BC33646468C3990EBBDAA37B774639050C6E231C12D56BD0B635B2DF28",
+                                             "bytes":  4702
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-compare-page.log",
+                                             "sha256":  "740DF1EAC947C921B3B1BBFCB3E8137EF0B209BA08BF0420C0B62BE6D7E5DA09",
+                                             "bytes":  5062
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-document-focus.log",
+                                             "sha256":  "1930C19D0EBB6A962F627C6D7518941015811E1F79022E3ABF2CF138C893A5A7",
+                                             "bytes":  5976
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-localization.log",
+                                             "sha256":  "9AAA6AFE72351D69AD5BA7D286FC4021149DB9F8CD8D410AC9997BF92C84D90F",
+                                             "bytes":  2804
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-pasted-text.log",
+                                             "sha256":  "077BD78556CF8DD915C159F402B267F5D2116A39AB383861878D43487CFC665C",
+                                             "bytes":  4742
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-preferences.log",
+                                             "sha256":  "7D292CD67E556A23504B118F15AF81080548B44159BDCAD668B31F6A32F16A22",
+                                             "bytes":  2204
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-presentation.log",
+                                             "sha256":  "07C8DDB2D80378073FEA7926B38EC86895594EB135093331B0C5BC8BC5D73160",
+                                             "bytes":  1218
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-reliability.log",
+                                             "sha256":  "E82CDFD8D371FF710229B9D66E1D376BB61BA44A95E0005EC6B0BC3E848986BF",
+                                             "bytes":  5082
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-results.json",
+                                             "sha256":  "D358D4A170FD2AC88718D4AEF7AD3E8D0D85DA789648FEA162916AB3A1FFAFA7",
+                                             "bytes":  2842
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-side-merge.log",
+                                             "sha256":  "40BC781F74CD9D1CD546D8DD2AE905536CF139C1984F4B0A1ED7BFE02B7C0922",
+                                             "bytes":  4008
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-structured.log",
+                                             "sha256":  "FCA5C9F044E3D9ED38B3317B04F9805EDAFF8FCFFD304D55EE9BC54E2E0E7BE3",
+                                             "bytes":  1058
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-text-workflow.log",
+                                             "sha256":  "C226FB2F035754D4154AA62C857D68C6C2133FD5F620AE2EDAD46F7BC7D8B8F2",
+                                             "bytes":  5438
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-workflow-expansion.log",
+                                             "sha256":  "75422F7402C0054CC9A04D19C9497B2264EF58CDB3F579B481EB5A132C8CEE0F",
+                                             "bytes":  6504
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-workspace-process.log",
+                                             "sha256":  "FF8DD4A78ED67D7209FF6363924EA8B973BF0760FDE32FCD360F720022CF4BCB",
+                                             "bytes":  1600
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-final-workspace.log",
+                                             "sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939",
+                                             "bytes":  5190
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-guard-build.log",
+                                             "sha256":  "E95918AD4CA5871B9F2DFBB08E3019366C674882AA5CB9589FEEFA2486B351EE",
+                                             "bytes":  416
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-harness-build.log",
+                                             "sha256":  "DA768B079730AB3FB12FDCCE5835565A2802533D0B891272B6B4450F6F70F402",
+                                             "bytes":  368
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-reliability.log",
+                                             "sha256":  "C4EA9D4745C34840104CB88CE572966EF774ACEE317CD0B28600FE9FD7D64F96",
+                                             "bytes":  5178
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/ui-release-side-merge.log",
+                                             "sha256":  "40BC781F74CD9D1CD546D8DD2AE905536CF139C1984F4B0A1ED7BFE02B7C0922",
+                                             "bytes":  4008
+                                         },
+                                         {
+                                             "path":  "artifacts/reliability-20261031/diagnostic/stack.ps1",
+                                             "sha256":  "73AA5065BD143B98945EB1F75ADD71926C61DEF1318F3D3347761107CC72417E",
+                                             "bytes":  3666
+                                         }
+                                     ],
+                    "raw_blocked_files":  89,
+                    "raw_blocked_bytes":  1054295,
+                    "test_outputs_remaining":  0,
+                    "remaining_artifacts":  {
+                                                "status":  "Unapproved blocked residuals; all compiler/test executable retirement succeeded",
+                                                "files":  166,
+                                                "bytes":  3209501
+                                            }
+                },
+    "git_final_repack":  {
+                             "before_bytes":  7233307,
+                             "refs":  3,
+                             "objects":  916,
+                             "reason":  "Measured final project exceeds 20,000,000 bytes after approved clean; prior lossless repack authorization reused",
+                             "after_bytes":  7181676,
+                             "settings":  "compression=9, redelta window=250/depth=100, one thread, 128m window",
+                             "reflogs":  4,
+                             "preservation":  "All object IDs, refs and reflog hashes identical"
+                         },
+    "builds":  [
+                   {
+                       "configuration":  "Release product",
+                       "command":  "scripts/build_release.bat",
+                       "exit":  0
+                   },
+                   {
+                       "configuration":  "Debug native UI",
+                       "command":  "MSBuild NativeUiTests.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:BuildProjectReferences=false",
+                       "exit":  0
+                   },
+                   {
+                       "configuration":  "Release native UI",
+                       "command":  "MSBuild NativeUiTests.vcxproj /p:Configuration=Release /p:Platform=x64 /p:BuildProjectReferences=false",
+                       "exit":  0
+                   }
+               ],
+    "final_changed_inputs":  [
+                                 {
+                                     "path":  "AGENTS.md",
+                                     "sha256":  "CA99D216F86D2232011A186B560B9AE19B213B58DBC97A4D882F1212F24C52DD",
+                                     "bytes":  16312
+                                 },
+                                 {
+                                     "path":  "build/lang_en.ini",
+                                     "sha256":  "24685084A329046EAC8E6FF2E0BA62B0489F895FD0B037A66DBD19F821B8784A",
+                                     "bytes":  65376
+                                 },
+                                 {
+                                     "path":  "build/lang_tw.ini",
+                                     "sha256":  "D80389E70FF290961DE2D2067CB5F0FAA171B80D199F667D89CA166FB84AFE1A",
+                                     "bytes":  66823
+                                 },
+                                 {
+                                     "path":  "build/SimpleEditorTool.exe",
+                                     "sha256":  "0E5F7DBC306DCE9AEF4EBD54F84B94FB3824F5823D503603FD1810E08FCEA797",
+                                     "bytes":  4001792
+                                 },
+                                 {
+                                     "path":  "docs/RELIABILITY_IMPLEMENTATION.md",
+                                     "sha256":  "6805AEE94F50E13F8BD2FBDC608F2AC02A62339915C716592053E1FC2E180C6D",
+                                     "bytes":  3102
+                                 },
+                                 {
+                                     "path":  "docs/USER_GUIDE.md",
+                                     "sha256":  "32AB17ED5FEACBE943CB584B050B7310708A9EC0E4B579652B5A2C97B82C164B",
+                                     "bytes":  26226
+                                 },
+                                 {
+                                     "path":  "docs/USER_GUIDE_EN.md",
+                                     "sha256":  "7BA457AF15FC0A339733C2CF54808FFC733D1FD73FE358125A58352BBE19737D",
+                                     "bytes":  27214
+                                 },
+                                 {
+                                     "path":  "docs/verification/reliability-20261031.png",
+                                     "sha256":  "2F16C6529EB0E0B7196B239FD0C475CBF9F4A3BF13073AA0A743E8E9B3B281D8",
+                                     "bytes":  88326
+                                 },
+                                 {
+                                     "path":  "HANDOFF.md",
+                                     "sha256":  "1C2E2EA9E0DCDC68B1E49FCDDFA9E4DBEE9C9C0EA5D4A5839C9E388F195EB568",
+                                     "bytes":  90683
+                                 },
+                                 {
+                                     "path":  "NativeCoreTests.vcxproj",
+                                     "sha256":  "B75A2DC206745A8CB3D53D562C383DAB99AC7FBCCA716A8FBC5AA02887D7ED10",
+                                     "bytes":  8308
+                                 },
+                                 {
+                                     "path":  "NativeUiTests.vcxproj",
+                                     "sha256":  "9F64D2C5EB8B3BF97BD4B07FC71B11502DE8D5A783B6AC25890DFDFADACA0577",
+                                     "bytes":  12020
+                                 },
+                                 {
+                                     "path":  "SELF_CHECK.md",
+                                     "sha256":  "3EF3B06C39F02E6B7E3F9EE25D10F9E09D7593188F5FC0B8349A4D3D6120BF5A",
+                                     "bytes":  64900
+                                 },
+                                 {
+                                     "path":  "SimpleEditorTool.vcxproj",
+                                     "sha256":  "55BE565AC405EF4795D1E5BACC0A6FC9831FF5561DE33A2783904131689A0539",
+                                     "bytes":  14166
+                                 },
+                                 {
+                                     "path":  "src/core/binary_document.cpp",
+                                     "sha256":  "B08B73349E3C8FBBD3B0C26492BE25AA01A04E7D65CA7AB11731467EA5C8FCAF",
+                                     "bytes":  21703
+                                 },
+                                 {
+                                     "path":  "src/core/binary_document.h",
+                                     "sha256":  "136490B229795F173D42F8B7CE2784CE33B06A39906F0A42915E704C88C784D2",
+                                     "bytes":  3207
+                                 },
+                                 {
+                                     "path":  "src/core/text_snapshot.cpp",
+                                     "sha256":  "C21EDC6D0103550EDAEAB42388EAEC02D8FF1CBEB8A391EED936E383766AABDB",
+                                     "bytes":  3273
+                                 },
+                                 {
+                                     "path":  "src/core/text_snapshot.h",
+                                     "sha256":  "E3E10FCC4024A88A4402F99C1A9F2E40A8100BEA874EB0212CEF88210051C2BE",
+                                     "bytes":  852
+                                 },
+                                 {
+                                     "path":  "src/core/text_source_stamp.h",
+                                     "sha256":  "DCF9AF06ED87BC9874E5C623818FEFFD7DB8C6BB20F3C598B51EBC9483A8B482",
+                                     "bytes":  1418
+                                 },
+                                 {
+                                     "path":  "src/main_frame.cpp",
+                                     "sha256":  "9843A9B9384ECBF1D89E25BB056226BFAF3E58C0C50BF6EAC9081BFBC2E3ACE5",
+                                     "bytes":  31985
+                                 },
+                                 {
+                                     "path":  "src/main_frame.h",
+                                     "sha256":  "9597BD0391CF5AFC1BB5C9890B5C987B77A79D74AF74F05B003388727FBFC3AE",
+                                     "bytes":  14117
+                                 },
+                                 {
+                                     "path":  "src/main_frame_advanced.cpp",
+                                     "sha256":  "301249DD2BACD2848290591F94284DA056C8CE839D6AD7EA910E5BF633533AAD",
+                                     "bytes":  5186
+                                 },
+                                 {
+                                     "path":  "src/main_frame_edit.cpp",
+                                     "sha256":  "A6A6221EB739B218724CB111FBDFBA478B6F180C5F64654EBFC4721A44BF99C2",
+                                     "bytes":  12090
+                                 },
+                                 {
+                                     "path":  "src/main_frame_paths.cpp",
+                                     "sha256":  "AD753ED228E97EC073FD3F8CF4D42FD7526E87E8A78D7AC99071976F27B80B63",
+                                     "bytes":  9308
+                                 },
+                                 {
+                                     "path":  "src/main_frame_review.cpp",
+                                     "sha256":  "00E15DE4DE30D565132D57B401D90504E699500103714B02435A7A2BF2364DEF",
+                                     "bytes":  6653
+                                 },
+                                 {
+                                     "path":  "src/main_frame_save.cpp",
+                                     "sha256":  "517010AB6FF7A938188B9CFCFBD66E28CD4E6947F4061FDF7DA0B08EBC9B67DD",
+                                     "bytes":  6070
+                                 },
+                                 {
+                                     "path":  "src/res/lang_en.ini",
+                                     "sha256":  "24685084A329046EAC8E6FF2E0BA62B0489F895FD0B037A66DBD19F821B8784A",
+                                     "bytes":  65376
+                                 },
+                                 {
+                                     "path":  "src/res/lang_tw.ini",
+                                     "sha256":  "D80389E70FF290961DE2D2067CB5F0FAA171B80D199F667D89CA166FB84AFE1A",
+                                     "bytes":  66823
+                                 },
+                                 {
+                                     "path":  "src/resource.h",
+                                     "sha256":  "85CB3C500F1B32E961392CF98FFBA0DF1620B75CF84FC373ADCFB9C12C134922",
+                                     "bytes":  8664
+                                 },
+                                 {
+                                     "path":  "src/ui/advanced_compare.cpp",
+                                     "sha256":  "DEBC92C66D420A7AC358C3AD780324E1B0BC9E4DF4CEECF52CD459C15212C0DA",
+                                     "bytes":  56046
+                                 },
+                                 {
+                                     "path":  "src/ui/advanced_compare.h",
+                                     "sha256":  "A8E68D26329EF457F6E2D476F205D28A09A9A4E1CEB94AD9180CC77F8E837935",
+                                     "bytes":  15261
+                                 },
+                                 {
+                                     "path":  "src/ui/advanced_compare_actions.cpp",
+                                     "sha256":  "F924D7175E1B68768427225C81570A3FDA6FEA0A27B772CBE7CF41F955223B6C",
+                                     "bytes":  22671
+                                 },
+                                 {
+                                     "path":  "src/ui/advanced_compare_report.cpp",
+                                     "sha256":  "1A301957154242E07E0B7E843F773E5623F897D327A1D4AF5F5876639440FA19",
+                                     "bytes":  2699
+                                 },
+                                 {
+                                     "path":  "src/ui/advanced_content_pairs.cpp",
+                                     "sha256":  "6BC7468241F82A6F3B1963EEC476F5212DE31028AE02CAE498F4E389868B83C8",
+                                     "bytes":  2153
+                                 },
+                                 {
+                                     "path":  "src/ui/advanced_folder_refresh.cpp",
+                                     "sha256":  "8D96FCEFB287791C8334D54494B1B3DF727F4E5FA3B57E2C62D848DE95C49B4E",
+                                     "bytes":  2801
+                                 },
+                                 {
+                                     "path":  "src/ui/advanced_folder_view.cpp",
+                                     "sha256":  "38D317C699C41942C1DA18668CFA87E4C1D579E4518A1B76A281984F6909F27C",
+                                     "bytes":  7381
+                                 },
+                                 {
+                                     "path":  "src/ui/advanced_notes_io.cpp",
+                                     "sha256":  "46ABDEE94A1A39F057DA31C293A6EDF9B21E071F26ABD4FF6E3E1E583C372E0A",
+                                     "bytes":  3278
+                                 },
+                                 {
+                                     "path":  "src/ui/advanced_sources.cpp",
+                                     "sha256":  "24DBD69398F911199381F37C946F7210F9828D050905CFA793CA84AD24AC5F8B",
+                                     "bytes":  13191
+                                 },
+                                 {
+                                     "path":  "src/ui/advanced_structured.cpp",
+                                     "sha256":  "33B4D69FB3D18E1151ECAC6E535C9059C16286EEEB037266D29B5A3A658B86EC",
+                                     "bytes":  3730
+                                 },
+                                 {
+                                     "path":  "src/workspace_document_focus.cpp",
+                                     "sha256":  "8C1530503B5F75AF983A68701C9300F5CAB7A8AD56F70E556541E12E6BC798C9",
+                                     "bytes":  1827
+                                 },
+                                 {
+                                     "path":  "src/workspace_documents.cpp",
+                                     "sha256":  "53B8AD150FE02F9983E1923BEF2BE947B202AF4A4776D087BFA9182783BDF9BB",
+                                     "bytes":  9101
+                                 },
+                                 {
+                                     "path":  "src/workspace_folder_navigation.cpp",
+                                     "sha256":  "EFB7EB1AFEE79E3B896D5468D635516DF4A93E9EE5C796828500C78C546BCCE1",
+                                     "bytes":  2510
+                                 },
+                                 {
+                                     "path":  "src/workspace_frame.cpp",
+                                     "sha256":  "DBDC5B334FC98DE8974BD38A9300E3FD8D37770519155F08585139D18038E93E",
+                                     "bytes":  34100
+                                 },
+                                 {
+                                     "path":  "src/workspace_frame.h",
+                                     "sha256":  "D7AB7DB9913BEF7C25CDF40648B4C201CF67246A47574BA871167CCA70733E63",
+                                     "bytes":  11404
+                                 },
+                                 {
+                                     "path":  "src/workspace_preferences.cpp",
+                                     "sha256":  "30D7523DB058B1A1EA8402BEA0653B2ADDF06FA48E04EB60CFFD100152829290",
+                                     "bytes":  9968
+                                 },
+                                 {
+                                     "path":  "src/workspace_sessions.cpp",
+                                     "sha256":  "FBA778F93AD09C4F6670A4D5BB8015CB88C43EB270028AE2F56283B8D8BC3795",
+                                     "bytes":  9877
+                                 },
+                                 {
+                                     "path":  "src/workspace_side_merge.cpp",
+                                     "sha256":  "AB70C52E4053CC09C1BEA843CFDFC61A6A9BACFF7B88B32A55C96881D3FCF45C",
+                                     "bytes":  6785
+                                 },
+                                 {
+                                     "path":  "tests/native_allocation_tests.cpp",
+                                     "sha256":  "25F7B5FC0A1EE760E7C6768A5A7711866D5C8E380652F0EAFC726850D1DAD906",
+                                     "bytes":  3891
+                                 },
+                                 {
+                                     "path":  "tests/native_core_tests.cpp",
+                                     "sha256":  "62A9BD6FF7C80CFE46AB09D06039BA330A04165B81288788C8DC0C785453E4C3",
+                                     "bytes":  9741
+                                 },
+                                 {
+                                     "path":  "tests/native_exception_trace.h",
+                                     "sha256":  "6F69BBC56BF1C61EF94E85AEA19F6E98EA59F99ECA3BB0DF91D85FE54108E300",
+                                     "bytes":  2370
+                                 },
+                                 {
+                                     "path":  "tests/native_reliability_ui.inc",
+                                     "sha256":  "DE326910BB7D13D82502B094F6F2EC56A26BFE0F4D4D3BF5A4EB2FA8F705F9F0",
+                                     "bytes":  17202
+                                 },
+                                 {
+                                     "path":  "tests/native_ui_tests.cpp",
+                                     "sha256":  "2C0F856EB506B87A99A1344EAA31CA628F37FC4B6A13DD3F254BDEA541C13218",
+                                     "bytes":  93282
+                                 }
+                             ],
+    "verification_limits":  "Native Windows automated controls and captured image verified; no claim of every desktop theme/DPI/accessibility configuration. Reference timings are one local run. Final Debug caller subset and earlier Debug evidence are explicitly separated."
+}

@@ -46,13 +46,24 @@ void CAdvancedCompareView::Cancel() { if (Busy()) { cancelled_ = true; close_aft
 void CAdvancedCompareView::ReleaseLocks() {
     if (locks_held_ && lock_paths) lock_paths(locked_paths_,false,locked_stamps_); locks_held_ = false; locked_paths_.clear(); locked_stamps_.clear();
 }
+void CAdvancedCompareView::LaunchFailed() {
+    ReleaseLocks(); SetBusy(false);
+    if (job_kind_ == JobKind::Presentation) similar_.SetCheck(presentation_similar_ ? BST_CHECKED : BST_UNCHECKED);
+    if (job_kind_ == JobKind::Render && model_ && render_before_.size() == model_->blocks.size()) {
+        for (std::size_t i = 0; i < render_before_.size(); ++i) model_->blocks[i].choice = render_before_[i];
+        render_before_.clear(); RebuildRows();
+    }
+    close_after_save_ = false;
+    if (saved_close) saved_close(false);
+    Status(L"Could not start the operation. Existing inputs and drafts are retained. Retry when resources are available.");
+}
 void CAdvancedCompareView::RenderAsync() {
     CString current; output_.GetWindowTextW(current); const auto previous = generated_, manual = TextFromEditControl(generated_,std::wstring(current.GetString(),current.GetLength()));
     cancelled_ = false; job_kind_ = JobKind::Render; SetBusy(true); auto model = model_;
-    job_ = std::async(std::launch::async,[this,model,previous,manual]() { Result result; result.kind = JobKind::Render; result.text = RenderMerge(*model);
+    LaunchJob([&] { return std::async(std::launch::async,[this,model,previous,manual]() { Result result; result.kind = JobKind::Render; result.text = RenderMerge(*model);
         if (manual != previous) { TextMergeModel rebase; if (BuildTextMerge(previous,manual,result.text,true,{},cancelled_,&rebase,&result.error)) result.text = RenderMerge(rebase,&result.extra_conflicts); }
         return result;
-    });
+    }); });
 }
 void CAdvancedCompareView::RenderCheckpoint() { render_before_ = Choices(*model_); }
 void CAdvancedCompareView::Take(MergeChoice choice) {
@@ -121,11 +132,11 @@ bool CAdvancedCompareView::SaveTo(const std::wstring& path) {
     locks_held_ = static_cast<bool>(lock_paths);
     const bool check_expected = !saved_path_.empty() && _wcsicmp(saved_path_.c_str(),path.c_str()) == 0;
     const auto expected = saved_stamp_; cancelled_ = false; job_kind_ = JobKind::Save; SetBusy(true);
-    job_ = std::async(std::launch::async,[this,path,bytes = std::move(bytes),check_expected,expected]() {
+    LaunchJob([&] { return std::async(std::launch::async,[this,path,bytes = std::move(bytes),check_expected,expected]() {
         Result result; result.kind = JobKind::Save; result.output_path = path; SaveControl control; control.cancelled = &cancelled_; control.progress = [this](unsigned p) { progress_ = p; };
         result.saved = WriteBytesSafely(path,bytes,&result.error,control,check_expected ? &expected : nullptr,&result.written); return result;
-    });
-    return true;
+    }); });
+    return job_.valid();
 }
 void CAdvancedCompareView::PlanSync(bool left_to_right, bool all) {
     if (Busy() || !scan_ || stale_) return;
@@ -140,7 +151,7 @@ void CAdvancedCompareView::PlanSync(bool left_to_right, bool all) {
     if (mirror && selection != 0) { Status(L"Mirror is a separate directed policy. Select directed update before enabling Mirror."); return; }
     const auto baseline_path = baseline_path_; const bool deletions = propagate_deletions_.GetCheck() != 0; const auto tolerance = static_cast<unsigned>((std::max)(0,folder_tolerance_.GetCurSel()));
     cancelled_ = false; job_kind_ = JobKind::Plan; SetBusy(true);
-    job_ = std::async(std::launch::async,[this,scan,selected = std::move(selected),left_to_right,policy,baseline_path,deletions,tolerance]() { Result result; result.kind = JobKind::Plan; FolderBaseline baseline; if (policy == SyncPolicy::BaselineBoth && !LoadFolderBaseline(baseline_path,&baseline,&result.error)) return result; BuildPolicySyncPlan(*scan,selected,left_to_right,policy,tolerance,deletions,policy == SyncPolicy::BaselineBoth ? &baseline : nullptr,cancelled_,[this](unsigned p) { progress_ = p; },&result.bundle,&result.error); return result; });
+    LaunchJob([&] { return std::async(std::launch::async,[this,scan,selected = std::move(selected),left_to_right,policy,baseline_path,deletions,tolerance]() { Result result; result.kind = JobKind::Plan; FolderBaseline baseline; if (policy == SyncPolicy::BaselineBoth && !LoadFolderBaseline(baseline_path,&baseline,&result.error)) return result; BuildPolicySyncPlan(*scan,selected,left_to_right,policy,tolerance,deletions,policy == SyncPolicy::BaselineBoth ? &baseline : nullptr,cancelled_,[this](unsigned p) { progress_ = p; },&result.bundle,&result.error); return result; }); });
 }
 void CAdvancedCompareView::ApplyPlan(SyncPlan plan) {
     SyncBundle bundle; bundle.plans.push_back(std::move(plan)); ApplyBundle(std::move(bundle));
@@ -158,13 +169,13 @@ void CAdvancedCompareView::ApplyBundle(SyncBundle bundle) {
     }
     if (lock_paths && !lock_paths(locked_paths_,true,locked_stamps_)) { locked_paths_.clear(); locked_stamps_.clear(); Status(L"A source/output has unsaved edits or another operation. Save it or deselect it before synchronization."); return; }
     locks_held_ = static_cast<bool>(lock_paths); cancelled_ = false; progress_ = 0; shown_progress_ = UINT_MAX; job_kind_ = JobKind::Sync; SetBusy(true);
-    job_ = std::async(std::launch::async,[this,bundle = std::move(bundle)]() {
+    LaunchJob([&] { return std::async(std::launch::async,[this,bundle = std::move(bundle)]() {
         Result result; result.kind = JobKind::Sync;
         for (const auto& plan : bundle.plans) for (const auto& op : plan.operations) {
             FileStamp source,target; if (!InspectFile(plan.source_root / op.relative,&source,&result.sync.error) || !InspectFile(plan.target_root / op.relative,&target,&result.sync.error) || !SameFileState(source,op.source) || !SameFileState(target,op.target)) { if (result.sync.error.empty()) result.sync.error = L"A file in the preview changed; no operation group was started."; return result; }
         }
         for (const auto& plan : bundle.plans) { if (plan.operations.empty()) continue; auto current = ApplySyncPlan(plan,cancelled_,[this](unsigned p) { progress_ = p; }); result.sync.completed += current.completed; if (!result.text.empty()) result.text += L"; "; result.text += current.backup.wstring() + L" (journal: " + current.journal.wstring() + L")"; result.sync.backup = current.backup; if (!current.journal.empty()) result.output_path = current.journal.wstring(); if (current.cancelled || !current.error.empty()) { result.sync.cancelled = current.cancelled; result.sync.error = current.error; break; } } return result;
-    });
+    }); });
 }
 void CAdvancedCompareView::OnAction(UINT id) {
     switch (id) {
@@ -191,6 +202,7 @@ void CAdvancedCompareView::OnAction(UINT id) {
     }
 }
 void CAdvancedCompareView::CopySide(bool to_right, bool whole) {
+    if (sources_changed_) { Status(L"Source documents changed. Compare again before copying."); return; }
     if (!SideBySide() || Busy() || stale_ || !model_ || !apply_side_copy || !CanReset()) return;
     std::set<std::size_t> selected;
     if (!whole) for (int row = rows_.GetNextItem(-1,LVNI_SELECTED); row >= 0; row = rows_.GetNextItem(row,LVNI_SELECTED)) {
@@ -203,14 +215,16 @@ void CAdvancedCompareView::CopySide(bool to_right, bool whole) {
     auto request = std::make_shared<SideCopy>(); request->to_right = to_right;
     request->left_path = source_left_path_; request->right_path = source_right_path_;
     request->left_codec = codec_; request->right_codec = right_codec_;
+    std::wstring capture_error;
+    if (!capture_side_copy || !capture_side_copy(*request,&capture_error)) { Status(capture_error.empty() ? L"Could not capture comparison sources." : capture_error); return; }
     auto model = model_; const std::vector<std::size_t> blocks(selected.begin(),selected.end());
     cancelled_ = false; job_kind_ = JobKind::SideCopy; SetBusy(true);
-    try { job_ = std::async(std::launch::async,[this,request,model,blocks,whole,to_right]() {
+    LaunchJob([&] { return std::async(std::launch::async,[this,request,model,blocks,whole,to_right]() {
         Result result; result.kind = JobKind::SideCopy; result.side_copy = request;
         for (const auto& line : model->left) { if (cancelled_) return result; request->left += line.text; request->left += line.ending; }
         for (const auto& line : model->right) { if (cancelled_) return result; request->right += line.text; request->right += line.ending; }
-        CopyTextBlocks(*model,to_right,whole,blocks,cancelled_,&request->replacement,&result.error); return result;
-    }); } catch (const std::exception&) { SetBusy(false); Status(L"Could not copy the difference. Compare again before retrying."); }
+        if (CopyTextBlocks(*model,to_right,whole,blocks,cancelled_,&request->replacement,&result.error)) request->Prepare(cancelled_,&result.error); return result;
+    }); });
 }
 void CAdvancedCompareView::Navigate(bool previous, bool conflicts_only) {
     if (Busy() || stale_ || visible_.empty()) return;

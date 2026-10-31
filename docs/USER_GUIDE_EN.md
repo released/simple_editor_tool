@@ -209,6 +209,12 @@ mode explicitly from the mode list when comparing binary data.
 
 Open file editors contribute their current unsaved snapshots; other inputs are
 read from disk. Source panes are read-only and separate from merge output.
+Editing/closing a source document or changing its disk version displays a notice
+that the comparison still shows earlier snapshots. Disk checks run periodically
+in the background, so detection can be delayed. Existing merge drafts are retained;
+Compare refreshes the inputs with the usual unsaved-output decision. Compare again
+before directional copying after a source change. Similar-line presentation updates
+retain the source selection and original-line reading position.
 Comparison alone does not modify input files. Binary rows show both offsets and
 values; double-click or use `F7`/`Shift+F7` to navigate. Drag the splitters to
 resize panes. Region settings permit different starts and ignored physical spans.
@@ -385,6 +391,11 @@ Log following uses a separate read-only view with pause/resume and follow-end;
 it does not modify the source. Language choice is stored in the preferences of
 `simple_editor_tool.ini` beside the EXE. Use a writable location for persistent
 settings.
+
+Failed preference writes retain the current choices in memory. After resolving
+permissions or file locks, choose **File > Retry saving preferences**. Failures
+do not cause automatic retry loops. On exit, choose to retry, cancel closing,
+or close without saving preferences.
 
 ## 15. Large files and bounds
 

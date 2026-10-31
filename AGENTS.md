@@ -114,6 +114,16 @@ This is a native Windows MFC text, hexadecimal, and binary comparison editor.
 
 ## Verification
 
+- Reliability scope R1-R7: docs/RELIABILITY_IMPLEMENTATION.md. Preserve staged
+  binary commits/history, explicit session factory results, worker launch recovery,
+  native source-version guards and failed preference revisions. Presentation-only
+  changes must retain source buffers/selection. Snapshot decoding/encoding and
+  side-copy preflight run on the worker; revalidate before applying one native Undo.
+  Focused checks: Release core --allocation-safety and Debug/Release UI
+  --reliability, plus affected comparison/workspace/preferences callers.
+  Global allocation injection is test-only and Release-only; Debug STL proxy
+  allocation inside noexcept constructors is not a supported injection target.
+
 - Select verification by changed behavior and affected state paths.
 - For language catalog/preferences/UI changes, select core `--localization` and
   `--preferences`, native Debug/Release UI `--localization` and affected callers.

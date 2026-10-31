@@ -3,6 +3,7 @@
 #include "../resource.h"
 #include "localization.h"
 #include "ui_font.h"
+#include "../core/text_source_stamp.h"
 #include <algorithm>
 #include <chrono>
 #include <cwctype>
@@ -50,7 +51,7 @@ BEGIN_MESSAGE_MAP(CAdvancedCompareView, CWnd)
     ON_NOTIFY(LVN_ITEMCHANGED, kRows, OnSourceRowChanged)
     ON_COMMAND_RANGE(575,581,OnFolderAction)
 END_MESSAGE_MAP()
-CAdvancedCompareView::~CAdvancedCompareView() { cancelled_ = true; if (job_.valid()) job_.wait(); ReleaseLocks(); }
+CAdvancedCompareView::~CAdvancedCompareView() { cancelled_ = true; if (job_.valid()) job_.wait(); if (source_freshness_.valid()) source_freshness_.wait(); ReleaseLocks(); }
 int CAdvancedCompareView::OnCreate(LPCREATESTRUCT create) {
     if (CWnd::OnCreate(create) == -1) return -1;
     if (!simple_editor::ui::CreateUiFont(ui_font_, *this)) return -1;
@@ -118,6 +119,7 @@ void CAdvancedCompareView::Configure(int mode) {
     mode_ = mode;
     if (!rows_.GetSafeHwnd()) return;
     if (mode_changed) {
+        ++source_generation_; source_stamps_.clear(); sources_changed_ = false;
         presentation_.reset(); text_rows_.clear();
         model_.reset(); scan_.reset(); structured_.reset(); visible_.clear(); generated_.clear(); saved_text_.clear(); saved_path_.clear(); dirty_ = manual_ = false; stale_ = true;
         suppress_result_ = true; output_.SetWindowTextW(L""); suppress_result_ = false;
@@ -163,6 +165,12 @@ void CAdvancedCompareView::Layout() {
     include_label_.ShowWindow(folder); exclude_label_.ShowWindow(folder); include_.ShowWindow(folder); exclude_.ShowWindow(folder);
     if (folder) { const int half = width / 2; include_label_.MoveWindow(0, y, 55, 22); include_.MoveWindow(58, y, (std::max)(0, half - 65), 24); exclude_label_.MoveWindow(half, y, 60, 22); exclude_.MoveWindow(half + 63, y, (std::max)(0, width - half - 63), 24); }
     int top = y + 29;
+    const bool warning = sources_changed_ && !folder && !pasted_inputs_;
+    source_warning_.ShowWindow(warning); if (warning) {
+        CString label; source_warning_.GetWindowTextW(label); CClientDC dc(this); auto* old = dc.SelectObject(&ui_font_);
+        CRect measure(0,0,(std::max)(1,width),0); dc.DrawText(label,&measure,DT_CALCRECT | DT_WORDBREAK | DT_NOPREFIX); dc.SelectObject(old);
+        const int height = (std::max)(24,measure.Height() + 4); source_warning_.MoveWindow(0,top,width,height); top += height + 2;
+    }
     if (sides) {
         const int bottom = (std::max)(top,r.Height() - 42), available = bottom - top;
         const int output_height = show_output_ ? (std::min)(available / 3,180) : 0;
@@ -217,6 +225,12 @@ void CAdvancedCompareView::Columns() {
     }
 }
 void CAdvancedCompareView::Status(const std::wstring& text) { if (status_.GetSafeHwnd()) status_.SetWindowTextW(text.c_str()); if (report) report(text); }
+void CAdvancedCompareView::SetSourcesChanged(bool source_changed) {
+    if (sources_changed_ == source_changed) return;
+    sources_changed_ = source_changed;
+    if (source_changed) notify_equal_ = false;
+    if (GetSafeHwnd()) Layout();
+}
 void CAdvancedCompareView::SetBusy(bool busy) {
     if (busy_changed) busy_changed(busy);
     output_.SetReadOnly(busy || !model_ || manual_view_);
@@ -232,11 +246,15 @@ void CAdvancedCompareView::SetBusy(bool busy) {
 }
 void CAdvancedCompareView::InvalidateInputs() { if (codec_details_.GetSafeHwnd()) codec_details_.SetWindowTextW(L""); stale_ = true; rows_.SetItemCountEx(0); overview_.SetBands({}); RefreshSources(); Layout(); Status(L"Inputs changed. Press Compare. Existing merge output is retained."); }
 void CAdvancedCompareView::StartText(std::unique_ptr<BinaryDocument> base, std::unique_ptr<BinaryDocument> left, std::unique_ptr<BinaryDocument> right, bool notify_equal) {
-    source_left_path_ = left ? left->Path() : L""; source_right_path_ = right ? right->Path() : L"";
-    source_base_path_ = base ? base->Path() : L"";
+    const auto wrap = [](std::unique_ptr<BinaryDocument> document) { if (!document) return std::shared_ptr<TextInputSnapshot>(); auto input = std::make_shared<TextInputSnapshot>(); input->document = std::move(document); return input; };
+    StartCapturedText(wrap(std::move(base)),wrap(std::move(left)),wrap(std::move(right)),notify_equal);
+}
+void CAdvancedCompareView::StartCapturedText(std::shared_ptr<TextInputSnapshot> base,std::shared_ptr<TextInputSnapshot> left,std::shared_ptr<TextInputSnapshot> right,bool notify_equal) {
+    source_left_path_ = left && left->document ? left->document->Path() : L""; source_right_path_ = right && right->document ? right->document->Path() : L"";
+    source_base_path_ = base && base->document ? base->document->Path() : L"";
     StartTextJob(std::move(base),std::move(left),std::move(right),L"",L"",false,notify_equal);
 }
-void CAdvancedCompareView::StartTextJob(std::unique_ptr<BinaryDocument> base, std::unique_ptr<BinaryDocument> left, std::unique_ptr<BinaryDocument> right, std::wstring left_text, std::wstring right_text, bool pasted, bool notify_equal) {
+void CAdvancedCompareView::StartTextJob(std::shared_ptr<TextInputSnapshot> base, std::shared_ptr<TextInputSnapshot> left, std::shared_ptr<TextInputSnapshot> right, std::wstring left_text, std::wstring right_text, bool pasted, bool notify_equal) {
     if (Busy() || !CanReset()) return;
     notify_equal_ = notify_equal;
     if (mode_ >= 5) { StartStructured(std::move(left),std::move(right)); return; }
@@ -245,12 +263,16 @@ void CAdvancedCompareView::StartTextJob(std::unique_ptr<BinaryDocument> base, st
     LineOptions options{ignore_space_.GetCheck() == BST_CHECKED,ignore_case_.GetCheck() == BST_CHECKED,ignore_eol_.GetCheck() == BST_CHECKED}; std::wstring rule_error; if (mode == 2 && !ParseTextRules(text_rules_,&options.rules,&rule_error)) { Status(rule_error); return; } const bool similar = similar_.GetCheck() != 0;
     LineAnchors anchors; if (mode == 2 && !ParseLineAnchors(manual_anchors_,&anchors,&rule_error)) { Status(rule_error); return; }
     cancelled_ = false; progress_ = 0; shown_progress_ = UINT_MAX; job_kind_ = JobKind::Text; SetBusy(true); Status(L"Comparing text lines...");
-    try { job_ = std::async(std::launch::async, [this, mode, encoding,right_encoding,base_encoding, options, similar,anchors,pasted, protection = snapshot_protection_, snapshot_codec = snapshot_codec_, a = std::move(left_text), b = std::move(right_text), base = std::move(base), left = std::move(left), right = std::move(right)]() mutable {
+    LaunchJob([&] { return std::async(std::launch::async, [this, mode, encoding,right_encoding,base_encoding, options, similar,anchors,pasted, protection = snapshot_protection_, snapshot_codec = snapshot_codec_, a = std::move(left_text), b = std::move(right_text), base = std::move(base), left = std::move(left), right = std::move(right)]() mutable {
         Result result; result.kind = JobKind::Text; result.model = std::make_shared<TextMergeModel>(); if (pasted) { result.inputs = std::move(protection); result.codec = snapshot_codec; } std::wstring c; TextCodec other;
-        for (const auto* input : {left.get(),right.get(),base.get()}) if (input) result.inputs.push_back({input->Path(),input->SourceIdentity()});
+        for (auto* input : {left.get(),right.get(),base.get()}) if (input) {
+            if (!input->Materialize(cancelled_,&result.error)) return result;
+            result.inputs.push_back({input->document->Path(),input->document->SourceIdentity()});
+        }
         if (!pasted) {
             TextCodec base_codec;
-            if (!DecodeDocument(left.get(),encoding,&a,&result.codec,&result.error) || !DecodeDocument(right.get(),right_encoding,&b,&other,&result.error) || (mode == 3 && !DecodeDocument(base.get(),base_encoding,&c,&base_codec,&result.error))) return result;
+            if (!DecodeDocument(left ? left->document.get() : nullptr,encoding,&a,&result.codec,&result.error) || !DecodeDocument(right ? right->document.get() : nullptr,right_encoding,&b,&other,&result.error) || (mode == 3 && !DecodeDocument(base ? base->document.get() : nullptr,base_encoding,&c,&base_codec,&result.error))) return result;
+            if (source_snapshot_ready) { result.left_snapshot = left->document->Snapshot(&result.error); if (!result.left_snapshot) return result; }
             result.right_codec = other;
             result.codec_details = L"Left: " + DescribeTextCodec(result.codec,a) + L" | Right: " + DescribeTextCodec(other,b);
             if (mode == 3) result.codec_details += L" | Base: " + DescribeTextCodec(base_codec,c);
@@ -260,8 +282,14 @@ void CAdvancedCompareView::StartTextJob(std::unique_ptr<BinaryDocument> base, st
         if (built) { result.text = RenderMerge(*result.model); result.options = options; result.similar = similar; result.presentation = std::make_shared<DiffPresentation>(); if (!BuildDiffPresentation(*result.model,options,similar,cancelled_,result.presentation.get())) result.error = L"Text presentation cancelled."; }
         if (built && mode == 2) { bool truncated = false; if (!FindMovedBlocks(*result.model,cancelled_,&result.moves,&truncated)) result.error = L"Moved-block analysis cancelled."; }
         if (built && !FingerprintComparison(*result.model,cancelled_,&result.review_fingerprint,&result.error) && result.error.empty()) result.error = L"Could not fingerprint comparison sources for review notes.";
+        for (const auto& input : {left,right,base}) if (input) {
+            FileStamp stamp; const auto& path = input->document->Path();
+            if (!InspectTextSource(path,&stamp,&result.error) || !input->document->ValidateSource(true,&result.error)) return result;
+            result.source_stamps.emplace_back(path,stamp);
+        }
         return result;
-    }); } catch (const std::exception&) { SetBusy(false); Status(L"Could not start text comparison. The inputs are retained."); }
+    }); });
+    if (job_.valid()) { ++source_generation_; if (pasted || !source_snapshot_ready) SetSourcesChanged(false); }
 }
 void CAdvancedCompareView::StartFolders(const std::wstring& left, const std::wstring& right, bool notify_equal) {
     if (Busy() || !CanReset()) return;
@@ -271,7 +299,7 @@ void CAdvancedCompareView::StartFolders(const std::wstring& left, const std::wst
     options.criterion = static_cast<FolderCriterion>((std::max)(0,folder_criterion_.GetCurSel())); options.time_tolerance_seconds = static_cast<unsigned>((std::max)(0,folder_tolerance_.GetCurSel()));
     options.text_rules = folder_text_rules_;
     cancelled_ = false; progress_ = 0; shown_progress_ = UINT_MAX; job_kind_ = JobKind::Scan; SetBusy(true); Status(L"Comparing folders and file contents...");
-    job_ = std::async(std::launch::async, [this,left,right,options]() { Result result; result.kind = JobKind::Scan; result.folder_options = options; result.scan = std::make_shared<FolderScan>(); if (!ScanFolders(left,right,options,cancelled_,[this](unsigned p) { progress_ = p; },result.scan.get(),&result.error) && result.error.empty()) result.error = L"Folder comparison failed or was cancelled."; return result; });
+    LaunchJob([&] { return std::async(std::launch::async, [this,left,right,options]() { Result result; result.kind = JobKind::Scan; result.folder_options = options; result.scan = std::make_shared<FolderScan>(); if (!ScanFolders(left,right,options,cancelled_,[this](unsigned p) { progress_ = p; },result.scan.get(),&result.error) && result.error.empty()) result.error = L"Folder comparison failed or was cancelled."; return result; }); });
 }
 void CAdvancedCompareView::AdoptText(std::wstring text, bool initial) {
     output_.SetReadOnly(FALSE);
@@ -287,6 +315,7 @@ void CAdvancedCompareView::AdoptText(std::wstring text, bool initial) {
     else if (!text_rules_.empty()) { const auto ignored = std::count_if(model_->blocks.begin(),model_->blocks.end(),[](const auto& block) { return block.changed && !block.important; }); Status(L"Advanced text rules active: " + std::to_wstring(ignored) + L" ignored difference block(s). Original source/output text is retained."); }
 }
 void CAdvancedCompareView::Tick() {
+    PollSourceFreshness();
     if (overview_.GetSafeHwnd() && rows_.GetSafeHwnd()) overview_.SetViewport(static_cast<std::size_t>((std::max)(0,rows_.GetTopIndex())),static_cast<std::size_t>((std::max)(0,rows_.GetCountPerPage())));
     if (!job_.valid()) return;
     if (job_.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready) {
@@ -311,6 +340,13 @@ void CAdvancedCompareView::Tick() {
         Status(cancelled_ ? L"Operation cancelled; existing output retained." : result.error);
         if (close_after_save_) { close_after_save_ = false; if (saved_close) saved_close(false); } return;
     }
+    // The parent validates captured native versions before adopting the left snapshot.
+    // Keep the prior stale state and disk probes on failed/cancelled comparisons.
+    if (result.left_snapshot && source_snapshot_ready) source_snapshot_ready(std::move(result.left_snapshot));
+    if (sources_changed_ && (result.kind == JobKind::Text || result.kind == JobKind::Structured)) {
+        Status(L"Sources changed while comparing. Press Compare again. Existing merge output is retained."); return;
+    }
+    if (result.kind == JobKind::Text || result.kind == JobKind::Structured) source_stamps_ = std::move(result.source_stamps);
     if (result.kind == JobKind::Pairing) { if (result.pairs) FinishContentPairing(*result.pairs); return; }
     if (result.kind == JobKind::SideCopy) {
         if (result.side_copy && apply_side_copy && apply_side_copy(*result.side_copy,&result.error)) {
@@ -350,6 +386,7 @@ void CAdvancedCompareView::Tick() {
 }
 void CAdvancedCompareView::RebuildRows() {
     visible_.clear(); context_rows_ = {}; eligible_folder_rows_.clear();
+    source_rows_[0].clear(); source_rows_[1].clear(); source_line_[0] = source_line_[1] = source_line_[2] = -1;
     if (stale_) { rows_.SetItemCountEx(0); overview_.SetBands({}); return; }
     if (mode_ == 4 && scan_) { for (std::size_t i = 0; i < scan_->rows.size(); ++i) if (FolderRowVisible(scan_->rows[i])) visible_.push_back(i); OrderFolderRows(); eligible_folder_rows_ = visible_; if (folder_tree_) { tree_rows_ = BuildFolderTreeRows(*scan_,eligible_folder_rows_,tree_expanded_); visible_ = tree_rows_.rows; } }
     else if (mode_ >= 5 && structured_) for (std::size_t i = 0; i < structured_->rows.size(); ++i) visible_.push_back(i);
@@ -364,6 +401,14 @@ void CAdvancedCompareView::RebuildRows() {
             visible_.push_back(i);
         }
         if (context_lines_) { context_rows_ = BuildContextRows(significant,context_lines_,context_expanded_); visible_ = context_rows_.rows; }
+    }
+    if (SideBySide() && model_) {
+        source_rows_[0].assign(model_->left.size(),SIZE_MAX); source_rows_[1].assign(model_->right.size(),SIZE_MAX);
+        for (std::size_t i = 0; i < visible_.size(); ++i) {
+            if (context_rows_.hidden.count(visible_[i])) continue; const auto& row = text_rows_[visible_[i]];
+            if (row.left >= 0 && source_rows_[0][row.left] == SIZE_MAX) source_rows_[0][row.left] = i;
+            if (row.right >= 0 && source_rows_[1][row.right] == SIZE_MAX) source_rows_[1][row.right] = i;
+        }
     }
     if (mode_ >= 4) rows_.SetItemState(-1,0,LVIS_SELECTED | LVIS_FOCUSED);
     rows_.SetItemCountEx(static_cast<int>(visible_.size())); rows_.Invalidate();
@@ -412,7 +457,7 @@ void CAdvancedCompareView::OnFilterChanged() { if (!Busy()) RebuildRows(); rows_
 void CAdvancedCompareView::OnRulesChanged() { if (!Busy()) InvalidateInputs(); }
 void CAdvancedCompareView::OnSimilarChanged() {
     if (Busy() || !model_ || stale_ || mode_ != 2) return; const auto model = model_; const auto options = line_options_; const bool similar = similar_.GetCheck() != 0; cancelled_ = false; job_kind_ = JobKind::Presentation; SetBusy(true);
-    job_ = std::async(std::launch::async,[this,model,options,similar]() { Result result; result.kind = JobKind::Presentation; result.similar = similar; result.presentation = std::make_shared<DiffPresentation>(); if (!BuildDiffPresentation(*model,options,similar,cancelled_,result.presentation.get())) result.error = L"Alignment cancelled."; return result; });
+    LaunchJob([&] { return std::async(std::launch::async,[this,model,options,similar]() { Result result; result.kind = JobKind::Presentation; result.similar = similar; result.presentation = std::make_shared<DiffPresentation>(); if (!BuildDiffPresentation(*model,options,similar,cancelled_,result.presentation.get())) result.error = L"Alignment cancelled."; return result; }); });
 }
 void CAdvancedCompareView::SetEncoding(TextEncoding encoding) { if (!Busy()) { for (auto* combo : {&encoding_,&encoding_right_,&encoding_base_}) combo->SetCurSel(static_cast<int>(encoding)); InvalidateInputs(); } }
 void CAdvancedCompareView::CapturePreferences(WorkspaceEntry& entry) const {

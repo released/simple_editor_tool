@@ -15,6 +15,7 @@ int RunEditorReviewTests(const std::filesystem::path& root);
 int RunDiscoveryTests(const std::filesystem::path& root);
 int RunDiscoveryAnalysisTests(const std::filesystem::path& root);
 int RunFileSafetyTests(const std::filesystem::path& root);
+int RunAllocationTests(const std::filesystem::path& root);
 int RunAsyncSaveTests(const std::filesystem::path& root);
 int RunPagingTests(const std::filesystem::path& root);
 int RunTemplateTests(const std::filesystem::path& root);
@@ -156,6 +157,7 @@ int wmain(int argc, wchar_t** argv) {
     else if (argc > 1 && std::wstring(argv[1]) == L"--structured") failures += RunStructuredTests(root);
     else if (argc > 1 && std::wstring(argv[1]) == L"--cli") failures += RunCliTests(root);
     else if (argc > 1 && std::wstring(argv[1]) == L"--recovery") failures += RunRecoveryTests(root);
+    else if (argc > 1 && std::wstring(argv[1]) == L"--allocation-safety") failures += RunAllocationTests(root);
     else if (argc > 1 && std::wstring(argv[1]) == L"--preferences") failures += RunPreferenceTests(root);
     else if (argc > 1 && std::wstring(argv[1]) == L"--folder-tools") failures += RunFolderToolsTests(root);
     else if (argc > 1 && std::wstring(argv[1]) == L"--text-reports") failures += RunTextReportTests(root);

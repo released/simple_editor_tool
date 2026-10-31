@@ -70,8 +70,6 @@ private:
     std::size_t FindPiece(std::uint64_t offset) const;
     std::size_t SplitAt(std::uint64_t offset);
     void Normalize();
-    bool ReplaceWithoutHistory(std::uint64_t offset, std::uint64_t remove_length,
-                               const std::vector<std::uint8_t>& data);
     bool ReplaceBatch(const std::vector<std::uint64_t>& offsets, std::uint64_t length,
                       const std::vector<std::uint8_t>& data);
     bool ReadOriginal(std::uint64_t offset, std::size_t length, std::uint8_t* output) const;

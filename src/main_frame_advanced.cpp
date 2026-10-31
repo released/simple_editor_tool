@@ -13,7 +13,13 @@ bool CMainFrame::EnsureAdvanced() {
     advanced_.SetZoom(zoom_percent_[2]); return true;
 }
 void CMainFrame::InitializeAdvanced() {
-    advanced_.apply_side_copy = [this](const simple_editor::core::TextSideCopy& copy,std::wstring* error) { return workspace_ && workspace_->ApplyComparisonCopy(copy,error); };
+    advanced_.capture_side_copy = [this](CAdvancedCompareView::SideCopy& copy,std::wstring* error) { return workspace_ && workspace_->CaptureComparisonCopy(copy,error); };
+    advanced_.apply_side_copy = [this](const CAdvancedCompareView::SideCopy& copy,std::wstring* error) { return workspace_ && workspace_->ApplyPreparedComparisonCopy(copy,error); };
+    advanced_.source_snapshot_ready = [this](std::unique_ptr<simple_editor::core::BinaryDocument> snapshot) {
+        const bool current = !workspace_ || workspace_->ComparisonSourcesCurrent(this);
+        advanced_.SetSourcesChanged(!current); if (!current) return;
+        document_.Swap(*snapshot); hex_.SetDocument(&document_); text_stale_ = true; if (active_tab_ == 1) RefreshText();
+    };
     advanced_.undo_side = [this](const std::wstring& path,bool redo) { return workspace_ && workspace_->ComparisonSideAction(path,redo ? 2 : 1); };
     advanced_.save_side = [this](const std::wstring& path) { return workspace_ && workspace_->ComparisonSideAction(path,0); };
     advanced_.compare_again = [this]() { RunComparison(false); };

@@ -1,5 +1,42 @@
 # Self Check
 
+## R1-R7 reliability and interaction acceptance (2026-10-31)
+
+- PASS: Release core allocation-safety (6 operations / 34 injected allocation
+  failures), file-safety, merge-sync, async-save, search-codec, preferences,
+  localization, merge-tools and regions. These storage/algorithm results were
+  reused after later UI-only source-adoption changes; worker preparation uses
+  the final native UI binary results, not that earlier core executable.
+- PASS: final Debug/Release --reliability, including launch/factory failure,
+  source-version guards, cancellation, retained merge Undo, source selection/top
+  line, preferences retry/coalescing/exit and mixed-EOL preparation equivalence.
+  Debug global allocation injection is NOT RUN as acceptance: its first attempt
+  aborted in Debug STL proxy allocation; Release injection is the supported test.
+- PASS: final Debug side-merge, compare-notice, advanced, workspace, compare-page,
+  structured; final Release those modes plus preferences, presentation,
+  workflow-expansion, text-workflow, async-save, localization, pasted-text,
+  document-focus and canonical workspace-process. Earlier Debug connected runs
+  are identified separately in docs/verification/reliability-20261031.json.
+- PASS: native localized warning image inspected; 765 paired catalog keys and
+  byte-matched delivery catalogs. Personal INI SHA256 remains unchanged. Canonical
+  EXE is x64, static MFC/CRT with system imports and ASLR/NX enabled.
+- R7 measurements are local reference timings, not whole-comparison speed claims:
+  8,006,128 bytes required 259.802 ms synchronous preparation, 6.3486 ms UI capture
+  and 542.699 ms background completion wall time with UI pumping. 500 indexed
+  row lookups (20,000 rows) took 1.4 us versus 8,620.9 us linear reference.
+- TST-01 PARTIAL: safe clean removed 774 compiler files, reviewed purge removed
+  13 outputs, and isolated Release core Clean retired its registered output.
+  All 719 pre-clean protected hashes matched. No test EXE remains. Safe-clean
+  helpers were unchanged; their earlier boundary/preservation evidence is reused.
+  Current blocked remnants: 10 fixture files / 1,323,088 bytes plus 89 raw outputs /
+  1,054,295 bytes. Historical 67 files / 832,118 bytes are also blocked. Automatic
+  safety review rejected exact, owner/hash-verified deletion before execution,
+  "blocked by policy", no detail. No bypass and no retention exception.
+- TST-02 NOT PASSED: complete folder still exceeds 20,000,000 bytes after safe
+  cleanup and lossless Git compaction. Exact final measurement and paths are in
+  the compact record. Functional PASS does not imply completed cleanup/delivery.
+  No commits, upload, new runtime or third-party dependency was introduced.
+
 ## Completed verification: comparison notice / virtual rows (2026-10-30)
 
 - PASS: old virtual mappings/native counts retire before snapshot adoption;

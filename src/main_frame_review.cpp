@@ -57,7 +57,7 @@ void CMainFrame::FinishDiskReview(EditorJobResult result) {
     workspace_->ShowDiskComparison(result.message,result.details,result.open_path,text_codec_,result.stamp);
 }
 void CWorkspaceFrame::ShowDiskComparison(const std::wstring& draft,const std::wstring& disk,const std::wstring& path,const TextCodec& codec,const FileStamp& stamp) {
-    NewComparisonInputs(L"",L"",L"",8,false); if (active_session_ < 0) return;
-    auto* frame = sessions_[active_session_]; frame->advanced_.SetSnapshotInputs(draft,disk,path,codec,stamp);
+    auto* frame = NewComparisonInputs(L"",L"",L"",8,false); if (!frame) return;
+    frame->advanced_.SetSnapshotInputs(draft,disk,path,codec,stamp);
     frame->SetWindowTextW((L"Draft versus disk - " + std::filesystem::path(path).filename().wstring()).c_str()); RefreshLabels();
 }

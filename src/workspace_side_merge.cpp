@@ -10,7 +10,46 @@ bool SameSidePath(const std::wstring& a,const std::wstring& b) {
 }
 }
 bool CWorkspaceFrame::ApplyComparisonCopy(const TextSideCopy& copy,std::wstring* error) {
+    PreparedTextSideCopy prepared; static_cast<TextSideCopy&>(prepared) = copy;
+    const std::atomic_bool cancel{false};
+    return CaptureComparisonCopy(prepared,error) && prepared.Prepare(cancel,error) && ApplyPreparedComparisonCopy(prepared,error);
+}
+std::shared_ptr<TextInputSnapshot> CWorkspaceFrame::CaptureTextInput(const std::wstring& path,std::wstring* error,bool include_display) {
+    try {
+        auto input = std::make_shared<TextInputSnapshot>();
+        for (auto* session : sessions_) if (!session->comparison_session_ && session->document_.IsOpen() &&
+            (SameSidePath(path,session->document_.Path()) || (session->untitled_ && path == session->untitled_name_))) {
+            input->document = session->document_.Snapshot(error); if (!input->document) return nullptr;
+            input->session = session->workspace_session_id_; input->revision = session->revision_; input->generation = session->text_.Generation();
+            input->loaded = !session->text_stale_ && session->text_editable_; input->requested = session->requested_encoding_; input->codec = session->text_codec_;
+            input->dirty = session->text_dirty_ || session->text_.GetModify();
+            if ((input->dirty || include_display) && session->text_.Call(SCI_GETLENGTH) > 32 * 1024 * 1024) { if (error) *error = L"Text snapshots accept up to 32 MiB of editor data. The draft is retained."; return nullptr; }
+            if (input->dirty || (include_display && input->loaded)) { input->displayed = session->text_.Utf8(); input->original = session->text_original_; }
+            return input;
+        }
+        input->document = std::make_unique<BinaryDocument>(); if (!input->document->Open(path,error)) return nullptr;
+        return input;
+    } catch (...) { if (error) *error = L"Could not capture the text source. Existing drafts are retained."; return nullptr; }
+}
+bool CWorkspaceFrame::TextInputCurrent(const TextInputSnapshot& input,const std::wstring& path,std::wstring* error) const {
+    bool found = !input.session;
+    for (const auto* session : sessions_) if (!session->comparison_session_ && session->document_.IsOpen()) {
+        if (session->workspace_session_id_ == input.session) {
+            found = session->revision_ == input.revision && session->text_.Generation() == input.generation && session->requested_encoding_ == input.requested;
+            break;
+        }
+        if (!input.session && (SameSidePath(path,session->document_.Path()) || (session->untitled_ && path == session->untitled_name_))) found = false;
+    }
+    if (!found) { if (error) *error = L"A source or target changed since comparison. Compare again before copying."; return false; }
+    return input.document && input.document->ValidateSource(true,error);
+}
+bool CWorkspaceFrame::CaptureComparisonCopy(PreparedTextSideCopy& copy,std::wstring* error) {
+    for (unsigned side = 0; side < 2; ++side) { copy.inputs[side] = CaptureTextInput(side ? copy.right_path : copy.left_path,error,true); if (!copy.inputs[side]) return false; }
+    return true;
+}
+bool CWorkspaceFrame::ApplyPreparedComparisonCopy(const PreparedTextSideCopy& copy,std::wstring* error) {
     const auto fail = [&](const wchar_t* message) { if (error) *error = message; return false; };
+    if (!copy.prepared) return fail(L"Could not prepare the side copy. No content was copied.");
     const auto& target_path = copy.to_right ? copy.right_path : copy.left_path;
     const auto& expected = copy.to_right ? copy.right : copy.left;
     if (target_path.empty() || copy.left_path.empty() || copy.right_path.empty()) return fail(L"Select both file paths and compare again before copying.");
@@ -18,38 +57,26 @@ bool CWorkspaceFrame::ApplyComparisonCopy(const TextSideCopy& copy,std::wstring*
     for (auto* session : sessions_) if (!session->comparison_session_ && session->document_.IsOpen() &&
         (SameSidePath(session->document_.Path(),target_path) || (session->untitled_ && session->untitled_name_ == target_path))) { target = session; break; }
     if (PathLocked(target_path) || (target && (target->IsBusy() || target->MutationBlocked()))) return fail(L"The target is read-only or busy. No content was copied.");
-    std::unique_ptr<BinaryDocument> target_snapshot;
     for (unsigned side = 0; side < 2; ++side) {
         const auto& path = side ? copy.right_path : copy.left_path;
-        auto snapshot = SnapshotForPath(path,error); if (!snapshot) return false;
-        std::vector<std::uint8_t> bytes; std::wstring raw; TextCodec codec;
-        if (snapshot->Size() > 16 * 1024 * 1024 || !snapshot->Read(0,static_cast<std::size_t>(snapshot->Size()),&bytes) ||
-            !snapshot->ValidateSource(true,error) || !DecodeText(bytes,(side ? copy.right_codec : copy.left_codec).encoding,&raw,&codec,error)) return fail(L"Could not validate the comparison sources. No content was copied.");
-        if (raw != (side ? copy.right : copy.left)) return fail(L"A source or target changed since comparison. Compare again before copying.");
-        if (static_cast<bool>(side) == copy.to_right) target_snapshot = std::move(snapshot);
+        if (!copy.inputs[side] || !TextInputCurrent(*copy.inputs[side],path,error)) return false;
     }
-    if (target) {
-        if (target->text_stale_) target->RefreshText();
-        CString value; target->text_.GetWindowTextW(value);
-        if (!target->text_editable_ || TextFromEditControl(target->text_original_,std::wstring(value.GetString(),value.GetLength())) != expected)
-            return fail(L"The target editor uses different text decoding. Select matching encodings and compare again.");
-    }
-    const auto codec = target ? target->text_codec_ : copy.to_right ? copy.right_codec : copy.left_codec;
-    const auto displayed = TextForEditControl(copy.replacement);
-    std::vector<std::uint8_t> encoded;
-    if (!EncodeText(TextFromEditControl(expected,displayed),codec,true,&encoded,error)) return false;
-    if (encoded.size() > 16 * 1024 * 1024) return fail(L"The copied text exceeds the 16 MiB comparison input limit. No content was copied.");
     if (copy.replacement == expected) return true;
+    const auto input = copy.inputs[copy.to_right ? 1 : 0];
     if (!target) {
         // Create an inactive normal editor so its existing Save/close/recovery policy owns the draft.
         target = CreateSession(false); if (!target) return fail(L"Could not create a target editor. No content was copied.");
-        target->document_.Swap(*target_snapshot); target->hex_.SetDocument(&target->document_);
-        target->requested_encoding_ = codec.encoding; target->text_stale_ = true; target->RefreshText();
+        target->document_.Swap(*input->document); target->hex_.SetDocument(&target->document_);
         target->SetWindowTextW((target->document_.Path() + L" - Simple Editor Tool").c_str());
-        target->SetSaveReadOnly(DocumentLocked(target->document_));
     }
+    if (!input->session || !input->loaded) {
+        target->requested_encoding_ = copy.target_codec.encoding; target->text_codec_ = copy.target_codec; target->text_original_ = copy.initial;
+        target->text_.SetWindowTextW(TextForEditControl(copy.initial).c_str()); target->text_.SetModify(FALSE);
+        target->text_editable_ = true; target->text_stale_ = target->text_dirty_ = false; target->ConfigureFileSyntax();
+    }
+    target->SetSaveReadOnly(DocumentLocked(target->document_));
     CancelCloseAll(); target->ShowPage(1);
-    target->text_.ReplaceGenerated(displayed,0);
+    target->text_.ReplaceGenerated(copy.displayed,0);
     target->OnTextChanged(); target->RequestIndentation(true); RefreshLabels();
     return true;
 }

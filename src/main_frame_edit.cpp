@@ -47,7 +47,7 @@ void CMainFrame::DocumentChanged() {
     ++revision_; cancelled_ = true; text_stale_ = true; match_offset_ = UINT64_MAX;
     match_pattern_.clear(); ClearComparison();
     CString caption; caption.Format(L"%s * - Simple Editor Tool", (untitled_ ? untitled_name_ : document_.Path()).c_str()); SetWindowTextW(caption);
-    if (workspace_) workspace_->RefreshLabels();
+    if (workspace_) { workspace_->NotifySourceChanged(this); workspace_->RefreshLabels(); }
 }
 
 void CMainFrame::OnUndo() {

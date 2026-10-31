@@ -80,7 +80,7 @@ void CMainFrame::FinishSave(EditorJobResult result) {
     document_.Swap(*result.document); ++revision_; modified_ranges_.clear(); modified_revision_ = UINT64_MAX; hex_.Invalidate(); text_dirty_ = false; text_.SetModify(FALSE); untitled_ = false; untitled_dirty_ = false; untitled_name_.clear(); ConfigureFileSyntax();
     SetWindowTextW((document_.Path() + L" - Simple Editor Tool").c_str()); hex_.Invalidate();
     status_.SetPaneText(0, cancelled_ ? L"Saved. Cancellation arrived after file replacement." : L"Saved.");
-    if (workspace_) { workspace_->RememberRecent(document_.Path()); workspace_->RefreshLabels(); }
+    if (workspace_) { workspace_->NotifySourceChanged(this); workspace_->RememberRecent(document_.Path()); workspace_->RefreshLabels(); }
     switch (next) {
     case AfterSave::Open: OpenPath(next_path); return;
     case AfterSave::OpenDialog: OnFileOpen(); return;

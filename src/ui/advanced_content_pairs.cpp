@@ -3,7 +3,7 @@
 using namespace simple_editor::core;
 void CAdvancedCompareView::StartContentPairing() {
     if (Busy() || mode_ != 4 || !scan_ || stale_) { Status(L"Run a folder comparison first. Content pairing examines left-only/right-only files without changing synchronization plans."); return; } const auto scan = scan_; cancelled_ = false; job_kind_ = JobKind::Pairing; progress_ = 0; SetBusy(true);
-    try { job_ = std::async(std::launch::async,[this,scan] { Result result; result.kind = JobKind::Pairing; result.pairs = std::make_shared<std::vector<ContentPair>>(); SaveControl control; control.cancelled = &cancelled_; control.progress = [this](unsigned p) { progress_ = p; }; FindContentPairs(*scan,control,result.pairs.get(),&result.error); return result; }); } catch (...) { SetBusy(false); Status(L"Could not start content pairing."); }
+    LaunchJob([&] { return std::async(std::launch::async,[this,scan] { Result result; result.kind = JobKind::Pairing; result.pairs = std::make_shared<std::vector<ContentPair>>(); SaveControl control; control.cancelled = &cancelled_; control.progress = [this](unsigned p) { progress_ = p; }; FindContentPairs(*scan,control,result.pairs.get(),&result.error); return result; }); });
 }
 void CAdvancedCompareView::FinishContentPairing(const std::vector<ContentPair>& pairs) {
     std::vector<std::vector<std::wstring>> rows; for (const auto& pair : pairs) rows.push_back({pair.left.wstring(),pair.right.wstring(),pair.state,std::to_wstring(pair.left_count),std::to_wstring(pair.right_count)}); if (rows.empty()) { Status(L"No equal-content rename/move candidates were found among unmatched files."); return; }

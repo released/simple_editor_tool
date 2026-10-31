@@ -3,9 +3,18 @@
 #include <algorithm>
 #include <filesystem>
 #include <limits>
+#include <new>
 
 namespace simple_editor::core {
 namespace {
+
+template<class T> void ReserveExtra(std::vector<T>& values, std::size_t count) {
+    if (count > values.max_size() - values.size()) throw std::bad_alloc();
+    const auto needed = values.size() + count;
+    if (needed <= values.capacity()) return;
+    const auto growth = (std::min)(values.max_size() - values.capacity(),values.capacity() / 2 + 8);
+    values.reserve((std::max)(needed,values.capacity() + growth));
+}
 
 std::wstring Win32Error(const wchar_t* context) {
     wchar_t* buffer = nullptr;
@@ -251,36 +260,20 @@ void BinaryDocument::Normalize() {
     RebuildIndex();
 }
 
-bool BinaryDocument::ReplaceWithoutHistory(std::uint64_t offset, std::uint64_t remove_length,
-                                           const std::vector<std::uint8_t>& data) {
-    if (offset > size_ || remove_length > size_ - offset) return false;
-    std::size_t start_index = SplitAt(offset);
-    if (remove_length != 0) {
-        const std::size_t end_index = SplitAt(offset + remove_length);
-        start_index = SplitAt(offset);
-        pieces_.erase(pieces_.begin() + static_cast<std::ptrdiff_t>(start_index),
-                      pieces_.begin() + static_cast<std::ptrdiff_t>(end_index));
-    }
-    if (!data.empty()) {
-        const std::uint64_t added_start = added_.size();
-        added_.insert(added_.end(), data.begin(), data.end());
-        pieces_.insert(pieces_.begin() + static_cast<std::ptrdiff_t>(start_index),
-                       {Source::Added, added_start, data.size()});
-    }
-    Normalize();
-    return true;
-}
-
 bool BinaryDocument::Replace(std::uint64_t offset, std::uint64_t remove_length,
                              const std::vector<std::uint8_t>& data) {
+    try {
     std::vector<std::uint8_t> before;
     if (offset > size_ || remove_length > size_ - offset || !Read(offset,
         static_cast<std::size_t>(remove_length), &before)) return false;
     if (before == data) return true;
-    if (!ReplaceWithoutHistory(offset, remove_length, data)) return false;
-    undo_.push_back({{offset}, {offset}, std::move(before), data});
+    EditAction action{{offset}, {offset}, std::move(before), data};
+    ReserveExtra(undo_,1);
+    if (!ReplaceBatch(action.offsets, remove_length, action.after)) return false;
+    undo_.push_back(std::move(action));
     redo_.clear();
     return true;
+    } catch (const std::bad_alloc&) { return false; }
 }
 
 bool BinaryDocument::SetByte(std::uint64_t offset, std::uint8_t value) {
@@ -302,6 +295,7 @@ bool BinaryDocument::ReplaceBatch(const std::vector<std::uint64_t>& offsets,
         if (at < end || at > size_ || length > size_ - at) return false;
         end = at + length;
     }
+    if (data.size() > added_.max_size() - added_.size()) return false;
     std::vector<Piece> result;
     result.reserve(pieces_.size() + offsets.size() * 2);
     const std::uint64_t added_start = added_.size();
@@ -323,13 +317,27 @@ bool BinaryDocument::ReplaceBatch(const std::vector<std::uint64_t>& offsets,
         position = at + length;
     }
     append_range(position, size_);
+    std::vector<Piece> normalized; normalized.reserve(result.size());
+    std::vector<std::uint64_t> starts; starts.reserve(result.size());
+    std::uint64_t size = 0;
+    for (const auto& piece : result) {
+        if (!piece.length) continue;
+        if (piece.length > UINT64_MAX - size) return false;
+        if (!normalized.empty() && normalized.back().source == piece.source &&
+            normalized.back().start + normalized.back().length == piece.start) normalized.back().length += piece.length;
+        else { starts.push_back(size); normalized.push_back(piece); }
+        size += piece.length;
+    }
+    // All allocations precede the commit. Appending bytes and moving metadata/history cannot throw.
+    ReserveExtra(added_,data.size());
     added_.insert(added_.end(), data.begin(), data.end());
-    pieces_.swap(result); Normalize(); return true;
+    pieces_.swap(normalized); starts_.swap(starts); size_ = size; return true;
 }
 
 bool BinaryDocument::ReplaceMatches(const std::vector<std::uint64_t>& offsets,
                                     const std::vector<std::uint8_t>& before,
                                     const std::vector<std::uint8_t>& after) {
+    try {
     if (before.empty()) return false;
     if (offsets.empty() || before == after) return true;
     EditAction action{offsets, {}, before, after};
@@ -341,12 +349,16 @@ bool BinaryDocument::ReplaceMatches(const std::vector<std::uint64_t>& offsets,
         action.after_offsets.push_back(target);
         target_end = target + after.size(); source_end = at + before.size();
     }
+    ReserveExtra(undo_,1);
     if (!ReplaceBatch(offsets, before.size(), after)) return false;
     undo_.push_back(std::move(action)); redo_.clear(); return true;
+    } catch (const std::bad_alloc&) { return false; }
 }
 
 bool BinaryDocument::Undo(std::uint64_t* offset) {
+    try {
     if (undo_.empty()) return false;
+    ReserveExtra(redo_,1);
     const EditAction& current = undo_.back();
     if (!ReplaceBatch(current.after_offsets, current.after.size(), current.before)) return false;
     EditAction action = std::move(undo_.back());
@@ -354,10 +366,13 @@ bool BinaryDocument::Undo(std::uint64_t* offset) {
     if (offset != nullptr) *offset = action.offsets.front();
     redo_.push_back(std::move(action));
     return true;
+    } catch (const std::bad_alloc&) { return false; }
 }
 
 bool BinaryDocument::Redo(std::uint64_t* offset) {
+    try {
     if (redo_.empty()) return false;
+    ReserveExtra(undo_,1);
     const EditAction& current = redo_.back();
     if (!ReplaceBatch(current.offsets, current.before.size(), current.after)) return false;
     EditAction action = std::move(redo_.back());
@@ -365,6 +380,7 @@ bool BinaryDocument::Redo(std::uint64_t* offset) {
     if (offset != nullptr) *offset = action.offsets.front();
     undo_.push_back(std::move(action));
     return true;
+    } catch (const std::bad_alloc&) { return false; }
 }
 
 bool BinaryDocument::Save(const std::wstring& destination, std::wstring* error, const SaveControl& control) {

@@ -8,12 +8,12 @@ bool CAdvancedCompareView::StartNotesIo(const std::wstring& path,bool save,bool 
     if (report && notes.fingerprint != review_fingerprint_) { Status(L"Notes belong to an older comparison; the report was not written."); return false; }
     locked_paths_ = {path}; locked_stamps_.clear(); if (lock_paths && !lock_paths(locked_paths_,true,locked_stamps_)) { locked_paths_.clear(); Status(L"The notes/report file has unsaved edits or is busy."); return false; } locks_held_ = static_cast<bool>(lock_paths);
     const auto model = model_; const auto inputs = report_inputs_; cancelled_ = false; progress_ = 0; shown_progress_ = UINT_MAX; job_kind_ = report ? JobKind::Report : save ? JobKind::NotesSave : JobKind::NotesLoad; SetBusy(true);
-    try { job_ = std::async(std::launch::async,[this,path,save,report,notes,model,inputs] { Result result; result.kind = report ? JobKind::Report : save ? JobKind::NotesSave : JobKind::NotesLoad; result.output_path = path; SaveControl control; control.cancelled = &cancelled_; control.progress = [this](unsigned p) { progress_ = p; };
+    LaunchJob([&] { return std::async(std::launch::async,[this,path,save,report,notes,model,inputs] { Result result; result.kind = report ? JobKind::Report : save ? JobKind::NotesSave : JobKind::NotesLoad; result.output_path = path; SaveControl control; control.cancelled = &cancelled_; control.progress = [this](unsigned p) { progress_ = p; };
         if (report) { result.saved = ExportReviewedHtml(*model,notes,inputs,path,control,&result.error); if (result.saved) result.text = L"Annotated comparison report saved: " + path; }
         else if (save) result.saved = SaveReviewNotes(path,notes,inputs,control,&result.error);
         else { result.review_notes = std::make_shared<ComparisonNotes>(); if (!ReadReviewNotes(path,result.review_notes.get(),&result.error)) result.review_notes.reset(); }
         if (!result.saved && !result.review_notes && result.error.empty()) result.error = L"Review metadata/report operation failed."; return result;
-    }); } catch (...) { SetBusy(false); ReleaseLocks(); Status(L"Could not start review metadata operation."); return false; } return true;
+    }); }); return job_.valid();
 }
 void CAdvancedCompareView::FinishNotesIo(Result& result) {
     if (result.kind == JobKind::NotesLoad) {

@@ -20,7 +20,7 @@
     <Link><SubSystem>Windows</SubSystem><EnableCOMDATFolding>true</EnableCOMDATFolding><OptimizeReferences>true</OptimizeReferences><GenerateDebugInformation>true</GenerateDebugInformation><AdditionalDependencies>Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies></Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup><Link><ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile><ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary></Link></ItemDefinitionGroup>
-  <ItemGroup><ClCompile Include="src\app.cpp" /><ClCompile Include="src\services\cli_console.cpp" /><ClCompile Include="src\core\command_line.cpp" /><ClCompile Include="src\main_frame.cpp" /><ClCompile Include="src\hex_view.cpp" /><ClCompile Include="src\core\binary_document.cpp" /><ClCompile Include="src\core\diff_engine.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\app.cpp" /><ClCompile Include="src\services\cli_console.cpp" /><ClCompile Include="src\core\command_line.cpp" /><ClCompile Include="src\main_frame.cpp" /><ClCompile Include="src\hex_view.cpp" /><ClCompile Include="src\core\binary_document.cpp" /><ClCompile Include="src\core\text_snapshot.cpp" /><ClCompile Include="src\core\diff_engine.cpp" /></ItemGroup>
   <ItemGroup><ClInclude Include="src\resource.h" /><ClInclude Include="src\main_frame.h" /><ClInclude Include="src\hex_view.h" /><ClInclude Include="src\core\binary_document.h" /><ClInclude Include="src\core\diff_engine.h" /></ItemGroup>
   <ItemGroup><ResourceCompile Include="src\simple_editor_tool.rc" /></ItemGroup>
   <ItemGroup><Image Include="src\res\app.ico" /></ItemGroup>

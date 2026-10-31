@@ -28,6 +28,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'"><ClCompile><RuntimeLibrary>MultiThreaded</RuntimeLibrary></ClCompile><Link><OptimizeReferences>true</OptimizeReferences><EnableCOMDATFolding>true</EnableCOMDATFolding></Link></ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="tests\native_core_tests.cpp" />
+    <ClCompile Include="tests\native_allocation_tests.cpp" />
     <ClCompile Include="tests\native_features_tests.cpp" />
     <ClCompile Include="tests\native_file_safety_tests.cpp" />
     <ClCompile Include="tests\native_async_save_tests.cpp" />
@@ -42,7 +43,7 @@
     <ClCompile Include="tests\native_text_report_tests.cpp" />
     <ClCompile Include="src\core\line_merge.cpp" /><ClCompile Include="src\core\file_operations.cpp" /><ClCompile Include="src\core\folder_sync.cpp" /><ClCompile Include="src\core\folder_policy.cpp" /><ClCompile Include="src\core\sync_journal.cpp" />
     <ClCompile Include="src\core\workspace_session.cpp" />
-    <ClCompile Include="src\core\binary_document.cpp" />
+    <ClCompile Include="src\core\binary_document.cpp" /><ClCompile Include="src\core\text_snapshot.cpp" />
     <ClCompile Include="src\core\diff_engine.cpp" />
     <ClCompile Include="src\core\search.cpp" />
     <ClCompile Include="src\core\text_codec.cpp" />

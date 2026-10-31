@@ -33,12 +33,13 @@ void CWorkspaceFrame::RestoreWorkspace(const std::vector<WorkspaceEntry>& entrie
     int active = -1; std::size_t missing = 0;
     for (const auto& entry : entries) {
         bool existing = false;
+        CMainFrame* restored = nullptr;
         if (entry.comparison) {
             for (std::size_t i = 0; i < sessions_.size(); ++i) if (sessions_[i]->comparison_session_ && sessions_[i]->displayed_mode_ == entry.mode) {
                 CString left,right,base; sessions_[i]->compare_left_path_.GetWindowTextW(left); sessions_[i]->compare_right_path_.GetWindowTextW(right); sessions_[i]->compare_base_path_.GetWindowTextW(base);
                 if (Same(left.GetString(),entry.left) && Same(right.GetString(),entry.right) && Same(base.GetString(),entry.base)) { ActivateSession(static_cast<int>(i)); existing = true; break; }
             }
-            if (!existing) NewComparisonInputs(entry.left,entry.right,entry.base,entry.mode,false);
+            if (!existing) { restored = NewComparisonInputs(entry.left,entry.right,entry.base,entry.mode,false); if (!restored) { ++missing; continue; } }
         } else {
             for (auto* session : sessions_) if (!session->comparison_session_ && Same(session->document_.Path(),entry.left)) existing = true;
             if (!OpenPath(entry.left,true)) { ++missing; continue; }
@@ -46,7 +47,7 @@ void CWorkspaceFrame::RestoreWorkspace(const std::vector<WorkspaceEntry>& entrie
         if (active_session_ < 0) continue;
         if (entry.active) active = active_session_;
         if (existing) continue; // Existing drafts, undo and view settings take precedence.
-        auto* session = sessions_[active_session_]; session->requested_encoding_ = static_cast<TextEncoding>(entry.encoding); session->text_stale_ = true;
+        auto* session = restored ? restored : sessions_[active_session_]; session->requested_encoding_ = static_cast<TextEncoding>(entry.encoding); session->text_stale_ = true;
         session->advanced_.RestorePreferences(entry); session->syntax_mode_ = entry.syntax_mode; if (!session->comparison_session_) session->ConfigureFileSyntax();
         session->compare_region_spec_ = entry.binary_region; if (!entry.binary_region.empty()) { std::wstring error; ParseCompareRegionSpec(entry.binary_region,&session->compare_region_,&error); } CHexView* views[] = {&session->hex_,&session->compare_left_,&session->compare_right_}; for (int j = 0; j < 3; ++j) { views[j]->SetDecoding(static_cast<HexDecoding>(entry.hex_decoding[j])); if (!views[j]->SetLayout(entry.hex_rows[j],entry.hex_groups[j],entry.hex_bases[j])) views[j]->SetLayout(entry.hex_rows[j],entry.hex_groups[j],0); }
         for (int j = 0; j < 3; ++j) session->SetTabZoom(j,entry.zoom[j]);

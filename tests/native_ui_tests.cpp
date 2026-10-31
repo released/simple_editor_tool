@@ -60,6 +60,7 @@ public:
 #include "native_compare_page_ui.inc"
 #include "native_side_merge_ui.inc"
 #include "native_compare_notice_ui.inc"
+#include "native_reliability_ui.inc"
     static int RunCodeEditor(const std::filesystem::path& root) {
         int failures = 0; const auto check = [&](bool ok,const wchar_t* label) { std::wcout << (ok ? L"PASS: " : L"FAIL: ") << label << L'\n'; if (!ok) ++failures; };
         auto* frame = new CMainFrame(false); AfxGetApp()->m_pMainWnd = frame;
@@ -791,7 +792,7 @@ private:
         const auto alive = [&]() { return ::IsWindow(window) && CWnd::FromHandlePermanent(window) == frame; };
         const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(15);
         while (alive() && frame->IsBusy() && std::chrono::steady_clock::now() < deadline) {
-            MSG message{}; while (::PeekMessage(&message, nullptr, 0, 0, PM_REMOVE)) { ::TranslateMessage(&message); ::DispatchMessage(&message); if (!alive()) return true; }
+            MSG message{}; for (unsigned batch = 0; batch < 64 && ::PeekMessage(&message,nullptr,0,0,PM_REMOVE); ++batch) { ::TranslateMessage(&message); ::DispatchMessage(&message); if (!alive()) return true; if (std::chrono::steady_clock::now() >= deadline) break; }
             frame->OnTimer(1); ::Sleep(1);
         }
         return !alive() || !frame->IsBusy();
@@ -824,6 +825,7 @@ int wmain(int argc, wchar_t** argv) {
         if (argc != 3) { std::wcerr << L"Usage: NativeUiTests.exe --workspace-process <formal-exe>\n"; failures = 1; }
         else failures += RunWorkspaceProcessTests(name, std::filesystem::absolute(argv[2]));
     }
+    else if (mode == L"--reliability") failures += NativeUiTest::RunReliability(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--compare-page") failures += NativeUiTest::RunComparePage(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--side-merge") failures += NativeUiTest::RunSideMerge(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--compare-notice") failures += NativeUiTest::RunCompareNotice(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());

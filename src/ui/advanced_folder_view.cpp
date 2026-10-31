@@ -61,7 +61,7 @@ bool CAdvancedCompareView::StartBaselineSave(const std::wstring& path) {
     if (scan_->partial_refresh) { Status(L"Run full Compare before saving a baseline."); return false; }
     locked_paths_ = {path}; locked_stamps_.clear(); if (lock_paths && !lock_paths(locked_paths_,true,locked_stamps_)) { locked_paths_.clear(); Status(L"The baseline output has unsaved edits or is busy."); return false; } locks_held_ = static_cast<bool>(lock_paths);
     const auto scan = scan_; cancelled_ = false; job_kind_ = JobKind::Report; SetBusy(true);
-    job_ = std::async(std::launch::async,[this,scan,path]() { Result result; result.kind = JobKind::Report; FolderBaseline baseline; if (CaptureFolderBaseline(*scan,cancelled_,[this](unsigned p) { progress_ = p; },&baseline,&result.error) && !cancelled_) { result.saved = SaveFolderBaseline(path,baseline,&result.error); if (result.saved) { result.output_path = path; result.text = L"Folder baseline saved: " + path; } } return result; }); return true;
+    LaunchJob([&] { return std::async(std::launch::async,[this,scan,path]() { Result result; result.kind = JobKind::Report; FolderBaseline baseline; if (CaptureFolderBaseline(*scan,cancelled_,[this](unsigned p) { progress_ = p; },&baseline,&result.error) && !cancelled_) { result.saved = SaveFolderBaseline(path,baseline,&result.error); if (result.saved) { result.output_path = path; result.text = L"Folder baseline saved: " + path; } } return result; }); }); return job_.valid();
 }
 void CAdvancedCompareView::ChooseJournal(bool recover) {
     if (Busy()) return; CFileDialog dialog(TRUE,L"setj",last_journal_.empty() ? L"operations.setj" : last_journal_.c_str(),OFN_FILEMUSTEXIST,L"Synchronization journal (operations.setj)|operations.setj|All files (*.*)|*.*||",this);
@@ -69,12 +69,12 @@ void CAdvancedCompareView::ChooseJournal(bool recover) {
 }
 bool CAdvancedCompareView::StartJournalPlan(const std::wstring& path,bool recover) {
     if (Busy() || mode_ != 4) return false; const auto left = folder_left_,right = folder_right_; cancelled_ = false; job_kind_ = JobKind::Plan; SetBusy(true);
-    job_ = std::async(std::launch::async,[path,recover,left,right]() { Result result; result.kind = JobKind::Plan; SyncJournal journal; SyncPlan plan;
+    LaunchJob([&] { return std::async(std::launch::async,[path,recover,left,right]() { Result result; result.kind = JobKind::Plan; SyncJournal journal; SyncPlan plan;
         if (!LoadSyncJournal(path,&journal,&result.error)) return result;
         if (CompareStringOrdinal(journal.plan.target_root.c_str(),-1,left.c_str(),-1,TRUE) != CSTR_EQUAL && CompareStringOrdinal(journal.plan.target_root.c_str(),-1,right.c_str(),-1,TRUE) != CSTR_EQUAL) { result.error = L"Choose a journal whose target is one of this comparison's folders."; return result; }
         std::size_t completed = 0,started = 0,errors = 0; std::wstring details;
         for (std::size_t i = 0; i < journal.entries.size(); ++i) { const auto& entry = journal.entries[i]; completed += entry.completed; started += entry.started; if (!entry.error.empty()) { if (++errors <= 20) details += journal.plan.operations[i].relative.wstring() + L": " + entry.error + L"\r\n"; } }
         result.bundle.note = L"Journal: " + path + L"\r\nCompleted: " + std::to_wstring(completed) + L", never started: " + std::to_wstring(journal.entries.size() - started) + L", errors: " + std::to_wstring(errors) + L"\r\n" + details;
         if (recover ? BuildSyncRecovery(journal,&plan,&result.error) : BuildSyncRetry(journal,&plan,&result.error)) result.bundle.plans.push_back(std::move(plan)); return result;
-    }); return true;
+    }); }); return job_.valid();
 }

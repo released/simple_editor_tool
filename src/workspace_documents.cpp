@@ -13,13 +13,14 @@ void CWorkspaceFrame::AppendFileActions(CMenu& menu) {
     CMenu recent; recent.CreatePopupMenu(); if (recent_files_.empty()) recent.AppendMenu(MF_STRING | MF_GRAYED,0,L"(No recent files)"); else for (std::size_t i = 0; i < recent_files_.size(); ++i) recent.AppendMenu(MF_STRING,ID_WORKSPACE_RECENT_FIRST + i,MenuPath(recent_files_[i]).c_str()); menu.AppendMenu(MF_POPUP,reinterpret_cast<UINT_PTR>(recent.Detach()),L"Recent files");
     menu.AppendMenu(MF_STRING,ID_WORKSPACE_CLOSE_OTHERS,L"Close other tabs"); menu.AppendMenu(MF_STRING,ID_WORKSPACE_CLOSE_LEFT,L"Close tabs to the left"); menu.AppendMenu(MF_STRING,ID_WORKSPACE_CLOSE_RIGHT,L"Close tabs to the right");
     menu.AppendMenu(MF_SEPARATOR); menu.AppendMenu(MF_STRING,ID_WORKSPACE_PREFERENCES,L"Preferences...");
+    menu.AppendMenu(MF_STRING,ID_WORKSPACE_RETRY_PREFERENCES,L"Retry saving preferences");
     menu.AppendMenu(MF_STRING,ID_WORKSPACE_RECOVER_DRAFTS,L"Recover draft snapshots..."); menu.AppendMenu(MF_STRING,ID_WORKSPACE_SNAPSHOT,L"Snapshot workspace / drafts now"); menu.AppendMenu(MF_STRING,ID_WORKSPACE_CLEAR_RECOVERY,L"Clear recovery snapshots..."); menu.AppendMenu(MF_STRING,ID_WORKSPACE_BROWSE_RECOVERY,L"Browse recovery folder");
     UpdateMenuShortcuts(menu);
 }
 void CWorkspaceFrame::RememberRecent(const std::wstring& path) {
     if (path.empty() || IsTemporaryPath(path)) return;
     recent_files_.erase(std::remove_if(recent_files_.begin(),recent_files_.end(),[&](const auto& old) { return SamePath(old,path); }),recent_files_.end()); recent_files_.push_front(path); if (recent_files_.size() > 20) recent_files_.pop_back(); RefreshRecentMenus();
-    if (!preferences_path_.empty()) preferences_dirty_ = true;
+    if (!preferences_path_.empty()) MarkPreferencesDirty();
 }
 void CWorkspaceFrame::RefreshRecentMenus() {
     const auto refresh = [&](CMenu* file) { if (!file) return; for (int p = 0; p < file->GetMenuItemCount(); ++p) { CString title; file->GetMenuString(p,title,MF_BYPOSITION); if (title != L"Recent files") continue; auto* menu = file->GetSubMenu(p); if (!menu) continue; while (menu->GetMenuItemCount()) menu->DeleteMenu(0,MF_BYPOSITION); if (recent_files_.empty()) menu->AppendMenu(MF_STRING | MF_GRAYED,0,L"(No recent files)"); else for (std::size_t i = 0; i < recent_files_.size(); ++i) menu->AppendMenu(MF_STRING,ID_WORKSPACE_RECENT_FIRST + i,MenuPath(recent_files_[i]).c_str()); } };

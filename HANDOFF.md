@@ -1,5 +1,64 @@
 # Handoff
 
+## Approved R1-R7: implementation verified; cleanup blocked (2026-10-31)
+
+- This is an engineering status record, not a session pause. Scope/acceptance:
+  docs/RELIABILITY_IMPLEMENTATION.md and docs/verification/reliability-20261031.json.
+  No commits or publication requested or performed. Functional acceptance passed;
+  final cleanup and the complete-folder 20 MB budget have NOT passed.
+- Implemented and verified: staged binary edit/history commit;
+  15 guarded Advanced launches; explicit comparison factory results; source-change
+  banner and asynchronous disk stamps; versioned preferences and retry/exit handling;
+  retained source buffers/selection on alignment; line-to-row indexing; captured
+  Text snapshots and side-copy preparation on the worker with final source guards.
+  New core/text_snapshot.h/.cpp is compiled by product/core/UI projects.
+- New tests: native_allocation_tests.cpp (--allocation-safety, Release only),
+  native_reliability_ui.inc (--reliability). Debug global allocation injection
+  aborted in CRT/STL noexcept proxy allocation and its exact test PID was stopped;
+  it is NOT a passing test. New current-run 32-byte allocation.bin remains under
+  artifacts/reliability-20261031/core-debug-allocation-safety/setBA32.tmp.
+  Both ownership-checked deletion and a more restrictive literal-path deletion
+  through the existing artifact root verifier were rejected before execution,
+  "blocked by policy", no detailed reason. Do not bypass or repeatedly retry.
+- PASS on Release core 5BD961EF7DB7A5C145E4F7F4D53D96E9DD6FA76B29FA4AE146ED92ABC5D2046A:
+  allocation-safety (6 operations, 34 allocation failures), file-safety, merge-sync,
+  async-save, search-codec, preferences, localization, merge-tools, regions.
+  All source snapshots are bounded before native copying. Native versions are
+  checked again before result adoption; cancelled/failed refreshes retain prior
+  stale warnings, disk probes, result panes and independent merge output.
+- PASS: final --reliability in Debug/Release (29 checks plus footer each), final
+  Debug side-merge/compare-notice/advanced/workspace/compare-page/structured, and
+  all 15 selected final Release caller/process modes. Earlier Debug caller results
+  remain explicitly distinguished in the compact record. The first Debug UI
+  assertion was GetStyle before HWND creation, fixed and covered by final tests;
+  CRT assertions now immediately fail tests rather than being auto-dismissed.
+- Final canonical Release EXE: 4,001,792 bytes, SHA256
+  0E5F7DBC306DCE9AEF4EBD54F84B94FB3824F5823D503603FD1810E08FCEA797.
+  x64/static MFC/CRT, system DLL imports, ASLR/NX checked. Native localized banner
+  image inspected at docs/verification/reliability-20261031.png. No active test or
+  compiler process was observed before retirement. Build used transient CL=/MP2.
+- Safe clean removed 774 compiler files; MSBuild Clean retired the isolated Release
+  core output; reviewed purge removed 13 test/intermediate outputs. All 719 protected
+  files matched their pre-clean hashes. Test EXEs/intermediates are absent.
+- Cleanup remains blocked: 9 recipe/hash-verified failed UI fixture files
+  (1,323,056 bytes), the earlier 32-byte allocation input, and 89 reviewed raw logs,
+  duplicate screenshots/inventories/test-only diagnostic source (1,054,295 bytes).
+  Each deletion action was rejected before execution: "blocked by policy", without
+  detail. No alternate deletion, allowlist expansion or retention exception.
+  The earlier 67 files / 832,118 bytes remain separately blocked. Exact current
+  paths/hashes and final bytes are in the compact verification record. Do not
+  repeat rejected deletes through another tool or classify cleanup as complete.
+- Paired language catalogs have 765 unique matching keys; delivery catalogs match.
+  Both user guides updated; README remains a product entry without development
+  status. Authorized lossless repacks retained all 916 object IDs, 3 refs and
+  4 reflog hashes. Git is now 7,181,676 bytes (the last measured-budget attempt
+  saved only 51,631 bytes). Do not repeat repacking as a substitute for blocked
+  artifact cleanup; preserve all history, user settings and other protected data.
+- User NG.jpg was already absent in this run's entry baseline; it was not deleted
+  by this task. Runtime INI at entry remains SHA256
+  879FD86CF67BE868E6362D2AACAF27738AFBCA8E55BAD50CEC01E525391A6DBA.
+  Earlier 67-file cleanup block remains separate. No retention exception exists.
+
 ## Resume: comparison notice and virtual-row adoption (2026-10-30)
 
 - NG.jpg identifies the Debug vector-index assertion. Confirmed replacement

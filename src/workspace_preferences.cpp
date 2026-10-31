@@ -8,6 +8,11 @@
 using namespace simple_editor::core;
 namespace {
 const UINT kCommands[] = {ID_FILE_NEW,ID_FILE_OPEN,ID_FILE_SAVE,ID_EDIT_FIND,ID_EDIT_REPLACE,ID_WORKSPACE_SEARCH_FILES,ID_WORKSPACE_REOPEN};
+struct ApplyingPreferences {
+    bool& flag; bool previous;
+    explicit ApplyingPreferences(bool& value) : flag(value),previous(value) { flag = true; }
+    ~ApplyingPreferences() { flag = previous; }
+};
 }
 void CWorkspaceFrame::UpdateMenuShortcuts(CMenu& menu) const {
     if (!menu.GetSafeHmenu()) return;
@@ -25,10 +30,10 @@ bool CWorkspaceFrame::ChangePreferences(const AppPreferences& value,bool persist
     if (simple_editor::ui::LocalizationEnabled()) simple_editor::ui::SetUiLanguage(value.language);
     for (auto* frame : sessions_) ApplyPreferencesToFrame(frame); if (GetSafeHwnd()) RefreshRecentMenus();
     if (GetSafeHwnd() && (preferences_.auto_restore || preferences_.recover_drafts)) InitializeRecovery();
-    if (persist) { preferences_dirty_ = true; StartPreferenceWrite(); } return true;
+    if (persist) { MarkPreferencesDirty(); StartPreferenceWrite(); } return true;
 }
 void CWorkspaceFrame::ApplyPreferencesToFrame(CMainFrame* frame) {
-    const bool previous = applying_preferences_; applying_preferences_ = true;
+    ApplyingPreferences guard(applying_preferences_);
     frame->text_face_ = preferences_.font; frame->content_font_tenths_ = preferences_.font_tenths; frame->content_theme_ = preferences_.theme; frame->dark_content_ = preferences_.theme == 1;
     for (CHexView* view : {static_cast<CHexView*>(&frame->hex_),static_cast<CHexView*>(&frame->compare_left_),static_cast<CHexView*>(&frame->compare_right_)}) view->SetAppearance(preferences_.font,preferences_.font_tenths,preferences_.theme);
     if (frame->text_clone_.GetSafeHwnd()) { frame->text_clone_.SetTheme(preferences_.theme); frame->text_clone_.SetWrap(preferences_.wrap); frame->text_clone_.SetWhitespace(preferences_.whitespace); frame->text_clone_.SetTabWidth(preferences_.tab_width,preferences_.use_tabs); }
@@ -41,7 +46,7 @@ void CWorkspaceFrame::ApplyPreferencesToFrame(CMainFrame* frame) {
     frame->advanced_.SetTextViewPreferences(preferences_.wrap,preferences_.whitespace,preferences_.tab_width,preferences_.use_tabs);
     CClientDC dc(frame); frame->comparison_base_font_.lfHeight = -MulDiv(preferences_.font_tenths,dc.GetDeviceCaps(LOGPIXELSY),720); frame->comparison_base_font_.lfWidth = 0; wcsncpy_s(frame->comparison_base_font_.lfFaceName,preferences_.font.c_str(),_TRUNCATE);
     if (auto* output = frame->advanced_.OutputEditor()) { output->SetWrap(preferences_.wrap); output->SetWhitespace(preferences_.whitespace); output->SetTabWidth(preferences_.tab_width,preferences_.use_tabs); }
-    for (int i = 0; i < 3; ++i) { frame->zoom_percent_[i] = -1; frame->SetTabZoom(i,preferences_.zoom[i]); } applying_preferences_ = previous;
+    for (int i = 0; i < 3; ++i) { frame->zoom_percent_[i] = -1; frame->SetTabZoom(i,preferences_.zoom[i]); }
 }
 void CWorkspaceFrame::RememberView(CMainFrame* frame) {
     if (applying_preferences_ || !frame || !frame->GetSafeHwnd()) return;
@@ -51,27 +56,45 @@ void CWorkspaceFrame::RememberView(CMainFrame* frame) {
         const bool document_indentation = frame->IsFileEditor(editor) && (frame->indentation_manual_ || frame->indentation_result_.applied);
         if (!document_indentation) { preferences_.tab_width = static_cast<unsigned>(editor->Call(SCI_GETTABWIDTH)); preferences_.use_tabs = editor->Call(SCI_GETUSETABS) != 0; }
     }
-    if (!preferences_path_.empty()) preferences_dirty_ = true;
+    if (!preferences_path_.empty()) MarkPreferencesDirty();
 }
 void CWorkspaceFrame::OnPreferences() {
     if (workspace_dialog_) return; auto current = preferences_; current.recent.assign(recent_files_.begin(),recent_files_.end()); CPreferencesDialog dialog(this,current); workspace_dialog_ = true; const auto accepted = dialog.DoModal(); workspace_dialog_ = false; if (accepted == IDOK) ChangePreferences(dialog.value,true);
 }
 bool CWorkspaceFrame::StartPreferenceWrite() {
-    if (preferences_io_.valid()) return false; preferences_dirty_ = false; if (preferences_path_.empty()) return false;
-    auto value = preferences_; value.recent.assign(recent_files_.begin(),recent_files_.end()); const auto path = preferences_path_;
-    if (!LockPaths({path.wstring()},true,&preferences_io_)) { UiMessageBox(L"Portable settings have unsaved edits or are busy in an editor. Preferences remain active in memory.",MB_ICONWARNING); return false; }
-    try { preferences_io_ = std::async(std::launch::async,[path,value]() { std::wstring error; if (!SavePreferences(path,value,&error) && error.empty()) error = L"Could not save portable settings."; return error; }); }
-    catch (...) { LockPaths({path.wstring()},false,&preferences_io_); UiMessageBox(L"Could not start saving portable preferences.",MB_ICONWARNING); return false; } SetTimer(3,50,nullptr); return true;
+    if (preferences_io_.valid() || preferences_path_.empty()) return false;
+    try {
+        auto value = preferences_; value.recent.assign(recent_files_.begin(),recent_files_.end()); const auto path = preferences_path_;
+        if (!LockPaths({path.wstring()},true,&preferences_io_)) {
+            preferences_failed_ = preferences_dirty_ = true;
+            UiMessageBox(L"Portable settings have unsaved edits or are busy in an editor. Preferences remain active in memory.",MB_ICONWARNING); return false;
+        }
+        preferences_write_revision_ = preferences_revision_;
+        preferences_io_ = std::async(std::launch::async,[path,value = std::move(value)]() { std::wstring error; if (!SavePreferences(path,value,&error) && error.empty()) error = L"Could not save portable settings."; return error; });
+    } catch (...) {
+        LockPaths({},false,&preferences_io_); preferences_failed_ = preferences_dirty_ = true;
+        UiMessageBox(L"Could not start saving portable preferences.",MB_ICONWARNING); return false;
+    }
+    preferences_failed_ = false; SetTimer(3,50,nullptr); return true;
 }
 void CWorkspaceFrame::TickPreferences() {
     if (!preferences_io_.valid() || preferences_io_.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready) return;
     std::wstring error; try { error = preferences_io_.get(); } catch (...) { error = L"Portable preferences could not be saved."; } LockPaths({},false,&preferences_io_); KillTimer(3);
-    if (!error.empty()) UiMessageBox(error.c_str(),MB_ICONWARNING); const bool close = preferences_close_pending_; preferences_close_pending_ = false; if (close) OnClose(); else if (preferences_dirty_) StartPreferenceWrite();
+    const bool close = preferences_close_pending_; preferences_close_pending_ = false;
+    if (!error.empty()) {
+        preferences_failed_ = preferences_dirty_ = true; CancelCloseAll();
+        UiMessageBox(error.c_str(),MB_ICONWARNING); return;
+    }
+    preferences_saved_revision_ = preferences_write_revision_;
+    preferences_dirty_ = preferences_revision_ != preferences_saved_revision_; preferences_failed_ = false;
+    if (close) OnClose(); else if (preferences_dirty_) StartPreferenceWrite();
 }
+void CWorkspaceFrame::OnRetryPreferences() { if (preferences_dirty_ && !preferences_io_.valid()) StartPreferenceWrite(); }
+void CWorkspaceFrame::OnUpdateRetryPreferences(CCmdUI* command) { command->Enable(preferences_dirty_ && !preferences_path_.empty() && !preferences_io_.valid()); }
 void CWorkspaceFrame::OnLanguage(UINT command) {
     const std::wstring language = command == ID_LANGUAGE_TRADITIONAL ? L"tw" : L"en";
     if (!simple_editor::ui::SetUiLanguage(language)) { UiMessageBox(L"Language files are unavailable. Restore lang_en.ini and lang_tw.ini beside the EXE, then restart.",MB_ICONWARNING); return; }
-    preferences_.language = language; preferences_dirty_ = true; if (!preferences_io_.valid()) StartPreferenceWrite();
+    preferences_.language = language; MarkPreferencesDirty(); if (!preferences_io_.valid()) StartPreferenceWrite();
     for (auto* frame : sessions_) { if (frame->advanced_.GetSafeHwnd()) frame->advanced_.Invalidate(FALSE); frame->Layout(); }
     DrawMenuBar();
 }

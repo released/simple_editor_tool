@@ -284,6 +284,7 @@ bool CMainFrame::OpenPath(const std::wstring& path) {
     if (!ConfirmDiscardChanges(AfterSave::Open, path)) return false;
     std::wstring error; if (!document_.Open(path, &error)) { UiMessageBox((L"Cannot open file:\n" + error).c_str(), MB_ICONERROR); return false; }
     ++revision_; modified_ranges_.clear(); modified_revision_ = UINT64_MAX; cancelled_ = true; match_offset_ = UINT64_MAX; match_pattern_.clear(); source_notice_key_.clear(); source_dismissed_key_.clear(); source_notice_visible_ = false; unicode_generation_ = UINT64_MAX;
+    if (workspace_) workspace_->NotifySourceChanged(this);
     ClearComparison(); hex_.SetDocument(&document_); text_dirty_ = false; text_.SetModify(FALSE); text_stale_ = true;
     SetWindowTextW((std::filesystem::path(path).filename().wstring() + L" - Simple Editor Tool").c_str()); status_.SetPaneText(0, (path + L"   " + std::to_wstring(document_.Size()) + L" bytes").c_str());
     ShowPage(0); if (document_.Size() <= 32 * 1024 * 1024) { RefreshText(); if (text_editable_) ShowPage(1); } RequestIndentation(true); if (workspace_) workspace_->RefreshLabels(); return true;

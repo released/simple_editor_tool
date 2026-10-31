@@ -18,6 +18,7 @@
 #include "core/recovery_store.h"
 #include "core/editor_config.h"
 #include "core/line_merge.h"
+#include "core/text_snapshot.h"
 
 class CMainFrame;
 
@@ -29,7 +30,7 @@ public:
     void OpenDroppedFiles(HDROP drop);
     void NewComparison(const std::wstring& left = L"");
     void NewComparison(const std::wstring& left, bool insertion_aware);
-    void NewComparisonInputs(const std::wstring& left, const std::wstring& right, const std::wstring& base, int mode, bool run = false);
+    CMainFrame* NewComparisonInputs(const std::wstring& left, const std::wstring& right, const std::wstring& base, int mode, bool run = false);
     bool NewPastedPair(const std::wstring& left,const std::wstring& right,std::wstring* error);
     std::wstring SyntaxForPath(const std::wstring& path) const;
     std::wstring SyntaxAssociations() const;
@@ -43,7 +44,7 @@ public:
     std::vector<simple_editor::core::WorkspaceEntry> CaptureWorkspace() const;
     void RestoreWorkspace(const std::vector<simple_editor::core::WorkspaceEntry>& entries);
     bool CloseSession(CMainFrame* session);
-    void CancelCloseAll() { closing_all_ = false; close_queue_.clear(); preferences_close_pending_ = false; workspace_close_pending_ = false; recovery_close_pending_ = false; exit_workspace_.clear(); exit_order_.clear(); }
+    void CancelCloseAll() { closing_all_ = false; close_queue_.clear(); preferences_close_pending_ = false; preferences_skip_close_ = false; workspace_close_pending_ = false; recovery_close_pending_ = false; exit_workspace_.clear(); exit_order_.clear(); }
     bool IsTemporaryPath(const std::filesystem::path& path) const { return temporary_documents_.Owns(path); }
     void AppendFileActions(CMenu& menu);
     static void AppendExplorerMenu(CMenu& menu);
@@ -62,6 +63,13 @@ public:
     std::vector<std::wstring> FolderPaths() const;
     std::vector<std::wstring> ComparisonPaths(bool folders) const;
     std::unique_ptr<simple_editor::core::BinaryDocument> SnapshotForPath(const std::wstring& path, std::wstring* error);
+    void CaptureComparisonSources(CMainFrame* comparison,const std::vector<std::wstring>& paths);
+    bool ComparisonSourcesCurrent(const CMainFrame* comparison) const;
+    void NotifySourceChanged(CMainFrame* source);
+    std::shared_ptr<simple_editor::core::TextInputSnapshot> CaptureTextInput(const std::wstring& path,std::wstring* error,bool include_display = false);
+    bool TextInputCurrent(const simple_editor::core::TextInputSnapshot& input,const std::wstring& path,std::wstring* error) const;
+    bool CaptureComparisonCopy(simple_editor::core::PreparedTextSideCopy& copy,std::wstring* error);
+    bool ApplyPreparedComparisonCopy(const simple_editor::core::PreparedTextSideCopy& copy,std::wstring* error);
     bool ApplyComparisonCopy(const simple_editor::core::TextSideCopy& copy,std::wstring* error);
     bool ComparisonSideAction(const std::wstring& path,int action);
     BOOL PreTranslateMessage(MSG* message) override;
@@ -108,7 +116,7 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 private:
-    CMainFrame* CreateSession(bool activate = true);
+    virtual CMainFrame* CreateSession(bool activate = true);
     void ActivateSession(int index);
     void Layout();
     void FocusActive();
@@ -126,6 +134,9 @@ private:
     void ApplyPreferencesToFrame(CMainFrame* frame);
     bool StartPreferenceWrite();
     void TickPreferences();
+    void MarkPreferencesDirty() { ++preferences_revision_; preferences_dirty_ = true; }
+    afx_msg void OnRetryPreferences();
+    afx_msg void OnUpdateRetryPreferences(CCmdUI* command);
     bool CaptureSession(CMainFrame* frame,simple_editor::core::WorkspaceEntry* entry) const;
     void InitializeRecovery(bool load = true);
     bool StartRecoverySnapshot(bool clean_exit,bool manual = false);
@@ -139,6 +150,8 @@ private:
     std::filesystem::path preferences_path_;
     std::future<std::wstring> preferences_io_;
     bool preferences_dirty_ = false,preferences_close_pending_ = false,applying_preferences_ = false;
+    bool preferences_failed_ = false,preferences_skip_close_ = false;
+    std::uint64_t preferences_revision_ = 0,preferences_saved_revision_ = 0,preferences_write_revision_ = 0;
     simple_editor::core::TemporaryDocuments temporary_documents_;
     struct RecoveryJob {
         int kind = 0; bool manual = false;

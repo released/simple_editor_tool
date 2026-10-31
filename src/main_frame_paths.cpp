@@ -94,13 +94,17 @@ void CMainFrame::RunComparison(bool notify_equal) {
         SetWindowTextW((left_name + L" vs " + right_name + L" - Simple Editor Tool").c_str()); if (workspace_) workspace_->RefreshLabels();
         if (displayed_mode_ == 4) { advanced_.StartFolders(left.GetString(),right.GetString(),notify_equal); return; }
         CString base; compare_base_path_.GetWindowTextW(base); if (displayed_mode_ == 3 && base.IsEmpty()) { status_.SetPaneText(0,L"Choose the common Base file for a three-way merge."); return; }
+        if (workspace_) workspace_->CaptureComparisonSources(this,{left.GetString(),right.GetString(),displayed_mode_ == 3 ? base.GetString() : L""});
         std::wstring detail;
-        const auto snapshot = [&](const std::wstring& path) { if (workspace_) return workspace_->SnapshotForPath(path,&detail); auto doc = std::make_unique<simple_editor::core::BinaryDocument>(); if (!doc->Open(path,&detail)) doc.reset(); return doc; };
+        const auto snapshot = [&](const std::wstring& path) {
+            if (workspace_) return workspace_->CaptureTextInput(path,&detail);
+            auto input = std::make_shared<simple_editor::core::TextInputSnapshot>(); input->document = std::make_unique<simple_editor::core::BinaryDocument>();
+            if (!input->document->Open(path,&detail)) input.reset(); return input;
+        };
         auto a = snapshot(left.GetString()), b = snapshot(right.GetString()); auto c = displayed_mode_ == 3 ? snapshot(base.GetString()) : nullptr;
         if (!a || !b || (displayed_mode_ == 3 && !c)) { status_.SetPaneText(0,detail.c_str()); return; }
-        if (workspace_) { workspace_->RememberRecent(a->Path()); workspace_->RememberRecent(b->Path()); if (c) workspace_->RememberRecent(c->Path()); RefreshComparisonPaths(); }
-        auto preview = a->Snapshot(&detail); if (preview) { document_.Swap(*preview); hex_.SetDocument(&document_); text_stale_ = true; }
-        advanced_.StartText(std::move(c),std::move(a),std::move(b),notify_equal); return;
+        if (workspace_) { workspace_->RememberRecent(a->document->Path()); workspace_->RememberRecent(b->document->Path()); if (c) workspace_->RememberRecent(c->document->Path()); RefreshComparisonPaths(); }
+        advanced_.StartCapturedText(std::move(c),std::move(a),std::move(b),notify_equal); return;
     }
     std::wstring error;
     std::unique_ptr<simple_editor::core::BinaryDocument> source;

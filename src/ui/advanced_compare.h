@@ -21,10 +21,13 @@
 #include "../core/workflow_views.h"
 #include "../core/text_review.h"
 #include "../core/review_notes.h"
+#include "../core/text_snapshot.h"
 
 class CAdvancedCompareView : public CWnd {
 public:
-    using SideCopy = simple_editor::core::TextSideCopy;
+    using SideCopy = simple_editor::core::PreparedTextSideCopy;
+    std::function<bool(SideCopy&,std::wstring*)> capture_side_copy;
+    std::function<void(std::unique_ptr<simple_editor::core::BinaryDocument>)> source_snapshot_ready;
     std::function<bool(const SideCopy&,std::wstring*)> apply_side_copy;
     std::function<bool(const std::wstring&,bool)> undo_side;
     std::function<bool(const std::wstring&)> save_side;
@@ -50,10 +53,12 @@ public:
     void SetSnapshotInputs(const std::wstring& left,const std::wstring& right,const std::wstring& path,const simple_editor::core::TextCodec& codec,const simple_editor::core::FileStamp& stamp);
     void SwapPastedInputs();
     void InvalidateInputs();
+    void SetSourcesChanged(bool source_changed);
     void StartText(std::unique_ptr<simple_editor::core::BinaryDocument> base,
                    std::unique_ptr<simple_editor::core::BinaryDocument> left,
                    std::unique_ptr<simple_editor::core::BinaryDocument> right, bool notify_equal = true);
     void StartFolders(const std::wstring& left, const std::wstring& right, bool notify_equal = true);
+    void StartCapturedText(std::shared_ptr<simple_editor::core::TextInputSnapshot> base,std::shared_ptr<simple_editor::core::TextInputSnapshot> left,std::shared_ptr<simple_editor::core::TextInputSnapshot> right,bool notify_equal = true);
     void Tick();
     void Cancel();
     void SaveResult();
@@ -141,23 +146,31 @@ private:
         bool similar = false;
         std::vector<simple_editor::core::MovedBlock> moves;
         std::vector<simple_editor::core::ProtectedInput> inputs;
+        std::unique_ptr<simple_editor::core::BinaryDocument> left_snapshot;
+        std::vector<std::pair<std::wstring,simple_editor::core::FileStamp>> source_stamps;
     };
+    template<class Factory> bool LaunchJob(Factory&& factory) {
+        try { job_ = factory(); return true; }
+        catch (...) { LaunchFailed(); return false; }
+    }
+    void LaunchFailed();
     void Layout();
     void FinishNotesIo(Result&);
     std::wstring NoteCell(std::size_t block) const;
     void LayoutPastedInputs(int width, int height, int* top);
     bool CreateSourceEditors();
     void RefreshSources();
+    void PollSourceFreshness();
     void SourceChanged(unsigned side);
     void SelectSourceRow(std::size_t row);
     afx_msg void OnSourceRowChanged(NMHDR*, LRESULT* result);
     CCodeEditor* FocusedInput();
-    void StartTextJob(std::unique_ptr<simple_editor::core::BinaryDocument> base,
-                      std::unique_ptr<simple_editor::core::BinaryDocument> left,
-                      std::unique_ptr<simple_editor::core::BinaryDocument> right,
+    void StartTextJob(std::shared_ptr<simple_editor::core::TextInputSnapshot> base,
+                      std::shared_ptr<simple_editor::core::TextInputSnapshot> left,
+                      std::shared_ptr<simple_editor::core::TextInputSnapshot> right,
                       std::wstring left_text, std::wstring right_text, bool pasted, bool notify_equal);
     void CompleteComparisonNotice(bool equal);
-    void StartStructured(std::unique_ptr<simple_editor::core::BinaryDocument> left,std::unique_ptr<simple_editor::core::BinaryDocument> right);
+    void StartStructured(std::shared_ptr<simple_editor::core::TextInputSnapshot> left,std::shared_ptr<simple_editor::core::TextInputSnapshot> right);
     void Columns();
     void SetBusy(bool busy);
     void Status(const std::wstring& text);
@@ -190,12 +203,21 @@ private:
     CWheelZoomControl<CCodeEditor> source_left_, source_right_, source_base_;
     CCodeEditor* review_focus_ = nullptr;
     CStatic source_left_label_, source_right_label_,source_base_label_;
+    CStatic source_warning_;
+    bool sources_changed_ = false;
+    std::vector<std::pair<std::wstring,simple_editor::core::FileStamp>> source_stamps_;
+    std::future<std::pair<std::uint64_t,bool>> source_freshness_;
+    std::uint64_t source_generation_ = 0,source_probe_at_ = 0;
     std::wstring source_left_path_,source_right_path_,source_base_path_;
     bool show_base_source_ = true;
     std::vector<int> left_peer_,right_peer_;
     std::intptr_t source_top_[3] = {-1,-1,-1};
     bool source_sync_ = false;
     bool source_aligned_ = false;
+    bool sources_loaded_ = false;
+    std::weak_ptr<simple_editor::core::TextMergeModel> source_model_;
+    std::vector<std::size_t> source_rows_[2];
+    std::intptr_t source_line_[3] = {-1,-1,-1};
     CStatic input_left_label_, input_right_label_;
     bool pasted_inputs_ = false;
     bool read_only_snapshots_ = false;

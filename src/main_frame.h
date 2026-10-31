@@ -227,6 +227,8 @@ private:
     bool EnsureAdvanced();
     CWorkspaceFrame* workspace_ = nullptr;
     std::uint64_t workspace_session_id_ = 0;
+    struct ComparisonSource { std::wstring path; std::uint64_t session = 0,revision = 0,generation = 0; };
+    std::vector<ComparisonSource> comparison_sources_;
     std::uint64_t folder_parent_id_ = 0,folder_parent_generation_ = 0;
     std::wstring folder_relative_;
     bool untitled_ = false;

@@ -1,10 +1,28 @@
 #include "advanced_compare.h"
 #include "feature_dialogs.h"
 #include "../core/source_alignment.h"
+#include "../core/text_source_stamp.h"
 #include <algorithm>
 using namespace simple_editor::core;
 
+void CAdvancedCompareView::PollSourceFreshness() {
+    if (!GetSafeHwnd()) return;
+    if (source_freshness_.valid() && source_freshness_.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready) {
+        try { const auto result = source_freshness_.get(); if (result.first == source_generation_ && !result.second) SetSourcesChanged(true); } catch (...) {}
+    }
+    if (Busy() || !(GetStyle() & WS_VISIBLE) || sources_changed_ || source_freshness_.valid() || source_stamps_.empty() || GetTickCount64() < source_probe_at_) return;
+    source_probe_at_ = GetTickCount64() + 1000;
+    try {
+        source_freshness_ = std::async(std::launch::async,[inputs = source_stamps_,generation = source_generation_]() {
+            const bool current = std::all_of(inputs.begin(),inputs.end(),[](const auto& input) { FileStamp now; return InspectTextSource(input.first,&now) && SameFileState(now,input.second); });
+            return std::make_pair(generation,current);
+        });
+    } catch (...) {}
+}
+
 bool CAdvancedCompareView::CreateSourceEditors() {
+    source_warning_.Create(L"Source documents have changed. These panes show the previous snapshots. Press Compare to refresh; the merge draft is retained.",WS_CHILD | SS_LEFT,CRect(),this,6221);
+    source_warning_.SetFont(&ui_font_);
     const DWORD style = WS_CHILD | WS_BORDER | WS_TABSTOP | WS_HSCROLL | WS_VSCROLL;
     if (!source_left_.Create(style,CRect(),this,588) || !source_right_.Create(style,CRect(),this,589) || !source_base_.Create(style,CRect(),this,592)) return false;
     source_left_label_.Create(L"Left (read-only; character detail: first 8192 chars/line)",WS_CHILD,CRect(),this,590);
@@ -27,11 +45,21 @@ CCodeEditor* CAdvancedCompareView::SearchEditor() {
 }
 void CAdvancedCompareView::RefreshSources() {
     if (!source_left_.GetSafeHwnd()) return;
-    review_focus_ = nullptr;
+    const bool active = model_ && !stale_ && !pasted_inputs_ && mode_ < 4;
+    const bool reload = active ? source_model_.lock() != model_ : sources_loaded_;
+    struct Position { std::intptr_t anchor,caret,line,subline,x; } positions[3]{};
+    CCodeEditor* editors[] = {&source_base_,&source_left_,&source_right_};
+    for (unsigned i = 0; i < 3; ++i) {
+        auto& editor = *editors[i]; const auto top = editor.Call(SCI_GETFIRSTVISIBLELINE),line = editor.Call(SCI_DOCLINEFROMVISIBLE,top);
+        positions[i] = {editor.Call(SCI_GETANCHOR),editor.Call(SCI_GETCURRENTPOS),line,top - editor.Call(SCI_VISIBLEFROMDOCLINE,line),editor.Call(SCI_GETXOFFSET)};
+    }
+    if (reload) review_focus_ = nullptr;
     source_sync_ = true; source_aligned_ = false; source_top_[0] = source_top_[1] = source_top_[2] = -1;
     const auto fill = [&](CCodeEditor& editor,const std::vector<TextLine>& lines,const std::wstring& path) {
-        std::wstring text; for (const auto& line : lines) { text += line.text; text += line.ending; }
-        editor.SetReadOnly(FALSE); editor.SetWindowTextW(TextForEditControl(text).c_str()); editor.SetModify(FALSE); editor.ConfigureLanguage(path);
+        if (reload) {
+            std::wstring text; for (const auto& line : lines) { text += line.text; text += line.ending; }
+            editor.SetReadOnly(FALSE); editor.SetWindowTextW(TextForEditControl(text).c_str()); editor.SetModify(FALSE); editor.ConfigureLanguage(path);
+        }
         editor.Call(SCI_ANNOTATIONCLEARALL);
         for (unsigned indicator : {11u,12u}) { editor.Call(SCI_SETINDICATORCURRENT,indicator); editor.Call(SCI_INDICATORCLEARRANGE,0,editor.Call(SCI_GETLENGTH)); }
         editor.Call(SCI_MARKERDELETEALL,26); editor.Call(SCI_MARKERDEFINE,26,SC_MARK_BACKGROUND); editor.Call(SCI_MARKERSETBACK,26,RGB(50,160,185)); editor.Call(SCI_MARKERSETALPHA,26,75);
@@ -39,7 +67,6 @@ void CAdvancedCompareView::RefreshSources() {
         editor.Call(SCI_MARKERSETBACK,25,theme_ == 1 ? RGB(100,80,25) : RGB(255,235,160)); editor.Call(SCI_MARKERSETALPHA,25,65); editor.SetReadOnly(TRUE);
     };
     const std::vector<TextLine> empty;
-    const bool active = model_ && !stale_ && !pasted_inputs_ && mode_ < 4;
     fill(source_left_,active ? model_->left : empty,source_left_path_);
     fill(source_right_,active ? model_->right : empty,source_right_path_);
     fill(source_base_,active && model_->three_way ? model_->base : empty,source_base_path_);
@@ -63,11 +90,18 @@ void CAdvancedCompareView::RefreshSources() {
         SourceGapPlan gaps;
         if (BuildSourceGaps(text_rows_,{model_->base.size(),model_->left.size(),model_->right.size()},model_->three_way,&gaps)) {
             source_aligned_ = true;
-            CCodeEditor* editors[] = {&source_base_,&source_left_,&source_right_};
             for (unsigned side = model_->three_way ? 0u : 1u; side < 3; ++side) for (const auto& gap : gaps[side]) { std::string text; text.reserve(gap.lines * 2); for (std::size_t i = 0; i < gap.lines; ++i) { if (i) text += '\n'; text += ' '; } editors[side]->Call(SCI_ANNOTATIONSETTEXT,gap.after_line,reinterpret_cast<LPARAM>(text.c_str())); editors[side]->Call(SCI_ANNOTATIONSETSTYLE,gap.after_line,250); }
         }
     }
-    ShowAnchorMarkers(); source_sync_ = false;
+    ShowAnchorMarkers();
+    if (!reload) for (unsigned i = 0; i < 3; ++i) {
+        const auto& p = positions[i]; auto& editor = *editors[i];
+        editor.Call(SCI_SETSEL,p.anchor,p.caret);
+        editor.Call(SCI_SETFIRSTVISIBLELINE,editor.Call(SCI_VISIBLEFROMDOCLINE,p.line) + p.subline);
+        editor.Call(SCI_SETXOFFSET,p.x); source_top_[i] = editor.Call(SCI_GETFIRSTVISIBLELINE);
+    }
+    sources_loaded_ = active; source_model_ = active ? model_ : std::shared_ptr<TextMergeModel>();
+    source_sync_ = false;
 }
 void CAdvancedCompareView::SourceChanged(unsigned side) {
     CCodeEditor* editors[] = {&source_base_,&source_left_,&source_right_}; auto& from = *editors[side];
@@ -75,17 +109,17 @@ void CAdvancedCompareView::SourceChanged(unsigned side) {
     source_sync_ = true;
     const auto top = from.Call(SCI_GETFIRSTVISIBLELINE); auto& previous = source_top_[side];
     if (top != previous) { previous = top; for (unsigned target = model_->three_way ? 0u : 1u; target < 3; ++target) if (target != side) editors[target]->Call(SCI_SETFIRSTVISIBLELINE,top); }
-    if (SideBySide()) {
+    if (SideBySide() && side > 0) {
         review_focus_ = &from;
         const auto line = from.OriginalLine(from.Call(SCI_LINEFROMPOSITION,from.Call(SCI_GETCURRENTPOS)));
-        for (std::size_t i = 0; i < visible_.size(); ++i) {
-            const auto& row = text_rows_[visible_[i]];
-            if ((side == 1 ? row.left : row.right) != line || context_rows_.hidden.count(visible_[i])) continue;
+        if (line != source_line_[side] && line >= 0 && static_cast<std::size_t>(line) < source_rows_[side - 1].size()) {
+            source_line_[side] = line; const auto i = source_rows_[side - 1][line];
+            if (i < visible_.size()) {
             if (!(rows_.GetItemState(static_cast<int>(i),LVIS_SELECTED) & LVIS_SELECTED)) {
                 rows_.SetItemState(-1,0,LVIS_SELECTED); rows_.SetItemState(static_cast<int>(i),LVIS_SELECTED | LVIS_FOCUSED,LVIS_SELECTED | LVIS_FOCUSED);
                 rows_.EnsureVisible(static_cast<int>(i),FALSE);
             }
-            break;
+            }
         }
     }
     source_sync_ = false;

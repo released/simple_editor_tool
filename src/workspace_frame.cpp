@@ -54,6 +54,8 @@ BEGIN_MESSAGE_MAP(CWorkspaceFrame, CFrameWnd)
     ON_COMMAND_RANGE(ID_WORKSPACE_RECENT_FIRST,ID_WORKSPACE_RECENT_LAST,OnRecentFile)
     ON_COMMAND_RANGE(ID_WORKSPACE_CLOSE_OTHERS,ID_WORKSPACE_MOVE_RIGHT,OnTabAction)
     ON_COMMAND(ID_WORKSPACE_PREFERENCES,OnPreferences)
+    ON_COMMAND(ID_WORKSPACE_RETRY_PREFERENCES,OnRetryPreferences)
+    ON_UPDATE_COMMAND_UI(ID_WORKSPACE_RETRY_PREFERENCES,OnUpdateRetryPreferences)
     ON_COMMAND_RANGE(ID_LANGUAGE_ENGLISH,ID_LANGUAGE_TRADITIONAL,OnLanguage)
     ON_COMMAND_RANGE(ID_EXPLORER_ADD,ID_EXPLORER_REMOVE,OnExplorerMenu)
     ON_UPDATE_COMMAND_UI_RANGE(ID_EXPLORER_ADD,ID_EXPLORER_REMOVE,OnUpdateExplorerMenu)
@@ -132,9 +134,17 @@ void CWorkspaceFrame::FocusActive() {
 void CWorkspaceFrame::OnSetFocus(CWnd* previous) { CFrameWnd::OnSetFocus(previous); FocusActive(); }
 void CWorkspaceFrame::OnGetMinMaxInfo(MINMAXINFO* info) { CFrameWnd::OnGetMinMaxInfo(info); info->ptMinTrackSize = {720, 480}; }
 CMainFrame* CWorkspaceFrame::CreateSession(bool activate) {
-    auto* session = new CMainFrame(false, this);
-    if (!session->GetSafeHwnd()) { delete session; return nullptr; }
-    session->workspace_session_id_ = ++next_session_id_; ApplyPreferencesToFrame(session); sessions_.push_back(session); sessions_tab_.InsertItem(static_cast<int>(sessions_.size()) - 1, L"New comparison");
+    CMainFrame* session = nullptr;
+    const auto discard = [&]() { if (!session) return; if (session->GetSafeHwnd()) session->DestroyWindow(); else delete session; session = nullptr; };
+    try {
+        sessions_.reserve(sessions_.size() + 1);
+        session = new CMainFrame(false,this);
+        if (!session->GetSafeHwnd()) { discard(); return nullptr; }
+        ApplyPreferencesToFrame(session);
+        if (sessions_tab_.InsertItem(static_cast<int>(sessions_.size()),L"New comparison") < 0) { discard(); return nullptr; }
+        session->workspace_session_id_ = ++next_session_id_; sessions_.push_back(session);
+    } catch (CException* error) { error->Delete(); discard(); return nullptr; }
+    catch (...) { discard(); return nullptr; }
     if (activate) ActivateSession(static_cast<int>(sessions_.size()) - 1); return session;
 }
 void CWorkspaceFrame::ActivateSession(int index) {
@@ -212,12 +222,12 @@ void CWorkspaceFrame::OpenDroppedFiles(HDROP drop) {
 }
 void CWorkspaceFrame::NewComparison(const std::wstring& left) { NewComparisonInputs(left,L"",L"",2); }
 void CWorkspaceFrame::NewComparison(const std::wstring& left, bool insertion_aware) { NewComparisonInputs(left,L"",L"",insertion_aware ? 0 : 1); }
-void CWorkspaceFrame::NewComparisonInputs(const std::wstring& left, const std::wstring& right, const std::wstring& base, int mode, bool run) {
-    CancelCloseAll(); auto* session = CreateSession(false); if (!session) return;
+CMainFrame* CWorkspaceFrame::NewComparisonInputs(const std::wstring& left, const std::wstring& right, const std::wstring& base, int mode, bool run) {
+    CancelCloseAll(); auto* session = CreateSession(false); if (!session) return nullptr;
     session->comparison_session_ = true; session->SetSaveReadOnly(false);
     session->SetComparisonPaths(left,right,mode); SetPathComboText(session->compare_base_path_,base);
     session->OnCompareModeChanged(); session->SetWindowTextW(L"New comparison - Simple Editor Tool");
-    ActivateSession(static_cast<int>(sessions_.size()) - 1); if (run) session->OnCompareRun(); RefreshLabels();
+    ActivateSession(static_cast<int>(sessions_.size()) - 1); if (run) session->OnCompareRun(); RefreshLabels(); return session;
 }
 bool CWorkspaceFrame::PathLocked(const std::wstring& path) const { return !path.empty() && locked_paths_.count(LockKey(path)) != 0; }
 bool CWorkspaceFrame::DocumentLocked(const simple_editor::core::BinaryDocument& document) const { return PathLocked(document.Path()) || (document.IsOpen() && locked_identities_.count(document.SourceIdentity()) != 0); }
@@ -275,6 +285,38 @@ std::unique_ptr<simple_editor::core::BinaryDocument> CWorkspaceFrame::SnapshotFo
     auto opened = std::make_unique<simple_editor::core::BinaryDocument>();
     if (!opened->Open(NormalPath(path), error)) return nullptr; return opened;
 }
+void CWorkspaceFrame::CaptureComparisonSources(CMainFrame* comparison,const std::vector<std::wstring>& paths) {
+    comparison->comparison_sources_.clear();
+    for (const auto& path : paths) {
+        if (path.empty()) continue;
+        CMainFrame::ComparisonSource version; version.path = path;
+        for (const auto* source : sessions_) if (!source->comparison_session_ && source->document_.IsOpen() &&
+            (SamePath(path,source->document_.Path()) || (source->untitled_ && source->untitled_name_ == path))) {
+            version.session = source->workspace_session_id_; version.revision = source->revision_; version.generation = source->text_.Generation(); break;
+        }
+        comparison->comparison_sources_.push_back(std::move(version));
+    }
+}
+bool CWorkspaceFrame::ComparisonSourcesCurrent(const CMainFrame* comparison) const {
+    for (const auto& version : comparison->comparison_sources_) {
+        bool found = !version.session;
+        for (const auto* source : sessions_) if (!source->comparison_session_ && source->document_.IsOpen()) {
+            if (version.session && source->workspace_session_id_ == version.session) {
+                found = source->revision_ == version.revision && source->text_.Generation() == version.generation; break;
+            }
+            if (!version.session && (SamePath(version.path,source->document_.Path()) || (source->untitled_ && version.path == source->untitled_name_))) found = false;
+        }
+        if (!found) return false;
+    }
+    return true;
+}
+void CWorkspaceFrame::NotifySourceChanged(CMainFrame* source) {
+    if (source->comparison_session_) return;
+    for (auto* comparison : sessions_) if (comparison->comparison_session_) for (const auto& version : comparison->comparison_sources_) {
+        if (version.session == source->workspace_session_id_ || SamePath(version.path,source->document_.Path()) ||
+            (source->untitled_ && version.path == source->untitled_name_)) { comparison->advanced_.SetSourcesChanged(true); break; }
+    }
+}
 bool CWorkspaceFrame::CloseSession(CMainFrame* session) {
     if (close_prompt_active_) return false;
     const auto found = std::find(sessions_.begin(), sessions_.end(), session); if (found == sessions_.end()) return false;
@@ -295,6 +337,7 @@ bool CWorkspaceFrame::CloseSession(CMainFrame* session) {
         if (!session->IsSaving()) CancelCloseAll(); return false;
     }
     const auto current = std::find(sessions_.begin(), sessions_.end(), session); if (current == sessions_.end()) return false;
+    NotifySourceChanged(session);
     CMainFrame* keep_active = active_session_ >= 0 && sessions_[active_session_] != session ? sessions_[active_session_] : nullptr;
     const int removed_index = static_cast<int>(current - sessions_.begin());
     if (closing_all_ && preferences_.auto_restore) { simple_editor::core::WorkspaceEntry entry; if (CaptureSession(session,&entry)) exit_workspace_[session->workspace_session_id_] = std::move(entry); else exit_workspace_.erase(session->workspace_session_id_); }
@@ -311,7 +354,16 @@ bool CWorkspaceFrame::CloseSession(CMainFrame* session) {
 void CWorkspaceFrame::OnClose() {
     if (workspace_dialog_ || recovery_modal_) return;
     if (preferences_io_.valid()) { preferences_close_pending_ = true; return; }
-    if (preferences_dirty_ && StartPreferenceWrite()) { preferences_close_pending_ = true; return; }
+    if (preferences_dirty_ && !preferences_path_.empty() && !preferences_skip_close_) {
+        if (preferences_failed_) {
+            workspace_dialog_ = true;
+            const auto answer = UiMessageBox(L"Some preferences have not been saved. Retry before closing? Choose No to close without saving preferences.",MB_YESNOCANCEL | MB_ICONWARNING);
+            workspace_dialog_ = false;
+            if (answer == IDCANCEL) return;
+            if (answer == IDNO) preferences_skip_close_ = true;
+        }
+        if (!preferences_skip_close_) { if (StartPreferenceWrite()) preferences_close_pending_ = true; return; }
+    }
     if (workspace_io_.valid()) { workspace_close_pending_ = true; return; }
     if (recovery_io_.valid()) { recovery_close_pending_ = true; return; }
     if (!closing_all_ && preferences_.auto_restore) { exit_workspace_.clear(); exit_order_.clear(); for (auto* frame : sessions_) { exit_order_.push_back(frame->workspace_session_id_); simple_editor::core::WorkspaceEntry entry; if (CaptureSession(frame,&entry)) exit_workspace_[frame->workspace_session_id_] = std::move(entry); } }
