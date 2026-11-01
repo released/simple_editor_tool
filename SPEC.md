@@ -2,6 +2,14 @@
 
 ## Current Scope
 
+- New .hex files, regardless of extension case, open as raw-byte Hex dumps even
+  when their contents are printable text. Other extensions retain normal decoding
+  rules. Existing sessions and explicit workspace page/layout choices are retained.
+  Normal file Hex defaults to 32 bytes/row with address / Hex / character columns;
+  comparison pane widths remain independent. Addresses display grouped digits
+  (0007_B000, or 0000_0001_0000_0000 above 32 bits). Formatting does not decode
+  textual Hex/Intel HEX, rewrite source bytes or change physical byte offsets.
+
 - Normal document tabs display an editing lock and X close action beside their
   filename. The lock toggles this session's Text/shared Text/Hex read-only state
   without committing text, saving or replacing Undo. Busy/sync locks cannot be

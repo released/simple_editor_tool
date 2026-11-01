@@ -1,5 +1,42 @@
 # Handoff
 
+## Filename-based Hex dump view (2026-11-01)
+
+- User clarified recognition is by .hex filename extension, case insensitive.
+  Do not guess/decode hexadecimal-looking text under other extensions or reinterpret
+  Intel HEX records. Preserve raw bytes, explicit Text choice and workspace restore.
+- Plan/implementation: shared filename predicate for workspace/standalone opens;
+  regular file Hex defaults to 32 bytes (comparison panes retain 16); grouped
+  8/16-digit addresses, e.g. 0007_B000, with shared paint/hit/scroll geometry.
+  Preserve explicit row/group/base, editing/Undo, per-session zoom and viewport reads.
+- Implemented and verified. Source: core/document_kind.h,
+  ui/hex_address.h, hex_view.cpp, main_frame.cpp, workspace_frame.cpp. New UI mode
+  --hex-dump; affected zoom/clipboard/cross-row fixtures use actual geometry or
+  explicit 16-byte rows. Fresh owned run: artifacts/hex-dump-20261101; concise
+  ownership/results: docs/verification/hex-dump-20261101.json. No raw log copies.
+- PASS: 17 distinct configuration/mode groups: Debug/Release hex-dump, zoom,
+  hex-tools, workflows, workspace, text-workflow, async-save and tab-actions;
+  canonical Release workspace-process. Six unchanged Release caller groups are
+  reused from the earlier test binary; the subsequent change only corrected the
+  test's hard-coded ASCII column. Product sources remained unchanged. Early stale
+  Debug EOL assertion and old test-coordinate failures are superseded explicitly.
+- Native 32-byte image inspected at 100% content zoom / current 125% display DPI:
+  docs/verification/hex-dump-20261101.png. Grouped 32/64-bit addresses, Hex/ASCII
+  hit positions, real edits/copy/Undo and explicit restored layouts are verified.
+  Formatter changes remain presentation-only; raw source/physical offsets persist.
+- Canonical EXE: 4,013,056 bytes, SHA256
+  599509DA3C4ECABC6AFCB79E7CAB17A190F8109BF5FEE42EA11B5C2C48E697DE.
+  User INI matches the entry baseline; no new runtime/dependency or compiler flag.
+  x64/static MFC/CRT/system imports and ASLR/NX verified. No commit/publication.
+- Current batch clean PASS: 677 compiler files and 8 reviewed outputs retired;
+  no test EXE/symbol, owned run or fixture remains. All 756 protected files matched
+  immediately before/after cleaning, before later authorized documentation/repack
+  updates. Existing 166 files / 3,209,501 bytes from rejected prior cleanups remain
+  unchanged; no alternate deletion or retention exception. Complete-folder 20 MB
+  budget remains unmet. Approved lossless repack preserved all 1,004 object IDs,
+  3 refs and 4 reflog hashes while reducing 28 new loose objects; Git is 8,705,823
+  bytes. Do not repeat rejected deletes or remove protected history/data for size.
+
 ## Document tab lock/close actions (2026-11-01)
 
 - Authorized user request: lock and X glyphs beside each document-tab filename,

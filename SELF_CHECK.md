@@ -1,5 +1,33 @@
 # Self Check
 
+## Filename-based Hex dump view (2026-11-01)
+
+- PASS: .hex extension matching is case insensitive; printable .hex opens as raw
+  bytes on Hex, while other extensions, existing-session pages and explicitly
+  restored Text/row/group/base choices retain their behavior. Normal file Hex
+  defaults to 32 bytes/row; comparison panes remain independent at 16 by default.
+- PASS: grouped 8/16-digit addresses match the requested dump layout; painting,
+  Hex/ASCII hit testing, custom 8/16/32 rows, 64-bit display bases, real byte edit,
+  clipboard copy and Undo remain tied to physical offsets. No implicit conversion
+  or save. Native image inspected at current 125% display DPI / 100% content zoom.
+- PASS: 17 distinct selected groups (eight per native Debug/Release plus formal
+  process smoke). Six unchanged Release groups use explicitly reused earlier
+  test-binary evidence after a test-only numeric-coordinate fix; final focused
+  checks use the rebuilt binaries. Early stale Debug LF/CRLF assertion and old
+  hard-coded ASCII position failures are explained and superseded in the record.
+  Core storage/search/firmware parsing was unchanged; prior core evidence reused.
+- PASS: canonical Release x64/static MFC/CRT, system imports and ASLR/NX retained;
+  personal INI unchanged. No language catalog or runtime dependency change.
+- TST-01 current batch PASS: 677 compiler files, 8 reviewed outputs removed;
+  owned run and all test binaries absent. All 756 protected file hashes matched
+  across cleaning; unchanged cleanup-helper boundary evidence reused. Synthetic
+  failed/passing runs self-cleaned, with compact results and one native image.
+- Overall TST-01 PARTIAL / TST-02 NOT PASSED: prior blocked 166 files / 3,209,501
+  bytes remain, without bypass/retention exception; project still exceeds 20 MB.
+  Authorized Git repack preserved every object ID/ref/reflog hash. Exact final
+  scope, versioned results, source hashes, cleanup and size measurements:
+  docs/verification/hex-dump-20261101.json.
+
 ## Document tab lock and X actions (2026-11-01)
 
 - PASS: normal/inactive document lock updates only that session's Text/shared

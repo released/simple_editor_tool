@@ -92,6 +92,9 @@ window. Each file has its own workspace tab. Opening another file retains existi
 tabs; opening the same path activates its existing editor. Decodable text within
 the editing bound opens on **Text**. Binary and oversized inputs use **Hex**.
 The application starts maximized.
+Files with a `.hex` extension (case insensitive) open directly on **Hex**, including
+printable text files. You can select **Text** explicitly; existing-session activation
+and explicit restored workspace views retain their selected page.
 
 **New text file** and **New from Unicode clipboard** create untitled documents;
 the first Save uses Save As. Close a tab with the **X** beside its filename, **Close tab**, `Ctrl+W`,
@@ -161,7 +164,11 @@ See [Multi-file search](MULTI_FILE_SEARCH.md).
 
 ## 5. Editing and navigating hexadecimal data
 
-Hex displays physical offsets, bytes and ASCII/decoded characters. Choose
+Hex displays address, Hex bytes and ASCII/decoded characters from left to right.
+Normal file views default to 32 bytes per row. Addresses use four-digit groups,
+such as `0007_B000`, and retain all 16 digits above 32 bits. They represent physical
+file offsets plus the display base; textual Hex/Intel HEX records are not implicitly
+decoded into a different binary. Choose
 8/16/32 bytes per row, grouping and a display base address. Display bases do not
 change physical file offsets.
 

@@ -17,6 +17,13 @@ This is a native Windows MFC text, hexadecimal, and binary comparison editor.
 
 ## Local Rules
 
+- New .hex files (extension, case insensitive) open on Hex without text decoding;
+  other files retain content-based defaults. Keep existing/explicit restored page
+  choices and raw bytes. Normal file Hex starts at 32 bytes/row; comparison panes
+  and restored/custom layouts remain independent. Group display address digits in
+  fours; all painted/hit/scroll columns must account for separators. Focused native
+  check: --hex-dump plus zoom, Hex editing, workspace and affected decoding paths.
+
 - Document-tab lock/X actions reuse session read-only and CloseSession safety.
   Locking must not commit a native draft or replace selection/Undo; retain busy
   locks, independent tabs, middle-click and drag reordering. Comparison tabs use

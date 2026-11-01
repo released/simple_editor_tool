@@ -26,6 +26,8 @@
 #include "../src/ui/statistics_dialog.h"
 #include "../src/ui/conversion_dialog.h"
 #include "../src/ui/localization.h"
+#include "../src/core/document_kind.h"
+#include "../src/ui/hex_address.h"
 
 int RunWorkspaceProcessTests(const std::filesystem::path& root, const std::filesystem::path& executable);
 int RunExplorerProcessTests(const std::filesystem::path& root, const std::filesystem::path& executable);
@@ -62,6 +64,7 @@ public:
 #include "native_compare_notice_ui.inc"
 #include "native_reliability_ui.inc"
 #include "native_tab_actions_ui.inc"
+#include "native_hex_dump_ui.inc"
     static int RunCodeEditor(const std::filesystem::path& root) {
         int failures = 0; const auto check = [&](bool ok,const wchar_t* label) { std::wcout << (ok ? L"PASS: " : L"FAIL: ") << label << L'\n'; if (!ok) ++failures; };
         auto* frame = new CMainFrame(false); AfxGetApp()->m_pMainWnd = frame;
@@ -345,10 +348,10 @@ public:
             CClientDC dc(&frame->hex_); CFont expected; expected.CreatePointFont(200, L"Consolas", &dc);
             auto* old_font = dc.SelectObject(&expected); dc.GetTextMetrics(&metrics); dc.SelectObject(old_font);
         }
-        const int x = 8 + 19 * metrics.tmAveCharWidth + 1;
+        const int x = 8 + frame->hex_.HexColumn(3) * metrics.tmAveCharWidth + 1;
         const int y = 2 * (metrics.tmHeight + 6) + 1;
         frame->hex_.SendMessage(WM_LBUTTONDOWN, 0, MAKELPARAM(x, y));
-        check(frame->hex_.CursorOffset() == (top + 2) * 16 + 3, L"zoomed Hex hit testing selects the painted byte"); frame->hex_.SendMessage(WM_LBUTTONUP,0,MAKELPARAM(x,y));
+        check(frame->hex_.CursorOffset() == (top + 2) * frame->hex_.BytesPerRow() + 3, L"zoomed Hex hit testing selects the painted byte"); frame->hex_.SendMessage(WM_LBUTTONUP,0,MAKELPARAM(x,y));
         const auto ordinary_hex = frame->hex_.TopRow(); wheel(frame->hex_, -120, 0);
         check(frame->hex_.TopRow() > ordinary_hex && status() == L"Zoom: 200%", L"ordinary wheel scrolls Hex without changing the zoom percentage");
         const auto scroll_before = frame->hex_.TopRow(); wheel(frame->hex_, -120, MK_SHIFT);
@@ -708,11 +711,12 @@ public:
         std::vector<std::uint8_t> original(64); for (unsigned i = 0; i < original.size(); ++i) original[i] = static_cast<std::uint8_t>(i);
         const auto path = root / L"hex-tools.bin", right = root / L"right.bin"; Write(path,original);
         auto* frame = new CMainFrame(false); AfxGetApp()->m_pMainWnd = frame; frame->SetWindowPos(nullptr,0,0,1400,900,SWP_NOACTIVATE | SWP_NOZORDER); frame->OpenPath(path.wstring()); frame->ShowPage(0);
+        frame->hex_.SetLayout(16,8,0);
         CHexView::ClipboardContent private_clipboard;
         frame->hex_.clipboard_access = [&](bool write,CHexView::ClipboardContent& content) { if (write) private_clipboard = content; else { const bool text = content.want_text; content = private_clipboard; content.want_text = text; } return true; };
         std::wcout << L"INFO: Clipboard operations use an isolated per-control store; native OS clipboard transport is not exercised.\n";
         TEXTMETRIC metrics{}; { CClientDC dc(&frame->hex_); CFont font; font.CreatePointFont(100,L"Consolas",&dc); auto* old = dc.SelectObject(&font); dc.GetTextMetrics(&metrics); dc.SelectObject(old); }
-        const auto point = [&](unsigned offset) { const auto column = offset % 16; return CPoint(8 + static_cast<int>(10 + column * 3 + (column >= 8 ? 1 : 0)) * metrics.tmAveCharWidth + 1,static_cast<int>(offset / 16) * (metrics.tmHeight + 3) + 1); };
+        const auto point = [&](unsigned offset) { const auto column = offset % frame->hex_.BytesPerRow(); return CPoint(8 + frame->hex_.HexColumn(column) * metrics.tmAveCharWidth + 1,static_cast<int>(offset / frame->hex_.BytesPerRow()) * (metrics.tmHeight + 3) + 1); };
         const auto drag = [&](unsigned start,unsigned end) { const auto a = point(start), b = point(end); frame->hex_.SendMessage(WM_LBUTTONDOWN,MK_LBUTTON,MAKELPARAM(a.x,a.y)); frame->hex_.SendMessage(WM_MOUSEMOVE,MK_LBUTTON,MAKELPARAM(b.x,b.y)); frame->hex_.SendMessage(WM_LBUTTONUP,0,MAKELPARAM(b.x,b.y)); };
         drag(2,20); check(frame->hex_.SelectionStart() == 2 && frame->hex_.SelectionLength() == 19,L"mouse selection spans Hex rows and includes both endpoints");
         drag(20,2); check(frame->hex_.SelectionStart() == 2 && frame->hex_.SelectionLength() == 19,L"reverse Hex drag retains the same selected range");
@@ -732,7 +736,7 @@ public:
         check(frame->hex_.SelectionStart() == 3 && frame->hex_.SelectionLength() == 16,L"Shift+arrow selection spans byte rows");
         frame->SetSaveReadOnly(true); frame->hex_.SelectRange(0,2); check(frame->hex_.Clipboard(ID_HEX_COPY) && !frame->hex_.Clipboard(ID_HEX_PASTE_WRITE) && !frame->hex_.DeleteSelection(),L"read-only Hex allows copying and blocks all byte mutations"); frame->SetSaveReadOnly(false);
         frame->hex_.GoTo(0); frame->hex_.SendMessage(WM_KEYDOWN,VK_BACK); check(Read(frame) == original,L"Backspace at offset zero preserves the first byte");
-        const int ascii_x = 8 + (61 + 5) * metrics.tmAveCharWidth + 1;
+        const int ascii_x = 8 + (frame->hex_.HexColumn(frame->hex_.BytesPerRow()) + 2 + 5) * metrics.tmAveCharWidth + 1;
         frame->hex_.SendMessage(WM_LBUTTONDOWN,0,MAKELPARAM(ascii_x,1)); frame->hex_.SendMessage(WM_LBUTTONUP,0,MAKELPARAM(ascii_x,1)); frame->hex_.SendMessage(WM_CHAR,'Z');
         check(frame->hex_.AsciiMode() && Read(frame)[5] == 'Z',L"ASCII-column hit testing and typing write the clicked byte"); frame->OnUndo();
         frame->hex_.GoTo(0); frame->hex_.SendMessage(WM_CHAR,0xD83D); frame->hex_.SendMessage(WM_CHAR,0xDE00);
@@ -826,6 +830,7 @@ int wmain(int argc, wchar_t** argv) {
         if (argc != 3) { std::wcerr << L"Usage: NativeUiTests.exe --workspace-process <formal-exe>\n"; failures = 1; }
         else failures += RunWorkspaceProcessTests(name, std::filesystem::absolute(argv[2]));
     }
+    else if (mode == L"--hex-dump") failures += NativeUiTest::RunHexDump(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--tab-actions") failures += NativeUiTest::RunTabActions(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--reliability") failures += NativeUiTest::RunReliability(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--compare-page") failures += NativeUiTest::RunComparePage(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());

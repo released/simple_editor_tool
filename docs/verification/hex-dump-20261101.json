@@ -1,0 +1,509 @@
+﻿{
+    "scope":  "Case-insensitive .hex filename routing and address/bytes/ASCII dump layout",
+    "baseline":  {
+                     "ini_sha256":  "2EE710BBAFA81627A5FDE9C685C54829E372CC750F466361BCFBA9FDBEED174E",
+                     "exe_sha256":  "6AF6B3A071879718AFE204235BC20D12BBFD14D243D107CB691360C5097E91EC"
+                 },
+    "owned_run":  "artifacts/hex-dump-20261101",
+    "date":  "2026-11-01T22:50:47.2484649+08:00",
+    "tests":  [
+                  {
+                      "output":  [
+                                     "FAIL: explicit Text choice and existing-session activation retain the original Hex text buffer",
+                                     "METRIC dump_bytes_per_row=32 screenshot_zoom=100 viewport_width=1523",
+                                     "FAIL: native MFC UI tests"
+                                 ],
+                      "configuration":  "Debug",
+                      "binary_sha256":  "3FE3544A0AF6681846D945649303478B38FFABB4A5F2003B24529F95F1B90985",
+                      "pass_lines":  20,
+                      "metrics":  [
+                                      "METRIC dump_bytes_per_row=32 screenshot_zoom=100 viewport_width=1523"
+                                  ],
+                      "exit":  1,
+                      "mode":  "hex-dump",
+                      "superseded_by":  "Debug hex-dump-final"
+                  },
+                  {
+                      "output":  [
+                                     "PASS: only the final .hex extension selects the filename-based Hex view, without case sensitivity",
+                                     "PASS: dump addresses group hexadecimal digits in fours without truncating 64-bit values",
+                                     "PASS: initialize native Hex dump localization",
+                                     "PASS: a printable .hex file opens directly as a 32-byte dump of the original bytes, without decoding or rewriting its text",
+                                     "PASS: explicit Text choice and existing-session activation retain the original Hex text buffer",
+                                     "PASS: hexadecimal-looking text with another extension retains normal Text opening",
+                                     "PASS: new file Hex dumps default to 32 bytes while side-by-side comparison widths stay independent",
+                                     "PASS: the address separator occupies its own column before the first byte",
+                                     "PASS: Hex hit testing remains tied to physical bytes with grouped addresses and custom row widths",
+                                     "PASS: ASCII hit testing remains aligned with the corresponding Hex byte",
+                                     "PASS: Hex hit testing remains tied to physical bytes with grouped addresses and custom row widths",
+                                     "PASS: ASCII hit testing remains aligned with the corresponding Hex byte",
+                                     "PASS: Hex hit testing remains tied to physical bytes with grouped addresses and custom row widths",
+                                     "PASS: ASCII hit testing remains aligned with the corresponding Hex byte",
+                                     "PASS: 64-bit display bases reserve every address column without changing source bytes",
+                                     "PASS: editing a painted byte uses its physical offset and does not implicitly save",
+                                     "PASS: one Undo restores the edited byte after the layout change",
+                                     "PASS: copy uses original byte values rather than formatted addresses or ASCII characters",
+                                     "METRIC dump_bytes_per_row=32 screenshot_zoom=100 viewport_width=1523",
+                                     "PASS: explicit restored page, row width, grouping and base take precedence over new-open defaults",
+                                     "PASS: standalone open/reload callers use the same filename-based Hex routing",
+                                     "PASS: native MFC UI tests"
+                                 ],
+                      "configuration":  "Release",
+                      "binary_sha256":  "4B8815097B81800631F1CEAAAAC1E19A3D163B4E7B52525A35705C43BFEDB53D",
+                      "pass_lines":  21,
+                      "metrics":  [
+                                      "METRIC dump_bytes_per_row=32 screenshot_zoom=100 viewport_width=1523"
+                                  ],
+                      "exit":  0,
+                      "mode":  "hex-dump"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Release",
+                      "binary_sha256":  "4B8815097B81800631F1CEAAAAC1E19A3D163B4E7B52525A35705C43BFEDB53D",
+                      "pass_lines":  52,
+                      "exit":  0,
+                      "mode":  "zoom"
+                  },
+                  {
+                      "failure_excerpt":  [
+                                              "FAIL: ASCII-column hit testing and typing write the clicked byte",
+                                              "FAIL: native MFC UI tests"
+                                          ],
+                      "configuration":  "Release",
+                      "binary_sha256":  "4B8815097B81800631F1CEAAAAC1E19A3D163B4E7B52525A35705C43BFEDB53D",
+                      "pass_lines":  24,
+                      "exit":  1,
+                      "mode":  "hex-tools",
+                      "superseded_by":  "Release hex-tools-final"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Release",
+                      "binary_sha256":  "4B8815097B81800631F1CEAAAAC1E19A3D163B4E7B52525A35705C43BFEDB53D",
+                      "pass_lines":  38,
+                      "exit":  0,
+                      "mode":  "workflows"
+                  },
+                  {
+                      "failure_excerpt":  [
+                                              "PASS: failed open preserves every existing session and unsaved draft",
+                                              "PASS: save failure aborts workspace exit and retains all tabs and edits"
+                                          ],
+                      "configuration":  "Release",
+                      "binary_sha256":  "4B8815097B81800631F1CEAAAAC1E19A3D163B4E7B52525A35705C43BFEDB53D",
+                      "pass_lines":  36,
+                      "exit":  0,
+                      "mode":  "workspace"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Release",
+                      "binary_sha256":  "4B8815097B81800631F1CEAAAAC1E19A3D163B4E7B52525A35705C43BFEDB53D",
+                      "pass_lines":  47,
+                      "exit":  0,
+                      "mode":  "text-workflow"
+                  },
+                  {
+                      "failure_excerpt":  [
+                                              "PASS: failed save cancels deferred close and retains document",
+                                              "PASS: failed background save preserves locked destination",
+                                              "PASS: Undo/Redo and retry work after failed background save",
+                                              "PASS: failed save cancels deferred Open",
+                                              "PASS: retry source save after deferred Open failure"
+                                          ],
+                      "configuration":  "Release",
+                      "binary_sha256":  "4B8815097B81800631F1CEAAAAC1E19A3D163B4E7B52525A35705C43BFEDB53D",
+                      "pass_lines":  33,
+                      "exit":  0,
+                      "mode":  "async-save"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Release",
+                      "binary_sha256":  "4B8815097B81800631F1CEAAAAC1E19A3D163B4E7B52525A35705C43BFEDB53D",
+                      "pass_lines":  27,
+                      "exit":  0,
+                      "mode":  "tab-actions"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Debug",
+                      "binary_sha256":  "6B432C51C22882A847066745C88EA18A2BC24266E0A4408AD1CC060629965676",
+                      "pass_lines":  22,
+                      "metrics":  [
+                                      "METRIC dump_bytes_per_row=32 screenshot_zoom=100 viewport_width=1523"
+                                  ],
+                      "exit":  0,
+                      "mode":  "hex-dump-final"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Debug",
+                      "binary_sha256":  "6B432C51C22882A847066745C88EA18A2BC24266E0A4408AD1CC060629965676",
+                      "pass_lines":  52,
+                      "metrics":  [
+
+                                  ],
+                      "exit":  0,
+                      "mode":  "zoom-final"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Debug",
+                      "binary_sha256":  "6B432C51C22882A847066745C88EA18A2BC24266E0A4408AD1CC060629965676",
+                      "pass_lines":  26,
+                      "metrics":  [
+
+                                  ],
+                      "exit":  0,
+                      "mode":  "hex-tools-final"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Debug",
+                      "binary_sha256":  "6B432C51C22882A847066745C88EA18A2BC24266E0A4408AD1CC060629965676",
+                      "pass_lines":  38,
+                      "metrics":  [
+
+                                  ],
+                      "exit":  0,
+                      "mode":  "workflows-final"
+                  },
+                  {
+                      "failure_excerpt":  [
+                                              "PASS: failed open preserves every existing session and unsaved draft",
+                                              "PASS: save failure aborts workspace exit and retains all tabs and edits"
+                                          ],
+                      "configuration":  "Debug",
+                      "binary_sha256":  "6B432C51C22882A847066745C88EA18A2BC24266E0A4408AD1CC060629965676",
+                      "pass_lines":  36,
+                      "metrics":  [
+
+                                  ],
+                      "exit":  0,
+                      "mode":  "workspace-final"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Debug",
+                      "binary_sha256":  "6B432C51C22882A847066745C88EA18A2BC24266E0A4408AD1CC060629965676",
+                      "pass_lines":  47,
+                      "metrics":  [
+
+                                  ],
+                      "exit":  0,
+                      "mode":  "text-workflow-final"
+                  },
+                  {
+                      "failure_excerpt":  [
+                                              "PASS: failed save cancels deferred close and retains document",
+                                              "PASS: failed background save preserves locked destination",
+                                              "PASS: Undo/Redo and retry work after failed background save",
+                                              "PASS: failed save cancels deferred Open",
+                                              "PASS: retry source save after deferred Open failure"
+                                          ],
+                      "configuration":  "Debug",
+                      "binary_sha256":  "6B432C51C22882A847066745C88EA18A2BC24266E0A4408AD1CC060629965676",
+                      "pass_lines":  33,
+                      "metrics":  [
+
+                                  ],
+                      "exit":  0,
+                      "mode":  "async-save-final"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Debug",
+                      "binary_sha256":  "6B432C51C22882A847066745C88EA18A2BC24266E0A4408AD1CC060629965676",
+                      "pass_lines":  27,
+                      "metrics":  [
+                                      "METRIC interface_dpi=120 tab_height=27 tab_width=224 caption_width=148 caption_room=150"
+                                  ],
+                      "exit":  0,
+                      "mode":  "tab-actions-final"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Release",
+                      "binary_sha256":  "99B62941EF87E66EAE170F90703B0B1024C4E900A56307DA08D5894493A72A92",
+                      "pass_lines":  21,
+                      "metrics":  [
+                                      "METRIC dump_bytes_per_row=32 screenshot_zoom=100 viewport_width=1523"
+                                  ],
+                      "exit":  0,
+                      "mode":  "hex-dump-final"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Release",
+                      "binary_sha256":  "99B62941EF87E66EAE170F90703B0B1024C4E900A56307DA08D5894493A72A92",
+                      "pass_lines":  26,
+                      "metrics":  [
+
+                                  ],
+                      "exit":  0,
+                      "mode":  "hex-tools-final"
+                  },
+                  {
+                      "output":  [
+                                     "PASS: isolate formal EXE copies without user settings",
+                                     "PASS: formal and renamed EXE copies match every source byte",
+                                     "PASS: start concurrent formal and renamed instances with several file paths",
+                                     "PASS: concurrent launches publish exactly one normal workspace",
+                                     "PASS: secondary forwards all paths and duplicate activation retains three file tabs",
+                                     "PASS: ready formal workspace starts maximized",
+                                     "PASS: renamed-copy forwarding creates no second top-level workspace",
+                                     "PASS: formal Close tab removes only the explicitly selected file",
+                                     "PASS: formal multi-session workspace closes normally with exit zero",
+                                     "PASS: relaunch the renamed formal EXE after normal close",
+                                     "PASS: normal close releases the singleton for the next workspace",
+                                     "PASS: relaunched formal workspace shuts down normally",
+                                     "PASS: native MFC UI tests"
+                                 ],
+                      "configuration":  "Release formal",
+                      "binary_sha256":  "99B62941EF87E66EAE170F90703B0B1024C4E900A56307DA08D5894493A72A92",
+                      "pass_lines":  13,
+                      "exit":  0,
+                      "formal_sha256":  "599509DA3C4ECABC6AFCB79E7CAB17A190F8109BF5FEE42EA11B5C2C48E697DE",
+                      "mode":  "workspace-process"
+                  }
+              ],
+    "status":  "Feature PASS; current batch clean; overall residual cleanup and 20 MB budget still incomplete",
+    "resolved_verification_findings":  [
+                                           "Initial Debug native_ui_tests.obj timestamp 22:58:50 preceded the included test EOL-adapter assertion update at 22:59:26. Incremental rebuild selected before acceptance.",
+                                           "An old Hex clipboard fixture used literal ASCII column 61; grouped addresses move that boundary. The fixture now uses the shared painted geometry and keeps an explicit 16-byte cross-row case. Product source unchanged by these test-only corrections."
+                                       ],
+    "cleanup":  {
+                    "purge_reviewed_mib":  93.08,
+                    "old_residuals":  "166 files / 3209501 bytes from previous rejected batches; unchanged, no retry or bypass",
+                    "fixtures":  "Synthetic pass/fail inputs cleaned by native runner; fresh project-local run only",
+                    "clean_removed_files":  677,
+                    "purge_reviewed_files":  8,
+                    "preservation":  {
+                                         "scope":  "All non-artifact files except evolving evidence JSON; checked before later authorized documentation/repack updates",
+                                         "pass":  true,
+                                         "manifest_sha256":  "1A8EBC3836A08A57759B0867003D98A8E00FEBF18F539C97FAC881FD2213B232",
+                                         "files":  756
+                                     },
+                    "current_batch_pass":  true,
+                    "owned_run_absent":  true,
+                    "test_outputs_remaining":  0,
+                    "final_size":  {
+                                       "pass":  false,
+                                       "limit_bytes":  20000000,
+                                       "files":  895,
+                                       "decimal_mb":  24.802389,
+                                       "skipped_paths":  0,
+                                       "breakdown":  [
+                                                         {
+                                                             "bytes":  268705,
+                                                             "path":  "\u003croot\u003e"
+                                                         },
+                                                         {
+                                                             "bytes":  8705823,
+                                                             "path":  ".git"
+                                                         },
+                                                         {
+                                                             "bytes":  3209501,
+                                                             "path":  "artifacts"
+                                                         },
+                                                         {
+                                                             "bytes":  4149055,
+                                                             "path":  "build"
+                                                         },
+                                                         {
+                                                             "bytes":  2092206,
+                                                             "path":  "docs"
+                                                         },
+                                                         {
+                                                             "bytes":  20567,
+                                                             "path":  "scripts"
+                                                         },
+                                                         {
+                                                             "bytes":  1455816,
+                                                             "path":  "src"
+                                                         },
+                                                         {
+                                                             "bytes":  615531,
+                                                             "path":  "tests"
+                                                         },
+                                                         {
+                                                             "bytes":  4285185,
+                                                             "path":  "vendor"
+                                                         }
+                                                     ],
+                                       "bytes":  24802389,
+                                       "includes":  "hidden/ignored/Git/vendor/delivery/artifacts"
+                                   }
+                },
+    "git_repack":  {
+                       "before_bytes":  10238812,
+                       "authorization":  "Existing lossless repack approval",
+                       "refs":  3,
+                       "objects":  1004,
+                       "reason":  "Post-clean budget audit found 28 new loose objects",
+                       "after_bytes":  8705823,
+                       "reflogs":  4,
+                       "preservation":  "All object IDs, refs and reflog hashes identical"
+                   },
+    "accepted_configuration_modes":  [
+                                         "Debug|async-save",
+                                         "Debug|hex-dump",
+                                         "Debug|hex-tools",
+                                         "Debug|tab-actions",
+                                         "Debug|text-workflow",
+                                         "Debug|workflows",
+                                         "Debug|workspace",
+                                         "Debug|zoom",
+                                         "Release formal|workspace-process",
+                                         "Release|async-save",
+                                         "Release|hex-dump",
+                                         "Release|hex-tools",
+                                         "Release|tab-actions",
+                                         "Release|text-workflow",
+                                         "Release|workflows",
+                                         "Release|workspace",
+                                         "Release|zoom"
+                                     ],
+    "final_pass_groups":  17,
+    "builds":  [
+                   "scripts/build_release.bat: portable Release x64 PASS",
+                   "NativeUiTests.vcxproj: Debug x64 PASS",
+                   "NativeUiTests.vcxproj: Release x64 PASS"
+               ],
+    "formal":  {
+                   "security":  [
+                                    "High entropy ASLR",
+                                    "Dynamic base",
+                                    "NX compatible"
+                                ],
+                   "architecture":  "x64 / Unicode / static MFC / static CRT",
+                   "imports":  "Windows system DLLs only",
+                   "ini_sha256":  "2EE710BBAFA81627A5FDE9C685C54829E372CC750F466361BCFBA9FDBEED174E",
+                   "path":  "build/SimpleEditorTool.exe",
+                   "ini_unchanged":  true,
+                   "bytes":  4013056,
+                   "sha256":  "599509DA3C4ECABC6AFCB79E7CAB17A190F8109BF5FEE42EA11B5C2C48E697DE"
+               },
+    "screenshot":  {
+                       "path":  "docs/verification/hex-dump-20261101.png",
+                       "sha256":  "797BC9B5AB7E4C8CDBA8F3564CF76EA23DC3588FA08BB58AC91F34443DD992C0",
+                       "inspected":  true,
+                       "content_zoom":  100,
+                       "display_dpi":  120
+                   },
+    "verification_reuse":  [
+                               "Six unchanged Release caller groups ran before the final test-only ASCII point correction; no product source changed after those passes. Final focused Hex tests ran on both rebuilt configurations.",
+                               "Core storage/search/firmware codecs unchanged: reuse prior acceptance, no unrelated full-suite run.",
+                               "Cleanup helpers unchanged: earlier boundary/reparse/preservation verifier evidence reused.",
+                               "Other display DPI/theme/accessibility combinations not exhaustively tested.",
+                               "Filename routing displays raw bytes; no textual Hex/Intel HEX decoding, source mutation or implicit save."
+                           ],
+    "final_changed_inputs":  [
+                                 {
+                                     "path":  "AGENTS.md",
+                                     "sha256":  "C8C085A4717AF22EEB69B5E87C804C4599FCCA3C4EFBE2EC4B666E2BEBBD0B0F",
+                                     "bytes":  17128
+                                 },
+                                 {
+                                     "path":  "build/SimpleEditorTool.exe",
+                                     "sha256":  "599509DA3C4ECABC6AFCB79E7CAB17A190F8109BF5FEE42EA11B5C2C48E697DE",
+                                     "bytes":  4013056
+                                 },
+                                 {
+                                     "path":  "docs/USER_GUIDE.md",
+                                     "sha256":  "43406F1812E3C68558D537255FBAEED1787346DF66C5D8B369F611E0D1258A39",
+                                     "bytes":  27232
+                                 },
+                                 {
+                                     "path":  "docs/USER_GUIDE_EN.md",
+                                     "sha256":  "7F627E00D775756F9C9761D8CCE9C11536C53B3F83541FC61227C2A6A4D9AB71",
+                                     "bytes":  28266
+                                 },
+                                 {
+                                     "path":  "docs/verification/hex-dump-20261101.png",
+                                     "sha256":  "797BC9B5AB7E4C8CDBA8F3564CF76EA23DC3588FA08BB58AC91F34443DD992C0",
+                                     "bytes":  125478
+                                 },
+                                 {
+                                     "path":  "HANDOFF.md",
+                                     "sha256":  "E8B8FAAD49465C68E3C5F54E035504A7967972F98F0EEF0D2779076CF272DD1C",
+                                     "bytes":  96211
+                                 },
+                                 {
+                                     "path":  "SELF_CHECK.md",
+                                     "sha256":  "550002B33C4DDCF5A714FA0421878A6FCB36AE932F8303957CE5D2FE208BABE5",
+                                     "bytes":  69115
+                                 },
+                                 {
+                                     "path":  "SPEC.md",
+                                     "sha256":  "1DCBEC2BDCEC12A7AAD329D35B0E7EA21DD8617A687DE27245463FDE25543E9C",
+                                     "bytes":  23849
+                                 },
+                                 {
+                                     "path":  "src/core/document_kind.h",
+                                     "sha256":  "156F91F034B70C36456948AE6C87012A81CE9CEE441D5E0252F2F32E9EA7FEBA",
+                                     "bytes":  457
+                                 },
+                                 {
+                                     "path":  "src/hex_view.cpp",
+                                     "sha256":  "8AD12630ABFDE52A2D543184E8C1B87E41ADD29B92D5C246DD742CFFB4083685",
+                                     "bytes":  13992
+                                 },
+                                 {
+                                     "path":  "src/main_frame.cpp",
+                                     "sha256":  "04E58E8B9DC51710F0C5460B798E4D3AD3794861754335BD6B5170843866B292",
+                                     "bytes":  32106
+                                 },
+                                 {
+                                     "path":  "src/ui/hex_address.h",
+                                     "sha256":  "0EE17A45B8BFA865962AA12A3C79CD110849FFE2026F539CB08BC8B2F9706C53",
+                                     "bytes":  585
+                                 },
+                                 {
+                                     "path":  "src/workspace_frame.cpp",
+                                     "sha256":  "F983B657F564530CB0AE8155AB45F9CC202AC048479F848B872CE67C38166B34",
+                                     "bytes":  35156
+                                 },
+                                 {
+                                     "path":  "tests/native_hex_dump_ui.inc",
+                                     "sha256":  "F0235419086D2568D8B8B6E3C66AF60B04A7762FDA8CA387E48623442F9DFE90",
+                                     "bytes":  7083
+                                 },
+                                 {
+                                     "path":  "tests/native_ui_tests.cpp",
+                                     "sha256":  "FE0804ACE710BF4E312926EDA1BDEF610440F901A9984BF2FC63609C0915C8E0",
+                                     "bytes":  93889
+                                 },
+                                 {
+                                     "path":  "tests/native_workflow_ui.inc",
+                                     "sha256":  "10E6D424032FFF000CF8D0BFAEF14E16C81DD7F7163D9B56141F1854AAFA732D",
+                                     "bytes":  13947
+                                 }
+                             ]
+}

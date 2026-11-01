@@ -1,4 +1,5 @@
 #include "main_frame.h"
+#include "core/document_kind.h"
 #include "ui/ui_font.h"
 #include "resource.h"
 #include "ui/localization.h"
@@ -178,6 +179,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT create) {
     tabs_.Create(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS, CRect(), this, 500); tabs_.InsertItem(0, L"Hex"); tabs_.InsertItem(1, L"Text"); tabs_.InsertItem(2, L"Compare");
     const CString hex_class = AfxRegisterWndClass(CS_DBLCLKS, LoadCursor(nullptr, IDC_IBEAM), reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1), nullptr);
     hex_.Create(hex_class, nullptr, WS_CHILD | WS_VISIBLE | WS_VSCROLL, CRect(), this, 501);
+    hex_.SetLayout(32,8,0);
     compare_left_.Create(hex_class, nullptr, WS_CHILD | WS_VSCROLL, CRect(), this, 504);
     compare_right_.Create(hex_class, nullptr, WS_CHILD | WS_VSCROLL, CRect(), this, 505);
     compare_left_label_.Create(L"Left", WS_CHILD | SS_LEFTNOWORDWRAP, CRect(), this, 506);
@@ -287,7 +289,7 @@ bool CMainFrame::OpenPath(const std::wstring& path) {
     if (workspace_) workspace_->NotifySourceChanged(this);
     ClearComparison(); hex_.SetDocument(&document_); text_dirty_ = false; text_.SetModify(FALSE); text_stale_ = true;
     SetWindowTextW((std::filesystem::path(path).filename().wstring() + L" - Simple Editor Tool").c_str()); status_.SetPaneText(0, (path + L"   " + std::to_wstring(document_.Size()) + L" bytes").c_str());
-    ShowPage(0); if (document_.Size() <= 32 * 1024 * 1024) { RefreshText(); if (text_editable_) ShowPage(1); } RequestIndentation(true); if (workspace_) workspace_->RefreshLabels(); return true;
+    ShowPage(0); if (!simple_editor::core::PreferHexFileView(document_.Path()) && document_.Size() <= 32 * 1024 * 1024) { RefreshText(); if (text_editable_) ShowPage(1); } RequestIndentation(true); if (workspace_) workspace_->RefreshLabels(); return true;
 }
 void CMainFrame::OnFileOpen() {
     if (workspace_) { workspace_->ChooseFiles(); return; }

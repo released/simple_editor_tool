@@ -1,5 +1,6 @@
 #include "workspace_frame.h"
 #include "main_frame.h"
+#include "core/document_kind.h"
 #include "resource.h"
 #include "ui/localization.h"
 #include "ui/ui_font.h"
@@ -208,7 +209,8 @@ bool CWorkspaceFrame::OpenPath(const std::wstring& path, bool silent) {
     auto* session = CreateSession(); if (!session) return false;
     session->document_.Swap(opened); session->hex_.SetDocument(&session->document_);
     session->text_stale_ = true; session->SetWindowTextW((session->document_.Path() + L" - Simple Editor Tool").c_str());
-    if (session->document_.Size() <= 32 * 1024 * 1024) { session->RefreshText(); if (session->text_editable_) session->ShowPage(1); }
+    if (simple_editor::core::PreferHexFileView(session->document_.Path())) session->ShowPage(0);
+    else if (session->document_.Size() <= 32 * 1024 * 1024) { session->RefreshText(); if (session->text_editable_) session->ShowPage(1); }
     session->RequestIndentation(true); session->SetSaveReadOnly(DocumentLocked(session->document_));
     session->status_.SetPaneText(0, session->document_.Path().c_str()); RememberRecent(session->document_.Path()); RefreshLabels(); return true;
 }

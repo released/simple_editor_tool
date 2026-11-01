@@ -1,8 +1,7 @@
 #include "hex_view.h"
 #include "resource.h"
+#include "ui/hex_address.h"
 #include <algorithm>
-#include <iomanip>
-#include <sstream>
 
 BEGIN_MESSAGE_MAP(CHexView, CWnd)
     ON_WM_CREATE()
@@ -54,7 +53,7 @@ int CHexView::AddressDigits() const {
     return base_address_ > 0xFFFFFFFFULL || size > 0xFFFFFFFFULL - (std::min<std::uint64_t>)(base_address_,0xFFFFFFFFULL) ? 16 : 8;
 }
 int CHexView::HexColumn(int column) const {
-    return AddressDigits() + 2 + column * 3 + (grouping_ > 1 ? (std::min)(column,static_cast<int>(bytes_per_row_) - 1) / static_cast<int>(grouping_) : 0);
+    return simple_editor::ui::HexAddressColumns(AddressDigits()) + 2 + column * 3 + (grouping_ > 1 ? (std::min)(column,static_cast<int>(bytes_per_row_) - 1) / static_cast<int>(grouping_) : 0);
 }
 bool CHexView::SetLayout(unsigned bytes_per_row, unsigned grouping, std::uint64_t base_address) {
     if ((bytes_per_row != 8 && bytes_per_row != 16 && bytes_per_row != 32) || (grouping != 1 && grouping != 2 && grouping != 4 && grouping != 8) ||
@@ -90,9 +89,9 @@ void CHexView::OnPaint() {
         const auto offset = (top_row_ + row) * bytes_per_row_; if (offset > document_->Size()) break;
         const auto begin = static_cast<std::size_t>(row) * bytes_per_row_;
         const auto count = begin < viewport.size() ? (std::min<std::size_t>)(bytes_per_row_,viewport.size() - begin) : 0;
-        std::wostringstream address; address << std::uppercase << std::hex << std::setfill(L'0') << std::setw(AddressDigits()) << offset + base_address_;
+        const auto address = simple_editor::ui::FormatHexAddress(offset + base_address_,AddressDigits());
         dc.SetTextColor(theme_ == 2 ? GetSysColor(COLOR_WINDOWTEXT) : theme_ == 1 ? RGB(225,225,225) : RGB(30,35,42));
-        dc.TextOutW(origin,row * row_height_,address.str().c_str());
+        dc.TextOutW(origin,row * row_height_,address.c_str());
         const int ascii_column = HexColumn(bytes_per_row_) + 2;
         for (unsigned column = 0; column < bytes_per_row_; ++column) {
             const auto at = offset + column; const bool selected = selected_length && at >= selected_start && at - selected_start < selected_length;
