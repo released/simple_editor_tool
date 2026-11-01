@@ -51,9 +51,11 @@ void CWorkspaceFrame::TabContext(int index,CPoint point) {
     if (index < 0 || static_cast<std::size_t>(index) >= sessions_.size()) return;
     const auto identity = sessions_[index]->workspace_session_id_;
     CMenu menu; menu.CreatePopupMenu(); menu.AppendMenu(MF_STRING,ID_FILE_CLOSE,L"Close this tab"); menu.AppendMenu(MF_STRING,ID_WORKSPACE_CLOSE_OTHERS,L"Close other tabs"); menu.AppendMenu(MF_STRING,ID_WORKSPACE_CLOSE_LEFT,L"Close tabs to the left"); menu.AppendMenu(MF_STRING,ID_WORKSPACE_CLOSE_RIGHT,L"Close tabs to the right"); menu.AppendMenu(MF_SEPARATOR); menu.AppendMenu(MF_STRING,ID_WORKSPACE_MOVE_LEFT,L"Move left"); menu.AppendMenu(MF_STRING,ID_WORKSPACE_MOVE_RIGHT,L"Move right");
+    const auto state = sessions_tab_.lock_state(index);
+    if (state.available) { menu.AppendMenu(MF_SEPARATOR); menu.AppendMenu(MF_STRING | (state.enabled ? 0 : MF_GRAYED),ID_HEX_READ_ONLY,simple_editor::ui::Localize(state.locked ? L"Unlock editing" : L"Lock editing (read-only)").c_str()); }
     const auto chosen = menu.TrackPopupMenu(TPM_RETURNCMD | TPM_RIGHTBUTTON,point.x,point.y,this);
     const auto found = std::find_if(sessions_.begin(),sessions_.end(),[&](const auto* frame) { return frame->workspace_session_id_ == identity; }); if (found == sessions_.end()) return;
-    context_session_ = static_cast<int>(found - sessions_.begin()); if (chosen == ID_FILE_CLOSE) { close_queue_.clear(); CloseSession(*found); } else if (chosen) OnTabAction(chosen); context_session_ = -1;
+    context_session_ = static_cast<int>(found - sessions_.begin()); if (chosen == ID_FILE_CLOSE) { CancelCloseAll(); CloseSession(*found); } else if (chosen == ID_HEX_READ_ONLY) (*found)->ToggleUserReadOnly(); else if (chosen) OnTabAction(chosen); context_session_ = -1;
 }
 void CWorkspaceFrame::OnTabAction(UINT id) {
     const int index = context_session_ >= 0 ? context_session_ : active_session_; if (index < 0 || static_cast<std::size_t>(index) >= sessions_.size()) return;

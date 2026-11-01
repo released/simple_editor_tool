@@ -61,6 +61,7 @@ public:
 #include "native_side_merge_ui.inc"
 #include "native_compare_notice_ui.inc"
 #include "native_reliability_ui.inc"
+#include "native_tab_actions_ui.inc"
     static int RunCodeEditor(const std::filesystem::path& root) {
         int failures = 0; const auto check = [&](bool ok,const wchar_t* label) { std::wcout << (ok ? L"PASS: " : L"FAIL: ") << label << L'\n'; if (!ok) ++failures; };
         auto* frame = new CMainFrame(false); AfxGetApp()->m_pMainWnd = frame;
@@ -825,6 +826,7 @@ int wmain(int argc, wchar_t** argv) {
         if (argc != 3) { std::wcerr << L"Usage: NativeUiTests.exe --workspace-process <formal-exe>\n"; failures = 1; }
         else failures += RunWorkspaceProcessTests(name, std::filesystem::absolute(argv[2]));
     }
+    else if (mode == L"--tab-actions") failures += NativeUiTest::RunTabActions(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--reliability") failures += NativeUiTest::RunReliability(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--compare-page") failures += NativeUiTest::RunComparePage(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--side-merge") failures += NativeUiTest::RunSideMerge(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());

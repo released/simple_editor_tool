@@ -102,8 +102,17 @@ int CWorkspaceFrame::OnCreate(LPCREATESTRUCT create) {
     open_button_.Create(L"Open files...", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_WORKSPACE_OPEN);
     compare_button_.Create(L"Compare files...", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_WORKSPACE_COMPARE);
     close_button_.Create(L"Close tab", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_WORKSPACE_CLOSE);
-    sessions_tab_.Create(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TCS_TABS | TCS_SINGLELINE, CRect(), this, 600);
-    sessions_tab_.close = [this](int index) { if (index >= 0 && static_cast<std::size_t>(index) < sessions_.size()) { close_queue_.clear(); CloseSession(sessions_[index]); } };
+    sessions_tab_.Create(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | TCS_TABS | TCS_SINGLELINE | TCS_OWNERDRAWFIXED, CRect(), this, 600);
+    sessions_tab_.close = [this](int index) { if (index >= 0 && static_cast<std::size_t>(index) < sessions_.size()) { CancelCloseAll(); CloseSession(sessions_[index]); } };
+    sessions_tab_.toggle_lock = [this](int index) { if (index >= 0 && static_cast<std::size_t>(index) < sessions_.size()) sessions_[index]->ToggleUserReadOnly(); };
+    sessions_tab_.lock_state = [this](int index) {
+        CWorkspaceTabs::LockState state;
+        if (index >= 0 && static_cast<std::size_t>(index) < sessions_.size()) {
+            const auto* session = sessions_[index]; state.available = !session->comparison_session_ && session->document_.IsOpen();
+            state.locked = session->user_read_only_; state.enabled = state.available && !session->IsBusy() && !DocumentLocked(session->document_);
+        }
+        return state;
+    };
     sessions_tab_.context = [this](int index,CPoint point) { TabContext(index,point); };
     sessions_tab_.reorder = [this](int from,int to) { ReorderSessions(from,to); };
     welcome_.Create(L"Drop files here or choose Open files.\r\nEach file stays open in its own tab.\r\nUse Compare files to select the left and right inputs.",
@@ -175,8 +184,11 @@ void CWorkspaceFrame::RefreshLabels() {
         if (session->comparison_session_ && session->displayed_mode_ == 8) label = L"Pasted text comparison";
         if (!session->comparison_session_ && (session->document_.IsModified() || session->text_dirty_ || session->text_.GetModify() || session->untitled_dirty_)) label += L" *";
         if (session->comparison_session_ && session->advanced_.Dirty()) label += L" *";
+        // Native tab measurement treats ampersands as mnemonic prefixes.
+        for (std::size_t pos = 0; (pos = label.find(L'&',pos)) != std::wstring::npos; pos += 2) label.insert(pos,1,L'&');
         TCITEM item{}; item.mask = TCIF_TEXT; item.pszText = label.data(); sessions_tab_.SetItem(static_cast<int>(i), &item);
     }
+    sessions_tab_.RefreshActions();
     if (active_session_ >= 0) {
         CString title; sessions_[active_session_]->GetWindowTextW(title); SetWindowTextW(title);
     }

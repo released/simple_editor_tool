@@ -94,9 +94,15 @@ the editing bound opens on **Text**. Binary and oversized inputs use **Hex**.
 The application starts maximized.
 
 **New text file** and **New from Unicode clipboard** create untitled documents;
-the first Save uses Save As. Close a selected tab with **Close tab**, `Ctrl+W`,
+the first Save uses Save As. Close a tab with the **X** beside its filename, **Close tab**, `Ctrl+W`,
 middle-click or its context menu. Unsaved changes prompt before closing. Tab
 menus also close other/left/right tabs or move a tab. Drag tabs to reorder them.
+The **padlock** on a document tab toggles editing read-only for its Text, shared
+Text and Hex views. Drafts, selection and Undo remain; other tabs are independent.
+Click again to unlock. Hover over either icon for its action hint. Active save or
+synchronization protection cannot be bypassed. This does not change file attributes,
+lock access by other programs or prevent closing the tab. Comparison tabs provide X
+while retaining their existing source-read-only and separate merge-output rules.
 Recent-file and reopen-closed-file actions are available from File.
 
 Only one normal application window runs in a Windows session. A second launch

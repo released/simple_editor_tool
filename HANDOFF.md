@@ -1,5 +1,43 @@
 # Handoff
 
+## Document tab lock/close actions (2026-11-01)
+
+- Authorized user request: lock and X glyphs beside each document-tab filename,
+  with click guidance. The lock means session editing read-only, not close pinning
+  or OS attributes. Comparison sessions retain X and existing source/output rules.
+- Plan: extend the existing native tab control with owner drawing, hit testing
+  and localized hints; reuse session read-only and guarded close; verify native
+  Debug/Release, affected workspace/save/localization callers and formal startup.
+- Implemented and verified. Source: ui/workspace_tabs.h/.cpp,
+  workspace_frame.cpp, workspace_documents.cpp, main_frame_binary.cpp, main_frame.h and
+  paired catalogs. No new dependency or runtime. New --tab-actions test covers
+  independent/inactive tabs, native draft/Undo, busy locks, icon release/reorder,
+  close Cancel/Discard, save continuation, middle close and localized hints.
+- PASS: 17 selected final groups: Release core localization/preferences, both
+  native configurations' tab-actions/workspace/documents/async-save/localization/
+  hex-tools/text-workflow, and canonical Release workspace-process. Current native
+  image inspected at 120 DPI (125%): complete filename, regular font and distinct
+  glyphs. Early caption measurement and read-only CanUndo test issues are resolved;
+  details and actual native Undo/Redo checks are retained in the compact record.
+- Canonical EXE: 4,013,056 bytes, SHA256
+  6AF6B3A071879718AFE204235BC20D12BBFD14D243D107CB691360C5097E91EC.
+  Runtime INI matches this task's entry hash (the user's newer settings differ
+  from the historical October baseline). Static x64 MFC/CRT/system imports and
+  ASLR/NX retained. Source and delivery catalogs have 768 matching keys.
+- Current batch clean: 775 compiler intermediates and 10 reviewed test/build
+  outputs removed. Pass/fail fixtures self-cleaned; the fresh owned run root
+  artifacts/tab-actions-20261101 and all selected test EXEs are absent. All 783
+  protected pre-clean files matched their aggregate hash before later authorized
+  documentation/Git repack updates. No rebuild is needed merely for cleanup.
+- Compact ownership/results: docs/verification/tab-actions-20261101.json; native
+  image: docs/verification/tab-actions-20261101.png. Existing 166 blocked files /
+  3,209,501 bytes remain unchanged. No alternate deletion or retention exception;
+  the complete-folder 20 MB target remains unmet, independently of feature PASS.
+  Previously approved lossless repack reduced 60 new loose Git objects while
+  preserving all 976 object IDs, 3 refs and 4 reflog hashes; Git is 8,012,817 bytes.
+  Do not repeat rejected artifact deletes or remove protected history/data to
+  force the budget. No commit/push/publication was performed for this task.
+
 ## Approved R1-R7: implementation verified; cleanup blocked (2026-10-31)
 
 - This is an engineering status record, not a session pause. Scope/acceptance:

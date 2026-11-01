@@ -2,6 +2,16 @@
 
 ## Current Scope
 
+- Normal document tabs display an editing lock and X close action beside their
+  filename. The lock toggles this session's Text/shared Text/Hex read-only state
+  without committing text, saving or replacing Undo. Busy/sync locks cannot be
+  bypassed. X reuses the normal unsaved/save-in-progress close decision for the
+  clicked session. Comparison tabs retain X and their existing source/output
+  ownership; middle-click, context menus and drag reordering remain available.
+  Glyphs use the regular interface font layout and DPI-scaled native drawing;
+  action hints follow the selected UI language. The lock is not an OS file lock
+  or a pin preventing close, and does not change file attributes.
+
 - Successful explicit comparisons show a localized information dialog when the
   complete result has no differences under the selected settings. Equality uses
   full models, not filtered rows; cancellation, failure, stale binary results,

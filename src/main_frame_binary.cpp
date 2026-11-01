@@ -14,13 +14,15 @@ void CMainFrame::HexSelectionChanged() {
     CString text; text.Format(L"%s  %s  Offset 0x%llX  Selection 0x%llX + %llu bytes",view->ReadOnly() ? L"Read-only" : view->InsertMode() ? L"Insert" : L"Overwrite",view->AsciiMode() ? L"ASCII/UTF-8" : L"Hex",view->CursorOffset(),view->SelectionStart(),view->SelectionLength()); status_.SetPaneText(0,text);
 }
 void CMainFrame::OnHexCommand(UINT command) {
+    if (command == ID_HEX_READ_ONLY) { ToggleUserReadOnly(); return; }
     auto* view = ActiveHex(); if (!view) { status_.SetPaneText(0,L"Choose a Hex view for byte operations."); return; }
-    if (command == ID_HEX_READ_ONLY) {
-        if (comparison_session_ || IsSaving() || (workspace_ && workspace_->DocumentLocked(document_))) return;
-        if (!ApplyTextEdits()) return; user_read_only_ = !user_read_only_; SetSaveReadOnly(false); return;
-    }
     if (command != ID_HEX_COPY && command != ID_HEX_COPY_TEXT && command != ID_HEX_SELECT_ALL && (IsSaving() || (view == &hex_ && MutationBlocked()))) return;
     try { view->Clipboard(command); } catch (const std::exception&) { status_.SetPaneText(0,L"Clipboard allocation failed; document retained."); }
+}
+void CMainFrame::ToggleUserReadOnly() {
+    if (comparison_session_ || !document_.IsOpen() || IsBusy() || (workspace_ && workspace_->DocumentLocked(document_))) return;
+    user_read_only_ = !user_read_only_; SetSaveReadOnly(false); HexSelectionChanged();
+    if (workspace_) workspace_->RefreshLabels();
 }
 void CMainFrame::ReleaseJobLocks() {
     if (job_locks_held_ && workspace_) workspace_->LockPaths(job_locked_paths_,false,&job_);

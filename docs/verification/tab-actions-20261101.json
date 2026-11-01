@@ -1,0 +1,514 @@
+﻿{
+    "date":  "2026-11-01T08:38:10.4466813+08:00",
+    "scope":  "Document tab read-only lock and close actions",
+    "owned_run":  "artifacts/tab-actions-20261101",
+    "ownership":  "Fresh project-local run; isolated synthetic fixtures; retain concise results only",
+    "baseline":  {
+                     "runtime_ini_sha256":  "2C7EC5C1B691809C865B253E4F9AF30E3140470B413DBD931AF7F8B6780A089E",
+                     "formal_exe_sha256":  "0E5F7DBC306DCE9AEF4EBD54F84B94FB3824F5823D503603FD1810E08FCEA797"
+                 },
+    "status":  "Feature PASS; current batch clean; overall cleanup and 20 MB budget incomplete",
+    "tests":  [
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Release core",
+                      "binary_sha256":  "5A4D52137ADD69152E8D185CAF95736AA495385C31AC78F60C24CFFF7FF2F2B7",
+                      "pass_lines":  21,
+                      "exit":  0,
+                      "mode":  "localization"
+                  },
+                  {
+                      "failure_excerpt":  [
+                                              "PASS: duplicate shortcut assignments fail without replacing valid settings"
+                                          ],
+                      "configuration":  "Release core",
+                      "binary_sha256":  "5A4D52137ADD69152E8D185CAF95736AA495385C31AC78F60C24CFFF7FF2F2B7",
+                      "pass_lines":  10,
+                      "exit":  0,
+                      "mode":  "preferences"
+                  },
+                  {
+                      "output":  [
+                                     "FAIL: filename text including ampersands fits before both icons",
+                                     "METRIC interface_dpi=120 tab_height=27",
+                                     "FAIL: locking retains unsaved text, caret, selection, Undo and original disk bytes without committing the draft",
+                                     "FAIL: locked documents remain viewable across Text and Hex without replacing native Undo",
+                                     "FAIL: X on a locked dirty tab asks about unsaved edits and Cancel preserves the draft",
+                                     "FAIL: native MFC UI tests"
+                                 ],
+                      "configuration":  "Debug UI",
+                      "binary_sha256":  "30129E5D5EEFA5E62CAB4C9660CB74DD66AE9035ABC0BC3A7AEB90951B577A1A",
+                      "pass_lines":  22,
+                      "metrics":  [
+                                      "METRIC interface_dpi=120 tab_height=27"
+                                  ],
+                      "exit":  1,
+                      "mode":  "tab-actions",
+                      "superseded_by":  "Debug UI tab-actions-final"
+                  },
+                  {
+                      "output":  [
+                                     "FAIL: filename text including ampersands fits before both icons",
+                                     "METRIC interface_dpi=120 tab_height=27 tab_width=212 caption_width=148 caption_room=138",
+                                     "FAIL: native MFC UI tests"
+                                 ],
+                      "configuration":  "Debug UI",
+                      "binary_sha256":  "3F0FD7AA0A131FDF9B4897063AC860722558F9B1EDEC78FEF072A3F9541626BE",
+                      "pass_lines":  26,
+                      "metrics":  [
+                                      "METRIC interface_dpi=120 tab_height=27 tab_width=212 caption_width=148 caption_room=138"
+                                  ],
+                      "exit":  1,
+                      "mode":  "tab-actions-02",
+                      "superseded_by":  "Debug UI tab-actions-final"
+                  },
+                  {
+                      "output":  [
+                                     "PASS: tab actions load the isolated Traditional Chinese catalog",
+                                     "PASS: owner-drawn tab captions retain the regular interface font",
+                                     "PASS: each document has distinct lock and close hit regions",
+                                     "PASS: filename text including ampersands fits before both icons without changing the source path",
+                                     "METRIC interface_dpi=120 tab_height=27 tab_width=224 caption_width=148 caption_room=150",
+                                     "PASS: clicking the lock makes Text, shared Text and Hex read-only",
+                                     "PASS: locking an inactive tab changes only that document without activating it",
+                                     "PASS: locking retains unsaved text, caret, selection, Undo history and original disk bytes without committing the draft",
+                                     "PASS: locked tab rejects text and Hex mutations",
+                                     "PASS: lock hover registers a localized native tooltip",
+                                     "PASS: action hints follow the current language without translating filenames",
+                                     "PASS: capture native lock and close glyphs with retained document content",
+                                     "PASS: the existing read-only command also works on Text and keeps the tab glyph synchronized",
+                                     "PASS: unlock restores editing while retaining native Undo",
+                                     "PASS: unlock permits actual Undo and Redo of the pre-lock draft",
+                                     "PASS: acquire an isolated operation lock on the clean second document",
+                                     "PASS: busy operation locks cannot be bypassed with the tab icon",
+                                     "PASS: releasing over a different icon cancels the pressed action",
+                                     "PASS: dragging tab text still reorders sessions without invoking an icon",
+                                     "PASS: lock hit routing follows the document after tab reordering",
+                                     "PASS: locked documents remain viewable across Text and Hex without replacing native Undo history",
+                                     "PASS: a tab-order change cancels an already pressed icon instead of closing another document",
+                                     "PASS: X on a locked dirty tab asks about unsaved edits and Cancel preserves the draft and Undo history",
+                                     "PASS: discard confirmation closes only the clicked tab",
+                                     "PASS: comparison sessions expose X while retaining independent read-only sources and merge semantics",
+                                     "PASS: start the normal background save before closing through X",
+                                     "PASS: X during Save waits for the committed save and preserves sibling tabs",
+                                     "PASS: middle-click closing remains available alongside the new icons",
+                                     "PASS: native MFC UI tests"
+                                 ],
+                      "configuration":  "Debug UI",
+                      "binary_sha256":  "081E4DB1656A7915D8FDE27408A26A09C3E48F8B64A49FD59454C57E093DF2C7",
+                      "pass_lines":  28,
+                      "metrics":  [
+                                      "METRIC interface_dpi=120 tab_height=27 tab_width=224 caption_width=148 caption_room=150"
+                                  ],
+                      "exit":  0,
+                      "mode":  "tab-actions-final"
+                  },
+                  {
+                      "output":  [
+                                     "METRIC interface_dpi=120 tab_height=27 tab_width=224 caption_width=148 caption_room=150",
+                                     "PASS: native MFC UI tests"
+                                 ],
+                      "configuration":  "Release UI",
+                      "binary_sha256":  "FE7480122AF4DF2D633F1E21D636C81B05F83CB60835BDA65A5BD30290299F3D",
+                      "pass_lines":  27,
+                      "metrics":  [
+                                      "METRIC interface_dpi=120 tab_height=27 tab_width=224 caption_width=148 caption_room=150"
+                                  ],
+                      "exit":  0,
+                      "mode":  "tab-actions-final"
+                  },
+                  {
+                      "failure_excerpt":  [
+                                              "PASS: failed open preserves every existing session and unsaved draft",
+                                              "PASS: save failure aborts workspace exit and retains all tabs and edits"
+                                          ],
+                      "configuration":  "Debug UI",
+                      "binary_sha256":  "081E4DB1656A7915D8FDE27408A26A09C3E48F8B64A49FD59454C57E093DF2C7",
+                      "pass_lines":  36,
+                      "exit":  0,
+                      "mode":  "workspace"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Debug UI",
+                      "binary_sha256":  "081E4DB1656A7915D8FDE27408A26A09C3E48F8B64A49FD59454C57E093DF2C7",
+                      "pass_lines":  15,
+                      "exit":  0,
+                      "mode":  "documents"
+                  },
+                  {
+                      "failure_excerpt":  [
+                                              "PASS: failed save cancels deferred close and retains document",
+                                              "PASS: failed background save preserves locked destination",
+                                              "PASS: Undo/Redo and retry work after failed background save",
+                                              "PASS: failed save cancels deferred Open",
+                                              "PASS: retry source save after deferred Open failure"
+                                          ],
+                      "configuration":  "Debug UI",
+                      "binary_sha256":  "081E4DB1656A7915D8FDE27408A26A09C3E48F8B64A49FD59454C57E093DF2C7",
+                      "pass_lines":  33,
+                      "exit":  0,
+                      "mode":  "async-save"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Debug UI",
+                      "binary_sha256":  "081E4DB1656A7915D8FDE27408A26A09C3E48F8B64A49FD59454C57E093DF2C7",
+                      "pass_lines":  18,
+                      "exit":  0,
+                      "mode":  "localization"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Debug UI",
+                      "binary_sha256":  "081E4DB1656A7915D8FDE27408A26A09C3E48F8B64A49FD59454C57E093DF2C7",
+                      "pass_lines":  26,
+                      "exit":  0,
+                      "mode":  "hex-tools"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Debug UI",
+                      "binary_sha256":  "081E4DB1656A7915D8FDE27408A26A09C3E48F8B64A49FD59454C57E093DF2C7",
+                      "pass_lines":  47,
+                      "exit":  0,
+                      "mode":  "text-workflow"
+                  },
+                  {
+                      "failure_excerpt":  [
+                                              "PASS: failed open preserves every existing session and unsaved draft",
+                                              "PASS: save failure aborts workspace exit and retains all tabs and edits"
+                                          ],
+                      "configuration":  "Release UI",
+                      "binary_sha256":  "FE7480122AF4DF2D633F1E21D636C81B05F83CB60835BDA65A5BD30290299F3D",
+                      "pass_lines":  36,
+                      "exit":  0,
+                      "mode":  "workspace"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Release UI",
+                      "binary_sha256":  "FE7480122AF4DF2D633F1E21D636C81B05F83CB60835BDA65A5BD30290299F3D",
+                      "pass_lines":  15,
+                      "exit":  0,
+                      "mode":  "documents"
+                  },
+                  {
+                      "failure_excerpt":  [
+                                              "PASS: failed save cancels deferred close and retains document",
+                                              "PASS: failed background save preserves locked destination",
+                                              "PASS: Undo/Redo and retry work after failed background save",
+                                              "PASS: failed save cancels deferred Open",
+                                              "PASS: retry source save after deferred Open failure"
+                                          ],
+                      "configuration":  "Release UI",
+                      "binary_sha256":  "FE7480122AF4DF2D633F1E21D636C81B05F83CB60835BDA65A5BD30290299F3D",
+                      "pass_lines":  33,
+                      "exit":  0,
+                      "mode":  "async-save"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Release UI",
+                      "binary_sha256":  "FE7480122AF4DF2D633F1E21D636C81B05F83CB60835BDA65A5BD30290299F3D",
+                      "pass_lines":  18,
+                      "exit":  0,
+                      "mode":  "localization"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Release UI",
+                      "binary_sha256":  "FE7480122AF4DF2D633F1E21D636C81B05F83CB60835BDA65A5BD30290299F3D",
+                      "pass_lines":  26,
+                      "exit":  0,
+                      "mode":  "hex-tools"
+                  },
+                  {
+                      "failure_excerpt":  [
+
+                                          ],
+                      "configuration":  "Release UI",
+                      "binary_sha256":  "FE7480122AF4DF2D633F1E21D636C81B05F83CB60835BDA65A5BD30290299F3D",
+                      "pass_lines":  47,
+                      "exit":  0,
+                      "mode":  "text-workflow"
+                  },
+                  {
+                      "formal_exe_sha256":  "6AF6B3A071879718AFE204235BC20D12BBFD14D243D107CB691360C5097E91EC",
+                      "configuration":  "Release UI / formal EXE",
+                      "binary_sha256":  "FE7480122AF4DF2D633F1E21D636C81B05F83CB60835BDA65A5BD30290299F3D",
+                      "pass_lines":  13,
+                      "output":  [
+                                     "PASS: isolate formal EXE copies without user settings",
+                                     "PASS: formal and renamed EXE copies match every source byte",
+                                     "PASS: start concurrent formal and renamed instances with several file paths",
+                                     "PASS: concurrent launches publish exactly one normal workspace",
+                                     "PASS: secondary forwards all paths and duplicate activation retains three file tabs",
+                                     "PASS: ready formal workspace starts maximized",
+                                     "PASS: renamed-copy forwarding creates no second top-level workspace",
+                                     "PASS: formal Close tab removes only the explicitly selected file",
+                                     "PASS: formal multi-session workspace closes normally with exit zero",
+                                     "PASS: relaunch the renamed formal EXE after normal close",
+                                     "PASS: normal close releases the singleton for the next workspace",
+                                     "PASS: relaunched formal workspace shuts down normally",
+                                     "PASS: native MFC UI tests"
+                                 ],
+                      "exit":  0,
+                      "mode":  "workspace-process"
+                  }
+              ],
+    "cleanup":  {
+                    "purge_reviewed_mib":  95,
+                    "old_residuals":  "166 files / 3209501 bytes from prior batches; unchanged, previously rejected retirement. No alternate deletion attempted.",
+                    "safe_clean_removed":  775,
+                    "ownership":  "All fixtures stayed in fresh artifacts/tab-actions-20261101 children; pass and failed native runs removed their synthetic payloads",
+                    "fixture_files_remaining":  0,
+                    "purge_reviewed_files":  10,
+                    "preservation":  {
+                                         "scope":  "All non-artifact files except this evolving record; checked immediately after clean before authorized documentation/Git repack updates",
+                                         "pass":  true,
+                                         "manifest_sha256":  "B5B0377BF46B2F3416F242CBC376A43588AF5F24BF6379DB6C2D2B42B6EB006F",
+                                         "files":  783
+                                     },
+                    "current_batch_pass":  true,
+                    "owned_run_absent":  true,
+                    "test_exes_remaining":  0,
+                    "final_size":  {
+                                       "pass":  false,
+                                       "files":  890,
+                                       "decimal_mb":  23.937659,
+                                       "breakdown":  [
+                                                         {
+                                                             "bytes":  262895,
+                                                             "path":  "\u003croot\u003e"
+                                                         },
+                                                         {
+                                                             "bytes":  8012817,
+                                                             "path":  ".git"
+                                                         },
+                                                         {
+                                                             "bytes":  3209501,
+                                                             "path":  "artifacts"
+                                                         },
+                                                         {
+                                                             "bytes":  4148986,
+                                                             "path":  "build"
+                                                         },
+                                                         {
+                                                             "bytes":  1935159,
+                                                             "path":  "docs"
+                                                         },
+                                                         {
+                                                             "bytes":  20567,
+                                                             "path":  "scripts"
+                                                         },
+                                                         {
+                                                             "bytes":  1454545,
+                                                             "path":  "src"
+                                                         },
+                                                         {
+                                                             "bytes":  608004,
+                                                             "path":  "tests"
+                                                         },
+                                                         {
+                                                             "bytes":  4285185,
+                                                             "path":  "vendor"
+                                                         }
+                                                     ],
+                                       "limit":  20000000,
+                                       "skipped":  0,
+                                       "bytes":  23937659,
+                                       "includes":  "hidden, ignored, Git, vendor, delivery and all old artifacts"
+                                   }
+                },
+    "corrected_build_errors":  [
+                                   "C3538: split int/LONG auto declarators in action geometry",
+                                   "C2065: use the Win32 ODS_NOFOCUSRECT flag",
+                                   "Removed unsupported TCS_NOPREFIX assumption; use normal native mnemonic escaping for caption measurement/drawing"
+                               ],
+    "implementation_references":  [
+                                      "https://learn.microsoft.com/en-us/windows/win32/controls/tab-control-styles",
+                                      "https://learn.microsoft.com/en-us/windows/win32/controls/tab-controls",
+                                      "Pinned vendor/scintilla/src/Editor.cxx: SCI_CANUNDO is false for read-only documents"
+                                  ],
+    "resolved_verification_findings":  [
+                                           "Preserve/query native Undo action history while locked; verify actual Undo/Redo after unlocking rather than treating disabled SCI_CANUNDO as lost history.",
+                                           "At 120 DPI, unescaped ampersands made native caption measurement 10 pixels short. Escape only the displayed tab label and draw using the matching mnemonic rules; retain the original source path and buffer."
+                                       ],
+    "git_repack":  {
+                       "before_bytes":  9550664,
+                       "authorization":  "Previously approved lossless Git repacking",
+                       "refs":  3,
+                       "reflog_files":  4,
+                       "objects":  976,
+                       "reason":  "Final 20 MB audit found 60 new loose objects; no history removed",
+                       "after_bytes":  8012817,
+                       "preservation":  "All object IDs, refs and reflog file hashes identical"
+                   },
+    "final_pass_groups":  17,
+    "builds":  [
+                   "Canonical scripts/build_release.bat: Release x64 PASS",
+                   "NativeUiTests.vcxproj: Debug x64 PASS",
+                   "NativeUiTests.vcxproj: Release x64 PASS",
+                   "NativeCoreTests.vcxproj: Release x64 PASS"
+               ],
+    "formal":  {
+                   "security":  [
+                                    "High entropy ASLR",
+                                    "Dynamic base",
+                                    "NX compatible"
+                                ],
+                   "configuration":  "x64 / static MFC / static CRT / Unicode",
+                   "runtime_ini_unchanged":  true,
+                   "imports":  "Windows system DLLs only; no new runtime or driver",
+                   "bytes":  4013056,
+                   "path":  "build/SimpleEditorTool.exe",
+                   "runtime_ini_sha256":  "2C7EC5C1B691809C865B253E4F9AF30E3140470B413DBD931AF7F8B6780A089E",
+                   "sha256":  "6AF6B3A071879718AFE204235BC20D12BBFD14D243D107CB691360C5097E91EC"
+               },
+    "screenshot":  {
+                       "dpi":  120,
+                       "path":  "docs/verification/tab-actions-20261101.png",
+                       "sha256":  "6C846DC2E85FCA030CDA3FDFA436973F37579594039A5B6E9C6E749C82F024D7",
+                       "inspected":  true
+                   },
+    "catalogs":  [
+                     {
+                         "keys":  768,
+                         "source_sha256":  "7B6E0E68AF17FDE85E8544C1D4C5993ECCEEBBEAD4BE5D0D51E5B0D8AB503F0F",
+                         "language":  "en",
+                         "delivery_sha256":  "7B6E0E68AF17FDE85E8544C1D4C5993ECCEEBBEAD4BE5D0D51E5B0D8AB503F0F"
+                     },
+                     {
+                         "keys":  768,
+                         "source_sha256":  "6F4513E0C0297021CF073992DED6F1CBF858D26A4D95DC56554765C3B9BDC2BA",
+                         "language":  "tw",
+                         "delivery_sha256":  "6F4513E0C0297021CF073992DED6F1CBF858D26A4D95DC56554765C3B9BDC2BA"
+                     }
+                 ],
+    "verification_limits":  [
+                                "Native automated mouse-message routing and image at current 125% DPI verified; not every theme/DPI/accessibility configuration.",
+                                "Tooltip registration and localized native tooltip text verified; a live hover popup was not separately screenshot-tested.",
+                                "Unchanged storage/algorithms reuse prior evidence; no unrelated full-suite rerun.",
+                                "Cleanup helpers were unchanged; prior boundary/preservation verifier evidence reused.",
+                                "No commit or publication. Prior rejected artifact removals were not bypassed or retried."
+                            ],
+    "final_changed_inputs":  [
+                                 {
+                                     "path":  "AGENTS.md",
+                                     "sha256":  "9C006D7B3C02A0A3EEE34C036BF852B7D2B4CF1217CC47206E8351E8C7DEFBB4",
+                                     "bytes":  16632
+                                 },
+                                 {
+                                     "path":  "build/lang_en.ini",
+                                     "sha256":  "7B6E0E68AF17FDE85E8544C1D4C5993ECCEEBBEAD4BE5D0D51E5B0D8AB503F0F",
+                                     "bytes":  65647
+                                 },
+                                 {
+                                     "path":  "build/lang_tw.ini",
+                                     "sha256":  "6F4513E0C0297021CF073992DED6F1CBF858D26A4D95DC56554765C3B9BDC2BA",
+                                     "bytes":  67110
+                                 },
+                                 {
+                                     "path":  "build/SimpleEditorTool.exe",
+                                     "sha256":  "6AF6B3A071879718AFE204235BC20D12BBFD14D243D107CB691360C5097E91EC",
+                                     "bytes":  4013056
+                                 },
+                                 {
+                                     "path":  "docs/USER_GUIDE.md",
+                                     "sha256":  "8BF9F957683B092CD1889806A67863BA8AF1FA5F5690BA196A242C9E512FE562",
+                                     "bytes":  26753
+                                 },
+                                 {
+                                     "path":  "docs/USER_GUIDE_EN.md",
+                                     "sha256":  "54E59609DE865703719E68E2294C7A32820D873CD620E2F314562E40435E361A",
+                                     "bytes":  27732
+                                 },
+                                 {
+                                     "path":  "docs/verification/tab-actions-20261101.png",
+                                     "sha256":  "6C846DC2E85FCA030CDA3FDFA436973F37579594039A5B6E9C6E749C82F024D7",
+                                     "bytes":  45812
+                                 },
+                                 {
+                                     "path":  "HANDOFF.md",
+                                     "sha256":  "48CC8DAF429FC3E525C27C6725AC94A8618ACD5C5909D02659A4C1726A8EB844",
+                                     "bytes":  93472
+                                 },
+                                 {
+                                     "path":  "SELF_CHECK.md",
+                                     "sha256":  "8FFC0F01512CFE38AA69DE380A52566F73CFA06E4C1481CEF461BD36F2F0194B",
+                                     "bytes":  67107
+                                 },
+                                 {
+                                     "path":  "SPEC.md",
+                                     "sha256":  "2EB29C81CD71D5E5E4EDC435A377B4B393B4480436D39CB328965F934DE519EC",
+                                     "bytes":  23282
+                                 },
+                                 {
+                                     "path":  "src/main_frame.h",
+                                     "sha256":  "D314AFD5917E748FA8A1013FBFD36183260CEE7A32EFD52FF56F1E4E5A961352",
+                                     "bytes":  14148
+                                 },
+                                 {
+                                     "path":  "src/main_frame_binary.cpp",
+                                     "sha256":  "161FD712FB294470DE014001D26D15E4839FCA5A2A8C1A4BE8EE874672D0E805",
+                                     "bytes":  4840
+                                 },
+                                 {
+                                     "path":  "src/res/lang_en.ini",
+                                     "sha256":  "7B6E0E68AF17FDE85E8544C1D4C5993ECCEEBBEAD4BE5D0D51E5B0D8AB503F0F",
+                                     "bytes":  65647
+                                 },
+                                 {
+                                     "path":  "src/res/lang_tw.ini",
+                                     "sha256":  "6F4513E0C0297021CF073992DED6F1CBF858D26A4D95DC56554765C3B9BDC2BA",
+                                     "bytes":  67110
+                                 },
+                                 {
+                                     "path":  "src/ui/workspace_tabs.cpp",
+                                     "sha256":  "B64816D0A0D38D5151A367E86B903D5BDE838E9167C9365AB5192C3CB72AB2D4",
+                                     "bytes":  8969
+                                 },
+                                 {
+                                     "path":  "src/ui/workspace_tabs.h",
+                                     "sha256":  "1438518AAE37AE7E4270B805D3EDEAC533581A2038E49DC69496A4FA37C3223C",
+                                     "bytes":  1249
+                                 },
+                                 {
+                                     "path":  "src/workspace_documents.cpp",
+                                     "sha256":  "A7E247DF39EA7C89798B97A5FAD5DB3678FBAF487631419BDCE09CE446435EC9",
+                                     "bytes":  9461
+                                 },
+                                 {
+                                     "path":  "src/workspace_frame.cpp",
+                                     "sha256":  "2FA19F2FEB0D8E660360FB2814CF9C500446BF034CA00BC7EFD53280083EA26C",
+                                     "bytes":  35022
+                                 },
+                                 {
+                                     "path":  "tests/native_tab_actions_ui.inc",
+                                     "sha256":  "37D5BBD134AF536DB2E66134D4CFF7DF529C2EC4B89896603A6C443A0CF5460F",
+                                     "bytes":  10733
+                                 },
+                                 {
+                                     "path":  "tests/native_ui_tests.cpp",
+                                     "sha256":  "AA679E80FB4F8C8263E2E28CB45ECA65DF7889E8C6B6DF3E0613D7CAD3EF2359",
+                                     "bytes":  93477
+                                 }
+                             ]
+}

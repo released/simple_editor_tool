@@ -194,6 +194,7 @@ private:
     bool SaveCurrent(AfterSave next = AfterSave::None,const std::wstring& next_path = L"",bool choose = false);
     void FinishSave(EditorJobResult result);
     void SetSaveReadOnly(bool saving);
+    void ToggleUserReadOnly();
     void ExecuteSearch(const SearchRequest& request);
     void ExecuteEditorSearch(const SearchRequest& request, CCodeEditor* editor);
     void FinishEditorSearch(EditorJobResult result);

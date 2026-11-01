@@ -1,5 +1,35 @@
 # Self Check
 
+## Document tab lock and X actions (2026-11-01)
+
+- PASS: normal/inactive document lock updates only that session's Text/shared
+  Text/Hex, retaining source bytes, native draft, selection, generation and Undo
+  action history. Actual Undo/Redo works after unlock. Busy locks are retained.
+  X routes through the normal close/save decision; Cancel retains the draft,
+  Discard closes only the clicked tab, and an active Save finishes before close.
+  Comparison tabs retain X without altering source/merge ownership. Middle close,
+  drag reordering, capture cancellation on reorder and localized hints pass.
+- PASS: 17 final selected groups (two core, seven UI per Debug/Release, one formal
+  process smoke). Initial failing runs are superseded and explained in the compact
+  record. SCI_CANUNDO is intentionally disabled while read-only; tests inspect
+  retained history and perform actual Undo/Redo after unlocking. Native caption
+  mnemonic escaping fixes literal ampersand measurement without changing paths.
+- PASS: native image inspected at the current 120 DPI / 125% environment. Regular
+  Segoe UI font, full filename and separate action glyphs are visible; other DPI,
+  theme/accessibility configurations were not exhaustively tested. Both catalog
+  sets have 768 keys and byte-matched delivery copies. User INI is unchanged from
+  this task's entry. EXE is x64/static MFC/CRT with system imports and ASLR/NX.
+- TST-01 current batch PASS: 775 compiler intermediates, 10 reviewed outputs
+  retired; no owned run fixtures or test EXE/symbol remains. All 783 protected
+  pre/post-clean files matched their aggregate hash. Existing cleanup helpers
+  were unchanged; their earlier boundary verification is reused explicitly.
+- Overall TST-01 remains PARTIAL for 166 historical blocked files / 3,209,501 bytes;
+  no alternate deletion/retention exception. TST-02 remains NOT PASSED: complete
+  project exceeds 20,000,000 bytes, including retained Git/vendor/delivery and
+  prior blocked data. Authorized lossless Git repack preserved all object IDs,
+  refs and reflog hashes. Exact final count/bytes, evidence and source hashes:
+  docs/verification/tab-actions-20261101.json. No new runtime or dependency.
+
 ## R1-R7 reliability and interaction acceptance (2026-10-31)
 
 - PASS: Release core allocation-safety (6 operations / 34 injected allocation

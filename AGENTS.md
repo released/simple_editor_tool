@@ -17,6 +17,11 @@ This is a native Windows MFC text, hexadecimal, and binary comparison editor.
 
 ## Local Rules
 
+- Document-tab lock/X actions reuse session read-only and CloseSession safety.
+  Locking must not commit a native draft or replace selection/Undo; retain busy
+  locks, independent tabs, middle-click and drag reordering. Comparison tabs use
+  X without changing source/output semantics. Focused UI check: --tab-actions.
+
 - Two-way file comparison uses a central line-number list and optional merged
   output. Directional block/whole copies mutate the target's normal editor draft
   through workspace_side_merge.cpp, with raw-source freshness checks, codec/EOL
