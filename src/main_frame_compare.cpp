@@ -96,7 +96,7 @@ void CMainFrame::DrainDifferences(unsigned batches) {
 }
 void CMainFrame::OnTimer(UINT_PTR id) {
     if (id != 1) { CFrameWnd::OnTimer(id); return; }
-    TickIndentation(); advanced_.Tick(); TickUnicode(); TickFunctionSidebar();
+    TickIndentation(); advanced_.Tick(); TickUnicode(); TickFunctionSidebar(); TickMarkdownPreview();
     const auto tick = GetTickCount64();
     if (!IsSaving() && document_.IsOpen() && tick - source_check_tick_ >= 1000) {
         source_check_tick_ = tick; std::wstring error,own_error;

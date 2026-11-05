@@ -20,6 +20,9 @@ BEGIN_MESSAGE_MAP(CCodeEditor,CEdit)
     ON_NOTIFY_REFLECT(SCN_UPDATEUI,OnNotification)
     ON_NOTIFY_REFLECT(SCN_CHARADDED,OnNotification)
     ON_NOTIFY_REFLECT(SCN_MARGINCLICK,OnNotification)
+    ON_NOTIFY_REFLECT(SCN_FOCUSIN,OnNotification)
+    ON_NOTIFY_REFLECT(SCN_FOCUSOUT,OnNotification)
+    ON_WM_TIMER()
 END_MESSAGE_MAP()
 std::string CCodeEditor::ToUtf8(const std::wstring& value) {
     if (value.empty()) return {};
@@ -56,6 +59,7 @@ void CCodeEditor::ApplyFont() {
     const auto face = ToUtf8(font.lfFaceName); CClientDC dc(this); const int size = MulDiv(abs(font.lfHeight),7200,dc.GetDeviceCaps(LOGPIXELSY));
     Call(SCI_STYLESETFONT,STYLE_DEFAULT,reinterpret_cast<LPARAM>(face.c_str())); Call(SCI_STYLESETSIZEFRACTIONAL,STYLE_DEFAULT,(std::max)(100,size));
     Call(SCI_STYLECLEARALL); SetTheme(theme_); UpdateMargins();
+    QueueSelectionHighlights(true);
 }
 void CCodeEditor::SetDark(bool dark) { SetTheme(dark ? 1 : 0); }
 void CCodeEditor::ClearMarks() { if (!GetSafeHwnd()) return; for (unsigned indicator = 8; indicator <= 10; ++indicator) { Call(SCI_SETINDICATORCURRENT,indicator); Call(SCI_INDICATORCLEARRANGE,0,Call(SCI_GETLENGTH)); } }
@@ -82,6 +86,8 @@ void CCodeEditor::SetTheme(unsigned theme) {
     const COLORREF mark_colors[] = {RGB(245,215,80),RGB(70,205,225),RGB(235,120,190)};
     for (unsigned i = 0; i < 3; ++i) { Call(SCI_INDICSETSTYLE,8 + i,INDIC_ROUNDBOX); Call(SCI_INDICSETFORE,8 + i,contrast ? GetSysColor(COLOR_HIGHLIGHT) : mark_colors[i]); Call(SCI_INDICSETALPHA,8 + i,90); Call(SCI_INDICSETOUTLINEALPHA,8 + i,180); Call(SCI_INDICSETUNDER,8 + i,1); }
     for (unsigned indicator : {11u,12u}) { Call(SCI_INDICSETSTYLE,indicator,INDIC_STRAIGHTBOX); Call(SCI_INDICSETFORE,indicator,contrast ? GetSysColor(COLOR_HIGHLIGHT) : indicator == 11 ? RGB(235,100,115) : RGB(70,190,120)); Call(SCI_INDICSETALPHA,indicator,95); Call(SCI_INDICSETUNDER,indicator,1); }
+    Call(SCI_INDICSETSTYLE,14,INDIC_ROUNDBOX); Call(SCI_INDICSETFORE,14,contrast ? GetSysColor(COLOR_HIGHLIGHT) : dark ? RGB(245,205,85) : RGB(180,120,15));
+    Call(SCI_INDICSETALPHA,14,dark ? 70 : 45); Call(SCI_INDICSETOUTLINEALPHA,14,220); Call(SCI_INDICSETUNDER,14,1);
     Call(SCI_STYLESETBACK,250,contrast ? back : dark ? RGB(48,48,48) : RGB(225,228,232));
     Call(SCI_SETCARETFORE,fore); Call(SCI_SETSELFORE,1,contrast ? GetSysColor(COLOR_HIGHLIGHTTEXT) : RGB(255,255,255)); Call(SCI_SETSELBACK,1,contrast ? GetSysColor(COLOR_HIGHLIGHT) : RGB(60,105,170)); Call(SCI_SETFOLDMARGINCOLOUR,1,back); Call(SCI_SETFOLDMARGINHICOLOUR,1,back); Invalidate();
 }
@@ -98,7 +104,7 @@ void CCodeEditor::ConfigureLanguage(const std::wstring& path,const std::wstring&
     words_ = lexer_ == "python" ? "and as assert async await break class continue def del elif else except False finally for from global if import in is lambda None nonlocal not or pass raise return True try while with yield" : lexer_ == "json" ? "true false null" : "auto bool break case catch char class const constexpr continue default delete do double else enum false float for if import int long namespace new nullptr private protected public return short signed sizeof static struct switch template this throw true try typedef typename union unsigned using virtual void volatile while";
     Call(SCI_SETKEYWORDS,0,reinterpret_cast<LPARAM>(words_.c_str())); Call(SCI_COLOURISE,0,-1); SetTheme(theme_);
 }
-void CCodeEditor::SetWrap(bool value) { Call(SCI_SETWRAPMODE,value && !source_presentation_ ? SC_WRAP_WORD : SC_WRAP_NONE); }
+void CCodeEditor::SetWrap(bool value) { Call(SCI_SETWRAPMODE,value && !source_presentation_ ? SC_WRAP_WORD : SC_WRAP_NONE); QueueSelectionHighlights(true); }
 void CCodeEditor::SetWhitespace(bool value) { Call(SCI_SETVIEWWS,value ? SCWS_VISIBLEALWAYS : SCWS_INVISIBLE); Call(SCI_SETVIEWEOL,value); }
 void CCodeEditor::SetTabWidth(unsigned width, bool use_tabs) { Call(SCI_SETTABWIDTH,(std::clamp)(width,1u,16u)); Call(SCI_SETINDENT,(std::clamp)(width,1u,16u)); Call(SCI_SETUSETABS,use_tabs); Call(SCI_SETINDENTATIONGUIDES,SC_IV_LOOKBOTH); }
 void CCodeEditor::ToggleBookmark() { const auto line = Call(SCI_LINEFROMPOSITION,Call(SCI_GETCURRENTPOS)); if (Call(SCI_MARKERGET,line) & (1 << 20)) Call(SCI_MARKERDELETE,line,20); else Call(SCI_MARKERADD,line,20); }
@@ -120,11 +126,16 @@ void CCodeEditor::OnNotification(NMHDR* header, LRESULT* result) {
     *result = 0; const auto* event = reinterpret_cast<const SCNotification*>(header);
     if (header->code == SCN_MODIFIED) {
         if ((event->modificationType & SC_MOD_CONTAINER) && undo_container) undo_container(event->token,(event->modificationType & SC_PERFORMED_UNDO) != 0);
-        if (event->modificationType & (SC_MOD_INSERTTEXT | SC_MOD_DELETETEXT)) { ClearMarks(); ClearUnicodeNotices(); ++generation_; UpdateMargins(); if (!suppress_) { forced_modified_ = false; GetParent()->SendMessage(WM_COMMAND,MAKEWPARAM(GetDlgCtrlID(),EN_CHANGE),reinterpret_cast<LPARAM>(GetSafeHwnd())); } }
+        if (event->modificationType & (SC_MOD_INSERTTEXT | SC_MOD_DELETETEXT)) { ClearMarks(); ClearUnicodeNotices(); ClearSelectionHighlights(); ++generation_; UpdateMargins(); QueueSelectionHighlights(true); if (!suppress_) { forced_modified_ = false; GetParent()->SendMessage(WM_COMMAND,MAKEWPARAM(GetDlgCtrlID(),EN_CHANGE),reinterpret_cast<LPARAM>(GetSafeHwnd())); } }
     } else if (header->code == SCN_UPDATEUI) {
         const auto position = Call(SCI_GETCURRENTPOS); const auto ch = position > 0 ? Call(SCI_GETCHARAT,position - 1) : 0;
         if (ch && strchr("()[]{}",static_cast<char>(ch))) { const auto other = Call(SCI_BRACEMATCH,position - 1,0); if (other >= 0) Call(SCI_BRACEHIGHLIGHT,position - 1,other); else Call(SCI_BRACEBADLIGHT,position - 1); } else Call(SCI_BRACEHIGHLIGHT,static_cast<WPARAM>(-1),-1);
         if (selection_changed) selection_changed();
+        QueueSelectionHighlights((event->updated & (SC_UPDATE_SELECTION | SC_UPDATE_V_SCROLL | SC_UPDATE_H_SCROLL)) != 0);
+    } else if (header->code == SCN_FOCUSIN) {
+        QueueSelectionHighlights(true);
+    } else if (header->code == SCN_FOCUSOUT) {
+        KillTimer(0x5348); occurrence_queued_ = false;
     } else if (header->code == SCN_MARGINCLICK) { const auto line = Call(SCI_LINEFROMPOSITION,event->position); if (event->margin == 1) { if (Call(SCI_MARKERGET,line) & (1 << 20)) Call(SCI_MARKERDELETE,line,20); else Call(SCI_MARKERADD,line,20); } else if (event->margin == 2) Call(SCI_TOGGLEFOLD,line); }
     else if (header->code == SCN_CHARADDED && !suppress_ && event->ch == '\n') {
         const auto line = Call(SCI_LINEFROMPOSITION,Call(SCI_GETCURRENTPOS)); if (line > 0) { auto indent = Call(SCI_GETLINEINDENTATION,line - 1); const auto end = Call(SCI_GETLINEENDPOSITION,line - 1); if (end && Call(SCI_GETCHARAT,end - 1) == '{') { const auto step = Call(SCI_GETINDENT); indent += step ? step : Call(SCI_GETTABWIDTH); } Call(SCI_SETLINEINDENTATION,line,indent); Call(SCI_GOTOPOS,Call(SCI_GETLINEINDENTPOSITION,line)); }
@@ -133,7 +144,8 @@ void CCodeEditor::OnNotification(NMHDR* header, LRESULT* result) {
 LRESULT CCodeEditor::WindowProc(UINT message, WPARAM wparam, LPARAM lparam) {
     LRESULT handled = 0; if (source_presentation_ && SourceMessage(message,wparam,lparam,&handled)) return handled;
     switch (message) {
-    case WM_NCDESTROY: DetachDropTarget(); return CEdit::WindowProc(message,wparam,lparam);
+    case WM_NCDESTROY: KillTimer(0x5348); occurrence_queued_ = false; DetachDropTarget(); return CEdit::WindowProc(message,wparam,lparam);
+    case WM_SIZE: { const auto result = CEdit::WindowProc(message,wparam,lparam); QueueSelectionHighlights(true); return result; }
     case WM_DROPFILES: { auto* frame = GetParentFrame(); if (frame && frame->GetSafeHwnd()) { simple_editor::ui::DropPointToScreen(reinterpret_cast<HDROP>(wparam),GetSafeHwnd()); frame->SendMessage(WM_DROPFILES,wparam,lparam); } else DragFinish(reinterpret_cast<HDROP>(wparam)); return 0; }
     case WM_SETTEXT: { const std::wstring wide = lparam ? reinterpret_cast<const wchar_t*>(lparam) : L""; auto value = ToUtf8(wide); if (!wide.empty() && value.empty()) return FALSE; if (source_presentation_) value.insert(0,"\r\n"); const bool previous = suppress_; suppress_ = true; const auto readonly = Call(SCI_GETREADONLY); Call(SCI_SETREADONLY,0); Call(SCI_SETCHANGEHISTORY,SC_CHANGE_HISTORY_DISABLED); Call(SCI_SETTEXT,0,reinterpret_cast<LPARAM>(value.c_str())); Call(SCI_SETREADONLY,readonly); Call(SCI_EMPTYUNDOBUFFER); Call(SCI_SETSAVEPOINT); Call(SCI_SETCHANGEHISTORY,SC_CHANGE_HISTORY_ENABLED | SC_CHANGE_HISTORY_MARKERS); forced_modified_ = false; suppress_ = previous; UpdateMargins(); return TRUE; }
     case WM_GETTEXTLENGTH: return UnitPosition(Call(SCI_GETLENGTH));

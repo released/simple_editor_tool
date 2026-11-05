@@ -11,6 +11,8 @@ binary and source files, merging changes, and synchronizing folders.
 - Text editing with UTF-8, UTF-16 LE/BE, Big5/CP950 and Windows system encodings.
 - Line numbers, wrap, whitespace display, bookmarks, folding, column/multiple
   selections and syntax highlighting for common source/configuration languages.
+- Select text to highlight identical literal occurrences in the current Text
+  document. Matching is case-sensitive; visible marks update as you scroll.
 - Binary comparison with differing addresses and values, side-by-side Hex panes
   and synchronized scrolling.
 - Line-aligned text/source comparison with basic syntax colors, whitespace rules,
@@ -66,6 +68,20 @@ Several files can also be opened from the command line:
 
 Launching the executable again forwards file paths to the existing window.
 The window starts maximized.
+
+Open a text file at a one-based line with separate arguments:
+
+~~~powershell
+.\SimpleEditorTool.exe --open "D:\Project\src\main.c" --line 123
+~~~
+
+This also works when the application is already running. An existing file tab
+keeps its unsaved content and Undo; navigation never saves or reloads it. Relative
+paths are resolved in the launching process before forwarding. Busy/closing
+editors reject line navigation for retry. Missing/out-of-range lines and files
+that require Hex, cannot decode as text, or exceed the 32 MiB text-edit limit
+report a limitation. Old running versions require a normal close and restart
+before receiving line locations. Plain multi-file arguments remain supported.
 
 ## Windows Explorer right-click menu
 
@@ -248,6 +264,10 @@ Language rules follow the file extension. Third-party notices are available in
 **Help > About / native components**; source notices are in
 [Native source dependencies](docs/THIRD_PARTY.md).
 
+Markdown files (`.md`, `.markdown`, `.mdown`) open in Text with editable source on the left and a read-only preview on the right. Drag the divider to resize them; **Review → Show / hide Markdown preview** toggles the preview. Unsaved text updates after a short debounce, with native source Undo, encoding and line endings preserved. Headings, emphasis, lists, quotes, code and pipe tables are supported. The preview is bounded to 64 Ki UTF-16 characters / 4,096 lines and shows a limit notice; the source stays complete. HTML/scripts are shown as text, images and links are display-only, and Mermaid stays a code block. No external resources are loaded.
+
+Scrolling either Markdown pane vertically follows the corresponding source content in the other pane. Font sizes and wrapping may differ; blank and syntax-only lines map to nearby rendered content. Source horizontal scrolling remains independent. Beyond the preview limit, the preview stays at its end without pulling the source back.
+
 The default dark content background is `#3F3F3F`. Markdown files (`.md`,
 `.markdown`, `.mdown`) distinguish headings, bold/italic emphasis, links, lists,
 quotes and inline/fenced code with syntax colors. Light and system-contrast
@@ -378,12 +398,17 @@ in `src`, `tests` and `vendor`.
 `scripts\clean.bat` removes compiler intermediates. To review disposable test
 copies, Debug/test executables, old captures and cached build output, run:
 
-~~~powershell
-powershell -NoProfile -File .\scripts\purge_artifacts.ps1
-powershell -NoProfile -File .\scripts\purge_artifacts.ps1 -Apply
+~~~bat
+scripts\clean.bat /purge
+scripts\clean.bat /purge /apply
 ~~~
 
-The first command previews the recognized files; `-Apply` confirms their removal.
+The first command previews recognized files; `/apply` confirms their removal.
+The equivalent PowerShell entry is `scripts\purge_artifacts.ps1` with optional
+`-Apply`. Completed historical verification output is also eligible when an
+explicit review record identifies its exact paths, sizes and SHA-256 hashes,
+pins the retained acceptance evidence and confirms that no recovery is needed.
+Folder names or extensions alone never authorize removing old logs, BINs or EXEs.
 Cleanup is confined to this project and refuses paths that cross a junction or
 other reparse point. Temporary CLI fixtures are created inside project artifacts.
 Delivery files in `build`, source, unknown files and an active Explorer menu's
@@ -391,6 +416,33 @@ executable are preserved. Stop artifact executables before purging. Compact
 verification summaries remain in `docs/verification` after raw captures are removed.
 CLI verification removes its temporary copies by default; use
 `scripts\verify_cli.ps1 -KeepArtifacts` when diagnostic files are needed.
+
+For focused native verification with automatic cleanup, use:
+
+~~~powershell
+.\scripts\verify_native.ps1 -Suite Core -Configuration Release -Mode '--localization'
+.\scripts\verify_native.ps1 -Suite Ui -Configuration Debug -Mode '--markdown-preview'
+~~~
+
+Each invocation builds in a fresh registered directory under
+`artifacts\verification`. Its `finally` stage removes the owned test EXE,
+libraries, symbols, objects and synthetic inputs after success, failure or
+cancellation. Test or cleanup failure returns an error. A compact latest
+passing/failing summary is kept in `docs\verification`; test binaries are not
+retained as evidence. Cleanup failures record the remaining file count/bytes
+and up to 100 retained paths in the failing summary. Physical termination of
+the PowerShell host can prevent
+`finally` from running; active or unsealed runs are retained for inspection.
+
+Use `scripts\clean.bat /verify` (or `scripts\clean_verification.bat`) to preview
+registered output, then `/verify /apply` to remove it. Only the registered paths
+with matching hashes are eligible; changed files, unknown additions, active
+processes and reparse paths cause a reported refusal or incomplete cleanup.
+Use `/purge` for reviewed historical output outside that registry. Unknown or
+changed files remain protected. A recorded prior automatic-review rejection is
+shown as `BLOCKED previous-review` and prevents `/apply` before any deletion;
+adding a cleanup rule cannot override that rejection. Normal `clean.bat` continues
+to preserve delivery/runtime files and only removes compiler intermediates.
 
 ## Limits
 

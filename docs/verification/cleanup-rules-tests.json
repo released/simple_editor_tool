@@ -1,0 +1,90 @@
+{
+    "Owner":  "simple_editor.legacy-cleanup-tests.v1",
+    "DateLocal":  "2026-11-05T23:39:15.9041305+08:00",
+    "Passed":  30,
+    "Checks":  [
+                   "preview recognizes reviewed old EXE/data without deleting",
+                   "clean /purge dispatch is read-only",
+                   "invalid purge arguments return2 without deletion",
+                   "explicit purge removes old hash-matched test-only EXE/data",
+                   "repeated purge is idempotent",
+                   "formal EXE/INI/DLL, source and unlisted legacy EXE/bin/log/INI keep hashes",
+                   "same-length changed historical data refuses the whole batch",
+                   "hash preflight keeps even ordinary compiler candidates on refusal",
+                   "changed compact verification evidence refuses deletion",
+                   "VerificationComplete is required before old output can be retired",
+                   "DisposableTestData is required before old output can be retired",
+                   "unresolved recovery archives remain protected",
+                   "unresolved unknown ownership refuses deletion",
+                   "audit-only records never authorize deletion",
+                   "reject retargeted or registry-owned path: build\\SimpleEditorTool.exe",
+                   "reject retargeted or registry-owned path: artifacts\\..\\build\\SimpleEditorTool.exe",
+                   "reject retargeted or registry-owned path: C:\\WINDOWS",
+                   "reject retargeted or registry-owned path: artifacts\\verification\\run-00000000000000000000000000000000\\bin\\NativeUiTests.exe",
+                   "copied helper independently anchors its own fixture project",
+                   "conflicting old-output records refuse before deletion",
+                   "previous rejection is visible in preview even with an approved duplicate",
+                   "a previous review rejection overrides all purge rules",
+                   "review rejection also preserves other candidates before dispatch",
+                   "runtime integration target stays protected despite a matching old-output record",
+                   "active-worker refusal remains in the apply path",
+                   "active-worker refusal happens before deletion",
+                   "reparse escape refuses all cleanup before deletion",
+                   "junction target bytes are unchanged",
+                   "ordinary clean remains compiler-only and never purges old test EXEs",
+                   "all protected fixture hashes still match after every negative/positive path"
+               ],
+    "Failure":  "",
+    "Cleanup":  "PASS",
+    "FilesRemoved":  20,
+    "BytesRemoved":  22010,
+    "Fixture":  "D:\\SourceCode\\python\\simple_editor_tool\\artifacts\\cleanup-rules-checks\\legacy-2e18d90a9c2b4a16a4884ecff60635de",
+    "FixtureAbsent":  true,
+    "WorkerCheck":  "Guard routing mocked; existing process enumeration unchanged",
+    "StaticScan":  {
+                       "Result":  "PASS",
+                       "Command":  "shared verify_clean_scripts.ps1 -WorkspaceRoot \u003cthis-project\u003e",
+                       "Scripts":  7
+                   },
+    "SharedPreservation":  {
+                               "Action":  "Shared verify_clean_preservation.ps1 with actual-project/nested-delivery/reparse checks plus owned project-local audit teardown",
+                               "Reused":  "Prior shared actual-project/default-clean boundary evidence; default compiler clean implementation unchanged. New purge and default dispatch preservation exercised in30 current fixtures.",
+                               "AlternateRetry":  false,
+                               "AuditCreated":  false,
+                               "Result":  "NOT RUN",
+                               "Reason":  "Automatic approval review rejected the complete command before CreateProcess: blocked by policy; no further detail"
+                           },
+    "ActualPreview":  {
+                          "Blocked":  148,
+                          "Result":  "PASS read-only",
+                          "Recognized":  0,
+                          "NoApplyAttempt":  true,
+                          "Files":  148,
+                          "UserListedFiveFoldersAbsent":  true,
+                          "Unknown":  0,
+                          "Bytes":  3209368
+                      },
+    "SourceHashes":  [
+                         {
+                             "Sha256":  "D8A1BBC51E6502F742B5203B94039BF9DD5EF6E85C2695C9AE29F688DBEC9DB4",
+                             "Path":  "scripts/artifact_helpers.ps1"
+                         },
+                         {
+                             "Sha256":  "1CD90DC600AB643D3A329FFDAD0C5FE6BE6EC9E2AD424DB04FE33C0F2D6AF18E",
+                             "Path":  "scripts/purge_artifacts.ps1"
+                         },
+                         {
+                             "Sha256":  "429A0317388E062273AAE9887906B68DE541E4A4590A8E5F7B09F0EC3A5A4203",
+                             "Path":  "scripts/clean.bat"
+                         },
+                         {
+                             "Sha256":  "2D4D44093A90E6A0A47BFBC2638BA3848DDE246D7D004AF18D22A0650A192C84",
+                             "Path":  "tests/legacy_artifact_cleanup_tests.ps1"
+                         }
+                     ],
+    "FormalExe":  {
+                      "Sha256":  "F25514BDC1AD03B15DFA4BBA57762211D44BE2AA239B6692B86EAAA1BD2B84AC",
+                      "Unchanged":  true,
+                      "BuildOrNativeTestsRun":  false
+                  }
+}

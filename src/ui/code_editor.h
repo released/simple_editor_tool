@@ -3,6 +3,8 @@
 #include <functional>
 #include <cstdint>
 #include <string>
+#include <vector>
+#include <utility>
 #include "../core/unicode_notices.h"
 #include "../../vendor/scintilla/include/Scintilla.h"
 struct IDropTarget;
@@ -49,10 +51,20 @@ public:
 protected:
     LRESULT WindowProc(UINT message, WPARAM wparam, LPARAM lparam) override;
     afx_msg void OnNotification(NMHDR* header, LRESULT* result);
+    afx_msg void OnTimer(UINT_PTR timer);
     DECLARE_MESSAGE_MAP()
 private:
     void UpdateMargins();
     void ApplyFont();
+    void QueueSelectionHighlights(bool force = false);
+    void ClearSelectionHighlights();
+    void UpdateSelectionHighlights();
+    std::string occurrence_text_;
+    std::vector<std::pair<std::intptr_t,std::intptr_t>> occurrence_ranges_;
+    std::uint64_t occurrence_generation_ = UINT64_MAX;
+    std::intptr_t occurrence_document_ = 0,occurrence_at_ = 0;
+    std::size_t occurrence_range_ = 0;
+    bool occurrence_queued_ = false,occurrence_force_ = false,occurrence_complete_ = true;
     void InitializeDropTarget();
     void DetachDropTarget();
     bool SourceMessage(UINT,WPARAM,LPARAM,LRESULT*);

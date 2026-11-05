@@ -19,3 +19,6 @@ build/*.ini
 !build/lang_tw.ini
 build/*_smoke.png
 /artifacts/
+/docs/verification/open-location-20261102.json
+/docs/verification/markdown-preview-20261104.json
+/docs/verification/markdown-preview-20261104.png

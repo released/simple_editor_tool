@@ -22,6 +22,7 @@
 #include "ui/path_combo.h"
 #include "ui/code_editor.h"
 #include "ui/function_sidebar.h"
+#include "ui/markdown_preview.h"
 #include "ui/live_inspector.h"
 #include "ui/log_tail_dialog.h"
 #include "ui/search_results.h"
@@ -109,6 +110,11 @@ protected:
     simple_editor::core::OutlineLanguage FunctionSidebarLanguage() const;
     void LayoutFunctionSidebar(CRect&);
     void TickFunctionSidebar();
+    bool MarkdownPreviewAvailable() const;
+    bool MarkdownPreviewActive() const;
+    void LayoutTextPage(CRect);
+    void TickMarkdownPreview();
+    afx_msg void OnMarkdownPreview();
     CFunctionSidebar function_sidebar_;
     CSplitterBar function_splitter_;
     int function_sidebar_width_ = 280;
@@ -273,6 +279,11 @@ private:
     CWheelZoomControl<CCodeEditor> text_;
     CWheelZoomControl<CCodeEditor> text_clone_;
     bool dual_view_ = false,clone_active_ = false;
+    CMarkdownPreview markdown_preview_;
+    CSplitterBar markdown_splitter_;
+    CStatic markdown_source_caption_;
+    bool markdown_enabled_ = true;
+    double markdown_ratio_ = 0.5;
     CFont ui_font_;
     CFont text_font_;
     std::wstring text_face_ = L"Consolas";

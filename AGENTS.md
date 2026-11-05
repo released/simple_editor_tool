@@ -17,6 +17,25 @@ This is a native Windows MFC text, hexadecimal, and binary comparison editor.
 
 ## Local Rules
 
+- Automatic Text selection marks own indicator14; keep search/review8-10,
+  diff11-12 and Unicode13 independent. Match one nonblank single-line stream
+  selection <=1024 UTF-8 bytes, exact case-sensitive literal substrings. Use
+  bounded visible display-row slices (including horizontal/wrapped/folded ranges),
+  debounce input and stop inactive/hidden work. Indicators share the document:
+  the focused clone owns the query, and focus changes must refresh its marks.
+  Never alter source/Undo/caret/selection/search flags/target/current indicator
+  state or start the file/search job. Check --selection-highlight plus affected
+  --text-workflow/--zoom/--markdown-preview paths in Debug/Release.
+
+- Markdown preview owns a bounded native Rich Edit view, original RTF renderer and cancellable CPU worker. Keep it separate from Scintilla source/Undo/encoding/EOL and the save/comparison slot. Preview only256KiB UTF-8 input /64Ki UTF-16 units/4096 lines, with explicit notice; never trim source or execute/load external content. Guard generation/revision/path/theme/zoom/width, stop hidden/minimized work and join owned cancellation safely on disposal. Preserve default Markdown split and explicit shared-source clone routes. --markdown-preview plus affected --text-workflow/--zoom/--open-location/localization checks run in Debug/Release; use project-local owned TEMP and retire test binaries after validation.
+  Bidirectional vertical scrolling uses version-matched source anchors verified against native RAWTEXT positions; account for table markers/wrapped lines without changing source caret/selection/Undo/horizontal offset. Never feed clamped preview-end movement back into source outside the bounded coverage. Preserve ordinary/precision wheel scrolling and shared Ctrl+wheel zoom; idle/hidden/stale maps must not scroll or start parsing.
+
+- GUI --open/--line uses core/open_location.h validation, caller-relative path
+  normalization, a separate OpenLocationVersion capability and bounded version3
+  path/line IPC. Preserve legacy paths/version2. Reuse OpenPath/GoToLine without
+  replacing drafts, saving or losing Undo; reject busy/closing and unsupported
+  text locations. Focused native checks: --open-location and --workspace-process.
+
 - New .hex files (extension, case insensitive) open on Hex without text decoding;
   other files retain content-based defaults. Keep existing/explicit restored page
   choices and raw bytes. Normal file Hex starts at 32 bytes/row; comparison panes
@@ -57,6 +76,9 @@ This is a native Windows MFC text, hexadecimal, and binary comparison editor.
   language guards. Never navigate stale rows, translate symbol names or change
   source buffers while refreshing. Header declarations and supported language
   subsets remain bounded; no interpreter/plugin dependency.
+  Filter only its bounded snapshot through a checked visible-to-source mapping;
+  retire native row counts before replacing snapshots/maps. Preserve each tab's
+  query and native input/caret across language changes. Test --outline-sidebar.
 
 - Document-focused scope F01-F09 is defined in
   docs/DOCUMENT_FOCUS_IMPLEMENTATION.md; user operations and supported limits are
@@ -117,6 +139,20 @@ This is a native Windows MFC text, hexadecimal, and binary comparison editor.
 - Cancellation is effective only before replacement. Adopt a committed save even if cancellation arrived late; cancel pending navigation/close when cancellation is requested.
 - `build` is delivery-only: EXE and existing INI files, with no development subdirectories. Symbols/intermediates go under `artifacts/obj`; Debug/test/evidence output stays under `artifacts`.
 - All of `/artifacts/` is local-only. Successful/failed CLI fixtures clean their own copies unless `-KeepArtifacts` is explicit. Use `purge_artifacts.ps1` preview then `-Apply` for reviewed generated output, retaining unknown files/runtime dependencies. Ordinary clean stays conservative. Raw evidence may be pruned after compact verification records are retained; historical artifact paths are not permanent files.
+- Historical verification EXEs/binaries/logs/captures/fixtures are part of explicit
+  `clean.bat /purge` rules, not ordinary compiler clean. Require completed compact
+  evidence and reviewed exact path/size/SHA256/provenance with no recovery need;
+  the project schema is in SPEC.md. Preview precedes /apply; preflight the whole
+  batch and keep unknowns, changed files, runtime targets and external/reparse paths.
+  Recorded prior review rejections remain BLOCKED and prevent application; never
+  mark rejected data reviewed again or register it as a fresh run to bypass denial.
+- Native verification uses scripts/verify_native.ps1 (Core/Ui, configuration and
+  explicit focused modes). Its registered fresh run is retired in finally on
+  pass/fail/cancel; cleanup failure means INCOMPLETE, never acceptance PASS.
+  scripts/clean.bat /verify previews registered runs; /verify /apply checks exact
+  hashes, active workers and boundaries before retirement. Do not register old
+  blocked outputs as a new run or use this entry to bypass an earlier rejection.
+  Workspace Test Artifact Ownership And Retention remains the policy source.
 - Cleanup helpers independently anchor to this project's script location; caller roots must stay strictly inside it. Keep cleanup fixtures under project artifacts, never system TEMP. Never delete project-external files, even agent-owned ones; report retained external files instead. The project root itself, volume/user/system roots, parents, siblings and reparse escapes are not cleanup targets.
 - Preserve per-tab content zoom and its independent percentage pane; zoom must not mutate documents or replace text buffers. Keep borrowed control fonts alive until replaced or destroyed.
 - Ordinary mouse wheel scrolls content; only Ctrl+wheel zooms. Apply this to file/shared Text, Hex, comparison results/output and the large-text pager. Keep Ctrl+0 and percentage display.

@@ -1,0 +1,2026 @@
+{
+    "DateLocal":  "2026-11-05T23:21:40.4405533+08:00",
+    "Owner":  "simple_editor.artifacts-cleanup-audit.v1",
+    "PriorReview":  "Prior blocked by policy records acknowledged; no current rejection from standard purge. Stop if this cleanup receives a new rejection; do not change tools/paths to bypass.",
+    "Files":  [
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\safe-clean.log",
+                      "Sha256":  "82EA19AF420C997492980DA5FC0BECB71338BAA834CCCADFDABBDFA663513B4B",
+                      "Bytes":  298
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\run-tests.ps1",
+                      "Sha256":  "05E6CC6706D83656FD42A0853D33F9687DAEC770CFF515FF090C3EE4425E38CA",
+                      "Bytes":  2240
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Release-zoom.log",
+                      "Sha256":  "FF257A12EECCB743E4072F56EBD66955C58C29ECC8E19EEA2DF89E512238701F",
+                      "Bytes":  6190
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Release-workspace.log",
+                      "Sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939",
+                      "Bytes":  5190
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Release-workspace-process.log",
+                      "Sha256":  "FF8DD4A78ED67D7209FF6363924EA8B973BF0760FDE32FCD360F720022CF4BCB",
+                      "Bytes":  1600
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Release-ui-results.json",
+                      "Sha256":  "29C0C9C94C95ED211F03604B988181293191D87DAF05A7A717C95CF710FD9C89",
+                      "Bytes":  1296
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Release-outline-sidebar.log",
+                      "Sha256":  "04942F05A65AECD62234AB8F18E17A171F4F480E0AEBCBF404FF249BFFE7599E",
+                      "Bytes":  8188
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Release-localization.log",
+                      "Sha256":  "9AAA6AFE72351D69AD5BA7D286FC4021149DB9F8CD8D410AC9997BF92C84D90F",
+                      "Bytes":  2804
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Release-formal-results.json",
+                      "Sha256":  "A43B14BDAB1B4E728B9E3CF9D9272E8F6C0C1E74892A90240C290C3449642B6B",
+                      "Bytes":  299
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\purge-preview.log",
+                      "Sha256":  "96768F969F20E823C41BB7E351B4A666F23686736FF6E7562A0A27DFA0973237",
+                      "Bytes":  5880
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\purge-apply.log",
+                      "Sha256":  "0555AE7A12EC81F4F7370046CF16206D5295169F4A860116456CE08EB9FB0DFD",
+                      "Bytes":  4818
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\protected-files.json",
+                      "Sha256":  "96E7DEB0E5AEDF580649FC2F01BEE0B9F9CD990A789880D85D448E848632C2FA",
+                      "Bytes":  326799
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\pre-clean-size.json",
+                      "Sha256":  "B47E43FF71693247726D16640B925476B07AABC9B18977DA7254C488033880A1",
+                      "Bytes":  100
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\pe-imports.txt",
+                      "Sha256":  "5F2FC84CFCEDDDFA428303DCACBDCAB7A81D9C02813A467DB6346D65F221597D",
+                      "Bytes":  52050
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\pe-headers.txt",
+                      "Sha256":  "300EBAAB93E39AF191857F5D2B76183A1CB03312F772670E0443CA4FA15EE559",
+                      "Bytes":  12958
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\normal-close-checkpoint.json",
+                      "Sha256":  "DD175CEBF4BE0D526885EBD0A1CFF88C365836DDCAE0E847E6A3DB30923205B6",
+                      "Bytes":  1065
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\git-result.json",
+                      "Sha256":  "1A8528B15C4ABD9F5D2FA31A1C8E497E573EB79EB69054B828FDEBF0674CC905",
+                      "Bytes":  672
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\git-repack.log",
+                      "Sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                      "Bytes":  0
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\git-refs-before.txt",
+                      "Sha256":  "7FB9C2982635A4F5DB77001988DEC820631CCD4B430C61A59B90020BAB413A62",
+                      "Bytes":  243
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\git-reflog-before.txt",
+                      "Sha256":  "7B5F742413A9AB092B96D5429300E35996C3F9067BBAA7A888036F9A4F61D3FE",
+                      "Bytes":  2048
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\git-objects-before.txt",
+                      "Sha256":  "0F8F30B531DD485FC10D6E472649EAB83957BCB3DA51A21A3A629AF3099CD18D",
+                      "Bytes":  34944
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\git-fsck.log",
+                      "Sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                      "Bytes":  0
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\fixture-failure.json",
+                      "Sha256":  "59937C8E40507BA6418874B4081474BA956A9B375335F0DD104619A236A7F7D7",
+                      "Bytes":  500
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Debug-zoom.log",
+                      "Sha256":  "FF257A12EECCB743E4072F56EBD66955C58C29ECC8E19EEA2DF89E512238701F",
+                      "Bytes":  6190
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Debug-workspace.log",
+                      "Sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939",
+                      "Bytes":  5190
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Debug-workspace-process.log",
+                      "Sha256":  "FF8DD4A78ED67D7209FF6363924EA8B973BF0760FDE32FCD360F720022CF4BCB",
+                      "Bytes":  1600
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Debug-ui-results.json",
+                      "Sha256":  "C3851BE6DF9E6321D73DDE805ACEC97E522FBBC437C4BA61A2C44C7B2E9228F2",
+                      "Bytes":  1288
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Debug-outline-sidebar.log",
+                      "Sha256":  "9CB06A1CA8DEF8DC94A5EEB3BD0853B7825901D4E7FFAF174F540E1700999C0D",
+                      "Bytes":  7832
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Debug-localization.log",
+                      "Sha256":  "9AAA6AFE72351D69AD5BA7D286FC4021149DB9F8CD8D410AC9997BF92C84D90F",
+                      "Bytes":  2804
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\Debug-formal-results.json",
+                      "Sha256":  "A8AB1435E19636BA6C0D17B9F353FF2EE7CBE34C08AAEAEB85490E2EB3AEA422",
+                      "Bytes":  297
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\clean-static.log",
+                      "Sha256":  "BA7920B711864F7518DA26ED2387AEF4893A6BAF92D5946F322E73227ED4FE14",
+                      "Bytes":  158
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\clean-static-final.log",
+                      "Sha256":  "BA7920B711864F7518DA26ED2387AEF4893A6BAF92D5946F322E73227ED4FE14",
+                      "Bytes":  158
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\build-ui-Release.log",
+                      "Sha256":  "FB4BF26E1350C634571F1F61C710C7B1BA68AA3E7E2F6051C6EADBEE1F241BFE",
+                      "Bytes":  11586
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\build-ui-Release-accepted.log",
+                      "Sha256":  "53F8EA9E3DE45EE81AE99C120321C8DEA778B576984E63E718BCB132876C2496",
+                      "Bytes":  608
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\build-ui-Debug.log",
+                      "Sha256":  "E6D82AC81810460860341132DF965D5C1D5469F8B438EC24E556ED6ED3AE20FF",
+                      "Bytes":  9918
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\build-ui-Debug-final.log",
+                      "Sha256":  "0AA1A5301E304B814F43545834EBA1553847A3DC623EAD1932119AD60A8EEC80",
+                      "Bytes":  9694
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\build-ui-Debug-accepted.log",
+                      "Sha256":  "E5E9510126187865B3B9E121081AE8C0799A1A0811C4DC66D495E27F521D66D1",
+                      "Bytes":  600
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\build-products.ps1",
+                      "Sha256":  "B23ADAD9474B6D704CA7C55B68AFB1667DCBD94DB5B69BD54072ED91F62E8BE2",
+                      "Bytes":  694
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\build-product-Release.log",
+                      "Sha256":  "20AA7857878D56C2E6EDF5EA0E229B7999B3ABED086C4D6F021394925652693D",
+                      "Bytes":  10044
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\build-product-Debug.log",
+                      "Sha256":  "3ECDEED94D6E2429E590FD7E72651ABD879037122525C11B97CC57B2C2D707FB",
+                      "Bytes":  1202
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\build-product-Debug-final.log",
+                      "Sha256":  "A77C92ECEE98C2EC61F55EF2068D03E8BCAC95DE21E56168BE2632177C01B4AF",
+                      "Bytes":  9496
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\before-normal-close.ini",
+                      "Sha256":  "69DED2FBFE5F5747B1319380792B5FE20C454EF46277D40D88A3D86B217ABDF6",
+                      "Bytes":  1452
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\baseline.json",
+                      "Sha256":  "C1ECB564D126091FF8C50D756796D1A8E8D426954CF26256E9FE2EC9BB3F7A56",
+                      "Bytes":  1542
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\.owner",
+                      "Sha256":  "CB69FD8FD9239754542A288962B197492FBB2F772466826896E0B92CABFD23CC",
+                      "Bytes":  60
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\screenshots\\typescript-functions.png",
+                      "Sha256":  "7BC68C77AD05444EA931B3C270C1021B58053D236217C6FE2AB7EFF07BDE3888",
+                      "Bytes":  50709
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\screenshots\\header-functions.png",
+                      "Sha256":  "4679EA18349AC0EFFF9ED05EF5BC5C94D4668C0E74A1ACFF8B08FB49F0FCE1FB",
+                      "Bytes":  51201
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/ui-typography-20261027.json",
+                      "Path":  "artifacts\\ui-typography-20261027\\screenshots\\comparison-controls.png",
+                      "Sha256":  "8F3BA134ED2D942A80B3926AB70853D630E7B4B66DEC0E343FF7CB1B8B77CEFD",
+                      "Bytes":  49257
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-side-merge.log",
+                      "Sha256":  "40BC781F74CD9D1CD546D8DD2AE905536CF139C1984F4B0A1ED7BFE02B7C0922",
+                      "Bytes":  4008
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-reliability.log",
+                      "Sha256":  "C4EA9D4745C34840104CB88CE572966EF774ACEE317CD0B28600FE9FD7D64F96",
+                      "Bytes":  5178
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-harness-build.log",
+                      "Sha256":  "DA768B079730AB3FB12FDCCE5835565A2802533D0B891272B6B4450F6F70F402",
+                      "Bytes":  368
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-guard-build.log",
+                      "Sha256":  "E95918AD4CA5871B9F2DFBB08E3019366C674882AA5CB9589FEEFA2486B351EE",
+                      "Bytes":  416
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-workspace.log",
+                      "Sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939",
+                      "Bytes":  5190
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-workspace-process.log",
+                      "Sha256":  "FF8DD4A78ED67D7209FF6363924EA8B973BF0760FDE32FCD360F720022CF4BCB",
+                      "Bytes":  1600
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-workflow-expansion.log",
+                      "Sha256":  "75422F7402C0054CC9A04D19C9497B2264EF58CDB3F579B481EB5A132C8CEE0F",
+                      "Bytes":  6504
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-text-workflow.log",
+                      "Sha256":  "C226FB2F035754D4154AA62C857D68C6C2133FD5F620AE2EDAD46F7BC7D8B8F2",
+                      "Bytes":  5438
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-structured.log",
+                      "Sha256":  "FCA5C9F044E3D9ED38B3317B04F9805EDAFF8FCFFD304D55EE9BC54E2E0E7BE3",
+                      "Bytes":  1058
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-side-merge.log",
+                      "Sha256":  "40BC781F74CD9D1CD546D8DD2AE905536CF139C1984F4B0A1ED7BFE02B7C0922",
+                      "Bytes":  4008
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-results.json",
+                      "Sha256":  "D358D4A170FD2AC88718D4AEF7AD3E8D0D85DA789648FEA162916AB3A1FFAFA7",
+                      "Bytes":  2842
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-reliability.log",
+                      "Sha256":  "E82CDFD8D371FF710229B9D66E1D376BB61BA44A95E0005EC6B0BC3E848986BF",
+                      "Bytes":  5082
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-presentation.log",
+                      "Sha256":  "07C8DDB2D80378073FEA7926B38EC86895594EB135093331B0C5BC8BC5D73160",
+                      "Bytes":  1218
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-preferences.log",
+                      "Sha256":  "7D292CD67E556A23504B118F15AF81080548B44159BDCAD668B31F6A32F16A22",
+                      "Bytes":  2204
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-pasted-text.log",
+                      "Sha256":  "077BD78556CF8DD915C159F402B267F5D2116A39AB383861878D43487CFC665C",
+                      "Bytes":  4742
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-localization.log",
+                      "Sha256":  "9AAA6AFE72351D69AD5BA7D286FC4021149DB9F8CD8D410AC9997BF92C84D90F",
+                      "Bytes":  2804
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-document-focus.log",
+                      "Sha256":  "1930C19D0EBB6A962F627C6D7518941015811E1F79022E3ABF2CF138C893A5A7",
+                      "Bytes":  5976
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-compare-page.log",
+                      "Sha256":  "740DF1EAC947C921B3B1BBFCB3E8137EF0B209BA08BF0420C0B62BE6D7E5DA09",
+                      "Bytes":  5062
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-compare-notice.log",
+                      "Sha256":  "8E65A8BC33646468C3990EBBDAA37B774639050C6E231C12D56BD0B635B2DF28",
+                      "Bytes":  4702
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-async-save.log",
+                      "Sha256":  "07B8326AFA6E62B2421355AAA8957487181947705BB423324EB80B09F96C6EEC",
+                      "Bytes":  3806
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-final-advanced.log",
+                      "Sha256":  "2CD0A8C907F51AEB67EECDD1736CAF779B8A4C00676C15CF4E6FE095BF64761C",
+                      "Bytes":  6668
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-release-build.log",
+                      "Sha256":  "D31303F778DEBA8C35596C01E555DC284DBDB94CE82CD22C6458DC1EB51FFBA6",
+                      "Bytes":  9228
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-results.json",
+                      "Sha256":  "75FB111D8BBC1EC5EA4F19A339AEB1C6E4CE2195E29290E9A0BD53A27E23F9FE",
+                      "Bytes":  2273
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-reliability.log",
+                      "Sha256":  "9AEC4C7A7B3288D069A34EA33D5222921B94848283DC839FB170C60E1D227513",
+                      "Bytes":  4394
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-reliability-final.log",
+                      "Sha256":  "F944FD5368A3DB629109AF827FDC68790875F4CD415C33EDC5F90BDEA19781D5",
+                      "Bytes":  4910
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-reliability-02.log",
+                      "Sha256":  "D040897DE6E9E49FCB7C874C5177407FE1A1BFBB31FAE62252F8F61567B9090F",
+                      "Bytes":  594
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-incremental-build.log",
+                      "Sha256":  "FF54B801F40ABFA0B81FE2CF1DADABE51D8309ACCBB268285320E37FFEAF5429",
+                      "Bytes":  570
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-harness-build.log",
+                      "Sha256":  "E612E4453A531E70223F9EF37685416A1A87631C0C33F6BE8C2B814AFEFEB1A8",
+                      "Bytes":  364
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-guard-build.log",
+                      "Sha256":  "488024638B9EA85E792B491ED01BC0292C921752DDF86BD92DACE8FDC9EC98B6",
+                      "Bytes":  412
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-final-workspace.log",
+                      "Sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939",
+                      "Bytes":  5190
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-final-structured.log",
+                      "Sha256":  "FCA5C9F044E3D9ED38B3317B04F9805EDAFF8FCFFD304D55EE9BC54E2E0E7BE3",
+                      "Bytes":  1058
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-final-side-merge.log",
+                      "Sha256":  "40BC781F74CD9D1CD546D8DD2AE905536CF139C1984F4B0A1ED7BFE02B7C0922",
+                      "Bytes":  4008
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-final-results.json",
+                      "Sha256":  "CE8D9C07606D9BC0166B64E6F585D4EF485B564BF6C43944C48A959EBF55E118",
+                      "Bytes":  1132
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-final-reliability.log",
+                      "Sha256":  "4AFC6B7D6F2B203C9971E29185D3936190D03F4998BF894BD2ED12E718092D19",
+                      "Bytes":  5082
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-final-compare-page.log",
+                      "Sha256":  "740DF1EAC947C921B3B1BBFCB3E8137EF0B209BA08BF0420C0B62BE6D7E5DA09",
+                      "Bytes":  5062
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-final-compare-notice.log",
+                      "Sha256":  "8E65A8BC33646468C3990EBBDAA37B774639050C6E231C12D56BD0B635B2DF28",
+                      "Bytes":  4702
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-final-build.log",
+                      "Sha256":  "A6D36D458432E96CB767CE5BE2EB9FBAF7BA8806F3AE655B6680065B4E12FC7F",
+                      "Bytes":  9224
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-final-advanced.log",
+                      "Sha256":  "2CD0A8C907F51AEB67EECDD1736CAF779B8A4C00676C15CF4E6FE095BF64761C",
+                      "Bytes":  6668
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-diagnostics-build.log",
+                      "Sha256":  "E612E4453A531E70223F9EF37685416A1A87631C0C33F6BE8C2B814AFEFEB1A8",
+                      "Bytes":  364
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-diagnostic-small.log",
+                      "Sha256":  "79C1D5785C031025DD56E2CEE53997246413C683919A659D05E2A387F612743D",
+                      "Bytes":  1534
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-build.log",
+                      "Sha256":  "D5AB60E7A66F05FE82729BF1E039AA2EADAB8F7952C158E046C477DE47E4EB34",
+                      "Bytes":  8082
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-accept-workspace.log",
+                      "Sha256":  "4B84376B5B4F009B321E9D72AF05F67235C9B038544EC0203C96F0015A42C939",
+                      "Bytes":  5190
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-accept-workflow-expansion.log",
+                      "Sha256":  "75422F7402C0054CC9A04D19C9497B2264EF58CDB3F579B481EB5A132C8CEE0F",
+                      "Bytes":  6504
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-accept-text-workflow.log",
+                      "Sha256":  "C226FB2F035754D4154AA62C857D68C6C2133FD5F620AE2EDAD46F7BC7D8B8F2",
+                      "Bytes":  5438
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-accept-side-merge.log",
+                      "Sha256":  "40BC781F74CD9D1CD546D8DD2AE905536CF139C1984F4B0A1ED7BFE02B7C0922",
+                      "Bytes":  4008
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-accept-presentation.log",
+                      "Sha256":  "07C8DDB2D80378073FEA7926B38EC86895594EB135093331B0C5BC8BC5D73160",
+                      "Bytes":  1218
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-accept-preferences.log",
+                      "Sha256":  "7D292CD67E556A23504B118F15AF81080548B44159BDCAD668B31F6A32F16A22",
+                      "Bytes":  2204
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-accept-pasted-text.log",
+                      "Sha256":  "077BD78556CF8DD915C159F402B267F5D2116A39AB383861878D43487CFC665C",
+                      "Bytes":  4742
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-accept-localization.log",
+                      "Sha256":  "9AAA6AFE72351D69AD5BA7D286FC4021149DB9F8CD8D410AC9997BF92C84D90F",
+                      "Bytes":  2804
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-accept-document-focus.log",
+                      "Sha256":  "1930C19D0EBB6A962F627C6D7518941015811E1F79022E3ABF2CF138C893A5A7",
+                      "Bytes":  5976
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-accept-compare-notice.log",
+                      "Sha256":  "8E65A8BC33646468C3990EBBDAA37B774639050C6E231C12D56BD0B635B2DF28",
+                      "Bytes":  4702
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-accept-async-save.log",
+                      "Sha256":  "07B8326AFA6E62B2421355AAA8957487181947705BB423324EB80B09F96C6EEC",
+                      "Bytes":  3806
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-accept-advanced.log",
+                      "Sha256":  "2CD0A8C907F51AEB67EECDD1736CAF779B8A4C00676C15CF4E6FE095BF64761C",
+                      "Bytes":  6668
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\retired-test-hashes.json",
+                      "Sha256":  "DE5D480F42F3572740A3C63FAD90D6DE3B3276191DF76F286C48EEBF07C4239D",
+                      "Bytes":  497
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\reliability-release.png",
+                      "Sha256":  "53EDA5688703C8C1C740EDA7E4E0048C89320A9DBD4F9F1CF9FAE9405D4FAF9B",
+                      "Bytes":  88199
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\reliability-release-final.png",
+                      "Sha256":  "77EEAE9205A8C3F8FD08FE2A9AA1F44C9DF3F1F5F35104EC4D93A4D90FBDE6E5",
+                      "Bytes":  88278
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\reliability-debug.png",
+                      "Sha256":  "6ECFF74A23ED1CF804704A6BCD72A8003DD93678EDA85917BE588AA88FE3E28F",
+                      "Bytes":  88253
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\reliability-debug-final.png",
+                      "Sha256":  "2F16C6529EB0E0B7196B239FD0C475CBF9F4A3BF13073AA0A743E8E9B3B281D8",
+                      "Bytes":  88326
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\raw-inventory.json",
+                      "Sha256":  "89FE15570D78AEFA115D9308903A2903EB8861553188C6B660F1079900EE9CDA",
+                      "Bytes":  15521
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\purge-preview.log",
+                      "Sha256":  "FE4F33EA8D0871BFD78669AF40B91474E5A38CB0D6CEF6A98E90592A6357BDC5",
+                      "Bytes":  19848
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\purge-apply.log",
+                      "Sha256":  "300CA3E40ACDA5E513EA5B3B0734DA46643F08C61AC0AF5F6CBD72AAC3993556",
+                      "Bytes":  18530
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\protected-before-clean.json",
+                      "Sha256":  "23946A744E318C0AD44C44A6A720307388BAA8742AAACB502ADCFB70C5E914ED",
+                      "Bytes":  129614
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\product-release-incremental-build.log",
+                      "Sha256":  "7617DF9467A2656A6CED9F30A3ECFE90224375E65B7DBD6FF5E434DFE0EAD9A3",
+                      "Bytes":  1406
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\product-release-guard-build.log",
+                      "Sha256":  "A1CCCB10490D177199AD84A7715A6FA173BE060665675AC1B6D24C385CBD2AB0",
+                      "Bytes":  1246
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\product-release-build.log",
+                      "Sha256":  "9391A4BFDB1EED052EACBA2158B180DF5C68DECB324600A0FC6E7EDAD581E0C5",
+                      "Bytes":  12238
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ownership.json",
+                      "Sha256":  "308543156AF8DA5E1E2D4FA17D1853F7EE4EFCA3EEF1F1884A9FD6855EEE7907",
+                      "Bytes":  181293
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\git-repack.json",
+                      "Sha256":  "12AC3B81A3812C7D62BC28D2EF1E095D82E3740DBAAE5147627BC30980679717",
+                      "Bytes":  207
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\formal-pe.txt",
+                      "Sha256":  "F16D94C2685526C2B2ACBAB9E4AA71682117E6353E7C9E21F412B91F13BEE199",
+                      "Bytes":  64398
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\failed-fixture-retirement.json",
+                      "Sha256":  "A062ADDB068B0FCDB2968EFDA2D12AAFA9CC88B260D68C631427EE998AE2F077",
+                      "Bytes":  2431
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-release-search-codec.log",
+                      "Sha256":  "B0F1B98058CE162980EB99C487508FB1D98EB35F868E9E69802717BBAD5D16A5",
+                      "Bytes":  216
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-release-retire.log",
+                      "Sha256":  "15C83F79DBE08E04B0E3F8158A6999E3414F28BA2AF8B475B252A8569D347762",
+                      "Bytes":  102
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-release-regions.log",
+                      "Sha256":  "6F5B4FDEBDEFD608CCBD75875F9864767808DAA9C38F7ECBCBF5697D5963C0EB",
+                      "Bytes":  2270
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-release-preferences.log",
+                      "Sha256":  "B1995D4A8700D6148DB14ED15C0767DEDB049B79D154DCC63423646F08FA12F0",
+                      "Bytes":  1510
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-release-merge-tools.log",
+                      "Sha256":  "21C75B94F0A466CB09CB8669B424338A14AE68CB940F80A59698CFAD02178E8A",
+                      "Bytes":  2474
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-release-merge-sync.log",
+                      "Sha256":  "25B53EC4462F81301AEF9DEAC451A901EF9B600F055940FFC38F20B6B85DC7C1",
+                      "Bytes":  6512
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-release-localization.log",
+                      "Sha256":  "6A6835B668C881ED146D98FC093463D214BF4B3667E6043677D85B0E9FD020A5",
+                      "Bytes":  2972
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-release-file-safety.log",
+                      "Sha256":  "BFAFB1B7CEF179969B3B877E3A5CCD21A4B356AFA6156F3D751B19F78AE6D1AD",
+                      "Bytes":  3068
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-release-build.log",
+                      "Sha256":  "01A4DE4DF453F97392F0DBA2AA31A69BB8BFAECEB04FB1DA697AF0B6A64E754E",
+                      "Bytes":  4970
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-release-async-save.log",
+                      "Sha256":  "26611FA98DDF7C097D01D5D9A0787FCEA1689528C91DE11CF1806D0BF71A0688",
+                      "Bytes":  2854
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-release-allocation-safety.log",
+                      "Sha256":  "431E120C5896DC705FAB7EFA8CB6BF884FBACFE0C8EC8A255E762215A773FD02",
+                      "Bytes":  1156
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-debug-console.log",
+                      "Sha256":  "D482C0971DA17D976A50E34ACEC1F6F5ED99CDA4721A9FF82BB54BC533750A1C",
+                      "Bytes":  4684
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-debug-build.log",
+                      "Sha256":  "D06A4FA56C9C7182719CA188EB1A2BADEC1CBD8FD6B3DCCDFB8BCCBC555142BD",
+                      "Bytes":  2344
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\core-debug-allocation-safety.log",
+                      "Sha256":  "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+                      "Bytes":  0
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\clean-preservation.json",
+                      "Sha256":  "DF0A3B86A043FA464F288E579AD7DD22CFE6F01CFAC508B5B8006AC628830DF4",
+                      "Bytes":  109
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\clean-obj.log",
+                      "Sha256":  "026B0ADDF7E99A948C3627622607C0ADA35BC7B025911CD395E2D26A3F53869E",
+                      "Bytes":  298
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\build-ui-release-final.log",
+                      "Sha256":  "4AB9C93B1C5759972332D3089F9D264DF784B22591FC3130EC4EE714C15338D0",
+                      "Bytes":  2324
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\build-ui-debug-final.log",
+                      "Sha256":  "FF9CFDDB4F36E618A914B48909B4F33C63B5D313C424B0F9015801E413BF78EB",
+                      "Bytes":  2320
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\build-release-final.log",
+                      "Sha256":  "EA173DD45C1DFDD09EB09E2906857064D77ABE0355540E88B0BA3C27E6147186",
+                      "Bytes":  3176
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-reliability-02\\set30AA.tmp\\b.txt",
+                      "Sha256":  "87138BAB8AD208B27E4233EC070EBAA9FB1B5D69C1EF53D2DFCC8C64B626095D",
+                      "Bytes":  328890
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-reliability-02\\set30AA.tmp\\a.txt",
+                      "Sha256":  "6D567DA92F1FA836DF1CC0D7FF7834963C4CB6D47FA91DADD54A88F7749AD0AE",
+                      "Bytes":  328890
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-reliability-02\\set30AA.tmp\\.editorconfig",
+                      "Sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6",
+                      "Bytes":  12
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-reliability\\set8904.tmp\\b.txt",
+                      "Sha256":  "87138BAB8AD208B27E4233EC070EBAA9FB1B5D69C1EF53D2DFCC8C64B626095D",
+                      "Bytes":  328890
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-reliability\\set8904.tmp\\a.txt",
+                      "Sha256":  "6D567DA92F1FA836DF1CC0D7FF7834963C4CB6D47FA91DADD54A88F7749AD0AE",
+                      "Bytes":  328890
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-reliability\\set8904.tmp\\.editorconfig",
+                      "Sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6",
+                      "Bytes":  12
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-diagnostic-small\\set8C6.tmp\\b.txt",
+                      "Sha256":  "D0A947CE48CC5379CA3713E133D4DFA63ED825AE46027562C2F0C15FE0614B71",
+                      "Bytes":  3730
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-diagnostic-small\\set8C6.tmp\\a.txt",
+                      "Sha256":  "43506BFBAF8CA647C4AA193E508C6838C28ABE629ACF4E21187ACB1E9EC28645",
+                      "Bytes":  3730
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\ui-debug-diagnostic-small\\set8C6.tmp\\.editorconfig",
+                      "Sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6",
+                      "Bytes":  12
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/reliability-20261031.json",
+                      "Path":  "artifacts\\reliability-20261031\\diagnostic\\stack.ps1",
+                      "Sha256":  "73AA5065BD143B98945EB1F75ADD71926C61DEF1318F3D3347761107CC72417E",
+                      "Bytes":  3666
+                  },
+                  {
+                      "Provenance":  "Exact 32 A-byte synthetic fixture from tests/native_allocation_tests.cpp",
+                      "Path":  "artifacts\\reliability-20261031\\core-debug-allocation-safety\\setBA32.tmp\\allocation.bin",
+                      "Sha256":  "22A48051594C1949DEED7040850C1F0F8764537F5191BE56732D16A54C1D8153",
+                      "Bytes":  32
+                  },
+                  {
+                      "Provenance":  "Completed Markdown disposable owner; concise acceptance and newer capture retained in docs/verification",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\results.json",
+                      "Sha256":  "BE1D20B8FD97D2676A79DBEFAE504F7FB4633D73CDE7F060CCD38A9692556522",
+                      "Bytes":  1924
+                  },
+                  {
+                      "Provenance":  "Completed Markdown disposable owner; concise acceptance and newer capture retained in docs/verification",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\results-final.json",
+                      "Sha256":  "2963F4D9C8F517A41C9FA3D80AAE9CC243507240C1A25F527EF4CA43029B2770",
+                      "Bytes":  400
+                  },
+                  {
+                      "Provenance":  "Completed Markdown disposable owner; concise acceptance and newer capture retained in docs/verification",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\ownership.json",
+                      "Sha256":  "4C0BC6EA3DF209ED0C6B8EEC3A59D8CA7F35653E7FB310F41B30225D4A408BCC",
+                      "Bytes":  233
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/markdown-preview-20261104.json owned_output_hashes",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\NativeUiTests.ilk",
+                      "Sha256":  "2F959099D7383DC5E99C43D51D09663B9137A84CD77D3FE837E663D650FDEDD8",
+                      "Bytes":  58431208
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/markdown-preview-20261104.json owned_output_hashes",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\NativeUiTests.exe",
+                      "Sha256":  "C5F35F3C71470F6DF7C69B2F0D48D0D7884CA4996146296254120E4A149B5305",
+                      "Bytes":  12552192
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/markdown-preview-20261104.json owned_output_hashes",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\NativeEditor.pdb",
+                      "Sha256":  "0D431C499E36805A63C34E56C48ACCB3A8088AB6D6625DEA6DB444E783649196",
+                      "Bytes":  6049792
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/markdown-preview-20261104.json owned_output_hashes",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\NativeEditor.lib",
+                      "Sha256":  "16EB5DF08DAAA05FD48202667B72DF933FC072556B8310B408E0678927386B20",
+                      "Bytes":  19390494
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\XPM.obj",
+                      "Sha256":  "27058678EF20EA03DB957B1F89D140216B3FBE7717746CD1EA84C21E7F940DF5",
+                      "Bytes":  174204
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\WordList.obj",
+                      "Sha256":  "98F5E8E8C5BC31D1FBC7AE96708E004FBFDA0D24ABC8102D5C73B623714255D2",
+                      "Bytes":  89611
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\ViewStyle.obj",
+                      "Sha256":  "AA25CAC9321F1E213DC352156765B4A7BA01156C2520F2DB9BDF0EB269BD2E64",
+                      "Bytes":  434532
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\UniqueString.obj",
+                      "Sha256":  "795BA35942AD29A008F4125D9803D0AFD4C2FA37EB361D2629FF5205AC2E921F",
+                      "Bytes":  75094
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\UniConversion.obj",
+                      "Sha256":  "0E19C4EE4EB223E99E21CDAE55DD21B9D768979E7D5CC31F4EE97AFE977B76A1",
+                      "Bytes":  116740
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\UndoHistory.obj",
+                      "Sha256":  "7E495A9D36AC2F480F17171F32D833C010628F81CD2ADA7D9BB2A298CDBA282A",
+                      "Bytes":  208684
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\SurfaceGDI.obj",
+                      "Sha256":  "4ACCD88AA15C6FDC8155C4A3A60D2398EE8C0FA38E5924B7753C9D21F74C1398",
+                      "Bytes":  301085
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\SurfaceD2D.obj",
+                      "Sha256":  "79339CEAB8698D237EE1E7655AAF38249AF1332AB11A72FA6BC1230869DAA1C1",
+                      "Bytes":  739864
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\StyleContext.obj",
+                      "Sha256":  "115AC66555791CF687E6989F7516B71481B88F1AE3A6569ACDECBAEDCB249D0F",
+                      "Bytes":  80913
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\Style.obj",
+                      "Sha256":  "B217AA2F70D038CB27E543307C99EF1A0BD5CD3A4A27F1FA981B963422C9440A",
+                      "Bytes":  52638
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\Selection.obj",
+                      "Sha256":  "E2F61169EFEE179D4DEB219A2CED3BB2760FE72C3FFF7A18E46E7E518BCEE1E4",
+                      "Bytes":  255251
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\ScintillaWin.obj",
+                      "Sha256":  "F731A0298576105B8CBED69AFB5C9E2F672A60C024462FBEFD13A7AD4E80CA9B",
+                      "Bytes":  1066235
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\ScintillaBase.obj",
+                      "Sha256":  "20503E5F40F851C93307C60B888A1E8A74EE12B81D134F39247DF61AFB843235",
+                      "Bytes":  268158
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\RunStyles.obj",
+                      "Sha256":  "06AB75384414A0C323DD4D3F5C32AF37344803E0EC726C038DA934F33C0C92FF",
+                      "Bytes":  391082
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\RESearch.obj",
+                      "Sha256":  "9368FE78198E5A074853AD616A265878CF96E269A45F47A15F56E6497C377B8C",
+                      "Bytes":  83694
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\PropSetSimple.obj",
+                      "Sha256":  "774D5EC97DC99FD05000344DA0D89DCC4C6EC93E7788ABF95DE9CA42A77CC7DC",
+                      "Bytes":  126515
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\PositionCache.obj",
+                      "Sha256":  "DC020274DBD35738903B2630B1B48C310E2EBA9C3151BEA2018042C9142E588B",
+                      "Bytes":  512702
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\PlatWin.obj",
+                      "Sha256":  "8E1149E37CDDF5411F53B69D264CED018D5CA435A0D879C806779AC8268C3B8C",
+                      "Bytes":  356724
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\PerLine.obj",
+                      "Sha256":  "F6CA91E505EE20B8C7D2C83D434EB8F1CCCEB2FDB1C3F016E6F33A1A756447AD",
+                      "Bytes":  408832
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\NativeEditor.lib.recipe",
+                      "Sha256":  "E68192EA7180A53FF41B201936B074C7189F62533BD0B6A3087354B3DF6ED73C",
+                      "Bytes":  152
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\MarginView.obj",
+                      "Sha256":  "C9E04410F37A820928A502E5CCC9CAB591C35E4BFE1F85BF56B114AF32163EDF",
+                      "Bytes":  163585
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\ListBox.obj",
+                      "Sha256":  "AED04783ADE084182282EFF256BC04055D37C2E0DCCDF1DA854050BDCE04DF15",
+                      "Bytes":  451681
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LineMarker.obj",
+                      "Sha256":  "513F71D873CF0D5CD33230A9F1A04C7450A24CA3EBA98D52A691B903ADD803C3",
+                      "Bytes":  166770
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexYAML.obj",
+                      "Sha256":  "5A83DFE8C5D901CA9C7B7DB882F2D28B10EFD6B7FCDBD25EE7647DB5C6ED48B4",
+                      "Bytes":  92122
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexSQL.obj",
+                      "Sha256":  "4908AAAEBCEDE096E27DDF6189B58F6162DF3AD531354CF8B74CC16B6E35D140",
+                      "Bytes":  276076
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexPython.obj",
+                      "Sha256":  "CB7185C4552BCA4E95E6852BB516A7D3B882AC781BF20CC741CAC3CE19266E9B",
+                      "Bytes":  473080
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexPowerShell.obj",
+                      "Sha256":  "F340D2CA82A676456D10F1E24C24CCDB8100EBA3F66AC30B15E91A9A6DB8F00E",
+                      "Bytes":  71889
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexMarkdown.obj",
+                      "Sha256":  "30515396FAD3512EFF67688B6BD214A50ECD99349163677ED943D400C72A32B1",
+                      "Bytes":  92741
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexJSON.obj",
+                      "Sha256":  "4F57608A9933294E8BBDAF51ADDA206A5D04A6088E883D5D5AE0783288F1932F",
+                      "Bytes":  236849
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexHTML.obj",
+                      "Sha256":  "3D0F4A14A3C1F9CBCE2FCAB85DCC0C226AE8106BF7583277875C3FC3D4D29ED9",
+                      "Bytes":  627252
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\lexer_catalogue.obj",
+                      "Sha256":  "7F622449740FDABDAB344C4C0A30C272DFC241AA78E5EB24454F1EB3DAFABC20",
+                      "Bytes":  6605
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexerSimple.obj",
+                      "Sha256":  "5B2C39C473447BE8EC59B025C344DB8A1899B3947C0D203EC35ACA0E9268FAFE",
+                      "Bytes":  85453
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexerModule.obj",
+                      "Sha256":  "FD4AD11E64CAAFD88F378338BC833CB26D11F763AB7B7FC6A62322C2094D5AF9",
+                      "Bytes":  52807
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexerBase.obj",
+                      "Sha256":  "A88F0B28C8E5F2109D64B2EF9B31783D677C6AFE08FF040360F4625496E35474",
+                      "Bytes":  69201
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexDiff.obj",
+                      "Sha256":  "13D01D10A008196FB631E02512DFD26DCD924736D1B9F302CA1D555AD72F9CCB",
+                      "Bytes":  82552
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexCPP.obj",
+                      "Sha256":  "28710B54A619D1AEC859734144722C9D102359AB9CDA74DB2FF0C9E3598B0BDE",
+                      "Bytes":  1114885
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexCmake.obj",
+                      "Sha256":  "7AE7DAFCD7DB47F2C64E5B78873F4032A98ECB590F23AF232C3A8C488140D1EC",
+                      "Bytes":  75600
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexBatch.obj",
+                      "Sha256":  "0804005C18D5305ACE6798A6860234CD06495CDACB644A48329927E32632C009",
+                      "Bytes":  170601
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexBash.obj",
+                      "Sha256":  "1491F3F18A0AEE363C841D2FF216BA7FBBF8BF25F6F7952F756A8FAE68F261C7",
+                      "Bytes":  425855
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\LexAccessor.obj",
+                      "Sha256":  "124C7E7FF1E0042B487372BEC7739B61E571581652EA498ACA9F31824C82FDBF",
+                      "Bytes":  79738
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\KeyMap.obj",
+                      "Sha256":  "EAA888771D07C180C269CE4DEF64C22C328721391CFE90D92E02C34359C5CA04",
+                      "Bytes":  93052
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\InList.obj",
+                      "Sha256":  "FB82BB288EB8CB67DC2BB3B0D1FD3B5F3A1735BFB92AEB7CCBE36AE484F3E8FD",
+                      "Bytes":  41671
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\Indicator.obj",
+                      "Sha256":  "C80F81DB363C048C851DC6C16AFAFBF6B500BBE37A6884CA4DEC3E43BA145F58",
+                      "Bytes":  145861
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\HanjaDic.obj",
+                      "Sha256":  "206E230C0A26AC0BDFFD50FEE99349918E8C588DD6ECCB8FD9B4F4875BBF97BC",
+                      "Bytes":  80089
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\Geometry.obj",
+                      "Sha256":  "9F45F9323E3C93536D399D2B9F07CB16FF5B0648E8C01392CBF18345EEEC2D95",
+                      "Bytes":  43944
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\EditView.obj",
+                      "Sha256":  "5AF030F1C9E80653322DC89AB436BE71609235EAC68091901E0D3EB74B1C8057",
+                      "Bytes":  1215300
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\Editor.obj",
+                      "Sha256":  "21D80C050F634A60FE75350DEB2A1A849AA77EE09C50B793AB60C623661A031A",
+                      "Bytes":  1895335
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\EditModel.obj",
+                      "Sha256":  "96749A9F18D522383C71BF6AAAF88A67B9399759E2A64F884E9BBC4DC8E3700F",
+                      "Bytes":  235741
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\Document.obj",
+                      "Sha256":  "1CCACC53328050AC64CA40C514820007DC22C9F1E0D556C162E86EE7C2565AE7",
+                      "Bytes":  1841417
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\DefaultLexer.obj",
+                      "Sha256":  "1791C22ED571699CD66094E6A0E09BF6B189210213FA12727F04FB37DF916C98",
+                      "Bytes":  66237
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\Decoration.obj",
+                      "Sha256":  "4CC10E076DC26B45F34F653334E5BC417D1A1350995FE1C32485997D86041156",
+                      "Bytes":  277781
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\DBCS.obj",
+                      "Sha256":  "BFAFDF8529B816DC6F58DE5AED5CE4FE978F7E2E93D117021C8EAF668EF26B5D",
+                      "Bytes":  65477
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\ContractionState.obj",
+                      "Sha256":  "F365E0AA0C9A341F107FADFE62C367F84660B26BB13A0684AAA63C3D9806DED5",
+                      "Bytes":  371999
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/markdown-preview-20261104.json owned_output_hashes",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\compiler.pdb",
+                      "Sha256":  "0D431C499E36805A63C34E56C48ACCB3A8088AB6D6625DEA6DB444E783649196",
+                      "Bytes":  6049792
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\CharClassify.obj",
+                      "Sha256":  "E238D0BB757BBF8E2A1446F83CEB201788E4D14E5B194105CE2AE683448DCF96",
+                      "Bytes":  41768
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\CharacterType.obj",
+                      "Sha256":  "F729FB1255CD928B678EA0FA1997BB39EE3067FA162F71894ACB100EE9E33EAE",
+                      "Bytes":  5764
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\CharacterSet.obj",
+                      "Sha256":  "848F090159C26871DC08B35FC7DEE863651D41A01469C75F0461F904C83A4B7C",
+                      "Bytes":  21813
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\CharacterCategoryMap.obj",
+                      "Sha256":  "BA7720E23BBE40F9C6107DBB2BE5827B8B1A0BC779CA75F5B8913E7F1AEAB5D9",
+                      "Bytes":  93206
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\CharacterCategory.obj",
+                      "Sha256":  "DFB6CAEAB39D79B043DBF03EB1C1CBE4559A10ABC01C000E1A483F7EDF9A8F72",
+                      "Bytes":  92374
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\ChangeHistory.obj",
+                      "Sha256":  "661E5645A1D65172FB57689A7FBDBB549ECAA7A0CECDE9B5DEECE283AF184BA9",
+                      "Bytes":  394235
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\CellBuffer.obj",
+                      "Sha256":  "C7F789D7DEE4A112EE9A1F7F08CDDF423B8A16349E91D4B89A1065BDA6C9F86E",
+                      "Bytes":  461060
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\CaseFolder.obj",
+                      "Sha256":  "E718FC8159B65B1F45B97A86079A22FC9B8C93DED9913C4BFC7132C85EE557CA",
+                      "Bytes":  52635
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\CaseConvert.obj",
+                      "Sha256":  "B4EB643149407EB0B319C63BA16FBC8197519A810A0259A1B12C498EA2814A67",
+                      "Bytes":  185257
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\CallTip.obj",
+                      "Sha256":  "37552C0A243CCAFE42656D15BACD0D1C143853BF4B3F02E372FC0EE86BB38FFF",
+                      "Bytes":  134105
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\AutoComplete.obj",
+                      "Sha256":  "8697EA357493BDC90CD48C2B6FB099B3CDA907BFAF1BB385A1886577839B808B",
+                      "Bytes":  180653
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\Accessor.obj",
+                      "Sha256":  "E03564D6CF988B15FBE009B20DA97168A453C05D2324384C5E125AFF3703EB4A",
+                      "Bytes":  46326
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\NativeEditor.tlog\\NativeEditor.lastbuildstate",
+                      "Sha256":  "D05BF124651A0ADEAEF3BA9C0CD670F13430875E02A463E5FA7147812F796EBD",
+                      "Bytes":  171
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\NativeEditor.tlog\\Lib.read.1.tlog",
+                      "Sha256":  "509A652E7B45130C9572C6250A6330C2294A68347531381B2ECF56158C201752",
+                      "Bytes":  28332
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\NativeEditor.tlog\\Lib.command.1.tlog",
+                      "Sha256":  "41AC77BF43EB51B9D121D00FC209F927EE4EB9191DD1C15FB2F0B83581D2AA5D",
+                      "Bytes":  28472
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\NativeEditor.tlog\\Lib-link.write.1.tlog",
+                      "Sha256":  "24FF6DA8FF3D2D93AE6F49AD9E3B2BDAFFEF1603F13D2283B4C407D10BE36135",
+                      "Bytes":  14124
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\NativeEditor.tlog\\CL.read.1.tlog",
+                      "Sha256":  "9D3C9A4D5E5F9DDB8C2F5E6FA6A5A9736640BEC9110C7857CC31CC6940CCF3F2",
+                      "Bytes":  1555388
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\NativeEditor.tlog\\Cl.items.tlog",
+                      "Sha256":  "3FE38559F543620BD00D103252404476897C5281038DA329F80996A83797822F",
+                      "Bytes":  11884
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\NativeEditor.tlog\\CL.command.1.tlog",
+                      "Sha256":  "B2A472E5A7F8D58AA625231846B6A3AA375176648FFBB24FFB101A9AEFE185CD",
+                      "Bytes":  104838
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\release\\objects\\NativeEditor.tlog\\CL.71004.write.1.tlog",
+                      "Sha256":  "FDE023A2C059858F145044203A0BDEB2528E9E0412BF331C3C30EA64A2DD4B18",
+                      "Bytes":  47584
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/markdown-preview-20261104.json owned_output_hashes",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\NativeUiTests.exe",
+                      "Sha256":  "5FB478836A68CE8CE01E5C6310F2FBEA5A5A18F86F5AAB5D2583A37EBD370B9A",
+                      "Bytes":  26197504
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/markdown-preview-20261104.json owned_output_hashes",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\NativeEditor.pdb",
+                      "Sha256":  "F1511227521811C9052B4C5EBE8073745950A06578F13B5F5F1CAE2080089793",
+                      "Bytes":  6270976
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/markdown-preview-20261104.json owned_output_hashes",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\NativeEditor.lib",
+                      "Sha256":  "AF37FAC440C9F80919F51F42E158FBA88F3CA60BAB0C26AB0F5E965A6A6F1CC9",
+                      "Bytes":  43310336
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\XPM.obj",
+                      "Sha256":  "7C62CCC3487072F06DE0F8CC1E60BDEE09E5EA5415B270D650B25D0BFD98A6ED",
+                      "Bytes":  541627
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\WordList.obj",
+                      "Sha256":  "904423B796668AE35E533CC7D8F5C07DE1F34BADDC4A51AF80F58F9FE6244F6E",
+                      "Bytes":  147263
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\ViewStyle.obj",
+                      "Sha256":  "8605C776A983FDBEC601FE7FCAECA235C2B8B53521E6F25FF1B41B19920BB530",
+                      "Bytes":  1714227
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\UniqueString.obj",
+                      "Sha256":  "F808692EACB5B6938573581F66CF0E58A73D088E752EF5C6EC6D5F57501E751B",
+                      "Bytes":  204629
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\UniConversion.obj",
+                      "Sha256":  "7148D9587A6B757F5EE37BCA48782022663F316D9A056C59DC0EBB936D1365A7",
+                      "Bytes":  238762
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\UndoHistory.obj",
+                      "Sha256":  "135F95FC5957B3E4A93679403B05908CD84195B21DFBBF219A267AF822C0A41C",
+                      "Bytes":  523609
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\SurfaceGDI.obj",
+                      "Sha256":  "ED252874DCAB003E0FC4909718DC0D8149F9B35906645FB300246B40DD490764",
+                      "Bytes":  466774
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\SurfaceD2D.obj",
+                      "Sha256":  "D606BD0A54B665A5BF96F2CF7AC9B227FFD4E7462F2BA283062975956D62E543",
+                      "Bytes":  1435254
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\StyleContext.obj",
+                      "Sha256":  "97508FD568B53A2B7B50789C643AE420E92FC1A4D323561793E28DCFA4031ADB",
+                      "Bytes":  128958
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\Style.obj",
+                      "Sha256":  "65C4174455421D7DC88643672179E3131EE56E49C4147840C399719F8C017A4B",
+                      "Bytes":  67206
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\Selection.obj",
+                      "Sha256":  "0CB63560B41465D20789AB21756238C2E40ED068CEBECD2F8F731EF26C239D38",
+                      "Bytes":  505284
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\ScintillaWin.obj",
+                      "Sha256":  "74D4D134E4DEF3DB9D6D359E2DE28D843D5078DF5C4E0AA542E0D21F955CBEC9",
+                      "Bytes":  1707430
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\ScintillaBase.obj",
+                      "Sha256":  "5D06E9F8775DF5823FA0FCB1C9B40DD719670327A53988A4D9CBA02224474396",
+                      "Bytes":  419137
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\RunStyles.obj",
+                      "Sha256":  "A688FC4E94B9989DBE2B43CBE512EFD55FD8B47E05E4F4C9AB67C30247DB1FA5",
+                      "Bytes":  601030
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\RESearch.obj",
+                      "Sha256":  "FD8F1B4D88EB6F7C25C12D860715420EF7E1D81C3ADC128347DC41C1A1A7FA91",
+                      "Bytes":  91952
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\PropSetSimple.obj",
+                      "Sha256":  "C84F85BF46950459247E3D2A1F03B3854C6F372D6082DFB3CEC9ACF27BF8CC37",
+                      "Bytes":  416215
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\PositionCache.obj",
+                      "Sha256":  "104013EA13EA8EA6E0EAE3C692C5ECE5CA53C41C3C710B9EACF5ADBC176B7FAB",
+                      "Bytes":  1315049
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\PlatWin.obj",
+                      "Sha256":  "AADD5208C3C3F1D1C8F57008797205ECE5A37661D71FE33C083A530D12073DE4",
+                      "Bytes":  408692
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\PerLine.obj",
+                      "Sha256":  "6A4544A562518B905137C0D3DF54D66409D06A14FBC59E8E39030E5030598AB9",
+                      "Bytes":  1047357
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\NativeEditor.lib.recipe",
+                      "Sha256":  "E68192EA7180A53FF41B201936B074C7189F62533BD0B6A3087354B3DF6ED73C",
+                      "Bytes":  152
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\MarginView.obj",
+                      "Sha256":  "83F8013411353E554CEF3D6D0B62E1F1D594B1ECB0001278BFD56D235698647C",
+                      "Bytes":  307618
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\ListBox.obj",
+                      "Sha256":  "C36A6C3CFE02B135E4384CE6AC21977FFEA2EECDC2184490374FDD213A14C7B0",
+                      "Bytes":  763011
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LineMarker.obj",
+                      "Sha256":  "D10CA4C7707E7C422F4C7E6082B4BD951B57868AC23C6EA365CEE086248EEC6E",
+                      "Bytes":  357882
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexYAML.obj",
+                      "Sha256":  "052B1479E6034244DD8B3FB2579E1615B9FFFE31A17C566E5E2150D4D014C36D",
+                      "Bytes":  184952
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexSQL.obj",
+                      "Sha256":  "7B15CA2210ABF373F291F2DBCF139B2C94EC944068F542030478EA00F319EEB8",
+                      "Bytes":  766701
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexPython.obj",
+                      "Sha256":  "DB06CA1FB2AFE91087E18F5F2776E6DE7ED951BC9C61E554BF2FBE54B5465D9C",
+                      "Bytes":  1507495
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexPowerShell.obj",
+                      "Sha256":  "650B69AB14533CA5E2771147E5285936416D90EAC1DF8E336DC50914D8873220",
+                      "Bytes":  86058
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexMarkdown.obj",
+                      "Sha256":  "CCAB0E49EF576FAFB7C6ADCABEC5C30C2D7C960FB0A69797773215368D07A4F3",
+                      "Bytes":  84533
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexJSON.obj",
+                      "Sha256":  "9575152FA8DCBA27621EF2BB000104A07ACA1CF4AD0FCC971EAE9562173A7087",
+                      "Bytes":  590826
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexHTML.obj",
+                      "Sha256":  "1DD498919FA25C116BAB3A50D5C35322A76AA40D0873CC3229AA4A5B4DAD2B62",
+                      "Bytes":  1405384
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\lexer_catalogue.obj",
+                      "Sha256":  "7F53B322358ECBCEAC73A491C10DF20845B201AD7ECE1F42F5943C72BFC04F03",
+                      "Bytes":  6859
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexerSimple.obj",
+                      "Sha256":  "31C56D93193C59C9430A010E18E39645D068DB4FD8C99663198CB02C92F4031E",
+                      "Bytes":  160173
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexerModule.obj",
+                      "Sha256":  "327F2BE73392EEC086461BFDBB26F13DC71C2E194C8B9BFDEE92CB3ED85727E5",
+                      "Bytes":  54673
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexerBase.obj",
+                      "Sha256":  "537FC94517A4A36308CAFC0EDB17666C41D0A7FF1DFAE3C3514D454AE7E2CF54",
+                      "Bytes":  71713
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexDiff.obj",
+                      "Sha256":  "090678871FC2BC736A981D2A504E1AF220CF9AA022B7C49A6771C1497228E4C7",
+                      "Bytes":  163366
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexCPP.obj",
+                      "Sha256":  "1E50A5AE947D570731B9D935F18A10B636827D171350B58C63C3609CF99C6CFA",
+                      "Bytes":  3156754
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexCmake.obj",
+                      "Sha256":  "3BE056235277294C1758A31F1D79FC82FFA90D6C19BB3DCF0D719D813637259E",
+                      "Bytes":  79577
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexBatch.obj",
+                      "Sha256":  "5662295951273890F23813A521E1A941E364CF70BB034F54135F83465D01B85A",
+                      "Bytes":  304176
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexBash.obj",
+                      "Sha256":  "EFB2AEB729C29107556B8D78E72471AA690DA19D95FDA25B10415398FACDAE98",
+                      "Bytes":  1109043
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\LexAccessor.obj",
+                      "Sha256":  "19988E8E5E446D9F09398D25E01A11318BAEE861AC880ADD517BC69CA1AAE168",
+                      "Bytes":  152027
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\KeyMap.obj",
+                      "Sha256":  "434F8C7DCD9256D624A4007C04D03D6004159AC62C506A61D4F1C9004A7014B5",
+                      "Bytes":  280169
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\InList.obj",
+                      "Sha256":  "4029D906BE1C55038A57A5C78B0462B4095874769B6C2343CD365622F5AB0892",
+                      "Bytes":  48857
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\Indicator.obj",
+                      "Sha256":  "C44AF1657A96B9080542741AC5358EB8BEF767E0852879F1CF429F9636BF274A",
+                      "Bytes":  310083
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\HanjaDic.obj",
+                      "Sha256":  "8ED5BDA4118DF661B5D936826075016C5265F53F394051192AC39F323F79FFC0",
+                      "Bytes":  104350
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\Geometry.obj",
+                      "Sha256":  "5375F5D695B30D906505A95E27E74646818297B9FAFE6B673531FF20D4456A45",
+                      "Bytes":  55789
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\EditView.obj",
+                      "Sha256":  "5536AF6DD9B36A380116C652720CC9514EC055BC3BDA8D521F84610FA277EFF1",
+                      "Bytes":  2428668
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\Editor.obj",
+                      "Sha256":  "EE5654FFB2D4406BA9CE04C2B4912B06E527D92AC877B408E6CF7639C77E7A55",
+                      "Bytes":  3510988
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\EditModel.obj",
+                      "Sha256":  "38A38E70CA031F784B079ED6EC49A1F6444AF18B597CB0A3D8D58CA0F33C9DBE",
+                      "Bytes":  637400
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\Document.obj",
+                      "Sha256":  "2CAAA5A1AFAA5999BB2EB2EA9557F1EACE35C96925467FE33C10DEFACFA73BC8",
+                      "Bytes":  3619385
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\DefaultLexer.obj",
+                      "Sha256":  "4CC4AA604CC5232789DB17B1E0AC120F97ACA734093379BAF3555F0BF06B30EA",
+                      "Bytes":  67689
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\Decoration.obj",
+                      "Sha256":  "01F7156C9FEB92A6350E8E5F8FD425FD52A3E2647A359EFD899393FD1253EA1F",
+                      "Bytes":  932169
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\DBCS.obj",
+                      "Sha256":  "529D3C38F0224C47DCB306CCD87E16CF7CA0D85A9BC21E8CCECF1A53405A29B7",
+                      "Bytes":  225511
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\ContractionState.obj",
+                      "Sha256":  "8C7D9DAF6A1164FF33932C2248DBAEE258ECB6279CF03B9620CC0C690ED100A8",
+                      "Bytes":  845371
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/markdown-preview-20261104.json owned_output_hashes",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\compiler.pdb",
+                      "Sha256":  "F1511227521811C9052B4C5EBE8073745950A06578F13B5F5F1CAE2080089793",
+                      "Bytes":  6270976
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\CharClassify.obj",
+                      "Sha256":  "884707581DEE7842DACE7BFCF30FE91932B38207CDC329F43B3926BF4A246D43",
+                      "Bytes":  44381
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\CharacterType.obj",
+                      "Sha256":  "5CAFD4999E5C78CB54250D48CBFE902BEDFD91B82315BB84055256980CF3A01A",
+                      "Bytes":  6727
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\CharacterSet.obj",
+                      "Sha256":  "A7128D07617D588C5DED734C778E6B28EECDB2CE0F254D1423DB8658E9FA2385",
+                      "Bytes":  24911
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\CharacterCategoryMap.obj",
+                      "Sha256":  "B92BD3A6713D4735BC87DD8CCA4957B23EED1C79C4E02004B7B07645861CA25D",
+                      "Bytes":  185492
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\CharacterCategory.obj",
+                      "Sha256":  "4D2745A9DEE7225621A9328F61363A16F39C14578CAF8D9A96871D316899D9E2",
+                      "Bytes":  184449
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\ChangeHistory.obj",
+                      "Sha256":  "81432D46B2430496E700A0893F407F8BE0B40DF1D96D8992C718AEA9AB1FC5B9",
+                      "Bytes":  1030132
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\CellBuffer.obj",
+                      "Sha256":  "1FB2914B6E20AC4F6D015381726C35E0A5DF810ABC1623B7FD25B8BE1A5AD077",
+                      "Bytes":  938197
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\CaseFolder.obj",
+                      "Sha256":  "4444BF0E11A34EEA6E94696EAE336665D2879785B2D361B0008C596D87B1A1D0",
+                      "Bytes":  58470
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\CaseConvert.obj",
+                      "Sha256":  "E0D19772DC3B365BB5DF998FDA21D90F1C3B7200A56708681D6D9B7D43AD0CA2",
+                      "Bytes":  580314
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\CallTip.obj",
+                      "Sha256":  "5928B45147847E2DDF777CA6E76EDFE73F464FFB3136E77D3B05ADA53A9F276E",
+                      "Bytes":  371230
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\AutoComplete.obj",
+                      "Sha256":  "496FB19BD4CA06E6FE552AB0331747DF52CEEFED31842A6FA77133AA9045DD1D",
+                      "Bytes":  383945
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor object maps to retained pinned source",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\Accessor.obj",
+                      "Sha256":  "B19588869F98F3924565A61022B6FF6711B0255585753C1E6DE7DACAE9CD59FC",
+                      "Bytes":  49241
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\NativeEditor.tlog\\NativeEditor.lastbuildstate",
+                      "Sha256":  "698B5F2FDD08A5688F69801E3D6BB8202402B8D6B7BD263874A1AE5422999C4E",
+                      "Bytes":  169
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\NativeEditor.tlog\\Lib.read.1.tlog",
+                      "Sha256":  "6861872841B40849D540107493472F011DDF7CC99BB87528AF18AE650159C3E7",
+                      "Bytes":  27820
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\NativeEditor.tlog\\Lib.command.1.tlog",
+                      "Sha256":  "BE6CF44A29E5C13E4F38FCAE23170E707F3EBD4F812EA326442DD85240BACEB4",
+                      "Bytes":  27956
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\NativeEditor.tlog\\Lib-link.write.1.tlog",
+                      "Sha256":  "C573547D641B4E9F9B57BF53190C3B92F8A4E4F3E0DB7B4BADE123ED3FF03044",
+                      "Bytes":  13864
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\NativeEditor.tlog\\CL.read.1.tlog",
+                      "Sha256":  "5CBC36A6552BDA450D9EF98779523E629C97E6B257B996296BC989F86ACE0D83",
+                      "Bytes":  1555612
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\NativeEditor.tlog\\Cl.items.tlog",
+                      "Sha256":  "2D255C838714C1A7214265B9BCF95D17DDA1C2CABDE1279DFCA78909BFA95D9D",
+                      "Bytes":  11756
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\NativeEditor.tlog\\CL.command.1.tlog",
+                      "Sha256":  "6C094E535A62A7E10A9F16AEA1B779B9C9C2C88F9D6A1864FFE21A5CCEDD39F2",
+                      "Bytes":  102662
+                  },
+                  {
+                      "Provenance":  "Existing Markdown disposable owner; NativeEditor producer metadata",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\debug\\objects\\NativeEditor.tlog\\CL.67900.write.1.tlog",
+                      "Sha256":  "9D9157EBDA5180E063629516C073A510B18E82C5393DEC071BECF7BCE2E4C59C",
+                      "Bytes":  47072
+                  },
+                  {
+                      "Provenance":  "Historical exact SHA256: docs/verification/markdown-preview-20261104.json owned_output_hashes",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\core\\NativeCoreTests.exe",
+                      "Sha256":  "6035878F90E5C597FC184CCCF72A3AABC12579D68671647AFB5255B6C1332733",
+                      "Bytes":  1760768
+                  },
+                  {
+                      "Provenance":  "Completed Markdown disposable owner; concise acceptance and newer capture retained in docs/verification",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\captures-release\\markdown-preview.png",
+                      "Sha256":  "9477AB6F02A1984EC4CDEF4624220F6144404DA26003C502D8EDC6C26E436411",
+                      "Bytes":  75694
+                  },
+                  {
+                      "Provenance":  "Completed Markdown disposable owner; concise acceptance and newer capture retained in docs/verification",
+                      "Path":  "artifacts\\markdown-preview-e315c5527d\\captures-debug\\markdown-preview.png",
+                      "Sha256":  "F179315DA10E6916FAD8DF8D6E38136D1355B9EFAC1348FB2EA8FC328C0F1300",
+                      "Bytes":  75781
+                  },
+                  {
+                      "Provenance":  "Obsolete Debug language catalog copy; matching current source/delivery catalogs preserved; Debug executable absent",
+                      "Path":  "artifacts\\debug\\lang_tw.ini",
+                      "Sha256":  "84866DAD7BDA2C3B5F44BB42BFD56B4D3052EE90CF893ACD4B3FA9DE6EAAE29C",
+                      "Bytes":  64887
+                  },
+                  {
+                      "Provenance":  "Obsolete Debug language catalog copy; matching current source/delivery catalogs preserved; Debug executable absent",
+                      "Path":  "artifacts\\debug\\lang_en.ini",
+                      "Sha256":  "1177D674A617D62A0241740D1EF4D12336EDC8B5143091F309EFA25D95715F06",
+                      "Bytes":  63336
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-04\\setC9D8.tmp\\right.txt",
+                      "Sha256":  "5AE7E6A42304DC6E4176210B83C43024F99A0BCE9A870C3B6D2C95FC8EBFB74C",
+                      "Bytes":  3
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-04\\setC9D8.tmp\\right.bin",
+                      "Sha256":  "D6792235F7A72EB1692992A7763C5AD64C9AFEDD3679ABC152397D2D30F6CF9E",
+                      "Bytes":  3
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-04\\setC9D8.tmp\\left.txt",
+                      "Sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021",
+                      "Bytes":  7
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-04\\setC9D8.tmp\\left.bin",
+                      "Sha256":  "D6792235F7A72EB1692992A7763C5AD64C9AFEDD3679ABC152397D2D30F6CF9E",
+                      "Bytes":  3
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-04\\setC9D8.tmp\\b.json",
+                      "Sha256":  "7E8059F495589FCD981232CC11D00B00DA3802C01D688FA1CF1F6BED6E5BB33C",
+                      "Bytes":  7
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-04\\setC9D8.tmp\\a.json",
+                      "Sha256":  "015ABD7F5CC57A2DD94B7590F04AD8084273905EE33EC5CEBEAE62276A97F862",
+                      "Bytes":  7
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-04\\setC9D8.tmp\\.editorconfig",
+                      "Sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6",
+                      "Bytes":  12
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-04\\setC9D8.tmp\\folder-right\\same.txt",
+                      "Sha256":  "9D6F965AC832E40A5DF6C06AFE983E3B449C07B843FF51CE76204DE05C690D11",
+                      "Bytes":  9
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-04\\setC9D8.tmp\\folder-left\\same.txt",
+                      "Sha256":  "0967115F2813A3541EAEF77DE9D9D5773F1C0C04314B0BBFE4FF3B3B1C55B5D5",
+                      "Bytes":  4
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-03\\set4667.tmp\\right.txt",
+                      "Sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021",
+                      "Bytes":  7
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-03\\set4667.tmp\\left.txt",
+                      "Sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021",
+                      "Bytes":  7
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-03\\set4667.tmp\\.editorconfig",
+                      "Sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6",
+                      "Bytes":  12
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-02\\set6893.tmp\\right.txt",
+                      "Sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021",
+                      "Bytes":  7
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-02\\set6893.tmp\\left.txt",
+                      "Sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021",
+                      "Bytes":  7
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030-02\\set6893.tmp\\.editorconfig",
+                      "Sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6",
+                      "Bytes":  12
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030\\set4AA2.tmp\\right.txt",
+                      "Sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021",
+                      "Bytes":  7
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030\\set4AA2.tmp\\left.txt",
+                      "Sha256":  "7B4B1F382FABAC818AF2DBFEA1C12FA93C8963F580C302D89BFDC66C6C228021",
+                      "Bytes":  7
+                  },
+                  {
+                      "Provenance":  "Exact synthetic comparison-notice fixture bytes from retained native tests",
+                      "Path":  "artifacts\\compare-notice-ui-debug-20261030\\set4AA2.tmp\\.editorconfig",
+                      "Sha256":  "5A1A948FB3FD8D68BEE00ABB4D6D05B6437033CF330D0B1B90F62C79622B41E6",
+                      "Bytes":  12
+                  }
+              ],
+    "Before":  {
+                   "Bytes":  350266820,
+                   "Files":  337
+               },
+    "NoActiveArtifactProcess":  true,
+    "Unknown":  [
+
+                ],
+    "Purpose":  "Fresh user-requested cleanup of verified obsolete artifacts, not a new verification run or registration",
+    "NoReparse":  true,
+    "Status":  "INCOMPLETE_AUTOMATIC_REVIEW_REJECTED",
+    "StandardPurge":  {
+                          "ProtectedMatched":  610,
+                          "FilesRemoved":  10,
+                          "Entry":  "scripts/purge_artifacts.ps1 -Apply",
+                          "BytesRemoved":  98183047
+                      },
+    "ExplorerIntegrationOutsideArtifacts":  true,
+    "Root":  "D:\\SourceCode\\python\\simple_editor_tool\\artifacts",
+    "CurrentRejection":  {
+                             "Action":  "Remove327 exact reviewed files252083773 bytes within project artifacts after full path/hash/worker/reparse preflight",
+                             "AlternateDeletionAttempted":  false,
+                             "Stage":  "CreateProcess rejected before execution",
+                             "TimeLocal":  "2026-11-05T23:24:31.5854107+08:00",
+                             "Reason":  "blocked by policy",
+                             "FurtherReason":  "None supplied"
+                         },
+    "Remaining":  {
+                      "UnknownFiles":  0,
+                      "Files":  327,
+                      "ManualScope":  "Only D:\\SourceCode\\python\\simple_editor_tool\\artifacts contents, as proposed by user; audited contents are all obsolete generated validation data",
+                      "NoReparse":  true,
+                      "RuntimeIntegrationOutsideArtifacts":  true,
+                      "Bytes":  252083773,
+                      "NoActiveArtifactExecutables":  true
+                  },
+    "Preservation":  {
+                         "Changed":  [
+
+                                     ],
+                         "VerifiedAfterCurrentAction":  true,
+                         "FormalExeSha256":  "F25514BDC1AD03B15DFA4BBA57762211D44BE2AA239B6692B86EAAA1BD2B84AC",
+                         "Digest":  "5E05E6D10367DEE368F282420EB7B855A74B544333254586C80317CFDCED7EAB",
+                         "Count":  610
+                     },
+    "NoBuildTestsRun":  "Cleanup/audit only; no source/helper/config changes or new compiled/test artifacts. Existing clean-helper boundary validation reused.",
+    "ProjectInventory":  {
+                             "IncludesHiddenGitVendor":  true,
+                             "Files":  1113,
+                             "SkippedReparse":  [
+
+                                                ],
+                             "MeasuredBeforeThisFinalRecordWrite":  true,
+                             "BudgetBytes":  20000000,
+                             "Bytes":  276738240,
+                             "BudgetPassed":  false
+                         }
+}

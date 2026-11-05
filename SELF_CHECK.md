@@ -1,5 +1,221 @@
 # Self Check
 
+## Historical artifact cleanup rules (2026-11-05)
+
+- REQ-01 PASS implementation: /purge [/apply] previews/applies reviewed obsolete
+  output outside the native registry using exact path/size/SHA256/provenance and
+  completed pinned evidence with no recovery need. Ordinary clean stays unchanged.
+  Previous review refusals override every eligible/producer record; full candidate
+  hash preflight precedes deletion, unknown/runtime/external/reparse data stays.
+- PASS30 fresh synthetic checks plus shared7-script static scan, batch help and
+  actual read-only preview. Native EXE unchanged; no rebuild/full suite. Test
+  fixture self-cleaned, no new test payload remains. Evidence/source hashes:
+  docs/verification/cleanup-rules-tests.json.
+- Shared preservation command NOT RUN: automatic review rejected it before
+  execution with only "blocked by policy". No new audit data generated or retry.
+  Existing default-clean/shared-boundary evidence reused; current fixture tests
+  cover modified purge behavior and default-clean dispatch/protected hashes.
+- User's five listed legacy folders observed absent. Actual remaining148 files/
+  3209368 bytes are still prior-review BLOCKED; real /purge /apply NOT RUN.
+  Current fixtures clean; global TST-01 PARTIAL/TST-02 NOT PASSED. No prior denial
+  bypass, new verification registration of old outputs, install or publication.
+
+## Explicit historical artifacts cleanup (2026-11-05)
+
+- Current standard purge preview/apply PASS:10 recognized files98183047 bytes
+  removed;610 protected source/vendor/test/delivery hashes unchanged.
+- Audited remaining327 files252083773 bytes: zero unknowns, no active artifact
+  process/build worker, reparse escape, runtime integration or unresolved recovery
+  dependency. Exact historical hashes/owner/native producer/fixture-byte evidence
+  retained; no fresh-run registration or helper allowlist expansion.
+- TST-01 INCOMPLETE: automatic review rejected the exact-file removal command
+  before execution, only "blocked by policy" supplied. No retry/alternate route.
+  The user was told the precisely audited artifacts contents are disposable if
+  they choose the manual cleanup already proposed. TST-02 remains NOT PASSED.
+- No build/test/source/config changes. Current audit and post-action610 protected
+  hashes verified; existing cleaner boundary tests reused. Evidence:
+  docs/verification/artifacts-cleanup-20261105.json. This updates the older337-file
+  count below; historical dated feature results remain unchanged.
+
+## Selected-text occurrence marks (2026-11-05)
+
+- REQ-01 PASS: one nonblank single-line stream selection (<=1024 UTF-8 bytes)
+  automatically marks exact case-sensitive literal substrings. Native indicator14
+  is independent of manual/search8-10, diff11-12 and Unicode13. No source, caret,
+  native Undo, generation/revision, search target/flags or current-indicator
+  mutation. Selection collapse/change, edits, Undo, tab and clone focus refresh.
+- Newly executed PASS Debug/Release --selection-highlight(38/37 PASS lines,
+  Debug includes capture), --text-workflow(47), --zoom(52), --markdown-preview(64).
+  Focused GUI checks cover Unicode/supplementary characters, overlapping matches,
+  punctuation/case, read-only/source headers, palettes, wrapping, tabs/clones,
+  a200000-byte horizontal offset and10000 folded lines. Visible ranges stay
+  bounded, chunked work settles without an indicator notification loop. One
+  synthetic native capture reviewed; no customer document copied.
+- PASS canonical Release x64/static MFC/CRT, Windows system imports, ASLR/NX;
+  EXE4077056 bytes, SHA256
+  F25514BDC1AD03B15DFA4BBA57762211D44BE2AA239B6692B86EAAA1BD2B84AC.
+  Extra formal-process startup smoke NOT RUN: its PowerShell helper exited
+  -536870873 before output/run registration/app launch. Focused tests already
+  exercise native GUI file opening/lifecycle; no manual formal-input claim.
+- TST-01 current batch PASS: Debug259 files/707670646 bytes and Release257
+  files/358243566 bytes retired by finally, including test EXEs. Final verified
+  safe clean removed256 compiler files/847342180 bytes;610 protected source,
+  vendor, test and delivery files matched. Existing six recipes1648 bytes remain
+  within the historical337 blocked files/350266820 bytes. Global TST-01 PARTIAL,
+  TST-02 NOT PASSED; no re-registration/retry/bypass or retention exception.
+- Unchanged core algorithms/localization/preferences and clean-helper boundary
+  results reused. Full suite, physical mouse/touchpad/mixed-DPI matrix and long
+  benchmark NOT RUN. Both guides, product README, SPEC/AGENTS and source encoding/
+  whitespace checked. Exact sources/settings/results/size and scope:
+  docs/verification/selection-highlight-20261105.json. No installed dependency,
+  driver, commit or publication.
+
+## Markdown source/preview scrolling (2026-11-05)
+
+- REQ-01 PASS: source/preview vertical scrolling follows version-matched source
+  anchors in both directions, including native table positions and wrapped lines.
+  Source caret/selection/horizontal offset/draft/Undo remain unchanged; stale and
+  hidden previews cannot move the source. No idle render/scroll feedback. Preview
+  end clamping retains source positions outside the bounded rendering coverage.
+  Native/precision wheel and shared Ctrl+wheel zoom are covered.
+- Newly executed PASS Debug and Release native UI groups: --markdown-preview,
+  --text-workflow, --zoom, --async-save, --open-location and --localization.
+  Parser anchors/CRLF/CR/LF/surrogate-boundary checks run in the Markdown group.
+  Final Release capture reviewed at matching Section20 on both sides.
+- PASS canonical Release x64/static MFC/CRT build, system imports and ASLR/NX.
+  Formal EXE4071936 bytes, SHA256
+  4CA776EC7840B6C5DD355F023705E11C8426FCD60C2DBB10BA05A659868422A9.
+  Computer Use observed the canonical empty maximized startup read-only. Separate
+  formal-process interactive scrolling NOT RUN: the launch API returned the
+  canonical window instead of the requested owned copy; no document/input was
+  sent to it. Both directions were exercised by native Debug/Release UI tests.
+- TST-01 current batch PASS: registered initial Debug, incremental Debug, Release
+  and unused formal fixtures retired, including test-only EXEs. Safe clean removed
+  255 compiler files/807288991 bytes;608 protected source/vendor/test/delivery
+  files matched exactly. Six prior recipe files1648 bytes remain protected.
+  Earlier337 blocked files/350266820 bytes are untouched and unregistered;
+  global TST-01 PARTIAL/TST-02 NOT PASSED, without a retention exception/bypass.
+- Unchanged core storage/search/merge and clean-boundary evidence reused. Full
+  suite, physical touchpad/mixed-monitor matrix and long throughput benchmark
+  NOT RUN. Bilingual guides, SPEC/AGENTS, README product text, UTF-8/whitespace and
+  verification-runner capture validation checked. Compact results/source hashes,
+  actual cleanup/size/settings caveats: docs/verification/markdown-scroll-20261104.json.
+  This supersedes the older statement that synchronized Markdown scrolling was
+  unsupported. No dependency install, commit or publication.
+
+## Verification artifact lifecycle (2026-11-04)
+
+- REQ-01 PASS: dedicated preview/apply entry and registered native verification
+  with finally retirement on pass/fail/cancel; native dependencies and synthetic
+  TEMP/TMP stay inside the fresh project-owned run. Normal compiler clean and all
+  existing product/source/settings remain independent. Shared retention policy
+  already required this; local scripts now implement the required lifecycle.
+- PASS23 fixture assertions: successful/failed/cancelled disposal, input restore,
+  read-only preview, whole-run hash/unknown preflight, duplicates/traversal/root
+  rejection, junction-target protection and incomplete-cleanup reporting.
+  Actual Core Release and Ui Debug
+  localization flows retire100/257 files (238660504/682984328 bytes). Actual timeout
+  retires18 files/685645 bytes after stopping only its owned tree. MSBuild's
+  unsuccessfulbuild marker omission was found and fixed; final negative path PASS.
+- PASS real batch preview/apply/hash-refusal/active-refusal/exit-code routing;
+  final shared six-script scan,17 fixture sentinels/source,6 actual delivery-file
+  hashes and project-local audit teardown. Only concise pass/fail JSON remains;
+  final artifacts/verification has zero files and zero run directories.
+- TST-01 current batch PASS; earlier blocked337 files/350266820 bytes remain
+  unregistered/untouched. Global TST-01 PARTIAL/TST-02 NOT PASSED, with no bypass
+  or retention exception. Final source/formal/settings/size inventory and command
+  details: docs/verification/verification-cleanup-20261104.json.
+- NOT RUN full application suite, Ui Release via the new wrapper or physical
+  Ctrl+C/forced-host-termination matrix. Existing unchanged application evidence
+  reused; Core/Ui successful-build evidence predates only final timeout-marker /
+  unknown preflight refinement, covered by the final focused negative tests.
+
+## Native Markdown preview (2026-11-04)
+
+- REQ-01 PASS: user-authorized source/preview split for md/markdown/mdown, Review
+  visibility and splitter, existing source-line IPC, source draft/encoding/EOL/
+  Undo/Hex/clone/save/comparison boundaries. Original escaped RTF renderer and
+  bounded asynchronous preview add no third-party dependency or external loads.
+  Generation/revision/path/theme/zoom/width/cancellation and hidden/minimized
+  lifecycle checks preserve source ownership and prevent stale presentation.
+- PASS10 scoped UI groups, Debug/Release --markdown-preview/--text-workflow/
+  --zoom/--open-location/--localization. Final renderer-only followup reruns both
+  --markdown-preview groups:27 PASS output lines each including summary. Release
+  core --localization/--preferences pass; earlier unchanged algorithm evidence
+  reused. Initial build/test issues and corrected native EOL fixture assumptions
+  are explicitly recorded in HANDOFF/private JSON, not omitted from acceptance.
+- PASS canonical Release build,4066304-byte formal EXE SHA256
+  2b2ee03750e8492b5cde969652a43b5c548b125ec6bd8d7592523ff7af9a0095;
+  actual125% UI image reviewed, real source edit/Undo and preview layout. PASS
+  actual sibling Qt citation click into isolated byte-matched current formal
+  process, Markdown line12/two tabs/right preview/original unchanged, plus source
+  cold line40/existing60. Personal/test/smoke INIs unchanged; catalogs match.
+- TST-01 current-task owned EXEs/fixtures/compiler cleanup and final preservation/
+  folder inventory are recorded in markdown-preview-20261104.json and the final
+  HANDOFF paragraph. Cleaner source/boundary audit unchanged and reused. Overall
+  TST-01 remains PARTIAL/TST-02 NOT PASSED for historical4 outputs98181399 bytes
+  plus166 earlier residuals3209501 bytes rejected previously. Current retirement
+  also received an automatic "blocked by policy" rejection before execution:
+  161 files248874272 bytes remain in the fresh owned run. No retry/bypass. The
+  verified clean entry passed exit0/removing709 allowlisted compiler files;
+  six recipe files1648 bytes remain. Feature PASS does not erase cleanup failures.
+- NOT RUN full suite, physical IME/monitor matrix or long benchmark. Preview
+  supports a bounded Markdown subset with explicit limit notice; raw HTML,
+  resources/images/Mermaid and synchronized scrolling are not implemented. Keep
+  source complete. No paid Codex/model operations, install or publication.
+
+## Function sidebar filter (2026-11-02)
+
+- PASS native per-document input, ordinal case-insensitive partial matching,
+  zero-result feedback/partial-parser warning, safe visible-to-source row mapping,
+  original-line click/Enter navigation, Esc clearing and Down focus. Filtering
+  reuses snapshots and preserves source bytes/generation/revision/native Undo.
+- PASS independent tab queries, edited/Undo snapshot refresh, stale navigation
+  refusal, Unicode query/selection across en/tw changes, actual paired catalog
+  translations, regular fonts and measured native label/field/list geometry.
+  Static-label validation was corrected after an actual native image exposed
+  inappropriate button-padding assumptions in the initial assertion.
+- PASS seven new focused groups: core Release localization/preferences; native
+  Debug/Release outline-sidebar/localization; canonical Release workspace-process.
+  Canonical4022784-byte EXE and one final filtered native capture inspected.
+  All existing personal/test/smoke INIs retain hashes; delivery catalogs equal
+  source catalogs. Prior unchanged core/parser/deployment/clean-audit results reused.
+- TST-01 PARTIAL:775 compiler files/2008909886 bytes cleaned,760 protected files
+  matched exactly. All current synthetic payloads self-cleaned. Automatic review
+  refused four generated test outputs(98181399 bytes) and separately six compiler
+  recipe files(1577 bytes), only "blocked by policy" supplied. Empty run roots and
+  earlier166 residuals remain; no bypass/retention exception. TST-02 NOT PASSED.
+- NOT RUN full suite, physical IME composition or additional monitor/DPI matrix.
+  Detailed hashes/results/ownership/current size: function-filter-20261102.json.
+
+## File/line link opening (2026-11-02)
+
+- PASS separate --open/--line validation,64-bit overflow/zero rejection, legacy
+  multiple paths, bounded version3 IPC and explicit capability check; caller's cwd
+  is resolved before forwarding. Existing current-buffer caret navigation retains
+  drafts/generation/Undo and never implicitly saves/reloads. Busy/out-of-range
+  requests report failure. Original source bytes/codecs and comparison ownership
+  remain unchanged; .hex/Hex/oversized/undecodable text locations report limits.
+- PASS Debug/Release --open-location(18 assertions each), --workspace and
+  --localization; formal Release --workspace-process including cold line2 and
+  existing-window line3, concurrent/renamed copies, tab retention and normal exit.
+  Seven selected groups, not the full suite. Final test-only catalog assertions
+  rebuilt in both configurations. Native core/clean-preservation evidence reused.
+- PASS canonical4020736-byte EXE and nine en/tw catalog additions; source/build
+  catalogs agree, personal INIs unchanged. Actual sibling Qt click -> isolated
+  byte-matched formal EXE line40 then60/one HWND/tab/source unchanged; native
+  capture inspected at125% DPI. Pre-existing C4458 warnings remain unrelated.
+- TST-01 PARTIAL: clean.ps1 removed677 compiler files; all current test inputs and
+  isolated EXE copies self-cleaned, empty native run root retained0 bytes. Automatic
+  approval review rejected exact-path/hash-verified deletion of Debug/Release
+  NativeUiTests.exe, and separately Release NativeUiTests.ilk(59254842 bytes),
+  only "blocked by policy" given;3 artifacts/97754682 bytes remain. No
+  alternate deletion bypass or retention exception. Earlier166-file cleanup block
+  remains unresolved; TST-02 complete-folder20MB budget NOT PASSED. Detailed
+  current ownership/hashes/static/inventory: open-location-20261102.json.
+- NOT RUN full suite/physical IME-monitor matrix/paid Codex tasks/old runtime
+  matrix/whole-process benchmarks. Prior incomplete acceptance remains incomplete.
+
 ## Filename-based Hex dump view (2026-11-01)
 
 - PASS: .hex extension matching is case insensitive; printable .hex opens as raw

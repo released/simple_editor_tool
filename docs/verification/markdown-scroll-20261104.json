@@ -1,0 +1,465 @@
+{
+    "Owner":  "simple_editor.markdown-scroll.v1",
+    "Date":  "2026-11-04",
+    "Task":  "Bidirectional source/Markdown preview scrolling by verified source anchors",
+    "Assumption":  "Synchronize vertical reading positions between left/right panes; retain independent source horizontal navigation",
+    "Status":  "Feature/native Debug/Release acceptance PASS; current-batch cleanup PASS; historical cleanup/20MB compliance incomplete",
+    "InitialExe":  {
+                       "Bytes":  4066304,
+                       "Sha256":  "2B2EE03750E8492B5CDE969652A43B5C548B125EC6BD8D7592523FF7AF9A0095"
+                   },
+    "Settings":  [
+                     {
+                         "Sha256":  "4E72A15BB10B19F3411F31F98A1B3C939C4B6F6C59110E6EEBFAEB7358D61269",
+                         "Name":  "simple_editor_tool.ini"
+                     },
+                     {
+                         "Sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91",
+                         "Name":  "test.ini"
+                     },
+                     {
+                         "Sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25",
+                         "Name":  "ui_smoke.ini"
+                     }
+                 ],
+    "Verification":  {
+                         "Debug":  {
+                                       "Groups":  [
+                                                      {
+                                                          "Configuration":  "Debug",
+                                                          "Round":  5,
+                                                          "Mode":  "--markdown-preview",
+                                                          "ExitCode":  0,
+                                                          "PassLines":  65,
+                                                          "Failure":  [
+
+                                                                      ],
+                                                          "Diagnostics":  [
+
+                                                                          ],
+                                                          "ExeHash":  "5FA4318B1BFACDE43A3748E625C792978FE0157DA9828C0F21E7E166714A98CE"
+                                                      },
+                                                      {
+                                                          "Configuration":  "Debug",
+                                                          "Round":  5,
+                                                          "Mode":  "--text-workflow",
+                                                          "ExitCode":  0,
+                                                          "PassLines":  47,
+                                                          "Failure":  [
+
+                                                                      ],
+                                                          "Diagnostics":  [
+
+                                                                          ],
+                                                          "ExeHash":  "5FA4318B1BFACDE43A3748E625C792978FE0157DA9828C0F21E7E166714A98CE"
+                                                      },
+                                                      {
+                                                          "Configuration":  "Debug",
+                                                          "Round":  5,
+                                                          "Mode":  "--zoom",
+                                                          "ExitCode":  0,
+                                                          "PassLines":  52,
+                                                          "Failure":  [
+
+                                                                      ],
+                                                          "Diagnostics":  [
+
+                                                                          ],
+                                                          "ExeHash":  "5FA4318B1BFACDE43A3748E625C792978FE0157DA9828C0F21E7E166714A98CE"
+                                                      },
+                                                      {
+                                                          "Configuration":  "Debug",
+                                                          "Round":  5,
+                                                          "Mode":  "--async-save",
+                                                          "ExitCode":  0,
+                                                          "PassLines":  33,
+                                                          "Failure":  [
+
+                                                                      ],
+                                                          "Diagnostics":  [
+
+                                                                          ],
+                                                          "ExeHash":  "5FA4318B1BFACDE43A3748E625C792978FE0157DA9828C0F21E7E166714A98CE"
+                                                      },
+                                                      {
+                                                          "Configuration":  "Debug",
+                                                          "Round":  5,
+                                                          "Mode":  "--open-location",
+                                                          "ExitCode":  0,
+                                                          "PassLines":  1,
+                                                          "Failure":  [
+
+                                                                      ],
+                                                          "Diagnostics":  [
+
+                                                                          ],
+                                                          "ExeHash":  "5FA4318B1BFACDE43A3748E625C792978FE0157DA9828C0F21E7E166714A98CE"
+                                                      },
+                                                      {
+                                                          "Configuration":  "Debug",
+                                                          "Round":  5,
+                                                          "Mode":  "--localization",
+                                                          "ExitCode":  0,
+                                                          "PassLines":  18,
+                                                          "Failure":  [
+
+                                                                      ],
+                                                          "Diagnostics":  [
+
+                                                                          ],
+                                                          "ExeHash":  "5FA4318B1BFACDE43A3748E625C792978FE0157DA9828C0F21E7E166714A98CE"
+                                                      }
+                                                  ],
+                                       "LastFailure":  [
+                                                           {
+                                                               "Configuration":  "Debug",
+                                                               "Round":  4,
+                                                               "Mode":  "--markdown-preview",
+                                                               "ExitCode":  1,
+                                                               "PassLines":  61,
+                                                               "Failure":  [
+                                                                               "FAIL: scrolling beyond the preview limit clamps only the preview and never pulls source back on idle/bottom wheel ticks",
+                                                                               "FAIL: Markdown preview checks completed",
+                                                                               "FAIL: native MFC UI tests"
+                                                                           ],
+                                                               "Diagnostics":  [
+                                                                                   "SCROLL: tail_initial=4900 tail_now=3833 source_line=3833 covered=3921 rich_first=696 anchors=3921 job=0 current=1"
+                                                                               ],
+                                                               "ExeHash":  "8112A4257951CC03413F55889BB884666D6E297538585465F6D0C578627B2B5C"
+                                                           }
+                                                       ],
+                                       "Outcome":  "PASS",
+                                       "Cleanup":  "PASS",
+                                       "FilesRemoved":  258,
+                                       "BytesRemoved":  737465029,
+                                       "Root":  "D:\\SourceCode\\python\\simple_editor_tool\\artifacts\\verification\\run-c3a81aa71efe448581cf0db578d6d05b"
+                                   },
+                         "Release":  {
+                                         "Outcome":  "PASS",
+                                         "Error":  "",
+                                         "Cleanup":  "PASS",
+                                         "Root":  "D:\\SourceCode\\python\\simple_editor_tool\\artifacts\\verification\\run-5ffc82f003534d6d9ad0ff24469b9d24",
+                                         "FilesRemoved":  256,
+                                         "BytesRemoved":  357456614,
+                                         "RemainingFiles":  0,
+                                         "RemainingBytes":  0,
+                                         "RetainedEntries":  [
+
+                                                             ],
+                                         "RemainingError":  "",
+                                         "Groups":  [
+                                                        {
+                                                            "Mode":  "--markdown-preview",
+                                                            "ExitCode":  0,
+                                                            "PassLines":  65,
+                                                            "Failure":  [
+
+                                                                        ],
+                                                            "ExeSha256":  "460970ADFF81C4383809E36EE6B38C01539304FEC72632F08FFC3622FF2543F1"
+                                                        },
+                                                        {
+                                                            "Mode":  "--text-workflow",
+                                                            "ExitCode":  0,
+                                                            "PassLines":  47,
+                                                            "Failure":  [
+
+                                                                        ],
+                                                            "ExeSha256":  "460970ADFF81C4383809E36EE6B38C01539304FEC72632F08FFC3622FF2543F1"
+                                                        },
+                                                        {
+                                                            "Mode":  "--zoom",
+                                                            "ExitCode":  0,
+                                                            "PassLines":  52,
+                                                            "Failure":  [
+
+                                                                        ],
+                                                            "ExeSha256":  "460970ADFF81C4383809E36EE6B38C01539304FEC72632F08FFC3622FF2543F1"
+                                                        },
+                                                        {
+                                                            "Mode":  "--async-save",
+                                                            "ExitCode":  0,
+                                                            "PassLines":  33,
+                                                            "Failure":  [
+
+                                                                        ],
+                                                            "ExeSha256":  "460970ADFF81C4383809E36EE6B38C01539304FEC72632F08FFC3622FF2543F1"
+                                                        },
+                                                        {
+                                                            "Mode":  "--open-location",
+                                                            "ExitCode":  0,
+                                                            "PassLines":  1,
+                                                            "Failure":  [
+
+                                                                        ],
+                                                            "ExeSha256":  "460970ADFF81C4383809E36EE6B38C01539304FEC72632F08FFC3622FF2543F1"
+                                                        },
+                                                        {
+                                                            "Mode":  "--localization",
+                                                            "ExitCode":  0,
+                                                            "PassLines":  18,
+                                                            "Failure":  [
+
+                                                                        ],
+                                                            "ExeSha256":  "460970ADFF81C4383809E36EE6B38C01539304FEC72632F08FFC3622FF2543F1"
+                                                        }
+                                                    ],
+                                         "Capture":  {
+                                                         "Sha256":  "9146F7A19988BA4F171031F75CB52C73EBE03CCA1D651597846BD9158AC1DE74",
+                                                         "Path":  "D:\\SourceCode\\python\\simple_editor_tool\\docs\\verification\\markdown-scroll-20261104-release\\markdown-preview.png"
+                                                     }
+                                     },
+                         "InitialFailureRetirement":  {
+                                                          "Cleanup":  "PASS",
+                                                          "Files":  257,
+                                                          "Bytes":  684180533
+                                                      },
+                         "Diagnostics":  "Superseded EOF fixture insertion error, ignored native preview wheel and Rich Edit endpoint/clamping feedback were corrected; final focused checks pass. PassLines counts only PASS: output, not all assertions (open-location uses PASS without colon).",
+                         "ToolValidation":  "PowerShell syntax, four rejected capture argument/boundary cases, UTF-8 and changed whitespace checks PASS",
+                         "Reused":  [
+                                        "Unchanged core storage/search/merge/save algorithms and clean-helper boundary tests"
+                                    ],
+                         "NotRun":  [
+                                        "Full application suite",
+                                        "Physical precision touchpad/mixed-monitor matrix",
+                                        "Long throughput benchmark"
+                                    ],
+                         "FormalSmoke":  {
+                                             "Outcome":  "FAIL",
+                                             "Error":  "Formal UI verification not accepted",
+                                             "Cleanup":  "PASS",
+                                             "Root":  "D:\\SourceCode\\python\\simple_editor_tool\\artifacts\\verification\\run-35c7e7a7269644aa94abb1b659ffe00b",
+                                             "FilesRemoved":  4,
+                                             "BytesRemoved":  4230305,
+                                             "RemainingFiles":  0,
+                                             "RemainingBytes":  0,
+                                             "RetainedEntries":  [
+
+                                                                 ],
+                                             "RemainingError":  "",
+                                             "Groups":  [
+
+                                                        ]
+                                         },
+                         "SmokeFixtureCorrection":  "Initial ad hoc PowerShell/C# helper failed before app launch (invalid Main signature; subsequent shell exited -536870873). Empty registered run cleaned. Final verification uses supported Computer Use on a byte-matched formal copy.",
+                         "FormalObservation":  {
+                                                   "FixtureResult":  "FormalSmoke FAIL means intentionally skipped fixture acceptance, not a product regression",
+                                                   "Startup":  "PASS: canonical empty maximized native window observed through supported computer-use skill, read-only",
+                                                   "Directions":  "PASS via focused native Debug/Release UI tests",
+                                                   "SeparateCopyScrolling":  "NOT RUN: launch_app returned canonical build window rather than the owned copy. No file/input sent to canonical window; no close/kill",
+                                                   "Skill":  "C:/Users/averyc/.codex/plugins/cache/openai-bundled/computer-use/26.1029.61003/skills/computer-use/SKILL.md"
+                                               }
+                     },
+    "HistoricalCleanup":  "Prior blocked/unregistered artifacts remain outside current runs; no alternate deletion retry.",
+    "CompilerCleanup":  {
+                            "Entry":  "scripts/clean.ps1",
+                            "Result":  "PASS",
+                            "BeforeFiles":  261,
+                            "ProtectedFiles":  608,
+                            "ProtectedScope":  [
+                                                   "src",
+                                                   "vendor",
+                                                   "tests",
+                                                   "build"
+                                               ],
+                            "AfterFiles":  6,
+                            "RemovedFiles":  255,
+                            "Retained":  [
+                                             {
+                                                 "Bytes":  346,
+                                                 "Path":  "artifacts\\obj\\ui-tests\\Release\\NativeUiTests.exe.recipe"
+                                             },
+                                             {
+                                                 "Bytes":  344,
+                                                 "Path":  "artifacts\\obj\\ui-tests\\Debug\\NativeUiTests.exe.recipe"
+                                             },
+                                             {
+                                                 "Bytes":  345,
+                                                 "Path":  "artifacts\\obj\\tests\\Release\\NativeCoreTests.exe.recipe"
+                                             },
+                                             {
+                                                 "Bytes":  309,
+                                                 "Path":  "artifacts\\obj\\Release\\SimpleEditorTool.exe.recipe"
+                                             },
+                                             {
+                                                 "Bytes":  152,
+                                                 "Path":  "artifacts\\obj\\native-editor\\Release\\objects\\NativeEditor.lib.recipe"
+                                             },
+                                             {
+                                                 "Bytes":  152,
+                                                 "Path":  "artifacts\\obj\\native-editor\\Debug\\objects\\NativeEditor.lib.recipe"
+                                             }
+                                         ],
+                            "ProtectedDigest":  "93002BE7F2842F25DFBA56FBAA1657C51D8648E36A57ECA5B68720AC07C61DEE",
+                            "BeforeBytes":  807290639,
+                            "Preserved":  true,
+                            "AfterBytes":  1648,
+                            "RemovedBytes":  807288991
+                        },
+    "CompletedLocal":  "2026-11-05T00:35:36.2970258+08:00",
+    "Implementation":  [
+                           {
+                               "Path":  "src/core/markdown_preview.h/.cpp",
+                               "Purpose":  "Bounded source-line/significant-text anchors; EOL and surrogate boundary handling"
+                           },
+                           {
+                               "Path":  "src/ui/markdown_preview.h/.cpp",
+                               "Purpose":  "Verified RAWTEXT/table mapping; native scroll, wheel and no-feedback guards"
+                           },
+                           {
+                               "Path":  "src/main_frame_markdown.cpp",
+                               "Purpose":  "Per-session visible/current preview synchronization"
+                           },
+                           {
+                               "Path":  "tests/native_markdown_preview_ui.inc",
+                               "Purpose":  "Source/preview reading-position regressions and source/Undo preservation"
+                           },
+                           {
+                               "Path":  "scripts/verify_native.ps1",
+                               "Purpose":  "Native capture in a multi-mode run and bounded failure labels"
+                           },
+                           {
+                               "Path":  "README.md; SPEC.md; AGENTS.md; docs/USER_GUIDE.md; docs/USER_GUIDE_EN.md; SELF_CHECK.md; HANDOFF.md",
+                               "Purpose":  "Usage, limits, maintenance invariants and actual verification records"
+                           }
+                       ],
+    "FinalExe":  {
+                     "Warnings":  "Existing unrelated C4458 in advanced_notes.cpp/advanced_notes_io.cpp",
+                     "Path":  "build/SimpleEditorTool.exe",
+                     "Architecture":  "x64",
+                     "BuildCommand":  "scripts/build_release.bat",
+                     "Security":  "ASLR/high entropy/NX",
+                     "Sha256":  "4CA776EC7840B6C5DD355F023705E11C8426FCD60C2DBB10BA05A659868422A9",
+                     "Bytes":  4071936,
+                     "Runtime":  "Static MFC and CRT",
+                     "Imports":  "Windows system libraries only",
+                     "BuildExit":  0
+                 },
+    "FinalSettings":  [
+                          {
+                              "Sha256":  "3E9A302D3865F8C06875365378BC310C8876F15775A5EBD07CE4BF99BD0079D4",
+                              "Name":  "simple_editor_tool.ini"
+                          },
+                          {
+                              "Sha256":  "9C921FA88AEEA530DD4EAC587BC29D4654F5A23EDBD8A35A08B20D581196ED91",
+                              "Name":  "test.ini"
+                          },
+                          {
+                              "Sha256":  "684A351CC7DD9CDDFEBD6929CD4D14D2B2B07E1F21BAF60658CD405EDCD16F25",
+                              "Name":  "ui_smoke.ini"
+                          }
+                      ],
+    "SettingsCaveat":  "Personal INI differs from task entry (last write 2026-11-05 00:21:38), before the Computer Use launch. Initial normal app existed. No direct INI edits/restoration performed; origin of intervening write not conclusively established. Current settings/source/delivery hashes matched across final safe clean. Test/smoke INIs and both catalogs match expected hashes.",
+    "SourceHashes":  [
+                         {
+                             "Sha256":  "6409758AB5AA14F03E12EDC0E7E7BE034ECABE76384D7419BDFB271BCFA7A63B",
+                             "Path":  "src/core/markdown_preview.h"
+                         },
+                         {
+                             "Sha256":  "9CA585316068F1BE8198857FC48AD260584C1244012C4034B63B35A20B7E6416",
+                             "Path":  "src/core/markdown_preview.cpp"
+                         },
+                         {
+                             "Sha256":  "28A82C061D1AF6DAD8792F5FD2E4A8F4B1A51233D1E973801B62A2E1583FDD1E",
+                             "Path":  "src/ui/markdown_preview.h"
+                         },
+                         {
+                             "Sha256":  "44099CA961953909004AB7BCC3E5B273F3028334C487C1379B5782F4BA41CBD7",
+                             "Path":  "src/ui/markdown_preview.cpp"
+                         },
+                         {
+                             "Sha256":  "0C4C1A69EDD13D38F78C62284B2F0F1F02E6838253702FA9F55E2D01F0A1D165",
+                             "Path":  "src/main_frame_markdown.cpp"
+                         },
+                         {
+                             "Sha256":  "A82A8FC3EC034859C730235BA21D6D92A1643B922AC07062BB9540F2450D1744",
+                             "Path":  "tests/native_markdown_preview_ui.inc"
+                         },
+                         {
+                             "Sha256":  "A9734B5C4A0DE6D7193DA214E16C16988A9E759B72E6484DC09AD8DF8BDDF953",
+                             "Path":  "scripts/verify_native.ps1"
+                         }
+                     ],
+    "Cleanup":  {
+                    "Global":  "PARTIAL",
+                    "GeneratedNativeOutputsRemovedBytes":  1779102176,
+                    "CompilerRemovedBytes":  807288991,
+                    "UnusedFormalCopyRemovedBytes":  4230305,
+                    "CurrentRunFiles":  0,
+                    "Historical":  {
+                                       "Reason":  "Earlier automatic review: blocked by policy; no detail supplied. No re-registration/retry/bypass; no retention exception",
+                                       "Groups":  [
+                                                      {
+                                                          "Path":  "artifacts/ui-typography-20261027",
+                                                          "Files":  47,
+                                                          "Bytes":  703762
+                                                      },
+                                                      {
+                                                          "Path":  "artifacts/tests",
+                                                          "Files":  4,
+                                                          "Bytes":  98181399
+                                                      },
+                                                      {
+                                                          "Path":  "artifacts/reliability-20261031",
+                                                          "Files":  99,
+                                                          "Bytes":  2377383
+                                                      },
+                                                      {
+                                                          "Path":  "artifacts/obj",
+                                                          "Files":  6,
+                                                          "Bytes":  1648
+                                                      },
+                                                      {
+                                                          "Path":  "artifacts/markdown-preview-e315c5527d",
+                                                          "Files":  161,
+                                                          "Bytes":  248874272
+                                                      },
+                                                      {
+                                                          "Path":  "artifacts/debug",
+                                                          "Files":  2,
+                                                          "Bytes":  128223
+                                                      },
+                                                      {
+                                                          "Path":  "artifacts/compare-notice-ui-debug-20261030-04",
+                                                          "Files":  9,
+                                                          "Bytes":  55
+                                                      },
+                                                      {
+                                                          "Path":  "artifacts/compare-notice-ui-debug-20261030-03",
+                                                          "Files":  3,
+                                                          "Bytes":  26
+                                                      },
+                                                      {
+                                                          "Path":  "artifacts/compare-notice-ui-debug-20261030-02",
+                                                          "Files":  3,
+                                                          "Bytes":  26
+                                                      },
+                                                      {
+                                                          "Path":  "artifacts/compare-notice-ui-debug-20261030",
+                                                          "Files":  3,
+                                                          "Bytes":  26
+                                                      }
+                                                  ],
+                                       "Files":  337,
+                                       "Bytes":  350266820
+                                   },
+                    "BudgetPassed":  false,
+                    "CurrentRunDirectories":  0,
+                    "BudgetBytes":  20000000,
+                    "CurrentBatch":  "PASS"
+                },
+    "Commands":  [
+                     "Invoke-VerificationLifecycle Ui Debug; isolated NativeEditor/NativeUiTests MSBuild Debug x64; incremental build/test then text/zoom/save/location/language; finish -\u003e finally retirement",
+                     "scripts/verify_native.ps1 -Suite Ui -Configuration Release -Mode @(--markdown-preview,--text-workflow,--zoom,--async-save,--open-location,--localization) -CaptureDirectory docs/verification/markdown-scroll-20261104-release",
+                     "scripts/build_release.bat",
+                     "scripts/clean.ps1; hash-preservation check on src/vendor/tests/build",
+                     "dumpbin /headers and /dependents build/SimpleEditorTool.exe; catalogs/settings hash checks"
+                 ],
+    "ProjectInventory":  {
+                             "Includes":  "Hidden/ignored files, .git, vendor, delivery and historical artifacts",
+                             "SkippedReparse":  [
+
+                                                ],
+                             "Files":  1118,
+                             "Bytes":  374664477
+                         }
+}

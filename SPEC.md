@@ -2,6 +2,15 @@
 
 ## Current Scope
 
+- Accept --open <file> [--line <positive one-based line>] in GUI startup,
+  resolving paths before forwarding. Keep old multi-file and headless CLI routes.
+  Versioned bounded path/line IPC uses the existing single-instance queue with
+  an explicit capability property; older runtimes cannot silently discard a line.
+  Activate matching tabs and navigate their current native Text buffer without
+  reload/save/Undo loss. Busy/modal/closing workspaces reject positioned requests;
+  Hex/.hex/binary/oversized/undecodable files and out-of-range lines report limits.
+  Preserve existing preferences, codecs, source bytes and comparison sessions.
+
 - New .hex files, regardless of extension case, open as raw-byte Hex dumps even
   when their contents are printable text. Other extensions retain normal decoding
   rules. Existing sessions and explicit workspace page/layout choices are retained.
@@ -60,6 +69,12 @@
   use bounded native heuristics. Other pages/data documents retain their layout.
   Subsets/limits: docs/DOCUMENT_EDITING_COMPARISON.md. The Review command refreshes
   the panel; no modal function dialog is required.
+  A native per-document Filter field performs case-insensitive substring matching
+  against displayed signatures without reparsing or editing source text. Keep a
+  separate bounded display-to-source mapping and original-line navigation; empty
+  results are explicit. Esc clears the field; Down/Enter access matching rows.
+  Query text/selection survive language changes and edits/Undo retain the query.
+  Queries stay in memory, limited to 256 UTF-16 units; no INI persistence.
 
 - Document editing/comparison: independent Left/Right/Base decoding, original-line
   graphical anchors, selected folder/subtree refresh with explicit older-row
@@ -105,6 +120,14 @@
 - Dark content uses #3F3F3F. Markdown extensions .md/.markdown/.mdown use native
   heading/emphasis/link/list/quote/code colors without modifying buffer content,
   generation, encoding or Undo. Light and system-contrast preferences remain valid.
+- Text selection occurrence highlighting uses an independent indicator, one
+  nonblank single-line stream selection up to1024 UTF-8 bytes, case-sensitive
+  literal substrings and visible display-row coverage refreshed on scroll.
+  Debounced bounded native slices preserve caret/selection/Undo/search target/
+  flags/manual marks and source bytes. The focused shared view owns the query;
+  inactive/hidden controls do not scan, and real edits invalidate old marks.
+- Markdown Text pages automatically split editable source and a resizable read-only Rich Edit preview. Original local parsing runs on a cancellable worker after250ms debounce, with path/revision/generation/theme/zoom/width guards. Read at most256KiB of native UTF-8; render at most64Ki UTF-16 units/4096 lines with a visible limit note. Never edit/commit/save the source for preview, execute raw RTF/HTML/scripts or fetch images/URLs. Support heading/emphasis/list/quote/code/table styles; links/images remain display-only and Mermaid remains code. Hidden/minimized/inactive views do not start parsing. Preserve Text/Hex, shared-source clones, selection/copy, Undo, source EOL and safe --open/--line routing; Review toggles preview without changing the source.
+- Markdown source/preview vertically synchronize in both directions through bounded, version-matched source anchors and verified native Rich Edit character positions, including table delimiters and wrapped sublines. Retain source caret/selection/Undo/horizontal offset; ignore stale/hidden maps, avoid idle feedback/reparsing, and clamp the preview beyond its coverage without pulling the complete source backward. Native preview wheel scrolls normally; Ctrl+wheel retains shared document zoom.
 - Ctrl+F/Ctrl+H share Find/Replace with current-document and all-open-text scopes.
   All-open operations snapshot native unsaved/untitled file buffers (128 MiB total),
   exclude comparison panes, and report skipped binary/oversized documents.
@@ -284,12 +307,36 @@ multi-monitor/DPI acceptance is not inferred from synthetic resize/zoom checks.
 ## Delivery layout
 
 - `build` contains only the production EXE and existing INI files; no PDB, screenshots, test outputs, or development subdirectories.
-- Linker PDB/import libraries and compiler intermediates use `artifacts/obj`; Debug and test executables use `artifacts/debug` and `artifacts/tests`.
+- Default linker PDB/import libraries and compiler intermediates use `artifacts/obj`; Debug and test executables use `artifacts/debug` and `artifacts/tests`.
+- `scripts/verify_native.ps1` instead builds in a fresh registered
+  `artifacts/verification/run-<id>` directory, including dependency outputs and
+  process-local TEMP/TMP. Its finally phase retires exact owned/hash-matched test
+  EXEs, libraries, objects, symbols and synthetic inputs on pass/fail/cancel.
+  Cleanup failure returns INCOMPLETE. Only compact latest pass/fail summaries
+  remain. `clean.bat /verify` previews sealed registered runs; `/verify /apply`
+  applies whole-batch preflight. Active/unsealed runs, unknown/changed files,
+  reparse paths and external roots cannot be silently retired. This mechanism
+  does not adopt unregistered historical data or bypass rejected deletion.
 - Normal clean removes only allowlisted intermediates under `artifacts/obj`, preserving delivery files, settings, evidence and unknown files.
 - Explicit artifact purge defaults to preview; `-Apply` removes recognized
   generated output only. Reject reparse points before deletion, retain unknown
   files and the Explorer menu target, and never touch source or `build` delivery.
   Completed raw artifacts may be pruned after compact acceptance records exist.
+- `clean.bat /purge [/apply]` dispatches the explicit artifact purge, including
+  obsolete historical output outside the native-run registry. Its review records
+  live in docs/verification/artifacts-cleanup-*.json, owner
+  simple_editor.artifacts-cleanup-audit.v1, exact current project artifacts Root,
+  Status REVIEWED_FOR_PURGE, boolean VerificationComplete/DisposableTestData true,
+  RecoveryNeeded false and an empty Unknown list. Evidence.Path is a project-relative
+  docs/verification file with matching Evidence.Sha256. Files identify project-relative
+  artifacts paths, Bytes, Sha256 and producer/ownership Provenance. Registered
+  artifacts/verification paths cannot be adopted by this mechanism. Missing/changed
+  evidence, conflicting records and invalid boundaries refuse cleanup before deletion;
+  changed historical payloads also refuse the entire batch. Unknown additions stay.
+  Prior BLOCKED/REJECTED records or CurrentRejection.Reason=blocked by policy
+  take precedence over every review/producer rule, including an approved duplicate.
+  Only preview is run against such real historical files; the agent must not use
+  a manifest, helper or alternate path to retry a rejected removal.
 - The script's project location is an independent outer cleanup boundary; caller
   roots cannot retarget deletion outside it. Test fixtures use project-local
   artifacts. Existing global TEMP/system/user/sibling data is never deleted by

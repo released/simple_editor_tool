@@ -12,6 +12,7 @@ BEGIN_MESSAGE_MAP(CFunctionSidebar,CWnd)
     ON_NOTIFY(NM_CLICK,IDC_FUNCTION_LIST,OnActivate)
     ON_NOTIFY(NM_DBLCLK,IDC_FUNCTION_LIST,OnActivate)
     ON_NOTIFY(LVN_KEYDOWN,IDC_FUNCTION_LIST,OnKey)
+    ON_EN_CHANGE(IDC_FUNCTION_FILTER,OnFilterChanged)
 END_MESSAGE_MAP()
 bool CFunctionSidebar::Create(CWnd* owner) {
     const auto cls = AfxRegisterWndClass(0,LoadCursor(nullptr,IDC_ARROW),reinterpret_cast<HBRUSH>(COLOR_3DFACE + 1),nullptr);
@@ -21,8 +22,11 @@ bool CFunctionSidebar::Create(CWnd* owner) {
 int CFunctionSidebar::OnCreate(LPCREATESTRUCT create) {
     if (CWnd::OnCreate(create) == -1) return -1;
     if (!caption_.Create(L"Functions",WS_CHILD | WS_VISIBLE,CRect(),this,IDC_FUNCTION_CAPTION) || !status_.Create(L"Updating function list...",WS_CHILD | WS_VISIBLE,CRect(),this,IDC_FUNCTION_STATUS) || !list_.Create(WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | LVS_REPORT | LVS_OWNERDATA | LVS_SINGLESEL | LVS_SHOWSELALWAYS,CRect(),this,IDC_FUNCTION_LIST)) return -1;
+    if (!filter_label_.Create(L"Filter:",WS_CHILD | WS_VISIBLE,CRect(),this,IDC_FUNCTION_FILTER_LABEL) ||
+        !filter_.Create(WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL,CRect(),this,IDC_FUNCTION_FILTER)) return -1;
+    filter_.SetLimitText(256);
     if (!simple_editor::ui::CreateUiFont(ui_font_, *this)) return -1;
-    simple_editor::ui::BindUiFont(*this, ui_font_, {IDC_FUNCTION_CAPTION, IDC_FUNCTION_STATUS, IDC_FUNCTION_LIST});
+    simple_editor::ui::BindUiFont(*this, ui_font_, {IDC_FUNCTION_CAPTION, IDC_FUNCTION_STATUS, IDC_FUNCTION_LIST, IDC_FUNCTION_FILTER_LABEL, IDC_FUNCTION_FILTER});
     if (auto* header = list_.GetHeaderCtrl()) header->SetFont(&ui_font_, FALSE);
     list_.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER | LVS_EX_LABELTIP);
     list_.InsertColumn(0,L"Function",LVCFMT_LEFT,240); list_.InsertColumn(1,L"Line",LVCFMT_RIGHT,55); list_.EnableWindow(FALSE); return 0;
@@ -33,7 +37,12 @@ void CFunctionSidebar::OnDestroy() { Stop(); CWnd::OnDestroy(); }
 void CFunctionSidebar::OnSize(UINT type,int width,int height) { CWnd::OnSize(type,width,height); Layout(); }
 void CFunctionSidebar::Layout() {
     if (!list_.GetSafeHwnd()) return; CRect rect; GetClientRect(rect); const int width = (std::max)(0,rect.Width() - 8),height = (std::max)(0,rect.Height());
-    caption_.MoveWindow(4,2,width,(std::min)(22,height)); const int top = (std::min)(26,height),bottom = (std::max)(top,height - 44);
+    caption_.MoveWindow(4,2,width,(std::min)(22,height));
+    const int filter_top = (std::min)(26,height),filter_height = (std::min)(24,height - filter_top);
+    const int label_width = (std::min)(64,width);
+    filter_label_.MoveWindow(4,filter_top + (filter_height ? 3 : 0),label_width,(std::max)(0,filter_height - 3));
+    filter_.MoveWindow(4 + label_width,filter_top,(std::max)(0,width - label_width),filter_height);
+    const int top = (std::min)(54,height),bottom = (std::max)(top,height - 44);
     list_.MoveWindow(4,top,width,bottom - top); status_.MoveWindow(4,bottom + 3,width,(std::max)(0,height - bottom - 3)); list_.SetColumnWidth(0,(std::max)(180,width - 62)); list_.SetColumnWidth(1,55);
 }
 void CFunctionSidebar::Status(const std::wstring& text) { if (status_.GetSafeHwnd()) status_.SetWindowTextW(text.c_str()); }
@@ -47,8 +56,8 @@ void CFunctionSidebar::Tick(CCodeEditor& editor,std::uint64_t revision,const std
     if (job_.valid() && job_.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready) {
         Result result; try { result = job_.get(); } catch (...) { failed_ = true; Status(L"Function analysis failed; edit or refresh to retry."); }
         if (!cancelled_ && result.ok && result.generation == generation_ && result.revision == revision_ && result.path == path_ && result.language == language_) {
-            const auto top = list_.GetTopIndex(); entries_ = std::move(result.entries); ready_ = true; list_.SetItemCountEx(static_cast<int>(entries_.size()),LVSICF_NOSCROLL); list_.EnableWindow(TRUE); list_.Invalidate(FALSE); if (top >= 0 && static_cast<std::size_t>(top) < entries_.size()) list_.EnsureVisible(top,FALSE);
-            Status(result.truncated ? L"Partial list: parsing or result limit reached." : entries_.empty() ? L"No supported functions or declarations found." : L"Definitions and declarations. Click or press Enter to jump.");
+            list_.SetItemCountEx(0,LVSICF_NOSCROLL); visible_.clear();
+            entries_ = std::move(result.entries); ready_ = true; truncated_ = result.truncated; ApplyFilter();
         } else if (!cancelled_ && !result.ok) { failed_ = true; Status(L"Function analysis failed; edit or refresh to retry."); }
     }
     if (!start || ready_ || failed_ || job_.valid() || GetTickCount64() - changed_at_ < 300) return;
@@ -58,8 +67,51 @@ void CFunctionSidebar::Tick(CCodeEditor& editor,std::uint64_t revision,const std
     catch (...) { failed_ = true; Status(L"Function analysis failed; edit or refresh to retry."); }
 }
 void CFunctionSidebar::OnDisplay(NMHDR* header,LRESULT* result) {
-    *result = 0; auto* info = reinterpret_cast<NMLVDISPINFO*>(header); if (!(info->item.mask & LVIF_TEXT) || info->item.iItem < 0 || static_cast<std::size_t>(info->item.iItem) >= entries_.size() || info->item.cchTextMax <= 0) return;
-    const auto& entry = entries_[info->item.iItem]; const auto text = info->item.iSubItem == 0 ? entry.title : std::to_wstring(entry.line); wcsncpy_s(info->item.pszText,info->item.cchTextMax,text.c_str(),_TRUNCATE);
+    *result = 0; auto* info = reinterpret_cast<NMLVDISPINFO*>(header); if (!(info->item.mask & LVIF_TEXT) || !info->item.pszText || info->item.cchTextMax <= 0) return;
+    info->item.pszText[0] = 0;
+    if (info->item.iItem < 0 || static_cast<std::size_t>(info->item.iItem) >= visible_.size() || visible_[info->item.iItem] >= entries_.size()) return;
+    const auto& entry = entries_[visible_[info->item.iItem]]; const auto text = info->item.iSubItem == 0 ? entry.title : std::to_wstring(entry.line); wcsncpy_s(info->item.pszText,info->item.cchTextMax,text.c_str(),_TRUNCATE);
 }
-void CFunctionSidebar::OnActivate(NMHDR*,LRESULT* result) { *result = 0; const auto row = list_.GetNextItem(-1,LVNI_SELECTED); if (ready_ && row >= 0 && static_cast<std::size_t>(row) < entries_.size() && navigate) navigate(entries_[row].line); }
-void CFunctionSidebar::OnKey(NMHDR* header,LRESULT* result) { *result = 0; if (reinterpret_cast<NMLVKEYDOWN*>(header)->wVKey == VK_RETURN) OnActivate(header,result); }
+void CFunctionSidebar::OnActivate(NMHDR*,LRESULT* result) { *result = 0; const auto row = list_.GetNextItem(-1,LVNI_SELECTED); if (ready_ && row >= 0 && static_cast<std::size_t>(row) < visible_.size() && visible_[row] < entries_.size() && navigate) navigate(entries_[visible_[row]].line); }
+void CFunctionSidebar::OnKey(NMHDR* header,LRESULT* result) {
+    *result = 0; const auto key = reinterpret_cast<NMLVKEYDOWN*>(header)->wVKey;
+    if (key == VK_RETURN) OnActivate(header,result);
+    else if (key == VK_ESCAPE) { filter_.SetFocus(); filter_.SetSel(0,-1); }
+}
+void CFunctionSidebar::OnFilterChanged() { if (list_.GetSafeHwnd()) ApplyFilter(); }
+void CFunctionSidebar::ApplyFilter() {
+    CString query; filter_.GetWindowTextW(query);
+    const auto row = list_.GetNextItem(-1,LVNI_SELECTED);
+    const auto selected = row >= 0 && static_cast<std::size_t>(row) < visible_.size() ? visible_[row] : SIZE_MAX;
+    std::vector<std::size_t> matching; matching.reserve(entries_.size());
+    for (std::size_t i = 0; i < entries_.size(); ++i) {
+        const auto& title = entries_[i].title;
+        if (query.IsEmpty() || FindStringOrdinal(FIND_FROMSTART,title.c_str(),static_cast<int>(title.size()),query.GetString(),query.GetLength(),TRUE) >= 0) matching.push_back(i);
+    }
+    // Retire native row indices before replacing the display mapping.
+    list_.SetItemCountEx(0,LVSICF_NOSCROLL); visible_.swap(matching);
+    list_.SetItemCountEx(static_cast<int>(visible_.size()),LVSICF_NOSCROLL);
+    if (!visible_.empty()) {
+        const auto found = std::find(visible_.begin(),visible_.end(),selected);
+        const auto target = found == visible_.end() ? 0 : static_cast<int>(found - visible_.begin());
+        list_.SetItemState(target,LVIS_SELECTED | LVIS_FOCUSED,LVIS_SELECTED | LVIS_FOCUSED); list_.EnsureVisible(target,FALSE);
+    }
+    list_.EnableWindow(ready_); list_.Invalidate(FALSE);
+    if (ready_) Status(!query.IsEmpty() && visible_.empty() && !entries_.empty() ? (truncated_ ? L"No matching functions in the partial list." : L"No matching functions.") : truncated_ ? L"Partial list: parsing or result limit reached." : entries_.empty() ? L"No supported functions or declarations found." : L"Definitions and declarations. Click or press Enter to jump.");
+}
+BOOL CFunctionSidebar::PreTranslateMessage(MSG* message) {
+    if (message->message == WM_KEYDOWN && message->hwnd == filter_.GetSafeHwnd()) {
+        const bool control = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+        if (control && message->wParam == 'A') { filter_.SetSel(0,-1); return TRUE; }
+        if (control && message->wParam == 'Z') { filter_.Undo(); return TRUE; }
+        if (control && message->wParam == 'Y') return TRUE;
+        if (message->wParam == VK_ESCAPE) { filter_.SetWindowTextW(L""); return TRUE; }
+        if ((message->wParam == VK_DOWN || message->wParam == VK_RETURN || message->wParam == VK_TAB) && ready_ && !visible_.empty() && !(GetKeyState(VK_SHIFT) & 0x8000)) {
+            if (message->wParam == VK_RETURN) { LRESULT result = 0; OnActivate(nullptr,&result); }
+            else list_.SetFocus();
+            return TRUE;
+        }
+    }
+    if (message->message == WM_KEYDOWN && message->hwnd == list_.GetSafeHwnd() && message->wParam == VK_TAB && (GetKeyState(VK_SHIFT) & 0x8000)) { filter_.SetFocus(); return TRUE; }
+    return CWnd::PreTranslateMessage(message);
+}

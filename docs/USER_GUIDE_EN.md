@@ -27,6 +27,11 @@ state rules.
   This includes C/C++ headers and definitions, Python, JavaScript/TypeScript,
   Java/C#, PowerShell, Shell, CMake and SQL; Batch shows subroutine labels.
   Click an entry or select it and press Enter to jump. Drag the divider to resize.
+  Type part of a name in **Filter** to narrow the displayed signatures immediately,
+  ignoring case. Clear the field or press Esc in it to restore all entries. Down
+  focuses the results; Enter jumps to the selected function. No matches are labelled.
+  Each document tab retains its own filter in memory (up to 256 UTF-16 units),
+  without changing document contents or writing the query to settings.
   Each document retains its own list/width; switching tabs updates the visible
   outline and retains drafts/Undo. Shared views navigate in the active editor.
   **Review > Function sidebar / refresh** refreshes the nonmodal panel.
@@ -128,6 +133,14 @@ colors, bookmarks, folding, whitespace/EOL display, wrapping, multiple selection
 and column selection. The default dark content background is `#3F3F3F`.
 Preferences can select light, dark or system-contrast colors.
 
+Drag to select text or double-click a name to mark other identical occurrences
+with an outline and background tint. Matching is case-sensitive and literal,
+including the same substring inside longer names. Changing or collapsing the
+selection updates the marks. This uses one nonblank single-line selection up to
+1 KiB of UTF-8; multiline, rectangular and multiple selections do not activate it.
+Visible coverage updates as you scroll, without changing content, caret, Undo or
+manual search marks. Shared Text views follow the focused view's selected text.
+
 View commands configure the font and Tab width, sort lines, remove duplicate or
 blank lines, trim trailing spaces and enable shared Text views. Shared views use
 one draft, Undo history and save state, with independent carets and scrolling.
@@ -137,6 +150,20 @@ EditorConfig supports the documented indentation subset and manual overrides;
 loading settings does not reformat the document. `Ctrl+G` goes to a line, and
 **Markdown outline...** navigates headings. Review provides three Text mark
 colors. Marks do not change content; editing clears outdated marks.
+
+Markdown files open source on the left and a read-only preview on the right.
+Drag the divider or use **Review → Show / hide Markdown preview**. Unsaved text
+updates after a short pause without changing Undo, encoding or EOL. Preview
+and source synchronize vertical reading positions in both directions, using the
+matching source paragraph, table row or code line. Different font sizes and
+wrapping prevent pixel-for-pixel alignment; blank and syntax-only lines map to
+nearby rendered content. Source horizontal scrolling stays independent. Use
+the ordinary wheel to scroll and Ctrl+wheel to zoom.
+The preview supports headings, emphasis, lists, quotes, code and pipe tables, bounded to
+64 Ki UTF-16 characters / 4,096 lines with a visible notice; source stays complete.
+Beyond that covered source range, the preview stays at its end; further downward
+scrolling there never pulls the source back into the covered range.
+Links/images are display-only and HTML/Mermaid are not executed or fetched.
 
 ## 4. Finding and replacing
 

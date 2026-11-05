@@ -1,0 +1,40 @@
+    static int RunOpenLocation(const std::filesystem::path& root) {
+        int failures = 0;
+        const auto check = [&](bool passed,const wchar_t* label) { std::wcout << (passed ? L"PASS " : L"FAIL ") << label << L'\n'; if (!passed) ++failures; };
+        using simple_editor::core::OpenLocation;
+        using simple_editor::core::ParseOpenLocations;
+        std::vector<OpenLocation> locations;
+        simple_editor::core::LanguageCatalog catalog; std::wstring language_error;
+        check(catalog.Load(std::filesystem::current_path() / L"src/res",&language_error) && catalog.Select(L"tw")
+            && catalog.Translate(L"The requested line is beyond the current document. No line position was applied.") == L"指定行號超出目前文件範圍，未套用行號定位。",L"line navigation warning has a Traditional Chinese catalog entry");
+        check(catalog.Select(L"en") && catalog.Translate(L"Could not resolve the requested file path.") == L"Could not resolve the requested file path.",L"English navigation warning remains reversible");
+        check(ParseOpenLocations({L"--open",L"a b.cpp",L"--line",L"3"},&locations) && locations.size() == 1 && locations[0].line == 3,L"parse separate quoted path and positive line");
+        check(ParseOpenLocations({L"a",L"b"},&locations) && locations.size() == 2 && !locations[0].line,L"legacy multi-file opening remains valid");
+        for (const auto& value : {L"0",L"-1",L"1x",L"18446744073709551616"}) check(!ParseOpenLocations({L"--open",L"a",L"--line",value},&locations),L"reject invalid or overflowing line");
+        check(!ParseOpenLocations({L"--open",L"a",L"--line"},&locations),L"reject incomplete location without treating switches as paths");
+        const auto file = root / L"source with spaces.cpp";
+        Write(file,{'o','n','e','\n','t','w','o','\n','t','h','r','e','e','\n'});
+        auto* workspace = new CWorkspaceFrame(false); AfxGetApp()->m_pMainWnd = workspace;
+        check(workspace->OpenLocation({file.wstring(),3}),L"open and navigate to a one-based source line");
+        auto* session = workspace->sessions_.front();
+        check(session->active_tab_ == 1 && session->text_.Call(SCI_LINEFROMPOSITION,session->text_.Call(SCI_GETCURRENTPOS)) == 2,L"native caret is on requested line");
+        session->text_.SetSel(0,0); session->text_.ReplaceSel(L"draft ",TRUE);
+        const auto draft = session->text_.Utf8(); const auto generation = session->text_.Generation();
+        check(workspace->OpenLocation({file.wstring(),2}) && workspace->sessions_.size() == 1 && session->text_.Utf8() == draft && session->text_.Generation() == generation && session->text_.CanUndo(),L"existing draft, generation and Undo survive activation and navigation");
+        const auto path = file.wstring(); std::vector<wchar_t> payload(path.begin(),path.end());
+        payload.push_back(0); payload.push_back(L'3'); payload.push_back(0); payload.push_back(0);
+        COPYDATASTRUCT data{3,static_cast<DWORD>(payload.size() * sizeof(wchar_t)),payload.data()};
+        check(workspace->OnCopyData(nullptr,&data) && workspace->queued_paths_.size() == 1,L"versioned IPC accepts a bounded path/line request");
+        workspace->OnQueuedOpen(0,0);
+        check(session->text_.Call(SCI_LINEFROMPOSITION,session->text_.Call(SCI_GETCURRENTPOS)) == 2 && session->text_.Utf8() == draft,L"forwarded location reaches the existing native editor without replacing its draft");
+        payload.back() = L'x';
+        check(!workspace->OnCopyData(nullptr,&data),L"reject malformed IPC terminator");
+        session->path_dialog_ = true;
+        auto timer = ::SetTimer(nullptr,0,30,ErrorTimer);
+        check(!workspace->OpenLocation({file.wstring(),1}) && session->text_.Utf8() == draft,L"busy target rejects navigation while preserving input");
+        session->path_dialog_ = false;
+        check(!workspace->OpenLocation({file.wstring(),999}) && session->text_.Utf8() == draft,L"out-of-range line reports failure without replacing text");
+        ::KillTimer(nullptr,timer);
+        check(ReadDisk(file) == std::vector<std::uint8_t>({'o','n','e','\n','t','w','o','\n','t','h','r','e','e','\n'}),L"navigation never saves source changes");
+        workspace->DestroyWindow(); AfxGetApp()->m_pMainWnd = nullptr; return failures;
+    }

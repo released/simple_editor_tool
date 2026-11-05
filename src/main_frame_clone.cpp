@@ -2,6 +2,7 @@
 #include "workspace_frame.h"
 #include "resource.h"
 void CMainFrame::ToggleTextClone() {
+    if (MarkdownPreviewActive()) markdown_enabled_ = false;
     if (IsBusy() || comparison_session_ || !document_.IsOpen()) return;
     const auto indent = text_.Call(SCI_GETINDENT);
     if (!text_clone_.GetSafeHwnd()) {

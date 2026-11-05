@@ -79,6 +79,7 @@ CWorkspaceFrame::CWorkspaceFrame(bool publish_instance) {
     SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), TRUE); simple_editor::ui::RegisterLocalizationRoot(this); simple_editor::ui::RegisterLocalizationMenu(root_menu_.GetSafeHmenu(),GetSafeHwnd());
     if (publish_instance) {
         ::SetPropW(m_hWnd, L"SimpleEditorTool.Native.WorkspaceVersion", reinterpret_cast<HANDLE>(2));
+        ::SetPropW(m_hWnd, L"SimpleEditorTool.Native.OpenLocationVersion", reinterpret_cast<HANDLE>(1));
         ::SetPropW(m_hWnd, L"SimpleEditorTool.Native.MainWindow", reinterpret_cast<HANDLE>(1));
     }
     if (!preference_error.empty()) welcome_.SetWindowTextW((L"Portable settings could not be loaded; defaults are active.\r\n" + preference_error).c_str());
@@ -213,6 +214,22 @@ bool CWorkspaceFrame::OpenPath(const std::wstring& path, bool silent) {
     else if (session->document_.Size() <= 32 * 1024 * 1024) { session->RefreshText(); if (session->text_editable_) session->ShowPage(1); }
     session->RequestIndentation(true); session->SetSaveReadOnly(DocumentLocked(session->document_));
     session->status_.SetPaneText(0, session->document_.Path().c_str()); RememberRecent(session->document_.Path()); RefreshLabels(); return true;
+}
+bool CWorkspaceFrame::OpenLocation(const simple_editor::core::OpenLocation& location) {
+    if (!location.line) return OpenPath(location.path);
+    const auto fail = [](const wchar_t* message) { UiMessageBox(message,MB_ICONWARNING); return false; };
+    if (destroying_ || closing_all_ || workspace_dialog_ || recovery_modal_) return fail(L"The workspace is busy. Retry the file link after the current operation finishes.");
+    for (const auto* session : sessions_) if (!session->comparison_session_ && session->document_.IsOpen() && SamePath(location.path,session->document_.Path()) && session->IsBusy())
+        return fail(L"The target editor is busy. Its draft was preserved; retry navigation after the current operation finishes.");
+    if (!OpenPath(location.path)) return false;
+    auto* session = sessions_[active_session_];
+    if (simple_editor::core::PreferHexFileView(session->document_.Path()) || session->document_.Size() > 32ULL * 1024 * 1024)
+        return fail(L"This file uses Hex or the large-file view. A text line location is not available.");
+    session->ShowPage(1);
+    if (!session->text_editable_) return fail(L"This file cannot be decoded as editable text. Its existing content was preserved.");
+    if (location.line > static_cast<std::uint64_t>(session->text_.GetLineCount())) return fail(L"The requested line is beyond the current document. No line position was applied.");
+    session->clone_active_ = false; session->text_.GoToLine(location.line);
+    session->status_.SetPaneText(0,session->text_.Status().c_str()); RememberView(session); return true;
 }
 void CWorkspaceFrame::ChooseFiles() {
     std::vector<wchar_t> names(65536, L'\0');
@@ -396,6 +413,7 @@ void CWorkspaceFrame::OnUpdateCompare(CCmdUI* command) { command->Enable(TRUE); 
 void CWorkspaceFrame::OnTabChanged(NMHDR*, LRESULT* result) { ActivateSession(sessions_tab_.GetCurSel()); *result = 0; }
 void CWorkspaceFrame::OnDropFiles(HDROP drop) { OpenDroppedFiles(drop); }
 BOOL CWorkspaceFrame::PreTranslateMessage(MSG* message) {
+    if (active_session_ >= 0 && static_cast<std::size_t>(active_session_) < sessions_.size() && sessions_[active_session_]->markdown_preview_.RouteKey(message)) return TRUE;
     if (scoped_search_.GetSafeHwnd() && scoped_search_.IsWindowVisible() && scoped_search_.IsDialogMessage(message)) return TRUE;
     if (message->message == WM_KEYDOWN && message->wParam == VK_ESCAPE && open_search_io_.valid()) { open_search_cancel_ = true; return TRUE; }
     if ((message->message == WM_KEYDOWN || message->message == WM_SYSKEYDOWN) && (GetKeyState(VK_MENU) & 0x8000) && (message->wParam == VK_LEFT || message->wParam == VK_RIGHT)) { NavigateHistory(message->wParam == VK_LEFT); return TRUE; }
@@ -428,16 +446,23 @@ BOOL CWorkspaceFrame::OnCmdMsg(UINT id, int code, void* extra, AFX_CMDHANDLERINF
 BOOL CWorkspaceFrame::OnCopyData(CWnd*, COPYDATASTRUCT* data) {
     if (!data || !data->lpData || data->cbData < sizeof(wchar_t) || data->cbData > 1024 * 1024 || data->cbData % sizeof(wchar_t)) return FALSE;
     const auto* text = static_cast<const wchar_t*>(data->lpData); const auto length = data->cbData / sizeof(wchar_t);
-    if (text[length - 1] != L'\0' || (data->dwData != 1 && data->dwData != 2)) return FALSE;
+    if (text[length - 1] != L'\0') return FALSE;
+    if (data->dwData == 3) {
+        std::vector<simple_editor::core::OpenLocation> locations;
+        if (!simple_editor::core::DecodeOpenLocations(text,length,&locations)) return FALSE;
+        for (auto& location : locations) queued_paths_.push_back(std::move(location));
+        PostMessage(kQueuedOpen); ShowWindow(SW_SHOWMAXIMIZED); SetForegroundWindow(); return TRUE;
+    }
+    if (data->dwData != 1 && data->dwData != 2) return FALSE;
     std::vector<std::wstring> paths; std::size_t start = 0;
     for (std::size_t i = 0; i < length; ++i) if (!text[i]) { if (i > start) paths.emplace_back(text + start, i - start); start = i + 1; }
-    for (const auto& path : paths) queued_paths_.push_back(path);
+    for (const auto& path : paths) queued_paths_.push_back({path,0});
     PostMessage(kQueuedOpen);
     if (::GetPropW(GetSafeHwnd(), L"SimpleEditorTool.Native.MainWindow")) { ShowWindow(SW_SHOWMAXIMIZED); SetForegroundWindow(); }
     return TRUE;
 }
 LRESULT CWorkspaceFrame::OnQueuedOpen(WPARAM, LPARAM) {
-    if (!queued_paths_.empty()) { auto path = std::move(queued_paths_.front()); queued_paths_.pop_front(); OpenPath(path); }
+    if (!queued_paths_.empty()) { auto location = std::move(queued_paths_.front()); queued_paths_.pop_front(); OpenLocation(location); }
     if (!queued_paths_.empty()) PostMessage(kQueuedOpen); return 0;
 }
 LRESULT CWorkspaceFrame::OnContinueClose(WPARAM, LPARAM) { if (closing_all_) OnClose(); return 0; }

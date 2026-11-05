@@ -64,6 +64,22 @@ bool WaitCount(HWND frame, int expected) {
     }
     return false;
 }
+BOOL CALLBACK FindVisibleText(HWND window, LPARAM result) {
+    wchar_t name[64]{}; GetClassNameW(window,name,64);
+    if (IsWindowVisible(window) && std::wstring(name) == L"Scintilla") { *reinterpret_cast<HWND*>(result) = window; return FALSE; }
+    return TRUE;
+}
+bool WaitLine(HWND frame, unsigned expected) {
+    const auto until = GetTickCount64() + 15000;
+    while (GetTickCount64() < until && IsWindow(frame)) {
+        HWND editor = nullptr; EnumChildWindows(frame,FindVisibleText,reinterpret_cast<LPARAM>(&editor));
+        DWORD_PTR position = 0, line = 0;
+        if (editor && SendMessageTimeoutW(editor,2008,0,0,SMTO_ABORTIFHUNG,1000,&position)
+            && SendMessageTimeoutW(editor,2166,position,0,SMTO_ABORTIFHUNG,1000,&line) && line + 1 == expected) return true;
+        Sleep(20);
+    }
+    return false;
+}
 }
 
 namespace {
@@ -130,7 +146,7 @@ int RunWorkspaceProcessTests(const std::filesystem::path& root, const std::files
     const auto original = Bytes(executable);
     if (!check(!original.empty() && original == Bytes(first_exe) && original == Bytes(second_exe), L"formal and renamed EXE copies match every source byte")) return failures;
     const auto a = root / L"process-A.txt", b = root / L"process-B.bin", c = root / L"process-第三份.txt";
-    for (const auto& file : {a,b,c}) { std::ofstream output(file, std::ios::binary); output << "process fixture\r\n"; }
+    for (const auto& file : {a,b,c}) { std::ofstream output(file, std::ios::binary); output << "process fixture\r\nsecond\r\nthird\r\n"; }
     Process first, second;
     if (!check(first.Start(first_exe, {a,b}) && second.Start(second_exe, {c,a}), L"start concurrent formal and renamed instances with several file paths")) return failures;
     std::vector<HWND> frames; const auto deadline = GetTickCount64() + 15000;
@@ -143,16 +159,19 @@ int RunWorkspaceProcessTests(const std::filesystem::path& root, const std::files
     if (!check(secondary.Exited() && WaitCount(primary.frame, 3), L"secondary forwards all paths and duplicate activation retains three file tabs")) return failures;
     check(IsZoomed(primary.frame) != FALSE,L"ready formal workspace starts maximized");
     check(OwnedFrames(first.info.dwProcessId, second.info.dwProcessId).size() == 1, L"renamed-copy forwarding creates no second top-level workspace");
+    { Process positioned; check(positioned.Start(second_exe,{L"--open",a,L"--line",L"3"}) && positioned.Exited()
+        && WaitLine(primary.frame,3) && WaitCount(primary.frame,3),L"separate path/line arguments forward to the existing formal native editor"); }
     PostMessageW(primary.frame, WM_COMMAND, ID_FILE_CLOSE, 0);
     check(WaitCount(primary.frame, 2), L"formal Close tab removes only the explicitly selected file");
     PostMessageW(primary.frame, WM_CLOSE, 0, 0);
     if (!check(primary.Exited(), L"formal multi-session workspace closes normally with exit zero")) return failures;
     primary.frame = nullptr;
     Process relaunched;
-    if (!check(relaunched.Start(second_exe, {b}), L"relaunch the renamed formal EXE after normal close")) return failures;
+    if (!check(relaunched.Start(second_exe, {L"--open",b,L"--line",L"2"}), L"relaunch the renamed formal EXE with a line location after normal close")) return failures;
     const auto relaunch_deadline = GetTickCount64() + 15000;
     do { frames = OwnedFrames(relaunched.info.dwProcessId); if (!frames.empty()) break; Sleep(20); } while (GetTickCount64() < relaunch_deadline);
     if (!check(frames.size() == 1 && WaitCount(frames[0], 1), L"normal close releases the singleton for the next workspace")) return failures;
+    check(WaitLine(frames[0],2),L"cold startup opens the requested source line");
     relaunched.frame = frames[0]; PostMessageW(relaunched.frame, WM_CLOSE, 0, 0);
     check(relaunched.Exited(), L"relaunched formal workspace shuts down normally"); relaunched.frame = nullptr;
     return failures;

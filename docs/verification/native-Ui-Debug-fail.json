@@ -1,0 +1,28 @@
+{
+    "Owner":  "simple_editor.native-verification.v1",
+    "Suite":  "Ui",
+    "Configuration":  "Debug",
+    "DateUtc":  "2026-11-04T14:56:47.4087469Z",
+    "Result":  {
+                   "Outcome":  "FAIL",
+                   "Error":  "Native test failed: PASS: idle synchronization neither feeds back nor launches another renderer\nPASS: all scrolling and zoom retain source content, versions, caret, selection, horizontal position and Undo\nPASS: paired scrolling never implicitly saves the source draft\nPASS: stale preview maps cannot scroll an edited source before re-rendering\nPASS: edited Markdown publishes a version-matched replacement scroll map\nPASS: native Undo restores source and refreshed scroll mapping\nPASS: another Markdown tab retains its own source, viewport and preview position\nPASS: returning to a Markdown tab retains its independent synchronized viewport\nPASS: truncated long-source preview retains an explicit bounded scroll map\nFAIL: scrolling beyond the preview limit clamps only the preview and never pulls source back on idle/bottom wheel ticks\nFAIL: Markdown preview checks completed\nFAIL: native MFC UI tests",
+                   "Cleanup":  "PASS",
+                   "Root":  "D:\\SourceCode\\python\\simple_editor_tool\\artifacts\\verification\\run-187318dfd8144a27b756f4b452f35218",
+                   "FilesRemoved":  257,
+                   "BytesRemoved":  684180533,
+                   "RemainingFiles":  0,
+                   "RemainingBytes":  0,
+                   "RetainedEntries":  [
+
+                                       ],
+                   "RemainingError":  "",
+                   "Groups":  [
+                                  {
+                                      "Mode":  "--markdown-preview",
+                                      "ExitCode":  1,
+                                      "PassLines":  47,
+                                      "ExeSha256":  "5D3C5B2FEC77D5DFC3820709F4AB98A5FD0365E2E924390F2E35AF58C6A6F680"
+                                  }
+                              ]
+               }
+}

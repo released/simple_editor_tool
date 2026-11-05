@@ -19,6 +19,7 @@
 #include "core/editor_config.h"
 #include "core/line_merge.h"
 #include "core/text_snapshot.h"
+#include "core/open_location.h"
 
 class CMainFrame;
 
@@ -26,6 +27,7 @@ class CWorkspaceFrame : public CFrameWnd {
 public:
     explicit CWorkspaceFrame(bool publish_instance = true);
     bool OpenPath(const std::wstring& path, bool silent = false);
+    bool OpenLocation(const simple_editor::core::OpenLocation& location);
     void ChooseFiles();
     void OpenDroppedFiles(HDROP drop);
     void NewComparison(const std::wstring& left = L"");
@@ -195,7 +197,7 @@ private:
     CStatic welcome_;
     CMenu root_menu_;
     std::vector<CMainFrame*> sessions_;
-    std::deque<std::wstring> queued_paths_;
+    std::deque<simple_editor::core::OpenLocation> queued_paths_;
     std::deque<std::wstring> recent_files_,closed_files_;
     std::deque<std::uint64_t> close_queue_;
     int context_session_ = -1;

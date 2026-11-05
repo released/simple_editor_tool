@@ -1,5 +1,406 @@
 # Handoff
 
+## Historical cleanup rules and batch entry (2026-11-05)
+
+- User requested that old verification output be included in project cleanup
+  rules. Added clean.bat /purge [/apply] routing to the existing explicit purge;
+  ordinary clean remains compiler-only and /verify remains the native-run registry.
+- artifact_helpers.ps1 reads fixed project-local artifacts-cleanup-*.json review
+  records. Completed/disposable/no-recovery state, retained compact evidence hash,
+  exact project artifacts root and per-file path/size/SHA256/provenance are required.
+  Unknowns stay; invalid roots/registered-run adoption/conflicting records refuse.
+  purge_artifacts.ps1 preflights all candidate hashes before deleting any file.
+  Recorded BLOCKED/REJECTED or blocked-by-policy decisions override all rules,
+  including approved duplicates and ordinary producer matches. No old rejected
+  file was re-registered or applied through these new rules.
+- PASS30 fresh synthetic legacy cleanup checks, including old EXE/bin removal,
+  preview/idempotence, metadata/evidence/hash/refusal, source/formal/INI/DLL/unknown
+  preservation, prior-rejection precedence, runtime target and active-guard routing,
+  junction rejection and unchanged ordinary clean. Fresh fixture retired in
+  finally; teardown removed20 remaining files22010 bytes, root absent. Process
+  guard routing is mocked; existing enumeration implementation is unchanged.
+- PASS shared target-project static scan of7 clean-related scripts and actual
+  read-only /purge preview; no real /purge /apply was invoked. Formal EXE retains
+  F25514BDC1AD03B15DFA4BBA57762211D44BE2AA239B6692B86EAAA1BD2B84AC.
+  No native build/test rerun. README/SPEC/AGENTS describe usage/schema/protection.
+- Shared preservation verifier with actual-project/nested-delivery/reparse flags
+  and an owned project-local TEMP teardown was NOT RUN: automatic review rejected
+  the entire command before process creation, only "blocked by policy" supplied.
+  No audit fixture was created or alternate retry made. Prior unchanged default
+  clean/shared-boundary evidence reused; new purge paths have30 fresh checks.
+- During this task the user separately removed their five listed Markdown/compare
+  verification directories. Observed absent, not credited to agent deletion.
+  Latest actual artifacts inventory148 files3209368 bytes, all prior-review
+  BLOCKED; zero new eligible/unknown files. None of those148 was deleted here.
+  Current test scratch absent; overall historical cleanup/20MB still incomplete.
+  Current results/source hashes/gaps: docs/verification/cleanup-rules-tests.json.
+
+## User-requested artifacts cleanup (2026-11-05, after feature delivery)
+
+- User explicitly requested cleanup and proposed manually clearing artifacts.
+  Read-only audit confirmed337 obsolete generated files350266820 bytes, no
+  reparse escape, active artifact executable/build worker, Explorer integration
+  target or unresolved recovery data. Existing cleanup recognizes only10 files;
+  other historical run roots are deliberately outside its ordinary allowlist.
+- Current authorized scripts/purge_artifacts.ps1 preview/apply succeeded for10
+  recognized files98183047 bytes. All610 protected src/vendor/tests/build hashes
+  still match, including formal EXE
+  F25514BDC1AD03B15DFA4BBA57762211D44BE2AA239B6692B86EAAA1BD2B84AC.
+- Remaining327 files252083773 bytes were audited against old exact hashes,
+  existing disposable owner metadata, retained NativeEditor source/producer
+  metadata, exact native fixture bytes and obsolete Debug-only catalog copies.
+  No unknown file remained. No historical output was registered as a fresh
+  native verification run; no cleanup helper/allowlist/source was changed.
+- Attempted exact path/hash-checked removal was rejected by automatic review
+  at CreateProcess, before execution, with only "blocked by policy" supplied.
+  No alternate tool/path/truncation/move or further deletion attempt followed.
+  Remaining files were rechecked and the user informed that the audited artifacts
+  contents can be manually cleared within their explicitly proposed boundary.
+- Overall cleanup remains INCOMPLETE; do not claim artifacts empty/20MB met.
+  Full reviewed path/hash/provenance list and concise result/preservation digest:
+  docs/verification/artifacts-cleanup-20261105.json. No build or tests run because
+  this is cleanup/audit only; unchanged clean-boundary evidence reused.
+
+## Selected text highlights identical occurrences (2026-11-05)
+
+- User requested automatic other-occurrence visibility after deliberately
+  selecting a name/string/variable in Text. src/ui/selection_highlights.cpp and
+  code_editor.h/.cpp implement native indicator14, exact case-sensitive literal
+  substring matches for one nonblank single-line stream selection <=1024 UTF-8
+  bytes. Blank, collapsed, multiline, rectangular and multiple selections clear
+  only automatic marks. No setting, source write or file/search-job ownership.
+-80ms input debounce; native display-row ranges include horizontal/wrapped and
+  folded positions, plus enough context for clipped matches. Each timer slice
+  processes <=512 matches/64KiB progress with a4ms deadline and15ms continuation.
+  Native FindTextFull leaves search target/flags intact; scoped indicator/value
+  restoration preserves8-13. No full-file copy/scan for selection. Real edits
+  clear old positions; generation/document/query/ranges guard incremental work.
+  Inactive/hidden controls do not scan; focused shared view owns document marks
+  and focus-in refreshes its query. Content-only repaint notifications settle
+  through cache comparison rather than continually clearing/repainting.
+- Added the source to product and NativeUiTests projects and the focused
+  --selection-highlight mode/tests/native_selection_highlight_ui.inc. PASS both
+  Debug(38 including capture) and Release(37), with text-workflow47, zoom52 and
+  markdown-preview64 in each configuration. Native tests cover exact case and
+  embedded identifier substrings, Unicode/supplementary characters, overlapping
+  literal matches, cancellation/change of selection, manual marks/search state,
+  source/Undo/version/caret preservation, read-only/source-presentation headers,
+  palettes/zoom/wrap, independent tabs and focused clones, far horizontal and
+  vertical/folded matches and idle notification settling. The rectangle fixture
+  was corrected before execution: native SetSel resets stream mode, so rectangle
+  mode is set after selecting. No product failure was found in focused runs.
+- Reviewed one real native synthetic capture at
+  docs/verification/selection-highlight-20261105.png. A selected Transfer and
+  other matching substrings have clear outlined/tinted marks on#3F3F3F, retaining
+  the content font. No private/customer document captured or copied.
+- Canonical scripts/build_release.bat PASS, invocation-local CL=/MP2 restored.
+  Old normal PID47644 closed gracefully through the existing build script.
+  Final EXE4077056 bytes SHA256
+  F25514BDC1AD03B15DFA4BBA57762211D44BE2AA239B6692B86EAAA1BD2B84AC,
+  x64/static MFC/CRT, only Windows imports and unchanged ASLR/NX. Existing C4458
+  warnings remain unrelated; incremental Debug reference GetTargetPath emitted
+  MSB8028 despite BuildProjectReferences=false, with separate actual NativeEditor
+  and NativeUiTests producer directories. Extra formal-process startup helper
+  exited-536870873 before registration/output/app launch: NOT RUN. Native GUI
+  opening/control/lifecycle coverage passes; no extra manual formal smoke claim.
+- Registered Debug259 files707670646 bytes and Release257 files358243566 bytes
+  self-retired after focused verification; current test EXEs/run roots are absent.
+  Final safe clean removed256 compiler files847342180 bytes;610 protected source/
+  vendor/test/delivery files matched exactly. Six historical recipes1648 bytes
+  remain within337 older blocked files350266820 bytes. They were not re-registered,
+  retried or deleted through another route. Current-batch cleanup PASS; global
+  cleanup PARTIAL/20MB NOT PASSED, with no retention exception. Full inventory,
+  settings caveat, source/version hashes, commands and results:
+  docs/verification/selection-highlight-20261105.json.
+- Product-only README, both user guides, SPEC and AGENTS describe the behavior
+  and bounds. Core algorithms/search/codec/localization/preferences and verified
+  cleaner boundaries unchanged; reused prior evidence. No full-suite rerun,
+  physical mouse/mixed-DPI/long benchmark, install, dependency, commit or push.
+
+## Markdown synchronized reading positions (2026-11-05)
+
+- User requested matching scrolling while viewing Markdown source/preview. Added
+  bidirectional vertical source-line/block mapping. Font/wrapping differences use
+  local content anchors, not a global scroll percentage; blank/fence/separator
+  syntax maps to nearby rendered content. Source horizontal scrolling is independent.
+- src/core/markdown_preview.h/.cpp emits bounded source-line/significant-text
+  metadata alongside the original escaped RTF; CRLF/CR/LF and a surrogate pair
+  cut by the64Ki limit are handled without changing source. src/ui/markdown_preview
+  verifies metadata against native GT_RAWTEXT characters including table markers,
+  then uses native Rich Edit/TOM ranges and Scintilla display lines. These APIs
+  belong to the existing Windows Msftedit component, with no new install/runtime.
+  main_frame_markdown.cpp synchronizes only a visible, current session preview.
+- Preserves caret/selection/Undo/native source/horizontal offset; changes to
+  generation/revision/path/theme/zoom/width invalidate old maps. Actual clamped
+  positions prevent idle feedback/reparsing. A bounded preview's downward end
+  movement cannot pull a source outside the covered range backward; moving upward
+  into represented content resumes inverse mapping. Ordinary/precision wheel
+  scrolls natively and Ctrl+wheel uses shared document zoom.
+- tests/native_markdown_preview_ui.inc covers mixed headings/paragraphs/hard/soft
+  breaks/Unicode/tables/code, wrapping,300% tall output, both wheels, precision
+  delta/Ctrl zoom, top/end/no-op/stale maps, unsaved draft/Undo, independent tabs
+  and source lines4900 beyond truncated coverage. Debug/Release all PASS, plus
+  connected text-workflow/zoom/async-save/open-location/localization groups. One
+  Release native capture reviewed; no private/customer document copied.
+- scripts/verify_native.ps1 optionally captures a single Markdown group inside a
+  multi-mode run and preserves first40 failure labels for diagnostics. Fresh
+  capture paths stay inside docs/verification; four negative boundary/argument
+  cases and syntax checks PASS. Deletion/root/manifest rules are unchanged.
+- Canonical Release4071936-byte EXE SHA256
+  4CA776EC7840B6C5DD355F023705E11C8426FCD60C2DBB10BA05A659868422A9,
+  x64/static MFC/CRT/system imports/ASLR/NX. Initial ad hoc formal smoke helper
+  failed before launching (C# Main signature; subsequent shell exit-536870873).
+  Computer Use's launch returned the canonical empty maximized window, not the
+  owned copy; observed startup read-only and sent no input/file to that window.
+  Separate interactive formal-copy scrolling remains NOT RUN; native UI tests
+  validate both directions. Formal executable is available; no forced user close.
+- Initial failed/incremental Debug and final Release test outputs were retired in
+  finally; unused formal-copy fixtures also retired. Current test EXEs/run roots
+  are absent. Safe compiler clean removed255 files/807288991 bytes;608 protected
+  source/vendor/test/delivery files matched. Six older recipes1648 bytes remain;
+  they are part of historical337 files/350266820 bytes blocked by prior automatic
+  review, not retried/re-registered. Current-batch cleanup PASS, global cleanup
+  PARTIAL/20MB NOT PASSED. No retention exception. See markdown-scroll-20261104.json
+  for exact commands/results/source hashes/size and changed-entry INI caveat.
+- Both user guides, product-only README, SPEC and AGENTS updated. Prior wording
+  that Markdown synchronized scrolling was missing is superseded by this record.
+  Reused unchanged core algorithms/cleanup boundary evidence; no full-suite or
+  physical touchpad/mixed-monitor benchmark claim, dependency/commit/publication.
+
+## Verification artifact lifecycle (2026-11-04)
+
+- User requested a verification-cleanup entry and reiterated the existing shared
+  Test Artifact Ownership And Retention rule: completed validation must remove
+  reproducible data. Added verification_artifacts.ps1 ownership/lifecycle library,
+  verify_native.ps1 Core/Ui focused runner, clean_verification.ps1/.bat and
+  clean.bat /verify [/apply] routing. Normal compiler clean remains conservative.
+  README/AGENTS/SPEC describe usage and boundaries; no MFC product source changed.
+- Each native run is fresh under artifacts/verification/run-<GUID>; independent
+  script-root/project validation rejects caller retargeting, traversal and
+  reparse points. NativeEditor and test OutDir/IntDir are both isolated. Native
+  fixtures inherit invocation-only TEMP/TMP, restored in finally. Manifest seal
+  records exact owned paths/bytes/SHA256. Preview never deletes; apply preflights
+  the entire batch. Unknown/changed files block before deletion. Running EXEs,
+  active/unsealed runs and Explorer integration targets remain protected.
+- finally runs on success/failure/cancellation. Native child timeout validates
+  the created process identity before stopping only its build/test process tree.
+  Any cleanup failure reports INCOMPLETE and nonzero status, with no false PASS.
+  Hard host termination may prevent finally; such unsealed runs are retained.
+  Only latest pass/fail summaries per suite/configuration persist, never EXEs.
+- PASS23 synthetic retention/boundary/hash/unknown/active/junction assertions,
+  including accurate remaining-count/byte/path reporting on cleanup failure.
+  PASS actual Core Release --localization(21 PASS lines including summary),
+  removing100 files/238660504 bytes; actual Ui Debug --localization(18 PASS lines),
+  removing257 files/682984328 bytes, including NativeEditor dependencies.
+  Initial real timeout exposed the MSBuild no-extension unsuccessfulbuild marker;
+  exact producer/tlog ownership was added, not an unrestricted file allowlist.
+  Final actual timeout stops its owned tree, returns expected FAIL/test timeout
+  with cleanup PASS, removing18 files/685645 bytes and its run root. Initial
+  marker-only residue was retired after the verified producer recognition fix.
+- PASS batch read-only preview, changed-hash nonzero refusal, active-run refusal,
+  valid apply/root retirement and invalid-argument exit2 propagation. Core/Ui
+  success evidence predates only the final marker/unknown preflight fix; unchanged
+  success paths are reused. Final23 synthetic assertions, actual timeout and
+  batch checks cover that fix; large successful builds were not rerun needlessly.
+  Final report-only additions (bounded retained entries/bytes and unknown
+  preview details) are covered by final synthetic checks; no deletion or native
+  process contract changed.
+- PASS final shared six-script clean scan and final preservation verifier with
+  artifacts\\obj, nested delivery, junction rejection and actual-project clean:
+  17 fixture sentinels/source and6 actual build files preserved. Its fresh owned
+  audit fixtures also self-retired (41 files/77200 bytes on the final run).
+  Final ordinary clean removed0 compiler files; old recipes remain protected.
+  No current run/input/binary/object/capture remains in artifacts/verification.
+- Existing blocked historical337 files/350266820 bytes were not adopted by the
+  new registry or retried through a new route. Overall cleanup/20MB compliance
+  remains incomplete due to those prior unspecified "blocked by policy" reviews.
+  No retention exception, commit, push, install, new dependency or user-INI edit.
+  Product remains the tested Markdown EXE SHA256
+  2B2EE03750E8492B5CDE969652A43B5C548B125EC6BD8D7592523FF7AF9A0095.
+- Exact commands/hashes/current size and limits: verification-cleanup-20261104.json;
+  native-Core-Release-pass.json, native-Ui-Debug-pass.json and expected timeout
+  native-Core-Debug-fail.json. Full application suite, Ui Release build through
+  the new wrapper and physical Ctrl+C/forced-host-termination matrix NOT RUN.
+  Physical/native editor behavior was unchanged. A pre-existing whitespace-only
+  issue at main_frame.cpp:179 was preserved; changed-file checks pass.
+
+## Native Markdown source/preview split (2026-11-04)
+
+- User explicitly authorized this sibling change from Simple Codex Sessions. New
+  Markdown documents (.md/.markdown/.mdown) open normal Text with editable Scintilla
+  source left and a read-only rendered preview right. Review toggles the preview;
+  the existing splitter adjusts its width. Other files, Hex, comparison and the
+  explicit shared-source clone route retain their existing ownership. No implicit
+  save/reload, source conversion or Undo replacement. Existing --open/--line and
+  version3 single-instance forwarding continue to target the source caret.
+- New src/core/markdown_preview.h/.cpp owns an original bounded RTF renderer;
+  src/ui/markdown_preview.h/.cpp owns System32 Msftedit.dll/Rich Edit and a
+  cancellable CPU-only asynchronous job; src/main_frame_markdown.cpp owns layout.
+  Integrations: main_frame.h/.cpp, main_frame_compare/clone/review.cpp,
+  workspace_frame.cpp, resource.h, two vcxproj files and paired source/delivery
+  catalogs. NativeUiTests adds native_markdown_preview_ui.inc/--markdown-preview.
+  AGENTS/SPEC/README/USER_GUIDE/USER_GUIDE_EN/SELF_CHECK synchronized. All earlier
+  open-location/function-filter and unrelated dirty work was preserved.
+- Supports headings/emphasis/code/lists/quotes/links as text/basic pipe tables,
+  soft paragraph joins and explicit hard line breaks. Escaped RTF cannot become
+  executable control data; raw HTML, images/remote links and Mermaid are not run
+  or fetched. Capture256KiB UTF-8, parse64Ki UTF-16 units/4096 lines with explicit
+  localized truncation notice, never truncate the source.250ms debounce, existing
+  UI tick, cancellation and path/revision/generation/theme/zoom/width guards;
+  hidden/minimized jobs do not start. Destroy controls before owned font/library
+  teardown; cancel/join owned work. Preview editing shortcuts cannot edit source.
+- PASS canonical scripts/build_release.bat, final4066304-byte formal EXE SHA256
+  2b2ee03750e8492b5cde969652a43b5c548b125ec6bd8d7592523ff7af9a0095.
+  PASS10 scoped native groups: Debug/Release --markdown-preview, --text-workflow,
+  --zoom, --open-location, --localization; after renderer-only paragraph/style
+  refinements, final --markdown-preview rerun passes both configurations with27
+  PASS output lines each (includes summary, not27 independent test groups).
+  Release core --localization/--preferences pass. Existing unmodified native
+  core/algorithm/clean-boundary evidence reused; no full-suite claim.
+- Initial build found C++17-incompatible starts_with, LONG/int deduction and
+  duplicate core/UI object basenames; corrected with existing-language-compatible
+  calls/typed max/per-item object name. First Debug test found a genuine Markdown
+  backslash escape defect (fixed), plus three assertions confusing the native
+  CRLF adapter with unchanged LF disk bytes (fixtures corrected). Actual visual
+  review prompted compact paragraphs, soft-line joins and paragraph style reset.
+  Two existing unrelated C4458 warnings remain; no dependency/Release-flag change.
+- PASS actual125% native UI visual inspection, source edit/Undo/readonly/zoom,
+  theme/language/tab/clone/Hex switches and debounce/stale/cancellation paths.
+  PASS actual sibling Qt citation mouse click into a byte-matched final formal
+  EXE: cold source line40, existing line60 and Markdown line12 with two tabs/right
+  preview/same process/original bytes unchanged. Source and delivery catalogs
+  match; all three existing personal/test/smoke INIs match entry hashes.
+- Private compact commands/ownership/results/capture/source hashes/final cleanup
+  inventory: docs/verification/markdown-preview-20261104.json; retain one Release
+  native image markdown-preview-20261104.png. Fresh owned run
+  artifacts/markdown-preview-e315c5527d contains only this task's reproducible
+  tests/builds/captures. Its retirement was rejected before execution by automatic
+  safety review; it remains present. Final cleanup results are recorded below;
+  do not retry this deletion through a different tool/path.
+- Limits/NOT RUN: full CommonMark/browser fidelity, remote content/Mermaid,
+  synchronized source-preview scrolling, full suite, physical IME/additional
+  monitor matrix, long-duration performance/RSS benchmarks. Lightweight preview
+  is intentionally bounded; source editing stays complete. Historical rejected
+  artifact deletions remain unresolved:4 outputs98181399 bytes plus166 earlier
+  files3209501 bytes. No retry/bypass/retention exception for those old blocks;
+  entire-folder20MB compliance remains separate from feature
+  acceptance. No commit/push/publication/install/third-party source incorporation.
+
+Final TST-01 PARTIAL/TST-02 NOT PASSED: automatic approval review rejected the
+current exact owned-run retirement batch before execution, only "blocked by
+policy" supplied.161 files248874272 bytes remain in the run above, including
+rebuildable test EXEs/libraries. No alternate deletion was attempted. The safer
+existing scripts/clean.ps1 independently passed exit0 and removed709 allowlisted
+compiler files; deleted bytes were not captured before removal. Six recipe files
+1648 bytes remain outside that allowlist; four older blocked test outputs match
+the later function-filter-20261102 record (which supersedes open-location hashes)
+and must not be retried. Three personal/test/smoke INIs match entry, authorized
+delivery catalogs match source, and final formal hash matches the tested bridge.
+Both current and old retained outputs count toward the full-folder budget;
+feature acceptance does not claim cleanup completion. Final exact bytes/largest
+contributors/static/protected hashes are in markdown-preview-20261104.json.
+
+## Per-document function filtering (2026-11-02)
+
+- Added a regular native Segoe UI filter field to CFunctionSidebar. Ordinal
+  case-insensitive substrings match displayed signatures in the existing bounded
+  snapshot, without restarting parsing or changing source buffers/generation/Undo.
+  Each document retains an independent query in memory (256 UTF-16 units), never
+  in INIs. Esc clears it; Down/Enter access results. Ctrl+A/Z stay in the input;
+  Ctrl+Y cannot reach document Redo. No-match and partial-result feedback is paired
+  in en/tw catalogs; label and query/caret have separate localization ownership.
+- Visible row indices map back to original entries/lines, with callback bounds
+  checks and native item-count retirement before model/mapping replacement.
+  Existing debounce/cancellation/path/revision/generation/language guards remain.
+  Edited/Undo snapshots retain the filter; stale navigation stays disabled.
+- Changed sidebar .cpp/.h, resource IDs, paired catalogs, existing outline UI
+  fixture, SPEC, sidebar/document reference and both guides. Existing uncommitted
+  open-location work was retained. No new dependency, commit or publication.
+- Seven newly passing groups: Release core --localization(21 assertions including
+  summary)/--preferences(10); Debug/Release UI --outline-sidebar(67/68 including
+  summary and Release capture), --localization(18 each); canonical Release
+  --workspace-process(15). Initial layout assertion reused button padding for a
+  static label; corrected to measured native text extent/bounds after inspecting
+  the actual rendered image. Final code and tests pass; early failures are
+  superseded. Only test sources changed after the final product rebuild.
+- Canonical EXE is4022784 bytes, SHA256
+  F6B96A2901A5898E7FC4C5FAA6291F07FC6E310455F996BB12B367C9D3C7E301.
+  Final filtered TypeScript image inspected; en/tw delivery catalogs equal source
+  catalogs. All three pre-existing delivery settings INIs retain entry hashes.
+  Unchanged parser/algorithm/deployment and shared clean-preservation evidence
+  reused; full suite, physical IME composition and additional DPI matrix NOT RUN.
+- Safe clean.ps1 removed775 compiler files/2008909886 bytes. All760 protected
+  files matched before/after cleanup (before routine documentation updates).
+  Synthetic native/core/process payloads self-cleaned; fresh owned run contains
+  zero files. Automatic review rejected current hash-checked retirement of four
+  generated test outputs, and separately six MSBuild recipe files, with only
+  "blocked by policy". Their paths/hashes/bytes are in the compact evidence;
+  no alternate tool, helper, rename or truncation bypass was attempted.
+  Cleanup remains PARTIAL: current test outputs98181399 bytes, recipes1577 bytes,
+  earlier166 files/3209501 bytes, and empty run directories remain. Earlier ILK
+  was naturally replaced by the actual feature link, not altered for cleanup.
+  There is no user-approved retention exception; full-folder20MB target has NOT
+  passed. Do not reattempt blocked actions through an alternative path.
+- Evidence: docs/verification/function-filter-20261102.json and its registered
+  single native screenshot. Functional acceptance passes; artifact retirement
+  remains externally blocked. Preserve prior independent work and settings.
+
+## Conversation file/line integration (2026-11-02)
+
+- User approved connecting Simple Codex Sessions links to this Editor. New
+  core/open_location.h validates separate --open path/--line positive64-bit line
+  arguments and bounded version3 path/line IPC. app.cpp normalizes caller-relative
+  paths before single-instance forwarding, checks OpenLocationVersion1, retains
+  WorkspaceVersion2/multi-file/headless behavior and reports old-runtime mismatch.
+  workspace_frame.cpp/.h queue typed requests, reuse OpenPath/GoToLine, preserve
+  existing native drafts/generation/Undo, reject busy/closing workspaces and report
+  .hex/Hex/oversized/undecodable/out-of-range line limits. No implicit save/reload.
+- Nine presentation strings added to source en/tw catalogs; canonical build copies
+  updated sidecars. Early shell-pipe encoding produced question marks only in the
+  newly added translation rows; corrected via UTF-8 patch before build/catalog
+  acceptance. Existing translations/preferences retained. No dependency/architecture
+  redesign, source third-party copying, install, commit or publication.
+- New native_open_location_ui.inc / --open-location:18 assertions/configuration,
+  including parser overflow, IPC bounds/terminator, caret, current draft/Undo,
+  busy/out-of-range refusal/no save and actual bilingual catalog entries.
+  native_workspace_process_tests.cpp adds actual cold/forwarded line checks to
+  byte-matched formal/renamed-copy startup. Debug/Release --open-location,
+  --workspace, --localization plus Release --workspace-process:7 groups PASS.
+  Final tests rebuilt after test-only catalog assertions. Core algorithms unchanged;
+  existing core evidence reused. Two pre-existing C4458 shadow warnings in
+  advanced_notes.cpp/advanced_notes_io.cpp remain unrelated.
+- Canonical build/SimpleEditorTool.exe updated:4020736 bytes, SHA256
+  617f625389c8677be5270e3c2817cc42fb9a36dca78cf5c457c06660b5e39d6e.
+  Actual Qt link click in sibling tool opens a Unicode/space fixture at line40,
+  then line60 in one existing HWND/tab; source bytes unchanged.125% native capture
+  inspected. Existing user INIs unchanged; languages intentionally updated. Native
+  build found no running exact-target process requiring closure.
+- Fresh native fixtures stayed under artifacts/open-location-20261102 by
+  invocation-local TEMP/TMP redirection; original variables restored in finally.
+  Test runners removed their payloads; the empty run root is0 bytes. Qt integration
+  copies self-cleaned in the sibling project. No user histories/settings fixtures.
+- Safe clean.ps1 PASS677 compiler files removed, unchanged preservation audit
+  reused. Automatic review rejected a combined run/temporary-directory removal
+  before execution with only "blocked by policy"; safer run omitted deletion.
+  It separately rejected exact-path/hash-checked deletion of the newly generated
+  artifacts/tests/Debug/NativeUiTests.exe(26049536 bytes,SHA256
+  133d2df447a97eb3aec3e741455909502ff2945bdf8af68327fc125c5294271f)
+  and artifacts/tests/Release/NativeUiTests.exe(12450304 bytes,SHA256
+  a9f6a2615505148fd1479358694b7bf6fc074dee345f1becf2a05d7c6444a62e).
+  Final inventory also found artifacts/tests/Release/NativeUiTests.ilk(59254842
+  bytes,SHA256F07ED6864E0650F0E0E9CB25B59C37838E6489FECA279133A8488114F0DFA00B);
+  its separate exact-path/hash-checked retirement was rejected with the same
+  unspecified "blocked by policy". No alternative deletion/move/helper bypass
+  attempted. Current cleanup is PARTIAL;3 retained artifacts/97754682 bytes have
+  no user-approved retention exception. Prior
+  blocked166 files/3209501 bytes and pre-existing20MB overage are not resolved.
+- Exact final source hashes/inventory/protected checks: private
+  docs/verification/open-location-20261102.json, excluded by an exact .gitignore
+  entry; existing tracked verification documents are unchanged. Full suite, paid Codex tasks,
+  physical IME/monitor matrix and old-EXE runtime compatibility matrix NOT RUN.
+  Functional implementation/verification complete; artifact retirement remains
+  blocked externally. Do not describe the entire project as cleanup/size compliant.
+
 ## Filename-based Hex dump view (2026-11-01)
 
 - User clarified recognition is by .hex filename extension, case insensitive.

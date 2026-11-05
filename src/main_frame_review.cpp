@@ -9,6 +9,7 @@ void CMainFrame::AppendReviewMenu(CMenu& menu) {
     AppendDocumentCommands(review);
     review.AppendMenu(MF_STRING,ID_REVIEW_DISK,L"Compare current draft with disk...");
     review.AppendMenu(MF_STRING,ID_REVIEW_OUTLINE,L"Markdown outline...");
+    review.AppendMenu(MF_STRING,ID_DOCUMENT_MARKDOWN_PREVIEW,L"Show / hide Markdown preview");
     CMenu marks; marks.CreatePopupMenu(); marks.AppendMenu(MF_STRING,ID_REVIEW_MARK1,L"Mark all - yellow..."); marks.AppendMenu(MF_STRING,ID_REVIEW_MARK2,L"Mark all - cyan..."); marks.AppendMenu(MF_STRING,ID_REVIEW_MARK3,L"Mark all - pink..."); marks.AppendMenu(MF_STRING,ID_REVIEW_MARK_CLEAR,L"Clear text marks"); review.AppendMenu(MF_POPUP,reinterpret_cast<UINT_PTR>(marks.Detach()),L"Text marks");
     review.AppendMenu(MF_STRING,ID_REVIEW_MOVED,L"Moved blocks in text comparison...");
     review.AppendMenu(MF_STRING,ID_REVIEW_BITS,L"Named bitfields / flags...");

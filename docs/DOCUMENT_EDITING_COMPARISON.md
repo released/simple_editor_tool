@@ -55,6 +55,14 @@ caret and Undo. Shared Text views use one list and navigate in the active view.
 Hex/Compare pages and ordinary data/documents retain their own layout. Use
 **Review > Function sidebar / refresh** to refresh the panel.
 
+The **Filter** field immediately matches substrings of the displayed function
+signatures, ignoring case. Clear the field or press Esc in it to restore all
+entries; Down focuses the result list and Enter jumps to the selected original
+line. No-match feedback distinguishes a partial parser result. Each document
+retains its own query while switching tabs and refreshing after edits/Undo.
+Queries are memory-only, bounded to 256 UTF-16 units; filtering never reparses,
+rewrites or saves the document. UI language changes preserve query text/caret.
+
 | Source type | Recognized subset |
 | --- | --- |
 | C/C++ and headers | Definitions and declarations, ordinary constructors/destructors, inline and pure/default members. MFC message-map macros are excluded. Header extensions include `.h`, `.hh`, `.hpp`, `.hxx`, `.h++`, `.inl`, `.ipp` and `.tpp`. |

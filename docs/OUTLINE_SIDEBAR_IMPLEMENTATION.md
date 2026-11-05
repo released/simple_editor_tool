@@ -1,5 +1,33 @@
 # Automatic function sidebar
 
+## Function filter extension (2026-11-02)
+
+- Request: search the automatic sidebar to quickly filter function names.
+- Implementation plan: add a regular native Edit/label above the existing list;
+  retain each document's query in its owned sidebar. Filter the existing bounded
+  snapshot with ordinal case-insensitive substring matching, using a separate
+  visible-row index mapping so original-line navigation stays correct.
+- Preserve parser debounce/cancellation/version guards, source buffers/native
+  Undo and language switching. Retire native owner-data rows before replacing
+  mappings. Label no matches and partial-result limitations explicitly.
+- Verify Debug/Release --outline-sidebar (filter/navigation/keyboard/Unicode
+  query/tab independence/edit/Undo/localization/layout/lifetime) and affected
+  --localization; focused Release core catalog/preferences checks, canonical
+  Release and formal application smoke. Retire owned fixtures/test binaries and
+  compiler outputs, retain concise evidence.
+- Functional acceptance PASS: seven focused groups (Release core localization /
+  preferences; Debug/Release native outline/sidebar and localization; canonical
+  Release process smoke). Final native filtered image inspected. No source/Undo,
+  INI or parser semantics changed. The initial static-label assertion incorrectly
+  applied toolbar-button padding; final checks use actual font extents/bounds.
+- Cleanup PARTIAL:775 compiler files removed; protected-file hashes match. All
+  synthetic payloads self-cleaned. Automatic review blocked test-output/recipe
+  retirement with unspecified "blocked by policy"; no alternate bypass. Earlier
+  residuals and complete-folder20MB overage remain unresolved. Compact ownership,
+  exact hashes, results and final size: verification/function-filter-20261102.json.
+
+## Original sidebar scope
+
 Request (2026-10-27): show functions automatically at the left of the active
 Text document, including C/C++ headers, and navigate directly without a modal
 outline dialog. Each open document must retain independent results.

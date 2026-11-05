@@ -42,6 +42,62 @@ function Get-ArtifactInventory([string]$Root) {
     return [pscustomobject]@{ Files = $files; Directories = $directories }
 }
 
+function Get-HistoricalArtifactRules {
+    $artifactRoot = Join-Path $script:artifactProjectRoot 'artifacts'
+    $evidenceRoot = Join-Path $script:artifactProjectRoot 'docs\verification'
+    $reviewed = @{}; $blocked = @{}
+    if (-not (Test-Path -LiteralPath $evidenceRoot)) { return [pscustomobject]@{Reviewed=$reviewed;Blocked=$blocked} }
+    $null = Assert-ArtifactPath $evidenceRoot $evidenceRoot
+    foreach ($file in Get-ChildItem -LiteralPath $evidenceRoot -File -Filter 'artifacts-cleanup-*.json') {
+        $null = Assert-ArtifactPath $file.FullName $evidenceRoot
+        if ($file.Length -gt 4MB) { throw 'Historical cleanup record exceeds its size bound.' }
+        $record = [IO.File]::ReadAllText($file.FullName) | ConvertFrom-Json
+        if ($record.Owner -ne 'simple_editor.artifacts-cleanup-audit.v1') { continue }
+        $denied = $record.Status -match 'BLOCKED|REJECTED' -or $record.CurrentRejection.Reason -eq 'blocked by policy'
+        $approved = $record.Status -eq 'REVIEWED_FOR_PURGE'
+        if (-not $denied -and -not $approved) { continue }
+        if ([string]::IsNullOrWhiteSpace($record.Root) -or [IO.Path]::GetFullPath($record.Root).TrimEnd('\') -ne $artifactRoot) {
+            throw 'Historical cleanup record cannot retarget the artifact root.'
+        }
+        if ($approved -and -not $denied) {
+            if ($record.VerificationComplete -isnot [bool] -or $record.DisposableTestData -isnot [bool] -or
+                $record.RecoveryNeeded -isnot [bool] -or $record.VerificationComplete -ne $true -or
+                $record.DisposableTestData -ne $true -or $record.RecoveryNeeded -ne $false -or @($record.Unknown).Count -ne 0) {
+                throw 'Historical output needs completed verification, disposable ownership and no recovery/unknown data.'
+            }
+            $relativeEvidence = [string]$record.Evidence.Path
+            if ([IO.Path]::IsPathRooted($relativeEvidence) -or $relativeEvidence -notmatch '^docs[\\/]verification[\\/].+' -or
+                $relativeEvidence -match '(^|[\\/])\.\.([\\/]|$)|:' -or $record.Evidence.Sha256 -notmatch '^[a-fA-F0-9]{64}$') {
+                throw 'Historical output needs a bounded compact evidence path/hash.'
+            }
+            $evidence = Assert-ArtifactPath (Join-Path $script:artifactProjectRoot $relativeEvidence) $evidenceRoot
+            if ($evidence -eq $file.FullName -or -not (Test-Path -LiteralPath $evidence -PathType Leaf) -or
+                (Get-FileHash -LiteralPath $evidence).Hash -ne $record.Evidence.Sha256) {
+                throw 'Historical verification evidence is missing or changed.'
+            }
+        }
+        if (@($record.Files).Count -gt 20000) { throw 'Historical output exceeds its file-count bound.' }
+        foreach ($entry in $record.Files) {
+            $relative = [string]$entry.Path
+            if ([IO.Path]::IsPathRooted($relative) -or $relative -notmatch '^artifacts[\\/].+' -or
+                $relative -match '(^|[\\/])\.\.([\\/]|$)|:' -or $relative -match '^artifacts[\\/]verification([\\/]|$)' -or
+                $entry.Sha256 -notmatch '^[a-fA-F0-9]{64}$' -or $null -eq $entry.Bytes -or [long]$entry.Bytes -lt 0) {
+                throw 'Invalid historical file path, size or hash; no deletion allowed.'
+            }
+            $path = Assert-ArtifactPath (Join-Path $script:artifactProjectRoot $relative) $artifactRoot
+            if ($denied) { $blocked[$path] = $file.Name; continue }
+            if ([string]::IsNullOrWhiteSpace($entry.Provenance)) { throw 'Historical file lacks producer/ownership evidence.' }
+            if ($reviewed.ContainsKey($path) -and
+                ($reviewed[$path].Sha256 -ne $entry.Sha256 -or $reviewed[$path].Bytes -ne $entry.Bytes)) {
+                throw 'Historical records disagree; no deletion allowed.'
+            }
+            $reviewed[$path] = [pscustomobject]@{Bytes=[long]$entry.Bytes;Sha256=$entry.Sha256;Record=$file.Name}
+        }
+    }
+    # A previous rejection overrides every other record and normal producer rule.
+    return [pscustomobject]@{Reviewed=$reviewed;Blocked=$blocked}
+}
+
 function Test-CliFixture([string]$Path) {
     if ([IO.Path]::GetFileName($Path) -notmatch '^cli-owned-[a-f0-9]{32}$') { return $false }
     $marker = Join-Path $Path '.simple-editor-cli-fixture'
