@@ -71,4 +71,5 @@
   <ItemGroup><ClCompile Include="src\core\program_outline.cpp" /><ClCompile Include="src\ui\function_sidebar.cpp" /><ClCompile Include="src\main_frame_function_sidebar.cpp" /><ClCompile Include="src\main_frame_drop.cpp" /></ItemGroup>
   <ItemGroup><ClCompile Include="src\workspace_side_merge.cpp" /></ItemGroup>
   <ItemGroup><ClCompile Include="src\core\markdown_preview.cpp"><ObjectFileName>$(IntDir)markdown_preview_core.obj</ObjectFileName></ClCompile><ClCompile Include="src\ui\markdown_preview.cpp" /><ClCompile Include="src\main_frame_markdown.cpp" /></ItemGroup>
+  <ItemGroup><ClCompile Include="src\core\flowchart.cpp" /><ClCompile Include="src\ui\flowchart_picture.cpp" /></ItemGroup>
 </Project>

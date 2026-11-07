@@ -1,5 +1,6 @@
 #pragma once
 #include <atomic>
+#include <functional>
 #include <string>
 #include <vector>
 namespace simple_editor::core {
@@ -11,5 +12,7 @@ struct MarkdownPreview {
     std::vector<MarkdownPreviewAnchor> anchors;
     std::size_t source_lines = 0;
 };
-MarkdownPreview RenderMarkdownPreview(const std::wstring&,bool dark,unsigned half_points,int width_twips,const std::wstring& notice,const std::atomic_bool& cancel);
+using MarkdownDiagramRenderer = std::function<std::string(const std::wstring&,bool,unsigned,int,const std::atomic_bool&)>;
+MarkdownPreview RenderMarkdownPreview(const std::wstring&,bool dark,unsigned half_points,int width_twips,const std::wstring& notice,const std::atomic_bool& cancel,
+    const MarkdownDiagramRenderer& diagram = {},const std::wstring& diagram_notice = {});
 }

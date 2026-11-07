@@ -29,12 +29,16 @@
 #include "../src/core/document_kind.h"
 #include "../src/ui/hex_address.h"
 #include "../src/core/language_catalog.h"
+#include "../src/core/flowchart.h"
+#include "../src/ui/flowchart_picture.h"
+#include <Richole.h>
 
 int RunWorkspaceProcessTests(const std::filesystem::path& root, const std::filesystem::path& executable);
 int RunExplorerProcessTests(const std::filesystem::path& root, const std::filesystem::path& executable);
 
 class NativeUiTest {
 public:
+#include "native_mermaid_preview_ui.inc"
 #include "native_selection_highlight_ui.inc"
 #include "native_markdown_preview_ui.inc"
 #include "native_open_location_ui.inc"
@@ -836,6 +840,7 @@ int wmain(int argc, wchar_t** argv) {
     }
     else if (mode == L"--selection-highlight") failures += NativeUiTest::RunSelectionHighlights(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--markdown-preview") failures += NativeUiTest::RunMarkdownPreview(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
+    else if (mode == L"--mermaid-preview") failures += NativeUiTest::RunMermaidPreview(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--open-location") failures += NativeUiTest::RunOpenLocation(name);
     else if (mode == L"--hex-dump") failures += NativeUiTest::RunHexDump(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());
     else if (mode == L"--tab-actions") failures += NativeUiTest::RunTabActions(name,argc > 2 ? std::filesystem::absolute(argv[2]) : std::filesystem::path());

@@ -71,7 +71,8 @@ bool BlockStart(const std::wstring& text) {
     return n && n <= 6 && n < text.size() && text[n] == L' ';
 }
 }
-MarkdownPreview RenderMarkdownPreview(const std::wstring& input,bool dark,unsigned half_points,int width,const std::wstring& notice,const std::atomic_bool& cancel) {
+MarkdownPreview RenderMarkdownPreview(const std::wstring& input,bool dark,unsigned half_points,int width,const std::wstring& notice,const std::atomic_bool& cancel,
+    const MarkdownDiagramRenderer& diagram,const std::wstring& diagram_notice) {
     MarkdownPreview result; auto count = (std::min<std::size_t>)(input.size(),65536);
     if (count && count < input.size() && input[count - 1] >= 0xD800 && input[count - 1] <= 0xDBFF && input[count] >= 0xDC00 && input[count] <= 0xDFFF) --count;
     result.truncated = input.size() > count;
@@ -88,12 +89,27 @@ MarkdownPreview RenderMarkdownPreview(const std::wstring& input,bool dark,unsign
     result.rtf = "{\\rtf1\\ansi\\deff0\\uc1{\\fonttbl{\\f0 Segoe UI;}{\\f1 Consolas;}}{\\colortbl;";
     result.rtf += dark ? "\\red229\\green229\\blue229;\\red63\\green63\\blue63;\\red122\\green162\\blue247;\\red229\\green192\\blue123;\\red239\\green189\\blue139;\\red160\\green170\\blue160;}" : "\\red30\\green30\\blue30;\\red255\\green255\\blue255;\\red30\\green80\\blue160;\\red135\\green90\\blue10;\\red150\\green70\\blue10;\\red80\\green105\\blue80;}";
     const auto normal = "\\pard\\plain\\cf1\\f0\\fs" + std::to_string(half_points) + "\\sa140\\sl280\\slmult1 ";
-    std::wstring fence;
+    std::wstring fence; unsigned diagrams = 0;
     for (std::size_t n = 0; n < lines.size(); ++n) {
         if (cancel) { result.rtf.clear(); return result; }
         mark(n);
         const auto trimmed = Trim(lines[n]);
         if (trimmed.rfind(L"```",0) == 0 || trimmed.rfind(L"~~~",0) == 0) {
+            if (fence.empty() && Trim(trimmed.substr(3)) == L"mermaid") {
+                auto end = n + 1; std::wstring block;
+                for (; end < lines.size() && Trim(lines[end]) != trimmed.substr(0,3); ++end) {
+                    if (cancel) { result.rtf.clear(); return result; }
+                    if (block.size() <= 16384) block += lines[end] + L'\n';
+                }
+                const auto picture = diagram && end < lines.size() && diagrams < 8 && block.size() <= 16384 ? diagram(block,dark,half_points,width,cancel) : std::string{};
+                if (cancel) { result.rtf.clear(); return result; }
+                if (!picture.empty()) {
+                    for (auto line = n + 1; line <= end; ++line) mark(line);
+                    result.scroll_text += L'\xFFFC'; result.rtf += normal + "\\qc " + picture + "\\par "; ++diagrams;
+                    n = end; continue;
+                }
+                if (!diagram_notice.empty()) result.rtf += normal + "\\cf4 " + Escape(diagram_notice,&result.scroll_text) + "\\par ";
+            }
             const auto delimiter = trimmed.substr(0,3); if (fence.empty()) fence = delimiter; else if (delimiter == fence) fence.clear(); else result.rtf += normal + "{\\f1\\cf4 " + Escape(lines[n],&result.scroll_text) + "}\\par "; continue;
         }
         if (!fence.empty()) { result.rtf += normal + "\\sa0\\sl240 {\\f1\\cf4 " + Escape(lines[n],&result.scroll_text) + "}\\par "; continue; }

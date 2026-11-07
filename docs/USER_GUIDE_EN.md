@@ -98,7 +98,7 @@ tabs; opening the same path activates its existing editor. Decodable text within
 the editing bound opens on **Text**. Binary and oversized inputs use **Hex**.
 The application starts maximized.
 Files with a `.hex` extension (case insensitive) open directly on **Hex**, including
-printable text files. You can select **Text** explicitly; existing-session activation
+printable text files. Select **Text** explicitly; existing-session activation
 and explicit restored workspace views retain their selected page.
 
 **New text file** and **New from Unicode clipboard** create untitled documents;
@@ -138,7 +138,7 @@ with an outline and background tint. Matching is case-sensitive and literal,
 including the same substring inside longer names. Changing or collapsing the
 selection updates the marks. This uses one nonblank single-line selection up to
 1 KiB of UTF-8; multiline, rectangular and multiple selections do not activate it.
-Visible coverage updates as you scroll, without changing content, caret, Undo or
+Visible coverage updates while scrolling, without changing content, caret, Undo or
 manual search marks. Shared Text views follow the focused view's selected text.
 
 View commands configure the font and Tab width, sort lines, remove duplicate or
@@ -163,7 +163,31 @@ The preview supports headings, emphasis, lists, quotes, code and pipe tables, bo
 64 Ki UTF-16 characters / 4,096 lines with a visible notice; source stays complete.
 Beyond that covered source range, the preview stays at its end; further downward
 scrolling there never pulls the source back into the covered range.
-Links/images are display-only and HTML/Mermaid are not executed or fetched.
+Links and external images are display-only; HTML, scripts and Mermaid JavaScript are never executed or fetched.
+
+Flowcharts inside a `mermaid` fence render as native vector pictures:
+
+````markdown
+```mermaid
+flowchart TD
+    Start["Start"] --> Check{"Valid content?"}
+    Check -->|Yes| Done("Done")
+    Check -->|No| Start
+```
+````
+
+Supported syntax: `flowchart` / `graph`, directions `TD`, `TB`, `BT`, `LR`, `RL`,
+ASCII node IDs, rectangles `[text]`, rounded nodes `(text)`, diamonds `{text}`,
+circles `((text))`, quoted/Unicode labels, `<br>` / `<br/>` / `<br />` line breaks,
+`-->` / `-->|label|` arrows, chained arrows, self loops and return arrows.
+Separate statements with newlines or semicolons; `%%` introduces a line comment.
+Each graph is limited to 16 Ki UTF-16 characters, 64 nodes, 96 arrows and 256
+characters per label; each preview holds at most 8 pictures, with drawing-size
+and memory limits as well. Other Mermaid types, subgraphs, custom styles,
+interactions/click actions and configuration directives are unsupported.
+Unsupported, incomplete or excessive diagrams show a notice and retain the code;
+source is never trimmed. Pictures redraw for preview width and theme. Lines
+inside a graph synchronize scrolling as a single picture block.
 
 ## 4. Finding and replacing
 
@@ -290,7 +314,7 @@ three-way mode retain their respective merge workflows.
 Ignore spaces, case or EOL differences; filter changes/conflicts; select blocks
 and take left, right or both. Three-way mode can also take Base. Independent
 changes merge automatically; overlapping changes display conflict markers.
-You may edit the output and explicitly mark the manual result resolved after
+The output can be edited and the manual result explicitly marked resolved after
 removing markers. Further edits require acknowledgement again. Unresolved
 conflicts block normal saving unless Allow unresolved markers is enabled.
 

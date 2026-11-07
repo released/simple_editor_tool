@@ -12,7 +12,7 @@ binary and source files, merging changes, and synchronizing folders.
 - Line numbers, wrap, whitespace display, bookmarks, folding, column/multiple
   selections and syntax highlighting for common source/configuration languages.
 - Select text to highlight identical literal occurrences in the current Text
-  document. Matching is case-sensitive; visible marks update as you scroll.
+  document. Matching is case-sensitive; visible marks update while scrolling.
 - Binary comparison with differing addresses and values, side-by-side Hex panes
   and synchronized scrolling.
 - Line-aligned text/source comparison with basic syntax colors, whitespace rules,
@@ -97,7 +97,7 @@ unchanged. The menu uses the EXE's current location; after moving the tool, add
 the menu again from its new location.
 
 Choose **Tools > Windows Explorer > Remove file context menu** before deleting
-the tool or when you no longer want the command. This removes only the tool's
+the tool or when the command is no longer needed. This removes only the tool's
 own menu entry for the current user.
 
 ## Compare files
@@ -176,7 +176,7 @@ appear as conflicts. Resolve them using block choices, or edit the merged output
 and remove the conflict-marker lines, then choose **Mark manual result
 resolved**. Further manual edits require that acknowledgement again.
 
-**Save result...** writes the output file you choose. Unresolved conflicts block
+**Save result...** writes the selected output file. Unresolved conflicts block
 saving unless **Allow unresolved markers** is explicitly enabled. Comparison
 alone does not modify either input file.
 
@@ -264,7 +264,13 @@ Language rules follow the file extension. Third-party notices are available in
 **Help > About / native components**; source notices are in
 [Native source dependencies](docs/THIRD_PARTY.md).
 
-Markdown files (`.md`, `.markdown`, `.mdown`) open in Text with editable source on the left and a read-only preview on the right. Drag the divider to resize them; **Review → Show / hide Markdown preview** toggles the preview. Unsaved text updates after a short debounce, with native source Undo, encoding and line endings preserved. Headings, emphasis, lists, quotes, code and pipe tables are supported. The preview is bounded to 64 Ki UTF-16 characters / 4,096 lines and shows a limit notice; the source stays complete. HTML/scripts are shown as text, images and links are display-only, and Mermaid stays a code block. No external resources are loaded.
+- Markdown files (`.md`, `.markdown`, `.mdown`) open with editable source on the left and a read-only preview on the right.
+- Drag the divider to resize; **Review → Show / hide Markdown preview** toggles the preview.
+- Unsaved text updates after a short debounce, preserving source Undo, encoding and line endings.
+- Headings, emphasis, lists, quotes, code and pipe tables are supported. Mermaid flowcharts render as native vector diagrams with nodes, labeled arrows and loops; syntax and bounds are in the [user guide](docs/USER_GUIDE_EN.md).
+- Other diagram types and unsupported syntax retain their code with a notice.
+- The preview is bounded to 64 Ki UTF-16 characters / 4,096 lines with a visible limit notice; the source stays complete.
+- HTML/scripts appear as text; images and links are display-only. No external resources are loaded.
 
 Scrolling either Markdown pane vertically follows the corresponding source content in the other pane. Font sizes and wrapping may differ; blank and syntax-only lines map to nearby rendered content. Source horizontal scrolling remains independent. Beyond the preview limit, the preview stays at its end without pulling the source back.
 

@@ -31,6 +31,7 @@ private:
     CWnd rich_;
     CFont font_;
     HMODULE library_ = nullptr;
+    bool ole_ready_ = false;
     std::future<simple_editor::core::MarkdownPreview> job_;
     std::atomic_bool cancelled_{false};
     std::wstring requested_,running_,applied_;
